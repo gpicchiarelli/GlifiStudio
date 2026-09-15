@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-REP-IDX-001 |
 | Tipo | Indice operativo del repository |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Attivo |
 | Responsabile | Amministratore del repository, provvisorio |
 | Ultima modifica | 2026-09-15 |
