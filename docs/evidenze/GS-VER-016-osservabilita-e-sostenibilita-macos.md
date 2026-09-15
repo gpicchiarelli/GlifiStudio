@@ -34,7 +34,7 @@
 
 ## Risultato osservato
 
-- 174 file documentali e 173 identificatori univoci sono validi e tutti i link
+- 175 file documentali e 174 identificatori univoci sono validi e tutti i link
   locali si risolvono;
 - il gate Apple riconosce 15 documenti di profilo, il privacy manifest vuoto e gli
   entitlement minimi; impone una allowlist esterna vuota e respinge package remoti,
@@ -62,7 +62,7 @@ che l'export diagnostico è assente nella 0.1; non valida una funzione futura.
 Questa evidenza non misura energia, wakeup, memoria o I/O reali e non dimostra un
 comportamento sotto pressione del processo applicativo. Non copre firma, notarizzazione,
 submission o App Review. La CI remota resta soggetta al blocco budget registrato in
-GS-WVR-002 e non costituisce evidenza positiva.
+GS-WVR-003 e non costituisce evidenza positiva.
 
 ## Esito
 
