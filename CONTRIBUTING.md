@@ -37,8 +37,15 @@ Prima della pull request eseguire:
 
 ```sh
 make bootstrap
+make format
+make quality
+make verify
 make verify-app-store
 ```
+
+`make quality` accelera il feedback su documentazione, dialetto Swift e
+formattazione; non sostituisce `make verify`. Il contratto completo è in
+[GS-DEV-002](docs/loop-di-sviluppo-e-qualita.md).
 
 Ogni correzione deve includere un test di regressione quando riproducibile. Ogni modifica a hot path, formati o persistenza deve includere rispettivamente benchmark, prove di compatibilità o migrazione. L'interfaccia nasce in italiano ma tutte le stringhe visibili devono restare localizzabili e accessibili.
 

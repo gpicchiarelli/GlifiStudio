@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-28 |
 | Tipo | Capitolo normativo |
-| Versione | 1.9.0 |
+| Versione | 1.10.0 |
 | Stato | Attivo |
 | Responsabile | Amministratore del repository, provvisorio |
 | Ultima modifica | 2026-09-15 |
@@ -28,7 +28,7 @@
 | API e CLI | GS-API-001 pre-1.0 definisce lifecycle, async, failure, stream, exit status e compatibilità; solo status è implementato | Implementare vertical slice e contract test senza promettere ABI prematura |
 | Sostenibilità macOS | Decision table Low Power Mode/termica/memoria/lifecycle implementata nel core | Collegare l'adattatore event-driven e acquisire baseline Instruments col primo flusso lungo |
 | GitHub | Remote privato, impostazioni, 20 etichette, Dependabot e audit attivi | Abilitare piano per ruleset, Secret Scanning e push protection |
-| CI | Workflow Xcode 27 pubblicati; job non avviati per budget Actions | Abilitare budget e ottenere entrambi i check verdi |
+| CI | Workflow Xcode 27 con `swift-style` early-fail, `verify` e cache SPM; esecuzione remota soggetta al budget Actions | Ottenere check verdi su runner `xcode-27` |
 | Coverage e benchmark | Regole definite, soglie non ancora approvate | Introdurre con le prime funzioni e hot path reali |
 | App Store | Distribuzione non in elenco approvata; identità, metadati, privacy, icona e gate versionati | Completare prodotto, account Apple, URL, screenshot, dispositivi e TestFlight |
 | Rilascio | Preflight e packaging senza firma predisposti; pubblicazione intenzionalmente assente | Assegnare identità di firma e superare ogni gate di submission |

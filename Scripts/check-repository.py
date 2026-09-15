@@ -55,12 +55,16 @@ REQUIRED_PATHS = (
     "Scripts/check-compliance.py",
     "Scripts/check-fixtures.py",
     "Scripts/check-github-config.py",
+    "Scripts/check-swift-dialect.py",
+    "Scripts/format.sh",
+    "Scripts/quality.sh",
     "Scripts/github/audit-repository.py",
     "Scripts/github/configure-repository.sh",
     "Scripts/github/create-codeowners.sh",
     "SUPPORT.md",
     "docs/app-store/README.md",
     "docs/repository/README.md",
+    "docs/loop-di-sviluppo-e-qualita.md",
 )
 ACTION_REFERENCE = re.compile(r"^\s*-?\s*uses:\s*([^@\s]+)@([^\s#]+)", re.MULTILINE)
 IMMUTABLE_REVISION = re.compile(r"^[0-9a-f]{40}$")

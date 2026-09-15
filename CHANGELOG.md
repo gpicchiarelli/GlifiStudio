@@ -8,6 +8,9 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Loop di qualità locale `make format` / `make lint` / `make quality` con controllo
+  dialettale `check-swift-dialect`, job CI early-fail `swift-style` e cache SPM
+  deterministica; autorità stilistica Apple `swift-format` (ADR-0020, GS-DEV-002).
 - Primo percorso funzionale condiviso: import TXT UTF-8 bounded, digest SHA-256,
   tokenizzazione italiana con offset, profilo e frequenze su macOS e iPadOS.
 - Identificatori opachi e tipizzati, tassonomia di failure eseguibile e

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ADR-IDX-001 |
 | Tipo | Registro delle decisioni architetturali |
-| Versione | 0.20.0 |
+| Versione | 0.21.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -40,6 +40,7 @@ Gli ADR documentano le scelte architetturali importanti, il contesto in cui sono
 - [ADR-0017 — Osservabilità locale senza telemetria applicativa](0017-osservabilita-locale-senza-telemetria.md) — Accettato
 - [ADR-0018 — Runtime cooperativo e sostenibile su macOS](0018-runtime-cooperativo-sostenibile-macos.md) — Accettato
 - [ADR-0019 — Sicurezza, API e conformità verificabile](0019-sicurezza-api-e-conformita-verificabile.md) — Accettato
+- [ADR-0020 — Loop di qualità, dialetto Swift e CI early-fail](0020-loop-di-qualita-e-dialetto-swift.md) — Accettato
 
 ## Modello per i nuovi ADR
 

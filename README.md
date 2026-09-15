@@ -201,15 +201,27 @@ Il quality gate locale e quello CI condividono un unico ingresso:
 make verify
 ```
 
-Il gate controlla igiene e configurazione del repository, assenza di segreti e materiale di firma, toolchain, naming, documentazione, dipendenze architetturali, localizzazione, requisiti Apple, baseline App Store, formattazione Swift, test, smoke test CLI e build Debug/Release di entrambe le app senza firma.
+Il gate controlla igiene e configurazione del repository, assenza di segreti e materiale di firma, toolchain, naming, documentazione, dipendenze architetturali, localizzazione, requisiti Apple, baseline App Store, dialetto Swift, formattazione, test, smoke test CLI e build Debug/Release di entrambe le app senza firma.
+
+Il loop rapido senza build Xcode:
+
+```sh
+make format
+make quality
+```
+
+Contratto operativo: [loop di sviluppo e qualità](docs/loop-di-sviluppo-e-qualita.md).
 
 Controlli mirati:
 
 | Comando | Scopo |
 | --- | --- |
 | `make check-toolchain` | Verifica Xcode 27, Apple Swift 6.4+, language mode, SwiftPM tools e strict concurrency |
+| `make check-swift-dialect` | Verifica dialetto Swift 6, `.swift-format` e coerenza Make/CI |
+| `make format` | Autofix di formattazione Swift su `Apps` e `Packages` |
+| `make lint` / `make format-check` | Formattazione Swift in modalità strict |
+| `make quality` | Controlli statici + dialetto + formattazione senza build Xcode |
 | `make test` | Test dei package Swift |
-| `make lint` | Formattazione Swift in modalità strict |
 | `make build-macos` | Build Debug macOS senza firma |
 | `make build-ipados` | Build Debug per simulatore iPadOS senza firma |
 | `make check-compliance` | Verifica requisito → specifica → codice → test → fixture → evidenza → gate |
@@ -265,6 +277,7 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Osservabilità e telemetria macOS](docs/apple/14-osservabilita-e-telemetria-macos.md)
 - [Sostenibilità di sistema macOS](docs/apple/15-sostenibilita-di-sistema-macos.md)
 - [Ambiente Xcode e baseline Swift](docs/ambiente-di-sviluppo.md)
+- [Loop di sviluppo e qualità](docs/loop-di-sviluppo-e-qualita.md)
 - [Preparazione App Store](docs/app-store/README.md)
 - [Decisioni aperte](docs/decisioni-aperte.md)
 - [Registro ADR](docs/adr/README.md)

@@ -17,15 +17,39 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  swift-style:
+    name: swift-style
+    runs-on: xcode-27
+    timeout-minutes: 15
+    steps:
+      - name: Acquisizione sorgenti
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Dialetto Swift e formattazione
+        run: |
+          ./Scripts/check-swift-dialect.py
+          ./Scripts/format.sh --check
+
   verify:
     name: verify
     runs-on: xcode-27
+    needs: swift-style
     timeout-minutes: 45
     steps:
       - name: Acquisizione sorgenti
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
+
+      - name: Cache SwiftPM
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: ~/Library/Caches/org.swift.swiftpm
+          key: spm-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('Packages/GlifiCore/Package.swift', 'Packages/GlifiCore/**/*.swift') }}
+          restore-keys: |
+            spm-${{ runner.os }}-${{ runner.arch }}-
 
       - name: Quality gate completo
         run: ./Scripts/verify.sh

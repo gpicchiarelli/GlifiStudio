@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-20 |
 | Tipo | Capitolo normativo |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -13,7 +13,9 @@
 
 ## 20.1 Equivalenza locale e remota
 
-La CI **DEVE** invocare lo stesso ingresso versionato usato localmente. Una regola essenziale **NON DEVE** vivere soltanto nella configurazione del provider. `Scripts/verify.sh` è l'ingresso canonico della baseline corrente.
+La CI **DEVE** invocare lo stesso ingresso versionato usato localmente. Una regola essenziale **NON DEVE** vivere soltanto nella configurazione del provider. `Scripts/verify.sh` è l'ingresso canonico della baseline corrente. Un job early-fail di stile/dialetto **PUÒ** precedere `verify`, ma **NON DEVE** sostituirlo né rinominare il check richiesto dalla ruleset.
+
+Il loop locale rapido `make quality` **DEVE** restare un sottoinsieme non bloccante rispetto a `make verify`: utile per l'iterazione, insufficiente per l'integrazione.
 
 ## 20.2 Gate sempre obbligatori
 
@@ -25,7 +27,7 @@ Ogni pull request e ogni revisione di `main` **DEVONO** verificare almeno:
    language mode, SwiftPM tools 6.4 e strict concurrency completa;
 4. denominazione, metadati, identificatori e link documentali;
 5. confini architetturali, localizzazione e baseline Apple;
-6. formattazione Swift;
+6. dialetto Swift e formattazione Swift;
 7. unit e integration test disponibili;
 8. smoke test headless;
 9. build pulita Debug e Release di macOS e iPadOS senza firma.
@@ -50,8 +52,10 @@ L'assenza di un gate condizionale **DEVE** essere esplicita nello stato di adozi
 - Dipendenze eseguibili **DEVONO** usare revisioni immutabili.
 - CI di pull request **NON DEVE** ricevere segreti di rilascio.
 - Cache e artefatti **DEVONO** avere chiavi, retention e contenuto definiti.
+- La cache SPM **DEVE** usare una chiave deterministica derivata dal manifest e dai
+  sorgenti del package, senza includere segreti o DerivedData firmati.
 - Un rilascio **NON DEVE** dipendere da stato disponibile soltanto sulla macchina di uno sviluppatore.
 
 ## 20.5 Evidenze
 
-Il provider conserva log per diagnosi con retention minima adeguata. Un'evidenza controllata registra comando, revisione, ambiente, risultato e limiti senza copiare log contenenti dati sensibili. Il job richiesto dalla ruleset si chiama `verify`.
+Il provider conserva log per diagnosi con retention minima adeguata. Un'evidenza controllata registra comando, revisione, ambiente, risultato e limiti senza copiare log contenenti dati sensibili. I job richiesti dalla ruleset si chiamano `verify` e `app-store-baseline`; `swift-style` è early-fail aggiuntivo e non li sostituisce.

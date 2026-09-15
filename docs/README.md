@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-IDX-001 |
 | Tipo | Indice degli information item |
-| Versione | 0.19.0 |
+| Versione | 0.20.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -41,6 +41,7 @@ Lo [Standard di progetto](standard-di-progetto.md) è la norma interna principal
 | GS-I18N-002 | [Internazionalizzazione dell'interfaccia](internazionalizzazione-interfaccia.md) | Catalogo, chiavi semantiche, formattazione e indipendenza linguistica | ADR-0005 | Bozza controllata |
 | GS-APL-* | [Pratiche e portafoglio tecnologico Apple](apple/README.md) | UI, documenti, AI on-device, accelerazione Apple silicon, dati, sistema, qualità e distribuzione | ADR-0006; ADR-0008; documentazione Apple | Attivo |
 | GS-DEV-001 | [Ambiente di sviluppo](ambiente-di-sviluppo.md) | Toolchain, workspace, schemi e quality gate locale | [Configurazione](standard/08-gestione-della-configurazione.md), [Swift](standard/12-implementazione-swift.md), [quality gate](standard/20-integrazione-continua-e-quality-gate.md) | Bozza controllata |
+| GS-DEV-002 | [Loop di sviluppo e qualità](loop-di-sviluppo-e-qualita.md) | Formattazione, dialetto Swift 6, `make quality` e CI early-fail | ADR-0020; [GS-STD-001-12](standard/12-implementazione-swift.md); [GS-STD-001-20](standard/20-integrazione-continua-e-quality-gate.md) | Bozza controllata |
 | GS-REP-* | [Governo del repository](repository/README.md) | Accessi, Git, GitHub, CI, segreti, backup e passaggio futuro a pubblico | ADR-0009; standard di configurazione e sicurezza | Attivo |
 | GS-AS-* | [Preparazione App Store](app-store/README.md) | Distribuzione non in elenco, record, metadati, privacy, accessibilità, TestFlight, qualità e submission | ADR-0011; App Review Guidelines | Attivo |
 | GS-PLAN-001 | [Roadmap](roadmap.md) | Sequenza di validazione e sviluppo | ISO/IEC/IEEE 15289:2019 | Proposta |

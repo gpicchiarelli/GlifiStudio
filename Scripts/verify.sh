@@ -5,7 +5,8 @@ set -euo pipefail
 
 script_directory="${0:A:h}"
 project_directory="${script_directory:h}"
-temporary_build_directory="$(mktemp -d "${TMPDIR%/}/GlifiStudioVerify.XXXXXX")"
+temporary_root="${TMPDIR:-/tmp}"
+temporary_build_directory="$(mktemp -d "${temporary_root%/}/GlifiStudioVerify.XXXXXX")"
 
 cleanup() {
     rm -rf "$temporary_build_directory"
@@ -27,7 +28,8 @@ Scripts/check-architecture.sh
 Scripts/check-localization.py
 Scripts/check-apple-baseline.py
 Scripts/check-app-store-baseline.py
-swift format lint --strict --recursive Apps Packages
+Scripts/check-swift-dialect.py
+Scripts/format.sh --check
 swift test \
     --package-path Packages/GlifiCore \
     --scratch-path "$temporary_build_directory/SwiftPM"

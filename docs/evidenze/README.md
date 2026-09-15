@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.26.0 |
+| Versione | 0.27.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -40,3 +40,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-024 — AnalysisDescriptor e DAG analitico bounded](GS-VER-024-analysis-descriptor-dag.md) — Superato localmente per identità canonica, validazione, invalidazione e riuso selettivo
 - [GS-VER-025 — Persistenza transazionale di Artifact e DAG](GS-VER-025-persistenza-artifact-dag.md) — Superato localmente per oggetti content-addressed, riapertura fail-closed, invalidazione e commit point
 - [GS-VER-026 — Analisi persistenti e riusabili](GS-VER-026-analisi-persistenti-riusabili.md) — Superato localmente per payload tipizzati, commit automatico e riuso di profilo corpus e keyness dopo riapertura
+- [GS-VER-027 — Loop di qualità e dialetto Swift](GS-VER-027-loop-qualita-dialetto-swift.md) — Superato parzialmente in cloud Linux; CI macOS pronta

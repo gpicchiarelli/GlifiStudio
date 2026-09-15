@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-DEV-001 |
 | Tipo | Guida controllata dell'ambiente di sviluppo |
-| Versione | 0.9.0 |
+| Versione | 1.0.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -88,18 +88,21 @@ La verifica controlla, in ordine:
 3. coerenza della baseline applicativa Apple, inclusi privacy e sandbox;
 4. coerenza di identità, metadati, icone e dichiarazioni App Store;
 5. assenza di dipendenze UI dentro `GlifiCore`;
-6. formattazione Swift senza modificare i sorgenti;
-7. unit test del package;
-8. smoke test dell'accesso headless tramite `GlifiCLI`;
-9. build Debug e Release senza firma dell'app macOS;
-10. build Debug e Release senza firma dell'app iPadOS per il simulatore.
+6. dialetto Swift 6 e regole `.swift-format` obbligatorie;
+7. formattazione Swift senza modificare i sorgenti;
+8. unit test del package;
+9. smoke test dell'accesso headless tramite `GlifiCLI`;
+10. build Debug e Release senza firma dell'app macOS;
+11. build Debug e Release senza firma dell'app iPadOS per il simulatore.
 
 Gli artefatti temporanei vengono prodotti fuori dalla cartella `Documents`. Questo evita che gli attributi di provenienza applicati dal provider dei file contaminino i bundle firmabili di test e build.
 
 I controlli singoli sono disponibili con `make check-docs`, `make check-localization`,
-`make check-apple`, `make check-app-store`, `make check-architecture`, `make lint` e
-`make test`. `make verify` resta il gate completo da eseguire prima di integrare una
-modifica.
+`make check-apple`, `make check-app-store`, `make check-architecture`,
+`make check-swift-dialect`, `make lint` e `make test`. Il loop rapido
+`make quality` esegue controlli statici, dialetto e formattazione senza build
+Xcode; `make verify` resta il gate completo da eseguire prima di integrare una
+modifica. Il contratto operativo è in [GS-DEV-002](loop-di-sviluppo-e-qualita.md).
 
 Per modifiche all'app o alla distribuzione, `make verify-app-store` aggiunge analisi
 statica e archivi senza firma. `make app-store-submission-check` verifica invece i

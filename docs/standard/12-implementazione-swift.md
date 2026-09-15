@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-12 |
 | Tipo | Capitolo normativo |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -29,7 +29,9 @@
 
 ## 12.2 Formattazione
 
-Il codice Swift **DEVE** essere formattato mediante `swift format` con configurazione `.swift-format` versionata. La versione del formatter **DEVE** essere compatibile con la toolchain e registrata. Il quality gate **DEVE** eseguire il formatter in modalità di controllo senza modificare i file.
+Il codice Swift **DEVE** essere formattato mediante `swift format` con configurazione `.swift-format` versionata. La versione del formatter **DEVE** essere compatibile con la toolchain e registrata. Il quality gate **DEVE** eseguire il formatter in modalità di controllo senza modificare i file. SwiftLint **NON DEVE** essere introdotto come seconda autorità stilistica. Il loop locale **DEVE** esporre `make format` (autofix) e `make lint`/`make format-check` (controllo strict), come definito da ADR-0020 e GS-DEV-002.
+
+Le regole `.swift-format` obbligatorie, incluso il rifiuto di force unwrap/`try!`/IUO, **DEVONO** essere verificate da `Scripts/check-swift-dialect.py` oltre che dal lint del formatter.
 
 ## 12.3 Nomenclatura e API
 

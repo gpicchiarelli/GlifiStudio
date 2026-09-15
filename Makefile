@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY: bootstrap check-app-store app-store-submission-check check-apple check-architecture check-compliance check-docs check-fixtures check-github check-localization check-naming check-repository check-secrets check-toolchain format github-plan github-apply github-audit github-codeowners lint test build-macos build-ipados verify verify-app-store
+.PHONY: bootstrap check-app-store app-store-submission-check check-apple check-architecture check-compliance check-docs check-fixtures check-github check-localization check-naming check-repository check-secrets check-swift-dialect check-toolchain format format-check github-plan github-apply github-audit github-codeowners lint quality test build-macos build-ipados verify verify-app-store
 
 check-app-store:
 	./Scripts/check-app-store-baseline.py
@@ -41,6 +41,9 @@ check-repository:
 check-secrets:
 	./Scripts/check-secrets.py
 
+check-swift-dialect:
+	./Scripts/check-swift-dialect.py
+
 check-toolchain:
 	./Scripts/check-toolchain.sh
 
@@ -57,10 +60,13 @@ github-codeowners:
 	./Scripts/github/create-codeowners.sh "$(OWNER)"
 
 format:
-	swift format format --in-place --recursive Apps Packages
+	./Scripts/format.sh --fix
 
-lint:
-	swift format lint --strict --recursive Apps Packages
+format-check lint:
+	./Scripts/format.sh --check
+
+quality:
+	./Scripts/quality.sh
 
 test:
 	./Scripts/test.sh

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.29.0 |
+| Versione | 0.30.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -107,6 +107,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-024](evidenze/GS-VER-024-analysis-descriptor-dag.md) | Slice parziale TV-004, TV-005, TV-027, TV-028, TV-054 e TV-060 | Superato localmente per descriptor canonico, DAG bounded, invalidazione e riuso | Persistenza/esecuzione acquisite da GS-VER-025/026; scheduler, recovery, fuzz e benchmark aperti |
 | [GS-VER-025](evidenze/GS-VER-025-persistenza-artifact-dag.md) | Slice parziale TV-001, TV-004, TV-005, TV-027, TV-051, TV-054, TV-060 e TV-072 | Superato localmente per persistenza Artifact/DAG, riapertura fail-closed e commit point | Non prova kill reale, power-loss, file provider, GC o planner; commit analisi acquisito da GS-VER-026 |
 | [GS-VER-026](evidenze/GS-VER-026-analisi-persistenti-riusabili.md) | Slice parziale TV-004, TV-005, TV-008, TV-011, TV-031, TV-054, TV-056, TV-060 e TV-073 | Superato localmente per commit e riuso di profilo corpus e keyness | Non prova altre famiglie, streaming/spill, concorrenza multiprocesso, planner, UI o hardware reale |
+| [GS-VER-027](evidenze/GS-VER-027-loop-qualita-dialetto-swift.md) | CV-020; porzione statica di TV-049; loop GS-DEV-002 / ADR-0020 | Superato parzialmente in cloud Linux | `swift format`, test e build demandati ai runner Xcode 27 |
 
 ## Catalogo delle verifiche pianificate
 
@@ -160,7 +161,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | TV-046 | Test dell'interpretazione naturale | Domanda originale, struttura canonica, ambiguità, conferma e piano equivalente |
 | TV-047 | Test di storia e relazione | Diramazioni, riapertura, selezione editoriale, attribuzione, export e contenuto generativo ostile |
 | TV-048 | Test adattivo e accessibile cross-platform | Flussi semantici su macOS/iPadOS, finestre, dimensioni, tastiera, touch e VoiceOver |
-| TV-049 | Verifica della baseline Swift | Xcode 27, compilatore Swift 6.4+, serie 6, language mode 6, tools 6.4, strict concurrency, manifest e build coerenti |
+| TV-049 | Verifica della baseline Swift | Xcode 27, compilatore Swift 6.4+, serie 6, language mode 6, tools 6.4, strict concurrency, manifest, `.swift-format`, dialetto e build coerenti |
 | TV-050 | Test del modello di dominio | Identità tipizzate, cardinalità, aggregate, revisioni, invarianti e lifecycle |
 | TV-051 | Test package e lineage | `.glifi` round-trip, commit/recovery, digest, SourceRevision, SpanMap e migrazione N/N-1 |
 | TV-052 | Validazione linguistica italiana | Golden corpus `it-token-v1`, offset esatti, lemma/POS/NER e rapporto di deriva |
