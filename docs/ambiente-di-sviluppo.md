@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-DEV-001 |
 | Tipo | Guida controllata dell'ambiente di sviluppo |
-| Versione | 0.8.0 |
+| Versione | 0.9.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -13,11 +13,28 @@
 ## Prerequisiti
 
 - Xcode 27.0 o versione compatibile successiva;
-- Swift 6.4 o versione compatibile successiva;
+- Apple Swift 6.4 o successiva compatibile della serie 6, fornita da Xcode 27;
 - SDK macOS e iOS/iPadOS 27;
 - runtime simulatore iPadOS supportato da Xcode.
 
-La baseline di sviluppo rilevata il 2026-09-15 è Xcode 27.0 (`27A266a`) con Swift 6.4. Le versioni minime di deployment sono macOS 27.0 e iPadOS 27.0, come stabilito da ADR-0003.
+La baseline di sviluppo rilevata il 2026-09-15 è Xcode 27.0 (`27A266a`) con
+Apple Swift 6.4 (`swiftlang-6.4.0.34.1`). Le versioni minime di deployment sono
+macOS 27.0 e iPadOS 27.0, come stabilito da ADR-0003 e precisato da ADR-0015.
+
+## Contratto delle versioni Swift
+
+| Livello | Valore | Significato |
+| --- | --- | --- |
+| Compilatore | Apple Swift 6.4 o successiva compatibile della serie 6 in Xcode 27 | Toolchain minima che compila, testa e formatta il progetto |
+| Modalità linguistica | Swift 6 | Semantica del linguaggio e controllo completo della data-race safety |
+| Impostazione Xcode | `SWIFT_VERSION = 6.0` | Codifica richiesta da Xcode per selezionare Swift 6; non indica il compilatore 6.0 |
+| Manifest SwiftPM | `swift-tools-version: 6.4` | Versione minima degli strumenti e delle API `PackageDescription` usate dal package |
+| Package | `swiftLanguageModes: [.v6]` | Dichiarazione esplicita della modalità linguistica Swift 6 |
+
+`SWIFT_VERSION = 6.4` **NON** è valido: il compilatore accetta modalità linguistiche
+per generazione (`4`, `4.2`, `5`, `6`), non la propria versione minor. Una futura
+toolchain Swift 7 non entra automaticamente nella baseline; richiede una nuova
+decisione e l'intero quality gate.
 
 ## Apertura
 

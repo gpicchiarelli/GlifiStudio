@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AD-001 |
 | Tipo | Architecture description |
-| Versione | 0.11.0 |
+| Versione | 0.12.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -250,6 +250,10 @@ parziale.
 
 Le applicazioni Glifi Studio eseguono localmente su macOS 27 e iPadOS 27 o successivi. GlifiCLI è disponibile nel package per macOS e per lo sviluppo. L'accesso futuro ai progetti passerà attraverso le API documentali e filesystem consentite dalla piattaforma. Matrice hardware, sandbox, parità delle funzioni e modalità di distribuzione restano decisioni aperte.
 
+La baseline usa il compilatore Apple Swift 6.4 fornito da Xcode 27, la modalità
+linguistica Swift 6 e SwiftPM tools 6.4. `SWIFT_VERSION = 6.0` seleziona la modalità
+del linguaggio e non indebolisce né retrocede la versione del compilatore.
+
 L'italiano è la lingua sorgente dell'interfaccia e la lingua analitica predefinita. Il catalogo internazionalizzabile appartiene al livello prodotto e usa chiavi semantiche con localizzazioni iniziali `it`/`en`. Codici lingua, locale e versione del backend attraversano GlifiKit come dati espliciti e non come stato globale implicito; cambiare la lingua dell'interfaccia non cambia la lingua di un corpus.
 
 Entrambe le app includono un privacy manifest condiviso. Il target macOS applica App Sandbox con accesso ai soli file selezionati dall'utente e Hardened Runtime in Release. Capability ulteriori non appartengono alla baseline finché non sono richieste da una funzione approvata.
@@ -402,6 +406,7 @@ progressivi preservano focus e contesto.
 - [ADR-0008 — Portafoglio tecnologico Apple e strategia Apple silicon](adr/0008-portafoglio-tecnologico-apple-silicon.md)
 - [ADR-0013 — Semantica analitica backend-neutral e Analysis DAG](adr/0013-semantica-analitica-e-analysis-dag.md)
 - [ADR-0014 — Esperienza guidata da indagini, intenzioni ed evidenze](adr/0014-esperienza-guidata-da-indagini.md)
+- [ADR-0015 — Baseline Swift 6.4 e modalità linguistica Swift 6](adr/0015-baseline-swift-6-4.md)
 
 Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il [Registro delle decisioni aperte](decisioni-aperte.md) identifica le questioni che richiedono ADR ulteriori.
 

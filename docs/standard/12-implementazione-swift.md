@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-12 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -17,6 +17,15 @@
 - Le versioni minime di macOS e iPadOS **DEVONO** essere definite prima di G2.
 - Le impostazioni di compilazione rilevanti **DEVONO** essere mantenute nel repository.
 - Warning nuovi nel codice modificato **DEVONO** essere risolti o derogati.
+- Compilatore, modalità linguistica e versione degli strumenti SwiftPM **DEVONO**
+  essere dichiarati separatamente; non sono identificatori intercambiabili.
+- La baseline corrente **DEVE** usare Apple Swift 6.4 o una versione successiva
+  compatibile della serie 6 fornita da Xcode 27, Swift 6 language mode e
+  `swift-tools-version: 6.4`.
+- Il controllo completo della concorrenza **DEVE** restare attivo. Una soppressione
+  globale o l'uso della modalità Swift 5 richiede una deroga approvata.
+- Feature sperimentali o upcoming language feature **NON DEVONO** essere abilitate
+  globalmente senza requisito, verifica di compatibilità e decisione esplicita.
 
 ## 12.2 Formattazione
 

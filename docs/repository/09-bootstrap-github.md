@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-REP-009 |
 | Tipo | Procedura operativa |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Pronto per esecuzione |
 | Responsabile | Amministratore del repository, da confermare |
 | Ultima modifica | 2026-09-15 |
@@ -19,7 +19,8 @@ Questa procedura porta la baseline locale in un nuovo repository GitHub privato 
 - account o organizzazione GitHub scelti e autorizzati;
 - piano che supporti ruleset su repository privati;
 - GitHub CLI autenticata con accesso amministrativo al solo repository;
-- `jq`, Git, Xcode 27 e Swift 6 disponibili;
+- `jq`, Git, Xcode 27 con Apple Swift 6.4 o successiva compatibile della serie 6,
+  Swift 6 language mode e SwiftPM tools 6.4 disponibili;
 - titolarità, contenuto degli appunti grezzi e BSD 3-Clause riesaminati;
 - `make verify-app-store` superato sul working tree destinato al primo commit.
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.13.0 |
+| Versione | 0.14.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -27,3 +27,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-011 — Aggiornamento Dependabot di actions/checkout](GS-VER-011-aggiornamento-dependabot-checkout.md) — Superato con deroga temporanea CI
 - [GS-VER-012 — Revisione della fondazione scientifica](GS-VER-012-revisione-fondazione-scientifica.md) — Superato localmente; implementazioni da validare
 - [GS-VER-013 — Revisione dell'esperienza utente](GS-VER-013-revisione-esperienza-utente.md) — Superato localmente; prototipi e studi da eseguire
+- [GS-VER-014 — Baseline Swift 6.4](GS-VER-014-baseline-swift-6-4.md) — Superato localmente

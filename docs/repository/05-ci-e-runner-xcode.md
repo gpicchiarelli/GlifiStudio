@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-REP-005 |
 | Tipo | Descrizione della pipeline |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Configurato localmente |
 | Responsabile | Responsabile tecnico, da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -20,7 +20,11 @@ senza firma per entrambe le piattaforme. Il gate di submission finale non gira i
 CI finché richiede dati, firma e approvazioni esterne; viene invocato deliberatamente
 con `make app-store-submission-check`.
 
-Il gate verifica repository e segreti, Xcode 27 e Swift 6, identità, documentazione, architettura, localizzazione, baseline Apple, formato Swift, test, smoke test CLI e build Debug/Release di macOS e iPadOS senza firma.
+Il gate verifica repository e segreti, Xcode 27, Apple Swift 6.4 o successiva
+compatibile della serie 6, Swift 6 language mode, SwiftPM tools 6.4 e strict
+concurrency completa. Verifica inoltre identità, documentazione, architettura,
+localizzazione, baseline Apple, formato Swift, test, smoke test CLI e build
+Debug/Release di macOS e iPadOS senza firma.
 
 ## Integrità della supply chain
 

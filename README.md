@@ -19,7 +19,7 @@
   <a href="https://github.com/gpicchiarelli/GlifiStudio/actions/workflows/app-store.yml"><img alt="App Store preflight" src="https://github.com/gpicchiarelli/GlifiStudio/actions/workflows/app-store.yml/badge.svg"></a>
   <a href="CHANGELOG.md"><img alt="Versione 0.1.0" src="https://img.shields.io/badge/versione-0.1.0-6557d2.svg"></a>
   <a href="#stato-del-progetto"><img alt="Stato: baseline ingegneristica" src="https://img.shields.io/badge/stato-baseline%20ingegneristica-c9835a.svg"></a>
-  <a href="Packages/GlifiCore/Package.swift"><img alt="Swift 6" src="https://img.shields.io/badge/Swift-6.0-F05138.svg?logo=swift&logoColor=white"></a>
+  <a href="Packages/GlifiCore/Package.swift"><img alt="Apple Swift 6.4" src="https://img.shields.io/badge/Swift-6.4-F05138.svg?logo=swift&logoColor=white"></a>
   <a href="docs/ambiente-di-sviluppo.md"><img alt="Xcode 27" src="https://img.shields.io/badge/Xcode-27-147EFB.svg?logo=xcode&logoColor=white"></a>
   <a href="docs/apple/README.md"><img alt="Piattaforme: macOS 27 e iPadOS 27" src="https://img.shields.io/badge/piattaforme-macOS%2027%20%7C%20iPadOS%2027-315CFF.svg?logo=apple&logoColor=white"></a>
   <a href="docs/internazionalizzazione-interfaccia.md"><img alt="Interfaccia: italiano e inglese" src="https://img.shields.io/badge/interfaccia-it%20%7C%20en-6c63d9.svg"></a>
@@ -117,7 +117,7 @@ La dipendenza procede dall’esterno verso l’interno: il dominio non dipende d
 
 - macOS con Xcode 27 e Command Line Tools selezionati;
 - SDK macOS 27 e iOS/iPadOS 27;
-- Swift 6;
+- Apple Swift 6.4 o successiva compatibile della serie 6, in Swift 6 language mode;
 - nessuna dipendenza runtime di terze parti nella baseline corrente.
 
 ### Workspace Xcode

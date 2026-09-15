@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ADR-IDX-001 |
 | Tipo | Registro delle decisioni architetturali |
-| Versione | 0.15.0 |
+| Versione | 0.16.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -35,6 +35,7 @@ Gli ADR documentano le scelte architetturali importanti, il contesto in cui sono
 - [ADR-0012 — Repository GitHub privato operativo](0012-repository-github-privato-operativo.md) — Accettato
 - [ADR-0013 — Semantica analitica backend-neutral e Analysis DAG](0013-semantica-analitica-e-analysis-dag.md) — Accettato
 - [ADR-0014 — Esperienza guidata da indagini, intenzioni ed evidenze](0014-esperienza-guidata-da-indagini.md) — Accettato
+- [ADR-0015 — Baseline Swift 6.4 e modalità linguistica Swift 6](0015-baseline-swift-6-4.md) — Accettato
 
 ## Modello per i nuovi ADR
 

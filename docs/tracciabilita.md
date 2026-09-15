@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.16.0 |
+| Versione | 0.17.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,7 +25,7 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Contratto metadata-first definito; implementazione incompleta |
 | NS-006 Usare capacità headless e automatizzabili | RF-023, CV-003 | VA-01, VA-02, ADR-0002 | TV-011 | Scaffold e test preliminare presenti |
 | NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RQ-003, RQ-007–RQ-011, RQ-013–RQ-018, RQ-023–RQ-029, CV-014, CV-016 | VA-03–VA-06, ADR-0006, ADR-0008, ADR-0013 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033 | Contratti scientifici definiti; reference suite e soglie incomplete |
-| NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, CV-001–CV-005, CV-007–CV-019 | VA-01, VA-02, VA-05, VA-07, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014 | TV-013, TV-015–TV-025, TV-044, TV-048 | Build e packaging baseline; flussi UX e submission incompleti |
+| NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, CV-001–CV-005, CV-007–CV-020 | VA-01, VA-02, VA-05, VA-07, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014, ADR-0015 | TV-013, TV-015–TV-025, TV-044, TV-048–TV-049 | Toolchain verificata; flussi UX e submission incompleti |
 | NS-009 Comprendere metodi e limiti | RF-026–RF-038, RF-042, RF-044–RF-046, RQ-023, RQ-025–RQ-028 | VA-06, ADR-0013, GS-MET-001 | TV-026–TV-032, TV-034–TV-036 | Specifica completa; review scientifica e implementazione mancanti |
 | NS-010 Analizzare metadati e tempo | RF-029, RF-031, RF-032, RF-035, RF-040 | VA-03, VA-06, GS-MET-001-17 | TV-027, TV-029–TV-031 | Contratto definito; implementazione mancante |
 | NS-011 Esplorare strutture multivariate e reti | RF-029, RF-033, RF-036–RF-039, RF-046 | VA-06, GS-MET-001-06, GS-MET-001-10, GS-MET-001-13–16, GS-MET-001-22 | TV-030, TV-032, TV-035 | Contratto definito; implementazione mancante |
@@ -55,6 +55,7 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | [GS-VER-009](evidenze/GS-VER-009-preflight-app-store.md) | TV-022; baseline di TV-023 e TV-025 | Superato localmente | Packaging senza firma; submission, account Apple, prodotto e dispositivi esclusi |
 | [GS-VER-012](evidenze/GS-VER-012-revisione-fondazione-scientifica.md) | Revisione documentale di TV-026–TV-036 | Superato per struttura e coerenza | Non costituisce validazione delle future implementazioni né peer review scientifica esterna |
 | [GS-VER-013](evidenze/GS-VER-013-revisione-esperienza-utente.md) | Revisione documentale e architetturale di TV-037–TV-048 | Superato per struttura e coerenza | Non costituisce implementazione UI né validazione con utenti o tecnologie assistive |
+| [GS-VER-014](evidenze/GS-VER-014-baseline-swift-6-4.md) | CV-020; TV-049 e regressione TV-011/TV-013 | Superato localmente | CI remota non avviata per il budget Actions già registrato |
 
 ## Catalogo delle verifiche pianificate
 
@@ -108,6 +109,7 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | TV-046 | Test dell'interpretazione naturale | Domanda originale, struttura canonica, ambiguità, conferma e piano equivalente |
 | TV-047 | Test di storia e relazione | Diramazioni, riapertura, selezione editoriale, attribuzione, export e contenuto generativo ostile |
 | TV-048 | Test adattivo e accessibile cross-platform | Flussi semantici su macOS/iPadOS, finestre, dimensioni, tastiera, touch e VoiceOver |
+| TV-049 | Verifica della baseline Swift | Xcode 27, compilatore Swift 6.4+, serie 6, language mode 6, tools 6.4, strict concurrency, manifest e build coerenti |
 
 ## Lacune note
 

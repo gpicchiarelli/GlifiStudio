@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-20 |
 | Tipo | Capitolo normativo |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,7 +21,8 @@ Ogni pull request e ogni revisione di `main` **DEVONO** verificare almeno:
 
 1. struttura, portabilità, dimensione e policy del repository;
 2. assenza di credenziali o materiale di firma rilevabili;
-3. toolchain Xcode 27 e Swift 6;
+3. Xcode 27, Apple Swift 6.4 o successiva compatibile della serie 6, Swift 6
+   language mode, SwiftPM tools 6.4 e strict concurrency completa;
 4. denominazione, metadati, identificatori e link documentali;
 5. confini architetturali, localizzazione e baseline Apple;
 6. formattazione Swift;

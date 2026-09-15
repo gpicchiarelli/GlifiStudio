@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-28 |
 | Tipo | Capitolo normativo |
-| Versione | 1.5.0 |
+| Versione | 1.6.0 |
 | Stato | Attivo |
 | Responsabile | Amministratore del repository, provvisorio |
 | Ultima modifica | 2026-09-15 |
@@ -22,6 +22,7 @@
 | Tracciabilità | Strutturata | Collegare ogni vertical slice a implementazione ed evidenze |
 | Controllo versione | Primo commit pubblicato su `main` nel remote privato canonico | Applicare protezioni server-side quando disponibili |
 | Codice e test | Baseline eseguibile macOS/iPadOS e package condiviso | Evolvere per vertical slice guidate dai requisiti |
+| Toolchain Swift | Apple Swift 6.4, Swift 6 language mode, SwiftPM tools 6.4 e strict concurrency verificati | Rivalutare solo con una toolchain Xcode 27 compatibile o nuova ADR |
 | Sicurezza e privacy | Policy repository e baseline applicativa presenti | Assegnare responsabile, threat model e controlli server-side |
 | GitHub | Remote privato, impostazioni, 20 etichette, Dependabot e audit attivi | Abilitare piano per ruleset, Secret Scanning e push protection |
 | CI | Workflow Xcode 27 pubblicati; job non avviati per budget Actions | Abilitare budget e ottenere entrambi i check verdi |

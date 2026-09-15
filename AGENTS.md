@@ -17,7 +17,8 @@ Non modificare `appunti-1.txt` o `appunti 2.txt` salvo richiesta esplicita: sono
 ## Vincoli di base
 
 - Nome canonico: **Glifi Studio**; identificatori tecnici: `GlifiStudio` e `Glifi*`.
-- Target iniziali: macOS 27 e iPadOS 27, toolchain Xcode 27 e Swift 6.
+- Target iniziali: macOS 27 e iPadOS 27; Xcode 27 con Apple Swift 6.4 o
+  successiva compatibile della serie 6; Swift 6 language mode e SwiftPM tools 6.4.
 - Lingua iniziale: italiano; ogni elemento dell'interfaccia deve restare internazionalizzabile e accessibile.
 - Usare `GlifiStudio.xcworkspace`, non aprire il solo progetto per il lavoro ordinario.
 - Conservare la separazione fra app, `GlifiKit`, motore `GlifiCore` e strumenti headless.

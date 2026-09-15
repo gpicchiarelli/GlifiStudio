@@ -21,6 +21,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   deterministico e progressive disclosure Conclusione → Evidenza → Fonti → Metodo.
 - ADR-0014, requisiti e verifiche tracciate per esperienza macOS/iPadOS,
   accessibilità, comprensione e localizzazione semantica.
+- ADR-0015 e verifica TV-049 per distinguere compilatore Apple Swift 6.4,
+  Swift 6 language mode e SwiftPM tools 6.4.
 
 ### Modificato
 
@@ -28,6 +30,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 - `actions/checkout` aggiornato dalla versione 5.1.0 alla 7.0.1 con SHA immutabile.
 - Quality gate documentale esteso a indicizzazione, copertura e integrazione delle specifiche GS-MET.
 - Quality gate documentale esteso alla copertura e integrazione delle specifiche GS-UX.
+- Manifest SwiftPM elevato a tools 6.4 e controllo toolchain reso vincolante sulla
+  versione minima compatibile, sul language mode e sulla strict concurrency.
 
 ### Corretto
 

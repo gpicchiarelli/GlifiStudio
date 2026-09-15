@@ -1,4 +1,4 @@
-// swift-tools-version: 6.0
+// swift-tools-version: 6.4
 // SPDX-License-Identifier: BSD-3-Clause
 
 import PackageDescription

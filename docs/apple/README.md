@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-IDX-001 |
 | Tipo | Indice delle pratiche Apple |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -51,7 +51,7 @@ La strategia distingue:
 
 | Area | Tecnologie Apple principali | Posizione corrente |
 | --- | --- | --- |
-| Linguaggio e concorrenza | Swift 6, Swift Concurrency, Foundation | Baseline attiva |
+| Linguaggio e concorrenza | Apple Swift 6.4, Swift 6 language mode, Swift Concurrency, Foundation | Baseline attiva; ADR-0015 |
 | Applicazioni native | SwiftUI, Observation, AppKit/UIKit confinati | Baseline attiva |
 | Interazione | NavigationSplitView, Accessibility, SF Symbols, Swift Charts, Core Transferable | GS-UX definita; componenti da adottare per flusso |
 | Documenti | Uniform Type Identifiers, PDFKit, Vision, VisionKit, Image I/O, Core Image, Quick Look | Assegnate alle fasi di importazione e OCR |

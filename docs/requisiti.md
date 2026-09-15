@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.11.0 |
+| Versione | 0.12.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -191,6 +191,7 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | CV-017 | Il primo canale di distribuzione **DEVE** essere App Store non in elenco dopo la normale App Review. | ADR-0011 | TV-025 | Approvato |
 | CV-018 | Le app macOS e iPadOS **DEVONO** condividere bundle identifier, versione commerciale e numero di build nella singola identità App Store multipiattaforma. | ADR-0011 | TV-022 | Approvato |
 | CV-019 | La build Mac App Store **DEVE** mantenere App Sandbox; ogni build **DEVE** includere icona valida, privacy manifest e dichiarazione export compliance riesaminata. | ADR-0006, ADR-0011 | TV-016, TV-022, TV-023 | Approvato |
+| CV-020 | Il progetto **DEVE** usare Apple Swift 6.4 o successiva compatibile della serie 6 fornita da Xcode 27, Swift 6 language mode, SwiftPM tools 6.4 e strict concurrency completa. | ADR-0015 | TV-049 | Approvato |
 
 ## 8. Esclusioni correnti
 
