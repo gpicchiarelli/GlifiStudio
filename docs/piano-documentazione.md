@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-DMP-001 |
 | Tipo | Documentation management plan |
-| Versione | 0.9.0 |
+| Versione | 0.10.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -60,6 +60,7 @@ Il formato Markdown è un mezzo di registrazione e non modifica gli obblighi inf
 | Registro problemi | `GS-ISS-*` | Questione, motivazione, evidenza richiesta, responsabile e stato |
 | Decisione architetturale | `GS-ADR-*` | Contesto, decisione, stato, alternative e conseguenze |
 | Evidenza di verifica | `GS-VER-*` | Revisione, ambiente, procedura, risultato osservato, esito ed esecutore |
+| Deroga controllata | `GS-WVR-*` | Regola, ambito, durata, rischio, mitigazione, verifica compensativa e rientro |
 
 ### 3.1 Granularità documentale
 

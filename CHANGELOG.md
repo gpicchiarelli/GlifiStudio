@@ -15,7 +15,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Modificato
 
-- Nessuna modifica rilasciata.
+- Configurazione Dependabot con etichette controllate e aggiornamenti GitHub Actions raggruppati.
 
 ### Corretto
 

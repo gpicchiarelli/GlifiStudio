@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-IDX-001 |
 | Tipo | Indice degli information item |
-| Versione | 0.14.0 |
+| Versione | 0.15.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -39,6 +39,7 @@ Lo [Standard di progetto](standard-di-progetto.md) è la norma interna principal
 | GS-ISS-001 | [Decisioni aperte](decisioni-aperte.md) | Questioni irrisolte e chiusura mediante ADR | ISO/IEC/IEEE 15289:2019 | Attivo |
 | GS-ADR-* | [Registro ADR](adr/README.md) | Decisioni architetturali e rationale | Supporta ISO/IEC/IEEE 42010:2022 | Attivo |
 | GS-VER-* | [Registro delle evidenze](evidenze/README.md) | Risultati riproducibili dei controlli di qualità | [Modello di evidenza](standard/appendice-c-modello-di-evidenza.md) | Attivo |
+| GS-WVR-* | [Registro delle deroghe](deroghe/README.md) | Eccezioni temporanee, mitigazioni, scadenze e piano di rientro | [Disciplina delle deroghe](standard/24-deroghe-e-non-conformita.md) | Attivo |
 
 ## Convenzioni
 
