@@ -6,7 +6,7 @@ import Foundation
 public struct GlifiQueryMatch: Codable, Equatable, Sendable {
     /// Immutable source revision containing the match.
     public let sourceRevisionID: SourceRevisionID
-    /// Exact match interval in source UTF-8 bytes.
+    /// Exact match interval in extracted UTF-8 bytes.
     public let range: GlifiUTF8Range
     /// Optional bounded interval preceding the match.
     public let leftContextRange: GlifiUTF8Range?

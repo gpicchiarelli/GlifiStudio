@@ -31,8 +31,12 @@ public struct GlifiImportedText: Equatable, Sendable {
     public let format: GlifiTextFormat
     /// Original bytes, including a byte-order mark when present.
     public let bytes: Data
-    /// Strictly decoded UTF-8 text with any byte-order mark removed.
+    /// Deterministically extracted UTF-8 text used by linguistic and query operations.
     public let text: String
+    /// Versioned extraction contract used to produce `text`.
+    public let extractionContractIdentifier: String
+    /// Total mapping from extracted UTF-8 positions back to immutable source bytes.
+    public let spanMap: GlifiSpanMap
     /// SHA-256 digest of the original bytes.
     public let contentDigest: String
     /// Whether the original bytes began with the UTF-8 byte-order mark.
@@ -43,6 +47,8 @@ public struct GlifiImportedText: Equatable, Sendable {
         format: GlifiTextFormat,
         bytes: Data,
         text: String,
+        extractionContractIdentifier: String,
+        spanMap: GlifiSpanMap,
         contentDigest: String,
         hadByteOrderMark: Bool
     ) {
@@ -50,6 +56,8 @@ public struct GlifiImportedText: Equatable, Sendable {
         self.format = format
         self.bytes = bytes
         self.text = text
+        self.extractionContractIdentifier = extractionContractIdentifier
+        self.spanMap = spanMap
         self.contentDigest = contentDigest
         self.hadByteOrderMark = hadByteOrderMark
     }
@@ -83,7 +91,7 @@ public struct GlifiTextImporter: Sendable {
         let hadByteOrderMark = data.starts(with: byteOrderMark)
         let payload = hadByteOrderMark ? data.dropFirst(byteOrderMark.count) : data[...]
 
-        guard let text = String(data: Data(payload), encoding: .utf8) else {
+        guard let sourceText = String(data: Data(payload), encoding: .utf8) else {
             throw GlifiFailure(
                 code: "text.invalid-utf8",
                 category: .invalidInput,
@@ -95,11 +103,52 @@ public struct GlifiTextImporter: Sendable {
         }
 
         let digest = SHA256.hash(data: data).map { String(format: "%02x", $0) }.joined()
+        let sourceByteOffset = hadByteOrderMark ? byteOrderMark.count : 0
+        let extraction: GlifiExtractedText
+        switch format {
+        case .plainText:
+            let segments: [GlifiSpanMapSegment]
+            if payload.isEmpty {
+                segments = []
+            } else {
+                segments = [
+                    GlifiSpanMapSegment(
+                        outputRange: try GlifiUTF8Range(start: 0, end: payload.count),
+                        inputRanges: [
+                            try GlifiUTF8Range(
+                                start: sourceByteOffset,
+                                end: sourceByteOffset + payload.count
+                            )
+                        ],
+                        kind: .exact
+                    )
+                ]
+            }
+            extraction = GlifiExtractedText(
+                text: sourceText,
+                spanMap: try GlifiSpanMap(
+                    contractIdentifier: "plain-text-v1",
+                    sourceRevisionID: sourceRevisionID,
+                    inputByteCount: data.count,
+                    outputByteCount: payload.count,
+                    segments: segments
+                )
+            )
+        case .markdown:
+            extraction = try GlifiMarkdownExtractor().extract(
+                sourceText,
+                sourceRevisionID: sourceRevisionID,
+                sourceByteOffset: sourceByteOffset,
+                sourceByteCount: data.count
+            )
+        }
         return GlifiImportedText(
             sourceRevisionID: sourceRevisionID,
             format: format,
             bytes: data,
-            text: text,
+            text: extraction.text,
+            extractionContractIdentifier: extraction.spanMap.contractIdentifier,
+            spanMap: extraction.spanMap,
             contentDigest: "sha256:\(digest)",
             hadByteOrderMark: hadByteOrderMark
         )

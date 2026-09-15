@@ -324,6 +324,43 @@ def validate_query(manifest: dict[str, Any], errors: list[str]) -> int:
     return len(cases)
 
 
+def validate_markdown(manifest: dict[str, Any], errors: list[str]) -> int:
+    """Validate Markdown source provenance and declared source-byte spans."""
+    if manifest.get("schema") != "studio.glifi.markdown-fixture-manifest":
+        errors.append("manifest Markdown: schema non valido")
+    if manifest.get("license") != "BSD-3-Clause" or not manifest.get("provenance"):
+        errors.append("manifest Markdown: licenza/provenienza mancante")
+    source_path = Path(str(manifest.get("source", "")))
+    if source_path.is_absolute() or ".." in source_path.parts:
+        errors.append("fixture Markdown: path sorgente non sicuro")
+        return 0
+    try:
+        raw = (PROJECT_DIRECTORY / source_path).read_bytes()
+        raw.decode("utf-8")
+    except (OSError, UnicodeDecodeError) as error:
+        errors.append(f"fixture Markdown non leggibile: {error}")
+        return 0
+    if b"SPDX-License-Identifier: BSD-3-Clause" not in raw:
+        errors.append("fixture Markdown: SPDX mancante")
+    expected = load_json(str(manifest.get("expected", "")), errors)
+    if (
+        expected.get("schema") != "studio.glifi.markdown-fixture-expected"
+        or expected.get("extractionContractIdentifier") != "md-extract-v1"
+        or expected.get("coordinateSpace") != "sourceBytes"
+        or expected.get("intervalConvention") != "half-open"
+        or expected.get("license") != "BSD-3-Clause"
+        or not isinstance(expected.get("expectedTextSuffix"), str)
+    ):
+        errors.append("fixture Markdown: contratto expected non valido")
+    matches = expected.get("matches", [])
+    if not isinstance(matches, list) or len(matches) < 2:
+        errors.append("fixture Markdown: intervalli attesi insufficienti")
+        return 0
+    for index, match in enumerate(matches):
+        validate_interval(raw, match, f"markdown/match/{index}", errors)
+    return len(matches)
+
+
 def main() -> int:
     """Run every fixture validation."""
     errors: list[str] = []
@@ -349,6 +386,7 @@ def main() -> int:
         manifests.get("adversarial-v1-descriptors", {}), errors
     )
     query_count = validate_query(manifests.get("query-v1-seed", {}), errors)
+    markdown_count = validate_markdown(manifests.get("markdown-v1-seed", {}), errors)
 
     if errors:
         print("Fixture validation failed:", file=sys.stderr)
@@ -359,7 +397,7 @@ def main() -> int:
         "Fixtures: "
         f"Italian={linguistic_count}, numerical={scientific_count}, "
         f"adversarial-descriptors={adversarial_count}, query={query_count}; "
-        "seed status preserved"
+        f"markdown-spans={markdown_count}; seed status preserved"
     )
     return 0
 

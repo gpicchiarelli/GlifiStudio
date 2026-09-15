@@ -68,6 +68,6 @@ richiedono evidenze dedicate.
 
 ## Esito
 
-**Superato localmente per il confine QueryAST/parser, lo scan TXT bounded, le
+**Superato localmente per il confine QueryAST/parser, lo scan testuale bounded, le
 concordanze KWIC e la parità GlifiKit/GlifiCLI dichiarata.** Non promuove l'intero
 sistema di ricerca GS-QRY a feature complete.

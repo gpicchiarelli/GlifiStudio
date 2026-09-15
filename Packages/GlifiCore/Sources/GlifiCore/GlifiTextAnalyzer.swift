@@ -80,16 +80,6 @@ public struct GlifiTextAnalyzer: Sendable {
 
     /// Computes deterministic descriptive counts and lexical frequencies.
     public func profile(_ importedText: GlifiImportedText) throws -> GlifiTextProfile {
-        guard importedText.format == .plainText else {
-            throw GlifiFailure(
-                code: "text.markdown-analysis-unavailable",
-                category: .unsupportedFormat,
-                operation: .profileCollection,
-                retryDisposition: .afterCorrection,
-                retainedState: .unchanged,
-                messageKey: "failure.text.markdown-analysis-unavailable"
-            )
-        }
         let tokenization = try tokenizer.tokenize(importedText.text)
         var counts: [String: Int] = [:]
         var lexicalTokenCount = 0

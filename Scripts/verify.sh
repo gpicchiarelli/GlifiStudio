@@ -67,6 +67,12 @@ cli_import_output="$(swift run \
     --skip-build \
     GlifiCLI --format json import "$cli_project_path" \
     Fixtures/Persistence/v1/basic/source.txt)"
+cli_markdown_import_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json import "$cli_project_path" \
+    Fixtures/Markdown/v1/source.md)"
 cli_validate_output="$(swift run \
     --package-path Packages/GlifiCore \
     --scratch-path "$temporary_build_directory/SwiftPM" \
@@ -77,25 +83,36 @@ cli_query_output="$(swift run \
     --scratch-path "$temporary_build_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json query "$cli_project_path" --text "normalized:due")"
+cli_markdown_query_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json query "$cli_project_path" --text "normalized:fonte")"
 
-python3 - "$cli_create_output" "$cli_import_output" "$cli_validate_output" \
-    "$cli_query_output" <<'PY'
+python3 - "$cli_create_output" "$cli_import_output" "$cli_markdown_import_output" \
+    "$cli_validate_output" "$cli_query_output" "$cli_markdown_query_output" <<'PY'
 import json
 import sys
 
-created, imported, validated, queried = (json.loads(value) for value in sys.argv[1:])
+created, imported, markdown_imported, validated, queried, markdown_queried = (
+    json.loads(value) for value in sys.argv[1:]
+)
 assert created["command"] == "project.create"
 assert created["result"]["project"]["generation"] == 0
 assert imported["command"] == "import"
 assert imported["result"]["project"]["generation"] == 1
 assert imported["result"]["project"]["sourceCount"] == 1
 assert imported["result"]["lastProfile"]["lexicalTokenCount"] == 3
+assert markdown_imported["command"] == "import"
+assert markdown_imported["result"]["project"]["generation"] == 2
+assert markdown_imported["result"]["project"]["sourceCount"] == 2
+assert markdown_imported["result"]["lastProfile"]["lexicalTokenCount"] == 5
 assert validated["command"] == "project.validate"
 assert validated["result"]["status"] == "valid"
-assert validated["result"]["project"] == imported["result"]["project"]
+assert validated["result"]["project"] == markdown_imported["result"]["project"]
 assert queried["command"] == "query"
 assert queried["outcome"] == "succeeded"
-assert queried["result"]["generation"] == 1
+assert queried["result"]["generation"] == 2
 assert queried["result"]["matchedSourceCount"] == 1
 assert queried["result"]["isTruncated"] is False
 assert queried["result"]["queryDigest"].startswith("sha256:")
@@ -103,6 +120,14 @@ assert [
     (match["startUTF8"], match["endUTF8"], match["match"])
     for match in queried["result"]["matches"]
 ] == [(4, 7, "due"), (8, 11, "due")]
+assert markdown_queried["command"] == "query"
+assert markdown_queried["result"]["generation"] == 2
+assert markdown_queried["result"]["matchedSourceCount"] == 1
+assert len(markdown_queried["result"]["matches"]) == 1
+markdown_match = markdown_queried["result"]["matches"][0]
+assert markdown_match["coordinateSpace"] == "extractedUTF8"
+assert (markdown_match["startUTF8"], markdown_match["endUTF8"]) == (14, 19)
+assert markdown_match["sourceRanges"] == [{"start": 64, "end": 69}]
 PY
 
 xcodebuild build \

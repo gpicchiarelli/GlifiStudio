@@ -26,6 +26,20 @@ func serviceProfilesAFile() async throws {
     #expect(profile.topTerms.first == GlifiStudioTermFrequency(term: "due", count: 2))
 }
 
+@Test("GlifiKit profila Markdown attraverso la rappresentazione estratta")
+func serviceProfilesMarkdown() async throws {
+    let fileURL = FileManager.default.temporaryDirectory
+        .appending(path: "glifi-kit-profile-\(UUID().uuidString).md")
+    try Data("# Titolo\nUna **fonte** affidabile.".utf8).write(to: fileURL, options: .atomic)
+    defer { try? FileManager.default.removeItem(at: fileURL) }
+
+    let profile = try await GlifiStudioService().profileText(at: fileURL, format: .markdown)
+
+    #expect(profile.lexicalTokenCount == 4)
+    #expect(profile.typeCount == 4)
+    #expect(profile.topTerms.contains(GlifiStudioTermFrequency(term: "fonte", count: 1)))
+}
+
 @Test("GlifiKit espone failure tipizzate e localizzabili")
 func serviceMapsFailures() async {
     let missingURL = FileManager.default.temporaryDirectory
@@ -69,6 +83,10 @@ func serviceProjectSessionRoundTrip() async throws {
     #expect(query.matchedSourceCount == 1)
     #expect(query.matches.count == 1)
     #expect(query.matches[0].match == "fonte")
+    #expect(query.matches[0].coordinateSpace == "extractedUTF8")
+    #expect(query.matches[0].sourceRanges.count == 1)
+    #expect(query.matches[0].sourceRanges[0].start == 4)
+    #expect(query.matches[0].sourceRanges[0].end == 9)
     await session.close()
 
     await #expect(throws: GlifiStudioFailure.self) {

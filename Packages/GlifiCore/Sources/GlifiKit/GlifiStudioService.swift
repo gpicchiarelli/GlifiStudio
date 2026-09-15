@@ -146,10 +146,14 @@ public struct GlifiStudioQueryMatch: Equatable, Identifiable, Sendable {
     public var id: String { "\(sourceRevisionID):\(startUTF8):\(endUTF8)" }
     /// Opaque source revision identity.
     public let sourceRevisionID: String
-    /// Inclusive UTF-8 byte offset of the match.
+    /// Coordinate space used by `startUTF8` and `endUTF8`.
+    public let coordinateSpace: String
+    /// Inclusive UTF-8 byte offset in the extracted representation.
     public let startUTF8: Int
-    /// Exclusive UTF-8 byte offset of the match.
+    /// Exclusive UTF-8 byte offset in the extracted representation.
     public let endUTF8: Int
+    /// Ordered half-open ranges in the immutable source bytes.
+    public let sourceRanges: [GlifiStudioUTF8Range]
     /// Bounded source text before the match.
     public let leftContext: String
     /// Exact matched source surface.
@@ -159,11 +163,26 @@ public struct GlifiStudioQueryMatch: Equatable, Identifiable, Sendable {
 
     init(_ match: GlifiProjectQueryMatch) {
         sourceRevisionID = match.sourceRevisionID.canonicalValue
+        coordinateSpace = GlifiTextCoordinateSpace.extractedUTF8.rawValue
         startUTF8 = match.range.start
         endUTF8 = match.range.end
+        sourceRanges = match.sourceRanges.map(GlifiStudioUTF8Range.init)
         leftContext = match.leftContext
         self.match = match.match
         rightContext = match.rightContext
+    }
+}
+
+/// One half-open source-byte interval suitable for presentation and JSON clients.
+public struct GlifiStudioUTF8Range: Codable, Equatable, Sendable {
+    /// Inclusive byte offset.
+    public let start: Int
+    /// Exclusive byte offset.
+    public let end: Int
+
+    init(_ range: GlifiUTF8Range) {
+        start = range.start
+        end = range.end
     }
 }
 

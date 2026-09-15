@@ -10,7 +10,7 @@ Le fixture ostili devono essere innocue fuori dal test, chiaramente identificate
 
 ## Catalogo iniziale
 
-[`manifest.json`](manifest.json) registra quattro collezioni seed:
+[`manifest.json`](manifest.json) registra cinque collezioni seed:
 
 - `Linguistics/it-v1`: otto casi sintetici con offset UTF-8 half-open per
   apostrofi, clitici, abbreviazioni, NFC/NFD, numeri, emoji ed email;
@@ -20,6 +20,8 @@ Le fixture ostili devono essere innocue fuori dal test, chiaramente identificate
   materializzare exploit, archivi espansivi o dati sensibili.
 - `Query/v1`: casi sintetici italiani per termini normalizzati, frasi, booleani,
   prossimità, regex sicure, diagnostica e offset UTF-8 attesi.
+- `Markdown/v1`: documento sintetico con testo estratto e intervalli sorgente
+  attesi per markup inline e entità.
 
 Lo stato `seed` è intenzionale: questi casi non costituiscono ancora corpus gold,
 oracolo indipendente approvato, fuzz corpus o baseline di rilascio. La promozione

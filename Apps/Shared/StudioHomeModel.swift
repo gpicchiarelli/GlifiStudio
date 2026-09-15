@@ -53,7 +53,10 @@ final class StudioHomeModel {
         }
 
         do {
-            let profile = try await service.profileText(at: url, format: .plainText)
+            let format: GlifiStudioTextFormat =
+                ["md", "markdown"].contains(url.pathExtension.lowercased())
+                ? .markdown : .plainText
+            let profile = try await service.profileText(at: url, format: format)
             guard !Task.isCancelled else {
                 return
             }

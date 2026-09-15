@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-QRY-001 |
 | Tipo | Specifica di design della ricerca |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -22,7 +22,9 @@ phrase/slop, `NOT`/`AND`/`OR`, prossimità ordinata o simmetrica, scope di
 SourceRevision, regex sul singolo token in un sottoinsieme NFA senza backtracking e
 concordanze KWIC con offset UTF-8. GlifiKit e GlifiCLI usano lo stesso percorso.
 
-La slice esegue uno scan bounded delle fonti TXT incorporate; non costituisce
+La slice esegue uno scan bounded delle fonti TXT e Markdown incorporate; per
+Markdown ogni match espone coordinate `extractedUTF8` e intervalli `sourceBytes`
+risolti da `md-extract-v1`. Non costituisce
 l'indice persistente target. Lemmi, POS, entità, metadati, range tipizzati, scope
 Project/Corpus, cursor firmati, ranking e spiegazioni estese restano fail-closed.
 L'ordine provvisorio è SourceRevisionID/offset finché il modello DocumentID non è

@@ -425,16 +425,20 @@ private struct QueryResult: Encodable {
 
 private struct QueryMatchResult: Encodable {
     let sourceRevisionID: String
+    let coordinateSpace: String
     let startUTF8: Int
     let endUTF8: Int
+    let sourceRanges: [GlifiStudioUTF8Range]
     let leftContext: String
     let match: String
     let rightContext: String
 
     init(_ match: GlifiStudioQueryMatch) {
         sourceRevisionID = match.sourceRevisionID
+        coordinateSpace = match.coordinateSpace
         startUTF8 = match.startUTF8
         endUTF8 = match.endUTF8
+        sourceRanges = match.sourceRanges
         leftContext = match.leftContext
         self.match = match.match
         rightContext = match.rightContext

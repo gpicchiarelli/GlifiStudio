@@ -30,19 +30,27 @@
       "clause": "GS-SEC-001 § 7 Input e parser ostili",
       "specification": "docs/sicurezza/README.md",
       "requirements": ["RQ-044", "RQ-057"],
-      "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiMarkdownExtractor.swift"
+      ],
       "tests": [
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiTextImporterTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiMarkdownExtractorTests.swift",
         "Scripts/check-fixtures.py"
       ],
       "fixtures": [
         "Fixtures/Adversarial/v1/manifest.json",
-        "Fixtures/Adversarial/v1/security-cases.json"
+        "Fixtures/Adversarial/v1/security-cases.json",
+        "Fixtures/Markdown/v1/source.md"
       ],
-      "evidence": ["docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-021-markdown-spanmap.md"
+      ],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Il confine TXT UTF-8 bounded è implementato; restano parser strutturati e corpus avversario eseguibile."
+      "blockingReason": "I confini TXT, Markdown e query sono bounded; restano parser futuri, fuzz corpus e benchmark avversari completi."
     },
     {
       "id": "CMP-003",
@@ -486,11 +494,12 @@
     },
     {
       "id": "CMP-030",
-      "clause": "GS-QRY-001 § Valutazione TXT e concordanze KWIC bounded",
+      "clause": "GS-QRY-001 § Valutazione TXT/Markdown e concordanze KWIC bounded",
       "specification": "docs/specifiche-di-design/04-ricerca-e-linguaggio-di-query.md",
       "requirements": ["RF-015", "RF-016", "RF-017", "RF-018", "RQ-060"],
       "code": [
         "Packages/GlifiCore/Sources/GlifiCore/GlifiQueryEvaluator.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiSpanMap.swift",
         "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
         "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
         "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
@@ -502,10 +511,62 @@
       ],
       "fixtures": [
         "Fixtures/Persistence/v1/basic/source.txt",
+        "Fixtures/Markdown/v1/source.md",
         "Fixtures/Query/v1/cases.json"
       ],
-      "evidence": ["docs/evidenze/GS-VER-020-query-ast-kwic-bounded.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-020-query-ast-kwic-bounded.md",
+        "docs/evidenze/GS-VER-021-markdown-spanmap.md"
+      ],
       "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-031",
+      "clause": "GS-DAT-001 § Estrazione Markdown e SpanMap sourceBytes",
+      "specification": "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md",
+      "requirements": ["RF-003", "RF-006", "RF-009", "RQ-044", "RQ-057"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiMarkdownExtractor.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiSpanMap.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiMarkdownExtractorTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiItalianTokenizerTests.swift",
+        "Scripts/check-fixtures.py"
+      ],
+      "fixtures": [
+        "Fixtures/Markdown/v1/manifest.json",
+        "Fixtures/Markdown/v1/source.md",
+        "Fixtures/Markdown/v1/expected.json"
+      ],
+      "evidence": ["docs/evidenze/GS-VER-021-markdown-spanmap.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-032",
+      "clause": "GS-API-001 § Importazione e query Markdown bounded",
+      "specification": "docs/api/README.md",
+      "requirements": ["RF-003", "RF-017", "RF-023", "RQ-060"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift",
+        "Apps/Shared/StudioHomeModel.swift",
+        "Apps/Shared/StudioHomeView.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiQueryEvaluatorTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift",
+        "Scripts/verify.sh"
+      ],
+      "fixtures": ["Fixtures/Markdown/v1/source.md"],
+      "evidence": ["docs/evidenze/GS-VER-021-markdown-spanmap.md"],
+      "gate": "G3",
       "status": "verified",
       "blockingReason": null
     }

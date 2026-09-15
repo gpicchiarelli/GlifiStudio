@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.20.0 |
+| Versione | 0.21.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -34,3 +34,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-018 — Primo incremento verticale](GS-VER-018-primo-incremento-verticale.md) — Superato localmente per TXT bounded, `it-token-v1` seed e integrazione Xcode
 - [GS-VER-019 — Package `.glifi` transazionale](GS-VER-019-package-glifi-transazionale.md) — Superato localmente per prototipo G2, commit point e ProjectSession/CLI
 - [GS-VER-020 — QueryAST e KWIC bounded](GS-VER-020-query-ast-kwic-bounded.md) — Superato localmente per parser, valutatore bounded e GlifiKit/CLI
+- [GS-VER-021 — Markdown e SpanMap](GS-VER-021-markdown-spanmap.md) — Superato localmente per estrazione bounded, lineage sorgente e superfici condivise

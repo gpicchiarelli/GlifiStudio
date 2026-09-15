@@ -192,6 +192,35 @@ func engineQueriesPersistedProject() async throws {
     #expect(result.matches.map(\.sourceRevisionID.canonicalValue).isSorted)
 }
 
+@Test("La query Markdown conserva coordinate estratte e intervalli della fonte")
+func engineQueriesMarkdownWithSourceLineage() async throws {
+    let root = FileManager.default.temporaryDirectory.appending(
+        path: "GlifiMarkdownQueryTests-\(UUID().uuidString)",
+        directoryHint: .isDirectory
+    )
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let packageURL = root.appending(path: "Markdown.glifi", directoryHint: .isDirectory)
+    let project = try GlifiProjectPackage.create(at: packageURL)
+    let source = "Una **casa sul** [mare](destinazione)."
+    let imported = try GlifiTextImporter().importText(
+        from: Data(source.utf8),
+        format: .markdown
+    )
+    _ = try await project.importText(imported)
+
+    let result = try await GlifiEngine().query("\"casa sul mare\"", in: project)
+    let match = try #require(result.matches.first)
+    let reconstructed = match.sourceRanges.compactMap { range in
+        String(data: imported.bytes[range.start..<range.end], encoding: .utf8)
+    }.joined()
+
+    #expect(match.match == "casa sul mare")
+    #expect(match.range.text(in: imported.text) == "casa sul mare")
+    #expect(match.sourceRanges.count == 3)
+    #expect(reconstructed == "casa sul mare")
+}
+
 private func imported(_ text: String) throws -> GlifiImportedText {
     try GlifiTextImporter().importText(from: Data(text.utf8), format: .plainText)
 }

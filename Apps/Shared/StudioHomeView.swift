@@ -60,7 +60,7 @@ struct StudioHomeView: View {
         }
         .fileImporter(
             isPresented: $isImporterPresented,
-            allowedContentTypes: [.plainText],
+            allowedContentTypes: [.plainText, .markdown],
             allowsMultipleSelection: false
         ) { result in
             guard case let .success(urls) = result, let url = urls.first else {

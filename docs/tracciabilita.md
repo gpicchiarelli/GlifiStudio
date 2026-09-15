@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.23.0 |
+| Versione | 0.24.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -18,8 +18,8 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 
 | Necessità | Requisiti derivati | View/decisioni architetturali | Verifica pianificata | Stato |
 | --- | --- | --- | --- | --- |
-| NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, RF-050–RF-056, RF-079–RF-081, CV-006 | VA-01, VA-02, VA-06, VA-07, GS-LNG-001, GS-QRY-001, GS-ANA-001, ADR-0013–ADR-0016 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030, TV-039–TV-041, TV-052–TV-054 | Slice TXT/profilo e query/KWIC bounded verificate; corpus ricchi, indice e analisi complete aperti |
-| NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RF-077–RF-078, RF-084, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, GS-DAT-001, GS-VIZ-001, ADR-0013, ADR-0016 | TV-003, TV-004, TV-006, TV-027, TV-035, TV-051, TV-058 | Offset UTF-8 e SourceRevision delle concordanze verificati; SpanMap e navigazione UI aperti |
+| NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, RF-050–RF-056, RF-079–RF-081, CV-006 | VA-01, VA-02, VA-06, VA-07, GS-LNG-001, GS-QRY-001, GS-ANA-001, ADR-0013–ADR-0016 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030, TV-039–TV-041, TV-052–TV-054 | Slice TXT/Markdown, profilo e query/KWIC bounded verificate; corpus, indice e analisi complete aperti |
+| NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RF-077–RF-078, RF-084, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, GS-DAT-001, GS-VIZ-001, ADR-0013, ADR-0016 | TV-003, TV-004, TV-006, TV-027, TV-035, TV-051, TV-058 | SourceRevision, coordinate estratte e SpanMap verso byte originali verificati; navigazione UI aperta |
 | NS-003 Elaborare corpus massivi | RF-014, RQ-001, RQ-002, RQ-006, RQ-009, RQ-015, RQ-016, RQ-018, RQ-041, RQ-048, RQ-052–RQ-055, CV-013, CV-016 | VA-03, VA-04, GS-RUN-001, GS-APL-015, ADR-0008, ADR-0016, ADR-0018 | TV-009, TV-010, TV-019, TV-056–TV-057, TV-065–TV-068 | Policy runtime attiva; sorgenti eventi, baseline hardware e soglie da misurare |
 | NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RF-047–RF-048, RF-070–RF-071, RF-075–RF-077, RF-081, RQ-004, RQ-033, RQ-043, RQ-059 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, GS-ANA-001, ADR-0014, ADR-0016, ADR-0019 | TV-001, TV-005, TV-037, TV-047, TV-050–TV-051, TV-054, TV-060, TV-072 | Package generazionale riapribile verificato; recovery completa e riuso analitico aperti |
 | NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Contratto metadata-first definito; implementazione incompleta |
@@ -74,7 +74,7 @@ path esistenti e impedisce le promozioni prive delle prove minime.
 | `verified` | prova riproducibile registrata | specifica, requisito, codice, test ed evidenza |
 | `blocked` | lavoro impedito da una lacuna esplicita | specifica, requisito e `blockingReason` |
 
-La matrice include 30 clausole ad alto rischio e rende visibili, senza
+La matrice include 32 clausole ad alto rischio e rende visibili, senza
 falsi positivi, le lacune su corpus italiano, baseline numerica, SupportPolicy e
 ranking, studi UX, PDF/OCR e hardware. La domanda “GS-DAT, protocollo di commit: è
 implementato e provato?” ottiene quindi stato, percorsi e blocco dalla stessa riga.
@@ -101,6 +101,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-018](evidenze/GS-VER-018-primo-incremento-verticale.md) | Slice parziale TV-002, TV-003, TV-040, TV-052 e TV-073 | Superato localmente per TXT bounded e integrazione Xcode | Non prova streaming, package, corpus gold, UI assistiva o dispositivi fisici |
 | [GS-VER-019](evidenze/GS-VER-019-package-glifi-transazionale.md) | Slice parziale TV-001, TV-002, TV-051, TV-060, TV-071–TV-073 | Superato localmente per package G2, commit point e API/CLI | Non prova power-loss, provider reali, migrazione, recovery completa o DocumentGroup |
 | [GS-VER-020](evidenze/GS-VER-020-query-ast-kwic-bounded.md) | Slice parziale TV-003, TV-007, TV-053, TV-060 e TV-073 | Superato localmente per QueryAST, parser, regex NFA, KWIC e CLI | Non prova indice, metadati/annotazioni, fuzz, benchmark, streaming o navigazione UI |
+| [GS-VER-021](evidenze/GS-VER-021-markdown-spanmap.md) | Slice parziale TV-002, TV-003, TV-007, TV-051, TV-060 e TV-073 | Superato localmente per estrazione Markdown, SpanMap e sourceRanges | Non prova document model/CommonMark completo, streaming, fuzz o navigazione UI |
 
 ## Catalogo delle verifiche pianificate
 
@@ -187,7 +188,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 
 - La baseline 0.1 assegna il profilo Must/Should/fuori perimetro; manca la sua
   approvazione formale al gate G1.
-- Esistono incrementi funzionali TXT, package e query/KWIC bounded; il percorso
+- Esistono incrementi funzionali TXT/Markdown, package e query/KWIC bounded; il percorso
   Must completo è ancora incompleto.
 - TV-009, TV-010 e TV-019 richiedono dataset, soglie e hardware di riferimento.
 - TV-020 e TV-021 richiedono funzioni di prodotto e contratti persistenti ancora da implementare.

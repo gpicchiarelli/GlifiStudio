@@ -21,6 +21,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   booleani, prossimità e regex NFA senza backtracking sul corpus TXT incorporato.
 - Concordanze KWIC con SourceRevision, offset UTF-8, contesto configurabile,
   troncatura esplicita e comando CLI `query --text` testuale/JSON v1.
+- Estrazione Markdown `md-extract-v1` non eseguibile con `SpanMap` totale da
+  `extractedUTF8` a `sourceBytes`, entità derivazionali e budget anti-lookahead.
+- Importazione, profilo e query Markdown condivisi da app, GlifiKit e GlifiCLI;
+  le righe KWIC JSON espongono coordinate estratte e intervalli sorgente.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

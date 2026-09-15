@@ -26,8 +26,10 @@ public struct GlifiProjectTextImportResult: Equatable, Sendable {
 public struct GlifiProjectQueryMatch: Equatable, Sendable {
     /// Source revision that owns every returned interval and excerpt.
     public let sourceRevisionID: SourceRevisionID
-    /// Exact UTF-8 match interval in the source revision.
+    /// Exact UTF-8 match interval in the extracted text representation.
     public let range: GlifiUTF8Range
+    /// Ordered source-byte intervals contributing to the extracted match.
+    public let sourceRanges: [GlifiUTF8Range]
     /// Bounded text preceding the match.
     public let leftContext: String
     /// Exact surface covered by `range`.
@@ -39,12 +41,14 @@ public struct GlifiProjectQueryMatch: Equatable, Sendable {
     public init(
         sourceRevisionID: SourceRevisionID,
         range: GlifiUTF8Range,
+        sourceRanges: [GlifiUTF8Range],
         leftContext: String,
         match: String,
         rightContext: String
     ) {
         self.sourceRevisionID = sourceRevisionID
         self.range = range
+        self.sourceRanges = sourceRanges
         self.leftContext = leftContext
         self.match = match
         self.rightContext = rightContext
@@ -286,16 +290,6 @@ public actor GlifiEngine {
                     format: source.format,
                     sourceRevisionID: source.sourceRevisionID
                 )
-                guard importedText.format == .plainText else {
-                    throw GlifiFailure(
-                        code: "query.markdown-unavailable",
-                        category: .unsupportedFormat,
-                        operation: .query,
-                        retryDisposition: .afterCorrection,
-                        retainedState: .lastCommittedGeneration,
-                        messageKey: "failure.query.markdown-unavailable"
-                    )
-                }
                 let tokenization = try textTokenizer.tokenize(importedText.text)
                 let result = try GlifiQueryEvaluator().evaluate(
                     query,
@@ -323,6 +317,9 @@ public actor GlifiEngine {
                         GlifiProjectQueryMatch(
                             sourceRevisionID: match.sourceRevisionID,
                             range: match.range,
+                            sourceRanges: try importedText.spanMap.sourceRanges(
+                                for: match.range
+                            ),
                             leftContext: match.leftContextRange?.text(in: importedText.text) ?? "",
                             match: surface,
                             rightContext: match.rightContextRange?.text(in: importedText.text) ?? ""

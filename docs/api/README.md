@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-API-001 |
 | Tipo | Specifica normativa delle interfacce applicative e headless |
-| Versione | 1.3.0 |
+| Versione | 1.4.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -87,14 +87,14 @@ correlazione effimera.
 `GlifiStudioService` è `Sendable` e rappresenta un ingresso leggero al motore. La
 creazione non apre file, non avvia rete, non crea lavoro background persistente e
 non acquisisce security scope. `status()` è idempotente, asincrono e non modifica
-lo stato scientifico. La superficie corrente implementa `ready`, il primo profilo
-bounded di un TXT autorizzato, la creazione/apertura di sessioni `.glifi` e query
-testuali bounded sulla generazione autorevole.
+lo stato scientifico. La superficie corrente implementa `ready`, il profilo
+bounded di TXT/Markdown autorizzati, la creazione/apertura di sessioni `.glifi` e
+query testuali bounded sulla generazione autorevole.
 
 ### 5.2 Sessione di progetto
 
 `GlifiStudioProjectSession` è actor-isolated e viene ottenuta da `createProject` o
-`openProject`. Il prototipo corrente possiede il package coordinato, l'import TXT e
+`openProject`. Il prototipo corrente possiede il package coordinato, l'import TXT/Markdown e
 la query bounded; `close` è idempotente e impedisce nuove operazioni. Ownership di task lunghi,
 cache handles e bookmark entreranno con le rispettive funzioni, senza cambiare la
 semantica di chiusura.
@@ -184,11 +184,11 @@ contenuto, query, path o nomi file.
 | --- | --- | --- | --- |
 | stato motore | nessuna | stato capability-neutral | Implementata |
 | crea/apri/chiudi progetto | URL autorizzato, modalità | sessione o failure | Implementata e verificata per package locale `.glifi` v1 |
-| importa | sessione, sorgenti, policy | SourceRevision e rapporto | TXT bounded implementato e verificato; Markdown e streaming aperti |
-| profila raccolta | TXT autorizzato nella slice; revisioni nel target | profilo descrittivo bounded | Prima slice TXT implementata e verificata; CollectionProfile multiplo non implementato |
+| importa | sessione, sorgenti, policy | SourceRevision e rapporto | TXT/Markdown bounded implementati e verificati; streaming e document model completo aperti |
+| profila raccolta | TXT/Markdown autorizzato nella slice; revisioni nel target | profilo descrittivo bounded | Prima slice per singola fonte implementata e verificata; CollectionProfile multiplo non implementato |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
 | analizza | piano e budget | Artifact/Evidence/Findings | Specificata; non implementata |
-| interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
+| interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT/Markdown con `sourceRanges` implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
 | esporta | selezione, formato, destinazione | ExportReceipt + manifest | Specificata; non implementata |
 
 Le operazioni non implementate non devono essere simulate con placeholder né
@@ -210,9 +210,10 @@ glifi export <project> --request <json-file> --output <path>
 ```
 
 Sono disponibili `status`, `project create`, `project info`, `project validate`,
-`import` per TXT e `query --text`. Accettano `--format text|json`; l'envelope JSON
-ha `cliProtocolVersion = 1`. La query JSON include generazione, digest canonico,
-conteggio degli scope selezionati, righe KWIC e troncatura. `plan`, `analyze`, file
+`import` per TXT/Markdown e `query --text`. Accettano `--format text|json`;
+l'envelope JSON ha `cliProtocolVersion = 1`. La query JSON include generazione,
+digest canonico, coordinate `extractedUTF8`, intervalli `sourceBytes`, conteggio
+degli scope selezionati, righe KWIC e troncatura. `plan`, `analyze`, file
 QueryAST, streaming ed `export` restano fail-closed e non sono pubblicizzati come
 comandi disponibili. L'invocazione senza
 argomenti resta alias temporaneo dello smoke test e stampa `GlifiCore pronto`;

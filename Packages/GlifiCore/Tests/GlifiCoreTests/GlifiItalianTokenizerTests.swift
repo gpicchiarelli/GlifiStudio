@@ -80,16 +80,18 @@ func tokenizerRecognizesSpecialUnits() throws {
     #expect(kindsAndSurfaces.contains { $0 == (.mention, "@utente") })
 }
 
-@Test("Il profilo Markdown resta fail-closed finché manca lo SpanMap del markup")
-func markdownProfileIsNotPrematurelyExposed() throws {
+@Test("Il profilo Markdown usa soltanto il testo estratto con lineage")
+func markdownProfileUsesExtractedText() throws {
     let imported = try GlifiTextImporter().importText(
-        from: Data("# Titolo".utf8),
+        from: Data("# Titolo\nUna **città**.".utf8),
         format: .markdown
     )
+    let profile = try GlifiTextAnalyzer().profile(imported)
 
-    #expect(throws: GlifiFailure.self) {
-        try GlifiTextAnalyzer().profile(imported)
-    }
+    #expect(imported.text == "Titolo\nUna città.")
+    #expect(imported.extractionContractIdentifier == "md-extract-v1")
+    #expect(profile.lexicalTokenCount == 3)
+    #expect(profile.frequencies.contains(GlifiTermFrequency(term: "città", count: 1)))
 }
 
 @Test("Il profilo è deterministico e ordina le frequenze con tie-break stabile")

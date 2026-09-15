@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-DAT-001 |
 | Tipo | Specifica di design di dati e persistenza |
-| Versione | 1.3.0 |
+| Versione | 1.4.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -114,6 +114,24 @@ punti PDF; OCR aggiungerà poligono, orientamento, motore, versione e confidenza
 Coordinate normalizzate o pixel sono sempre derivate e dichiarano la trasformazione.
 
 ## Spazi di coordinate e `SpanMap`
+
+### Stato implementativo 0.1
+
+La slice corrente implementa `plain-text-v1` e `md-extract-v1`: conserva i byte
+originali, produce testo UTF-8 estratto senza valutare destinazioni o HTML e crea
+un `SpanMap` totale dall'output ai byte della SourceRevision, incluso lo shift del
+BOM. I segmenti `exact`, `derivational` e `synthetic` hanno invarianti verificati;
+entità HTML usano relazione derivational e il markup rimosso non acquisisce
+coordinate fittizie. Query e KWIC restituiscono sia intervallo estratto sia tutti
+gli intervalli sorgente contribuenti.
+
+L'estrattore copre la baseline controllata di heading, quote/liste, enfasi, link e
+immagini, autolink, codice inline/fenced, commenti/elementi HTML, entità,
+separatori e delimiter table. Applica limite globale, profondità 32,
+cancellazione e budget lineare di lookahead. Il document model a blocchi completo,
+la suite di compatibilità CommonMark, lo streaming e la persistenza separata della
+rappresentazione restano aperti; pertanto la conformità Markdown completa non è
+ancora dichiarata.
 
 Gli intervalli sono half-open `[start, end)`. Gli spazi canonici sono:
 
