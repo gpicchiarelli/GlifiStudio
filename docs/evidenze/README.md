@@ -1,0 +1,25 @@
+# Registro delle evidenze di verifica
+
+| Campo | Valore |
+| --- | --- |
+| Identificatore | GS-VER-IDX-001 |
+| Tipo | Registro delle evidenze di verifica |
+| Versione | 0.9.0 |
+| Stato | Attivo |
+| Responsabile | Iniziatore del progetto |
+| Ultima modifica | 2026-09-15 |
+| Approvazione | Non applicabile; registro operativo |
+
+Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un esito positivo prova soltanto l'ambito dichiarato e non sostituisce l'approvazione dei requisiti o della baseline.
+
+## Indice
+
+- [GS-VER-001 — Bootstrap dell'ambiente Xcode](GS-VER-001-bootstrap-ambiente.md) — Superato; baseline sostituita
+- [GS-VER-002 — Baseline linguistica italiana](GS-VER-002-baseline-linguistica-italiana.md) — Superato; baseline UI sostituita
+- [GS-VER-003 — Interfaccia internazionalizzabile](GS-VER-003-interfaccia-internazionalizzabile.md) — Superato
+- [GS-VER-004 — Baseline applicativa Apple](GS-VER-004-baseline-applicativa-apple.md) — Superato
+- [GS-VER-005 — Ridenominazione Glifi Studio](GS-VER-005-ridenominazione-glifi-studio.md) — Superato
+- [GS-VER-006 — Portafoglio tecnologico Apple](GS-VER-006-portafoglio-tecnologico-apple.md) — Superato; strategia e gate documentale
+- [GS-VER-007 — Baseline del repository privato](GS-VER-007-baseline-repository-privato.md) — Superato localmente; attivazione remote pendente
+- [GS-VER-008 — Preparazione del repository GitHub privato](GS-VER-008-preparazione-github-privato.md) — Superato localmente; bootstrap remoto pendente
+- [GS-VER-009 — Preflight App Store](GS-VER-009-preflight-app-store.md) — Superato localmente; submission bloccata dai gate reali

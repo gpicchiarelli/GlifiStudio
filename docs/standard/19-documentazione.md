@@ -1,0 +1,32 @@
+# 19. Documentazione
+
+| Campo | Valore |
+| --- | --- |
+| Identificatore | GS-STD-001-19 |
+| Tipo | Capitolo normativo |
+| Versione | 0.1.0 |
+| Stato | Proposto |
+| Responsabile | Da assegnare |
+| Ultima modifica | 2026-09-15 |
+| Approvazione | Non ancora approvato |
+| Documento padre | [GS-STD-001](../standard-di-progetto.md) |
+
+## 19.1 Information item
+
+La documentazione **DEVE** rispettare [GS-DMP-001](../piano-documentazione.md). Ogni documento controllato deve avere identificatore, versione, stato, responsabile, data e approvazione.
+
+## 19.2 Markdown
+
+- I file **DEVONO** usare UTF-8 e Markdown leggibile senza renderer proprietario.
+- Titoli, tabelle, elenchi e blocchi di codice **DEVONO** essere sintatticamente validi.
+- Collegamenti relativi **DEVONO** risolversi nel repository.
+- Diagrammi testuali **DEVONO** avere una descrizione comprensibile anche senza resa grafica.
+- Contenuti generati **DEVONO** dichiarare origine e modalità di rigenerazione.
+
+## 19.3 Documentazione API
+
+Le API pubbliche **DEVONO** essere documentate con DocC. La documentazione deve descrivere contratto, parametri, risultato, errori, precondizioni, effetti collaterali, thread-safety e complessità quando non ovvi.
+
+## 19.4 Aggiornamento con il codice
+
+Una modifica **NON È** completa se rende inesatti requisiti, architettura, ADR, esempi, guide o note di migrazione. Codice e documentazione applicabile **DEVONO** essere aggiornati nella stessa unità di cambiamento.

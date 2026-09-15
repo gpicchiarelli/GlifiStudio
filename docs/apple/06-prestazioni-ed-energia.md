@@ -1,0 +1,26 @@
+# Prestazioni ed energia
+
+| Campo | Valore |
+| --- | --- |
+| Identificatore | GS-APL-006 |
+| Tipo | Standard applicativo Apple |
+| Versione | 0.2.0 |
+| Stato | Approvato |
+| Responsabile | Iniziatore del progetto |
+| Ultima modifica | 2026-09-15 |
+| Approvazione | ADR-0006 |
+
+## Regole
+
+- Parsing, I/O e analisi non banali **NON DEVONO** bloccare il Main Actor.
+- Task lunghi **DEVONO** avere ownership, priorità, avanzamento, cancellazione e backpressure espliciti.
+- L'app inattiva **NON DOVREBBE** consumare CPU in modo persistente.
+- Memoria, latenza, I/O ed energia **DEVONO** essere misurati su dispositivo oltre che nel simulatore.
+- SwiftUI view update, hitch, hang, allocazioni e picchi di memoria **DEVONO** essere profilati sui flussi critici.
+- Ottimizzazioni, uso di Accelerate o Metal **DEVONO** partire da una baseline corretta e misurata end-to-end.
+- Core ML **DEVE** essere profilato sulle unità di calcolo ammesse, includendo warm-up, memoria, energia e qualità del risultato.
+- La disponibilità di memoria unificata **NON DEVE** giustificare copie, residency o buffer illimitati.
+- Stato termico, pressione di memoria e priorità del lavoro **DEVONO** produrre riduzione controllata, checkpoint o cancellazione quando necessario.
+- Lavoro in background **DEVE** usare le API di sistema appropriate e rispettare sospensione e limiti della piattaforma.
+
+Gli strumenti di riferimento sono Instruments, Organizer e i checker di Xcode. La strategia dei backend è definita in [Calcolo accelerato su Apple silicon](11-calcolo-accelerato-apple-silicon.md). Riferimento: [Testing and performance](https://developer.apple.com/documentation/technologyoverviews/testing-and-performance).
