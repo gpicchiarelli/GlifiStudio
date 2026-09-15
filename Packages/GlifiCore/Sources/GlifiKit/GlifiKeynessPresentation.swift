@@ -93,8 +93,14 @@ public struct GlifiStudioKeynessTerm: Codable, Equatable, Identifiable, Sendable
 public struct GlifiStudioKeynessResult: Codable, Equatable, Sendable {
     /// Stable project identity.
     public let projectID: String
-    /// Exact verified generation captured before comparison.
+    /// Exact source generation captured before comparison.
+    public let sourceGeneration: Int
+    /// Authoritative generation that reaches the Artifact.
     public let generation: Int
+    /// Immutable persisted Artifact identity.
+    public let artifactID: String
+    /// Semantic producer identity.
+    public let analysisNodeID: String
     /// Versioned aggregate comparison contract.
     public let comparisonIdentifier: String
     /// Digest of both populations, methods, and resolved parameters.
@@ -139,7 +145,10 @@ public struct GlifiStudioKeynessResult: Codable, Equatable, Sendable {
     init(_ result: GlifiProjectKeynessResult) {
         let comparison = result.comparison
         projectID = result.projectID.canonicalValue
+        sourceGeneration = result.sourceGeneration
         generation = result.generation
+        artifactID = result.artifactID.canonicalValue
+        analysisNodeID = result.analysisNodeID.canonicalValue
         comparisonIdentifier = comparison.comparisonIdentifier
         comparisonDigest = comparison.comparisonDigest
         targetCorpusDigest = comparison.targetCorpusDigest

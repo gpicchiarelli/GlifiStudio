@@ -438,12 +438,14 @@ private struct ProjectSnapshotResult: Encodable {
     let projectID: String
     let generation: Int
     let sourceCount: Int
+    let artifactCount: Int
     let sources: [ProjectSourceResult]
 
     init(_ project: GlifiStudioProjectSnapshot) {
         projectID = project.projectID
         generation = project.generation
         sourceCount = project.sourceCount
+        artifactCount = project.artifactCount
         sources = project.sources.map(ProjectSourceResult.init)
     }
 }

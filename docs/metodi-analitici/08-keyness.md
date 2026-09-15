@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-08 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -99,9 +99,10 @@ token, margini degeneri e soglie non finite falliscono con codici tipizzati senz
 modificare il progetto. L'ordinamento è per valore assoluto del log ratio
 decrescente e termine crescente come tie-break.
 
-Il profilo è bounded ed effimero: non sostituisce ancora
-`AnalysisDescriptor`/Artifact persistiti, intervalli di confidenza, selezione
-pre-registrata di Fisher né review scientifica esterna.
+Il profilo è bounded e viene persistito con `AnalysisDescriptor`, i due profili di
+popolazione come dipendenze e un Artifact schema-versioned. Non sostituisce ancora
+intervalli di confidenza, selezione pre-registrata di Fisher né review scientifica
+esterna.
 
 ## Riferimento scientifico
 

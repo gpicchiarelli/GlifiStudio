@@ -297,6 +297,8 @@ public struct GlifiTokenization: Equatable, Sendable {
 
 /// Substitution point for deterministic linguistic tokenizers.
 public protocol GlifiTokenizing: Sendable {
+    /// Stable contract identity used to plan reusable analytical nodes.
+    var tokenizationContractIdentifier: String { get }
     /// Tokenizes a valid Swift string while preserving exact UTF-8 source offsets.
     func tokenize(_ text: String) throws -> GlifiTokenization
 }

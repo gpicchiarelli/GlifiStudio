@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-API-001 |
 | Tipo | Specifica normativa delle interfacce applicative e headless |
-| Versione | 1.6.0 |
+| Versione | 1.7.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -190,8 +190,8 @@ contenuto, query, path o nomi file.
 | importa | sessione, sorgenti, policy | SourceRevision e rapporto | TXT/Markdown bounded implementati e verificati; streaming e document model completo aperti |
 | profila raccolta | revisioni TXT/Markdown della generazione e limiti | conteggi, distribuzioni e matrice sparsa con digest | Slice `corpus-profile-it-v1` implementata e verificata; metadati, duplicazioni e problemi di qualità del CollectionProfile completo restano aperti |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
-| analizza | generazione corrente e budget bounded nella slice | profilo corpus effimero versionato | Slice descrittiva implementata; deposito AnalysisDescriptor/DAG/Artifact disponibile nel Core ma non ancora collegato automaticamente; tempo, Evidence e Findings non implementati |
-| confronta keyness | due insiemi espliciti e disgiunti di SourceRevisionID | famiglia G-test/effect/BH con popolazioni e digest | `keyness-gtest-ha-bh-v1` bounded implementata e verificata; risultato ancora effimero |
+| analizza | generazione corrente e budget bounded nella slice | profilo corpus, AnalysisNodeID e ArtifactID persistiti | Slice descrittiva implementata con riuso dopo riapertura; tempo, Evidence e Findings non implementati |
+| confronta keyness | due insiemi espliciti e disgiunti di SourceRevisionID | profili dipendenza e famiglia G-test/effect/BH persistiti | `keyness-gtest-ha-bh-v1` bounded implementata con riuso dopo riapertura; Fisher e intervalli di confidenza aperti |
 | interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT/Markdown con `sourceRanges` implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
 | esporta | selezione, formato, destinazione | ExportReceipt + manifest | Specificata; non implementata |
 
@@ -223,8 +223,9 @@ degli scope selezionati, righe KWIC e troncatura. `analyze` restituisce identit�
 dei metodi, digest del corpus, conteggi, diversità, termini, n-grammi e matrice
 sparsa della generazione. `keyness` richiede revisioni target/riferimento separate
 da virgola e restituisce popolazioni, identità G-test/p-value/effect/BH,
-diagnostica, valori completi e digest. `plan`, comandi per il deposito
-AnalysisDescriptor/DAG, file QueryAST, streaming ed `export` restano fail-closed. L'invocazione senza
+diagnostica, valori completi, digest, generazione sorgente/generazione committata,
+`ArtifactID` e `AnalysisNodeID`. `plan`, file QueryAST, streaming ed `export`
+restano fail-closed. L'invocazione senza
 argomenti resta alias temporaneo dello smoke test e stampa `GlifiCore pronto`;
 prima del protocollo CLI 1.0 deve diventare `help` o essere rimossa con nota di
 migrazione.
@@ -278,11 +279,12 @@ prima dell'esecuzione. A parità di input, capability e policy, piano, ordine e
 descriptor sono identici; timestamp, durata, OperationID e path non partecipano
 all'identità semantica. Un backend D1/P1 dichiara tolleranze e seed secondo GS-MET.
 
-La slice `analyze` espone un digest canonico e identità di metodo ma non produce
-ancora un AnalysisDescriptor persistito; per questo il risultato non è presentato
-come Artifact finale. A regime `analyze`, `query` ed `export` producono o
-referenziano AnalysisDescriptor, ValidationManifest ed ExportManifest. `--format
-json` usa chiavi inglesi stabili;
+Le slice `analyze` e `keyness` producono payload schema-versioned, descriptor e
+Artifact persistiti. Prima del calcolo ricostruiscono lo stesso nodo semantico e,
+se la catena è valida, decodificano il payload content-addressed senza ripetere la
+tokenizzazione. `query` ed `export` dovranno produrre o referenziare
+AnalysisDescriptor, ValidationManifest ed ExportManifest. `--format json` usa
+chiavi inglesi stabili;
 la lingua UI/CLI modifica solo messaggi umani, non protocollo o analisi.
 
 ## 12. Evoluzione e compatibilità

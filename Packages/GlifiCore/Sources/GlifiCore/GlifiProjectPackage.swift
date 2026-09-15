@@ -323,13 +323,13 @@ public actor GlifiProjectPackage {
         return try GlifiProjectPackageIO.readValidatedArtifact(artifact, in: packageURL)
     }
 
-    /// Commits one immutable analytical result and its canonical descriptor transactionally.
+    /// Commits one typed immutable analytical result and its canonical descriptor.
     @discardableResult
-    public func storeArtifact(
-        _ data: Data,
+    public func storeArtifact<Payload: GlifiAnalysisArtifactPayload>(
+        _ payload: Payload,
         descriptor: GlifiAnalysisDescriptor
     ) throws -> GlifiProjectSnapshot {
-        try storeArtifact(data, descriptor: descriptor, interruption: nil)
+        try storeArtifact(payload, descriptor: descriptor, interruption: nil)
     }
 
     @discardableResult
@@ -392,11 +392,22 @@ public actor GlifiProjectPackage {
     }
 
     @discardableResult
-    func storeArtifact(
-        _ data: Data,
+    func storeArtifact<Payload: GlifiAnalysisArtifactPayload>(
+        _ payload: Payload,
         descriptor: GlifiAnalysisDescriptor,
         interruption: GlifiProjectCommitInterruption?
     ) throws -> GlifiProjectSnapshot {
+        guard descriptor.outputSchemaIdentifier == Payload.outputSchemaIdentifier else {
+            throw GlifiFailure(
+                code: "project.artifact-schema-mismatch",
+                category: .invalidInput,
+                operation: .persistProject,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.project.artifact-schema-mismatch"
+            )
+        }
+        let data = try GlifiArtifactCanonicalJSON.encode(payload)
         guard data.count <= Self.maximumArtifactByteCount else {
             throw GlifiFailure(
                 code: "project.artifact-too-large",

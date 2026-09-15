@@ -42,6 +42,11 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 - Persistenza transazionale di descriptor, DAG e Artifact content-addressed nella
   generazione `.glifi`, con commit idempotente, verifica fail-closed, invalidazione
   dei discendenti e fault injection sugli stessi sei checkpoint del manifest.
+- Payload analitici tipizzati e versionati per profilo corpus e keyness, con
+  descriptor pianificato prima del calcolo, dipendenze esplicite, commit automatico
+  e riuso senza tokenizzazione anche dopo la riapertura del progetto.
+- Risultati Core, GlifiKit e GlifiCLI con generazione sorgente, generazione
+  committata, `ArtifactID` e `AnalysisNodeID` per un lineage verificabile.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

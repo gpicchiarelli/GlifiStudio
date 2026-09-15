@@ -118,9 +118,11 @@ created, imported, markdown_imported, validated, queried, markdown_queried, anal
 )
 assert created["command"] == "project.create"
 assert created["result"]["project"]["generation"] == 0
+assert created["result"]["project"]["artifactCount"] == 0
 assert imported["command"] == "import"
 assert imported["result"]["project"]["generation"] == 1
 assert imported["result"]["project"]["sourceCount"] == 1
+assert imported["result"]["project"]["artifactCount"] == 0
 assert len(imported["result"]["project"]["sources"]) == 1
 assert imported["result"]["project"]["sources"][0]["format"] == "plainText"
 assert imported["result"]["project"]["sources"][0]["contentDigest"].startswith("sha256:")
@@ -128,6 +130,7 @@ assert imported["result"]["lastProfile"]["lexicalTokenCount"] == 3
 assert markdown_imported["command"] == "import"
 assert markdown_imported["result"]["project"]["generation"] == 2
 assert markdown_imported["result"]["project"]["sourceCount"] == 2
+assert markdown_imported["result"]["project"]["artifactCount"] == 0
 assert markdown_imported["result"]["lastProfile"]["lexicalTokenCount"] == 5
 assert validated["command"] == "project.validate"
 assert validated["result"]["status"] == "valid"
@@ -152,7 +155,10 @@ assert (markdown_match["startUTF8"], markdown_match["endUTF8"]) == (14, 19)
 assert markdown_match["sourceRanges"] == [{"start": 64, "end": 69}]
 assert analyzed["command"] == "analyze"
 assert analyzed["outcome"] == "succeeded"
-assert analyzed["result"]["generation"] == 2
+assert analyzed["result"]["sourceGeneration"] == 2
+assert analyzed["result"]["generation"] == 3
+assert analyzed["result"]["artifactID"].startswith("artifact:sha256:")
+assert analyzed["result"]["analysisNodeID"].startswith("analysis-node:sha256:")
 assert analyzed["result"]["analysisIdentifier"] == "corpus-profile-it-v1"
 assert analyzed["result"]["corpusDigest"].startswith("sha256:")
 assert analyzed["result"]["tokenizationContractIdentifier"] == "it-token-v1"
@@ -165,7 +171,10 @@ assert len(analyzed["result"]["matrix"]["cells"]) == 7
 assert analyzed["result"]["matrix"]["tfidfIdentifier"] == "TFIDF-v1"
 assert keyness["command"] == "keyness"
 assert keyness["outcome"] == "succeeded"
-assert keyness["result"]["generation"] == 2
+assert keyness["result"]["sourceGeneration"] == 3
+assert keyness["result"]["generation"] == 6
+assert keyness["result"]["artifactID"].startswith("artifact:sha256:")
+assert keyness["result"]["analysisNodeID"].startswith("analysis-node:sha256:")
 assert keyness["result"]["comparisonIdentifier"] == "keyness-gtest-ha-bh-v1"
 assert keyness["result"]["comparisonDigest"].startswith("sha256:")
 assert keyness["result"]["testIdentifier"] == "GTest-v1"

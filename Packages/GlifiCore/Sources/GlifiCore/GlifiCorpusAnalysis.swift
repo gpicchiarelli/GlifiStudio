@@ -90,7 +90,7 @@ public struct GlifiCorpusAnalysisOptions: Equatable, Sendable {
 }
 
 /// Lexical diversity values with explicit sequence and window contracts.
-public struct GlifiLexicalDiversity: Equatable, Sendable {
+public struct GlifiLexicalDiversity: Codable, Equatable, Sendable {
     /// Canonical ordering and boundary policy applied to the token sequence.
     public let sequencePolicy: String
     /// Number of lexical tokens in each complete or moving window.
@@ -110,7 +110,7 @@ public struct GlifiLexicalDiversity: Equatable, Sendable {
 }
 
 /// Frequency, range, and dispersion of one normalized term.
-public struct GlifiCorpusTermStatistics: Equatable, Sendable {
+public struct GlifiCorpusTermStatistics: Codable, Equatable, Sendable {
     /// NFC, Italian-lowercased lexical form.
     public let term: String
     /// Exact number of occurrences across the selected revisions.
@@ -126,7 +126,7 @@ public struct GlifiCorpusTermStatistics: Equatable, Sendable {
 }
 
 /// One word n-gram row ordered by frequency and then lexical value.
-public struct GlifiWordNGram: Equatable, Sendable {
+public struct GlifiWordNGram: Codable, Equatable, Sendable {
     /// Ordered normalized forms in the n-gram.
     public let values: [String]
     /// Exact number of occurrences that do not cross document boundaries.
@@ -134,7 +134,7 @@ public struct GlifiWordNGram: Equatable, Sendable {
 }
 
 /// One non-zero document-term cell and its versioned weights.
-public struct GlifiSparseTermCell: Equatable, Sendable {
+public struct GlifiSparseTermCell: Codable, Equatable, Sendable {
     /// Zero-based index into the matrix row identities.
     public let rowIndex: Int
     /// Zero-based index into the matrix vocabulary.
@@ -148,7 +148,7 @@ public struct GlifiSparseTermCell: Equatable, Sendable {
 }
 
 /// Canonically ordered sparse document-term matrix.
-public struct GlifiSparseTermMatrix: Equatable, Sendable {
+public struct GlifiSparseTermMatrix: Codable, Equatable, Sendable {
     /// Semantic unit represented by each row.
     public let unitKind: String
     /// Versioned matrix-count contract.
@@ -168,7 +168,7 @@ public struct GlifiSparseTermMatrix: Equatable, Sendable {
 }
 
 /// Deterministic analytical profile of a bounded immutable source selection.
-public struct GlifiCorpusAnalysis: Equatable, Sendable {
+public struct GlifiCorpusAnalysis: Codable, Equatable, Sendable {
     /// Versioned aggregate-analysis contract.
     public let analysisIdentifier: String
     /// Digest of semantic inputs, method identities, and resolved parameters.

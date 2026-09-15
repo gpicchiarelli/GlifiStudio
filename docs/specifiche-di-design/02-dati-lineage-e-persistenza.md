@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-DAT-001 |
 | Tipo | Specifica di design di dati e persistenza |
-| Versione | 1.5.0 |
+| Versione | 1.6.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -391,11 +391,11 @@ raggiungibili soltanto dalle generazioni storiche.
 
 Non sono ancora soddisfatti streaming di corpus, recovery read-only verso una
 generazione precedente, terminazione reale/power-loss, migrazione N-1, autosave,
-indice e persistenza separata degli SpanMap. La persistenza Artifact/DAG non è
-ancora collegata automaticamente alle operazioni di analisi di GlifiEngine e la
-policy d'invalidazione su reimport diventerà selettiva solo con una mappa autorevole
-SourceRevision→AnalysisNode. I dettagli osservati e i rischi residui sono registrati
-in GS-VER-019 e GS-VER-025.
+indice e persistenza separata degli SpanMap. Profilo corpus e keyness attraversano
+il deposito e riusano Artifact verificati; la policy d'invalidazione su reimport
+diventerà selettiva solo con una mappa autorevole SourceRevision→AnalysisNode. I
+dettagli osservati e i rischi residui sono registrati in GS-VER-019, GS-VER-025 e
+GS-VER-026.
 
 ## Riferimenti tecnici
 

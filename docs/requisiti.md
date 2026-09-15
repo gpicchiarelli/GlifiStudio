@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.16.0 |
+| Versione | 0.17.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -37,9 +37,9 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | ID | Interfaccia | Descrizione | Stato |
 | --- | --- | --- | --- |
 | IE-001 | Interfaccia macOS | Indagini, importazione, esplorazione per oggetti, confronto, evidenze e relazioni con interazioni desktop native | Contratto GS-UX/GS-UI; da prototipare |
-| IE-002 | GlifiKit | Contratto asincrono per dominio, QueryAST, piani, progresso, cancellazione, errori ed export | Status, profilo TXT/Markdown, ProjectSession/import, query, profilo corpus e keyness bounded implementati; resto pre-1.0 aperto |
-| IE-003 | GlifiCLI | Interfaccia headless per batch, piani riproducibili e output strutturato | Status, progetto/import TXT/Markdown, query e `analyze` bounded con JSON v1 implementati |
-| IE-004 | Filesystem | Package `.glifi`, fonti incorporate/esterne, oggetti e cache | Package incorporato generazionale prototipato; fonti esterne/cache aperte |
+| IE-002 | GlifiKit | Contratto asincrono per dominio, QueryAST, piani, progresso, cancellazione, errori ed export | Status, profilo TXT/Markdown, ProjectSession/import, query e analisi persistenti bounded implementati; resto pre-1.0 aperto |
+| IE-003 | GlifiCLI | Interfaccia headless per batch, piani riproducibili e output strutturato | Status, progetto/import TXT/Markdown, query, `analyze` e `keyness` persistenti con JSON v1 implementati |
+| IE-004 | Filesystem | Package `.glifi`, fonti incorporate/esterne, oggetti e cache | Fonti, descriptor, DAG e Artifact generazionali prototipati; fonti esterne/cache aperte |
 | IE-005 | Framework Apple | Portafoglio Apple-native per documenti, linguistica, calcolo, dati, ricerca di sistema, automazione e lavoro prolungato, secondo GS-APL-* | Da validare per fase |
 | IE-006 | Interfaccia iPadOS | Stesso percorso semantico adattato a touch, puntatore, tastiera, multitasking e finestre ridimensionabili | Contratto GS-UX/GS-UI; da prototipare |
 
@@ -61,7 +61,7 @@ restano requisiti di evoluzione finché una successiva baseline non le classific
 | RF-008 | Il sistema **DEVE** registrare configurazione e versione di ogni trasformazione di normalizzazione applicata. | NS-007; A1, A2 | Da assegnare | TV-004 | Baseline candidata |
 | RF-009 | La tokenizzazione **DEVE** preservare intervalli UTF-8 half-open legati alla revisione e SpanMap verso fonte o testo estratto secondo GS-DAT-001. | NS-002; A1; GS-DAT-001 | Must 0.1 | TV-003, TV-051 | Offset e SpanMap sourceBytes↔extractedUTF8 verificati; normalizzazione separata aperta |
 | RF-010 | GlifiCore **DEVE** consentire implementazioni sostituibili dei servizi di tokenizzazione e analisi linguistica. | NS-001; A1, A2 | Da assegnare | Ispezione API e test di sostituzione | Protocollo tokenizer implementato; servizi avanzati aperti |
-| RF-011 | Il sistema **DEVE** riutilizzare gli artefatti content-addressed ancora validi dopo la riapertura di un progetto. | NS-004; A1; GS-DAT-001, GS-ANA-001 | Must 0.1 | TV-005, TV-054 | Baseline definita |
+| RF-011 | Il sistema **DEVE** riutilizzare gli artefatti content-addressed ancora validi dopo la riapertura di un progetto. | NS-004; A1; GS-DAT-001, GS-ANA-001 | Must 0.1 | TV-005, TV-054 | Riuso senza tokenizzazione verificato per profilo corpus e keyness anche dopo riapertura; altre famiglie aperte |
 | RF-012 | Un progetto **DEVE** contenere più corpus logici senza richiedere la duplicazione delle fonti. | NS-005; A1 | Da assegnare | Test di sistema | Baseline candidata |
 | RF-013 | Il sistema **DEVE** permettere metadati personalizzati utilizzabili per selezione, filtro e raggruppamento. | NS-005; A1 | Da assegnare | TV-007 | Baseline candidata |
 | RF-014 | L'indice **DEVE** rappresentare termini e documenti mediante identificatori distinti e recuperare le posizioni delle occorrenze. | NS-001, NS-002, NS-003; A1, A2 | Da assegnare | TV-003, TV-007 | Baseline candidata |
@@ -81,7 +81,7 @@ restano requisiti di evoluzione finché una successiva baseline non le classific
 | RF-028 | Il sistema **DEVE** distinguere osservazioni, modelli, fitting e bontà dell'adattamento nelle analisi di frequenza, vocabulary growth, Zipf e Heaps. | NS-009; MET | Da assegnare | TV-029 | Baseline candidata |
 | RF-029 | Il sistema **DEVE** rappresentare conteggi e trasformazioni mediante matrici unità-termine sparse con identità e lineage di righe, colonne e celle. | NS-002, NS-003, NS-010, NS-011; MET | Da assegnare | TV-030 | Matrice documento-termine sparsa bounded con lineage di riga verificata; celle→occorrenze e spill aperti |
 | RF-030 | Il sistema **DEVE** offrire le ponderazioni TF, TF-IDF e BM25 soltanto con formule, smoothing e normalizzazioni versionati. | NS-001, NS-009; MET | Da assegnare | TV-029 | TF-raw-v1/IDF-smooth-v1/TFIDF-v1 verificati; altre TF e BM25 aperti |
-| RF-031 | Il sistema **DEVE** confrontare gruppi mediante keyness conservando popolazioni, frequenze, test, effect size e correzione per confronti multipli. | NS-005, NS-009, NS-010; MET | Da assegnare | TV-031 | GTest-v1/effect HA/BH bounded verificati; Fisher, CI e Artifact persistito aperti |
+| RF-031 | Il sistema **DEVE** confrontare gruppi mediante keyness conservando popolazioni, frequenze, test, effect size e correzione per confronti multipli. | NS-005, NS-009, NS-010; MET | Da assegnare | TV-031 | GTest-v1/effect HA/BH e Artifact con dipendenze persistiti; Fisher e CI aperti |
 | RF-032 | Il sistema **DEVE** rappresentare tabelle di contingenza con osservate, attese, residui, test di indipendenza ed effect size applicabili. | NS-009, NS-010; MET | Da assegnare | TV-031 | Baseline candidata |
 | RF-033 | Il sistema **DEVE** produrre Correspondence Analysis con masse, profili, inerzie, coordinate, contributi e qualità della rappresentazione secondo GS-MET-001-10. | NS-009, NS-011; MET | Da assegnare | TV-032 | Baseline candidata |
 | RF-034 | Il sistema **DEVE** distinguere co-occorrenze, collocazioni e reti mediante contesto e misura di associazione espliciti. | NS-001, NS-009, NS-011; MET | Da assegnare | TV-029, TV-032 | Baseline candidata |
@@ -126,7 +126,7 @@ restano requisiti di evoluzione finché una successiva baseline non le classific
 | RF-073 | Stati, intenzioni, findings, caveat e azioni dell'esperienza **DEVONO** usare identificatori semantici indipendenti dalla lingua e messaggi localizzabili tipizzati. | NS-018, NS-022; UX | Must | TV-015, TV-045 | Approvato |
 | RF-074 | Il dettaglio esperto **DEVE** esporre metodi e parametri GS-MET senza trasformare il primo livello dell'esperienza in un catalogo di algoritmi. | NS-009, NS-015, NS-018; MET, UX | Da assegnare | TV-042, TV-045 | Baseline candidata |
 | RF-075 | GlifiCore **DEVE** rappresentare entità, value object, cardinalità, revisioni e lifecycle mediante identità tipizzate e invarianti GS-DOM-001. | NS-004, NS-016; DSG | Must 0.1 | TV-050 | ID UUID e content-addressed tipizzati verificati; aggregate completi aperti |
-| RF-076 | Il sistema **DEVE** persistere il progetto 0.1 come package `.glifi` v1 con manifest, store SQLite di sistema e oggetti immutabili content-addressed. | NS-004, NS-007; GS-DAT-001 | Must 0.1 | TV-051 | Baseline definita |
+| RF-076 | Il sistema **DEVE** persistere il progetto 0.1 come package `.glifi` v1 con manifest, store SQLite di sistema e oggetti immutabili content-addressed. | NS-004, NS-007; GS-DAT-001 | Must 0.1 | TV-051 | Fonti e primi Artifact analitici verificati; restanti aggregate e migrazione aperti |
 | RF-077 | Il sistema **DEVE** incorporare le fonti per default e trattare ogni aggiornamento o riferimento esterno mutato come SourceRevision distinta. | NS-002, NS-004; GS-DAT-001 | Must 0.1; riferimento esterno Should | TV-051 | Baseline definita |
 | RF-078 | Ogni trasformazione che modifica lunghezza o ordine del testo **DEVE** produrre SpanMap composabili con classi exact, contributive, synthetic o derivational. | NS-002, NS-019; GS-DAT-001 | Must 0.1 | TV-051 | Baseline definita |
 | RF-079 | La pipeline italiana **DEVE** applicare il profilo `it-token-v1`, preservando superficie, componenti e versioni delle annotazioni secondo GS-LNG-001. | NS-001, NS-013; GS-LNG-001 | Must 0.1 | TV-052 | Token/componenti seed verificati; annotazioni avanzate aperte |

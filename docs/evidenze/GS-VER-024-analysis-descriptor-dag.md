@@ -56,10 +56,14 @@
 Questa evidenza resta limitata alla slice logica e in memoria; la successiva
 GS-VER-025 prova commit del grafo nel package, deduplica fisica, invalidazione e
 checkpoint. Restano aperti recovery completa, scheduler concorrente, backpressure,
-garbage collection e Artifact prodotti automaticamente dalle analisi esistenti. I
-test sintetici non sostituiscono fuzzing e benchmark massivi.
+garbage collection e Artifact prodotti automaticamente dalle analisi esistenti.
+Questi ultimi sono acquisiti separatamente da
+[GS-VER-026](GS-VER-026-analisi-persistenti-riusabili.md). I test sintetici non
+sostituiscono fuzzing e benchmark massivi.
 
 ## Esito
 
 **Superato localmente per identità, serializzazione e semantica strutturale di
-`analysis-dag-v1`.** La persistenza e l'esecuzione del DAG restano aperte.
+`analysis-dag-v1`.** Questa evidenza non copriva persistenza ed esecuzione,
+acquisite separatamente da [GS-VER-025](GS-VER-025-persistenza-artifact-dag.md) e
+[GS-VER-026](GS-VER-026-analisi-persistenti-riusabili.md).

@@ -58,12 +58,13 @@
 
 ## Limiti
 
-Il risultato è effimero e bounded in memoria. Non prova segmentazione documentale,
-streaming/spill su disco, persistenza in AnalysisDescriptor/DAG/Artifact,
+Questa evidenza isolava il risultato bounded in memoria e non provava segmentazione
+documentale, streaming/spill su disco, persistenza in AnalysisDescriptor/DAG/Artifact,
 deduplicazione o invalidazione. Keyness GTest/effect size/Benjamini-Hochberg,
 metadati temporali, Evidence/Finding/Caveat, planner, visualizzazione ed export
 restano aperti. Il seed sintetico non sostituisce corpus gold, review scientifica
-esterna, fuzzing o benchmark su hardware reale.
+esterna, fuzzing o benchmark su hardware reale. Persistenza e riuso sono acquisiti
+separatamente da [GS-VER-026](GS-VER-026-analisi-persistenti-riusabili.md).
 
 ## Esito
 

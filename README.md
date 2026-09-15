@@ -54,7 +54,7 @@ Glifi Studio non è un editor generalista con qualche statistica aggiunta e non 
 ## Stato del progetto
 
 > [!IMPORTANT]
-> **Incrementi verticali eseguibili — non ancora un prodotto pronto al rilascio.** Il motore crea e verifica package `.glifi`, incorpora TXT e Markdown UTF-8 bounded con commit generazionale, estrae Markdown tramite `SpanMap`, applica `it-token-v1`, interroga la generazione persistita con `QueryAST`/KWIC, profila il corpus e confronta due gruppi con keyness G-test/effect/BH attraverso GlifiKit e GlifiCLI. `AnalysisDescriptor`, DAG e Artifact sono content-addressed e persistono nella generazione con riapertura fail-closed e invalidazione dei discendenti; le app mostrano il primo percorso di importazione. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) restano l'autorità; document model Markdown completo, indice, collegamento automatico analisi→Artifact, metadati/annotazioni, tempo, export e recovery completa sono ancora aperti.
+> **Incrementi verticali eseguibili — non ancora un prodotto pronto al rilascio.** Il motore crea e verifica package `.glifi`, incorpora TXT e Markdown UTF-8 bounded con commit generazionale, estrae Markdown tramite `SpanMap`, applica `it-token-v1` e interroga la generazione persistita con `QueryAST`/KWIC. Profilo corpus e keyness G-test/effect/BH producono `AnalysisDescriptor`, DAG e Artifact content-addressed, riaperti fail-closed e riusati senza ricalcolo; le app mostrano il primo percorso di importazione. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) restano l'autorità; document model Markdown completo, indice, metadati/annotazioni, tempo, planner, export e recovery completa sono ancora aperti.
 
 La documentazione è una baseline controllata: requisiti, architettura e decisioni aperte sono tracciati, ma non tutte le scelte di prodotto hanno ancora approvazione definitiva. La presenza di una tecnologia o di un documento non equivale alla disponibilità della relativa funzione.
 
@@ -62,9 +62,9 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | --- | --- |
 | App macOS | `NavigationSplitView` nativa con import TXT/Markdown, stati tipizzati e profilo localizzato |
 | App iPadOS | Stesso flusso condiviso, adattivo per navigazione e file importer di sistema |
-| `GlifiKit` | Status, profilo TXT/Markdown, `ProjectSession` actor-isolated, query, profilo corpus e keyness bounded con failure complete indipendenti dalla presentazione |
+| `GlifiKit` | Status, profilo TXT/Markdown, `ProjectSession` actor-isolated, query e analisi persistenti con generazioni/ID espliciti e failure complete indipendenti dalla presentazione |
 | `GlifiCore` | Motore actor-based con import strict, `md-extract-v1`/SpanMap, package `.glifi`/SQLite generazionale, tokenizer italiano, `QueryAST`/KWIC, analisi descrittiva/keyness e persistenza AnalysisDescriptor/DAG/Artifact versionata |
-| `GlifiCLI` | Status, create/info/validate/import, query, `analyze` e `keyness` testuali/JSON v1 verificati; planner, commit automatico dei risultati analitici ed export ancora non disponibili |
+| `GlifiCLI` | Status, create/info/validate/import, query, `analyze` e `keyness` persistenti testuali/JSON v1 con ArtifactID/AnalysisNodeID; planner ed export ancora non disponibili |
 | Qualità | Gate riproducibile con Apple Swift 6.4, test/build, controlli Apple/App Store, zero telemetria e matrice di conformità automatica |
 | Design implementativo | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD definiti come baseline candidata; nessuna funzione è dichiarata implementata per questo solo fatto |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |

@@ -92,15 +92,31 @@ public struct GlifiProjectQueryResult: Equatable, Sendable {
 public struct GlifiProjectCorpusAnalysisResult: Equatable, Sendable {
     /// Project analyzed by this result.
     public let projectID: ProjectID
-    /// Exact authoritative generation captured before analysis.
+    /// Exact source generation captured before analysis.
+    public let sourceGeneration: Int
+    /// Authoritative generation that reaches the persisted Artifact.
     public let generation: Int
+    /// Immutable persisted result identity.
+    public let artifactID: ArtifactID
+    /// Semantic producer identity.
+    public let analysisNodeID: AnalysisNodeID
     /// Analytical values derived from every source in the captured generation.
     public let analysis: GlifiCorpusAnalysis
 
     /// Creates a result with explicit project and generation lineage.
-    public init(projectID: ProjectID, generation: Int, analysis: GlifiCorpusAnalysis) {
+    public init(
+        projectID: ProjectID,
+        sourceGeneration: Int,
+        generation: Int,
+        artifactID: ArtifactID,
+        analysisNodeID: AnalysisNodeID,
+        analysis: GlifiCorpusAnalysis
+    ) {
         self.projectID = projectID
+        self.sourceGeneration = sourceGeneration
         self.generation = generation
+        self.artifactID = artifactID
+        self.analysisNodeID = analysisNodeID
         self.analysis = analysis
     }
 }
@@ -109,15 +125,31 @@ public struct GlifiProjectCorpusAnalysisResult: Equatable, Sendable {
 public struct GlifiProjectKeynessResult: Equatable, Sendable {
     /// Project that owns both compared populations.
     public let projectID: ProjectID
-    /// Exact authoritative generation captured before comparison.
+    /// Exact source generation captured before comparison.
+    public let sourceGeneration: Int
+    /// Authoritative generation that reaches the persisted Artifact.
     public let generation: Int
+    /// Immutable persisted result identity.
+    public let artifactID: ArtifactID
+    /// Semantic producer identity.
+    public let analysisNodeID: AnalysisNodeID
     /// Statistical comparison and complete population lineage.
     public let comparison: GlifiKeynessComparison
 
     /// Creates a result with explicit project and generation lineage.
-    public init(projectID: ProjectID, generation: Int, comparison: GlifiKeynessComparison) {
+    public init(
+        projectID: ProjectID,
+        sourceGeneration: Int,
+        generation: Int,
+        artifactID: ArtifactID,
+        analysisNodeID: AnalysisNodeID,
+        comparison: GlifiKeynessComparison
+    ) {
         self.projectID = projectID
+        self.sourceGeneration = sourceGeneration
         self.generation = generation
+        self.artifactID = artifactID
+        self.analysisNodeID = analysisNodeID
         self.comparison = comparison
     }
 }
@@ -277,6 +309,33 @@ public actor GlifiEngine {
                 documentByteCounts: snapshot.sources.map(\.byteCount),
                 options: options
             )
+            let descriptor = try GlifiAnalysisArtifactDescriptorFactory.corpusProfile(
+                projectID: snapshot.projectID,
+                sourceRootDigest: snapshot.sourceRootDigest,
+                sourceRevisionIDs: snapshot.sources.map(\.sourceRevisionID),
+                tokenizationContractIdentifier: textTokenizer.tokenizationContractIdentifier,
+                options: options
+            )
+            let nodeID = try descriptor.nodeID()
+            if let artifact = snapshot.artifacts.first(where: { $0.node.id == nodeID }) {
+                let data = try await project.artifactData(for: artifact.artifactID)
+                let payload: GlifiCorpusAnalysisArtifactPayload = try decodeArtifact(data)
+                guard payload.analysisNodeID == nodeID else {
+                    throw analysisArtifactFailure("analysis.payload-node-mismatch")
+                }
+                try validatePlannedAnalysis(
+                    payload.analysis,
+                    sourceRevisionIDs: snapshot.sources.map(\.sourceRevisionID)
+                )
+                return GlifiProjectCorpusAnalysisResult(
+                    projectID: snapshot.projectID,
+                    sourceGeneration: snapshot.generation,
+                    generation: snapshot.generation,
+                    artifactID: artifact.artifactID,
+                    analysisNodeID: nodeID,
+                    analysis: payload.analysis
+                )
+            }
 
             var sources: [GlifiImportedText] = []
             sources.reserveCapacity(snapshot.sources.count)
@@ -297,10 +356,27 @@ public actor GlifiEngine {
             let analysis = try GlifiDiagnostics.measure(.analyzeCorpus) {
                 try corpusAnalyzer.analyze(sources, options: options)
             }
+            try validatePlannedAnalysis(
+                analysis,
+                sourceRevisionIDs: snapshot.sources.map(\.sourceRevisionID)
+            )
             try Task.checkCancellation()
+            let committed = try await project.storeArtifact(
+                GlifiCorpusAnalysisArtifactPayload(
+                    analysisNodeID: nodeID,
+                    analysis: analysis
+                ),
+                descriptor: descriptor
+            )
+            guard let artifact = committed.artifacts.first(where: { $0.node.id == nodeID }) else {
+                throw analysisArtifactFailure("analysis.persisted-artifact-missing")
+            }
             return GlifiProjectCorpusAnalysisResult(
                 projectID: snapshot.projectID,
-                generation: snapshot.generation,
+                sourceGeneration: snapshot.generation,
+                generation: committed.generation,
+                artifactID: artifact.artifactID,
+                analysisNodeID: nodeID,
                 analysis: analysis
             )
         } catch let failure as GlifiFailure {
@@ -370,29 +446,93 @@ public actor GlifiEngine {
                 options: corpusOptions
             )
 
-            let targetSources = try await importedSources(
+            let targetArtifact = try await corpusAnalysisArtifact(
                 targetRecords,
-                from: project,
-                maximumSourceByteCount: corpusOptions.maximumSourceByteCount
+                projectID: snapshot.projectID,
+                sourceRootDigest: snapshot.sourceRootDigest,
+                options: corpusOptions,
+                in: project
             )
-            let referenceSources = try await importedSources(
+            let referenceArtifact = try await corpusAnalysisArtifact(
                 referenceRecords,
-                from: project,
-                maximumSourceByteCount: corpusOptions.maximumSourceByteCount
+                projectID: snapshot.projectID,
+                sourceRootDigest: snapshot.sourceRootDigest,
+                options: corpusOptions,
+                in: project
             )
+            let dependencies = try [targetArtifact.record, referenceArtifact.record].map {
+                artifact in
+                try GlifiAnalysisDependency(
+                    nodeID: artifact.node.id,
+                    artifactDigest: artifact.contentDigest,
+                    outputSchemaIdentifier: artifact.node.descriptor.outputSchemaIdentifier
+                )
+            }
+            let descriptor = try GlifiAnalysisArtifactDescriptorFactory.keyness(
+                projectID: snapshot.projectID,
+                sourceRootDigest: snapshot.sourceRootDigest,
+                targetSourceRevisionIDs: targetSourceRevisionIDs,
+                referenceSourceRevisionIDs: referenceSourceRevisionIDs,
+                linguisticProfileIdentifiers: [
+                    targetArtifact.analysis.tokenizationContractIdentifier,
+                    targetArtifact.analysis.normalizationIdentifier,
+                ],
+                options: keynessOptions,
+                dependencies: dependencies
+            )
+            let nodeID = try descriptor.nodeID()
+            let preparedSnapshot = await project.snapshot()
+            if let artifact = preparedSnapshot.artifacts.first(where: { $0.node.id == nodeID }) {
+                let data = try await project.artifactData(for: artifact.artifactID)
+                let payload: GlifiKeynessArtifactPayload = try decodeArtifact(data)
+                guard payload.analysisNodeID == nodeID else {
+                    throw analysisArtifactFailure("keyness.payload-node-mismatch")
+                }
+                try validatePlannedKeyness(
+                    payload.comparison,
+                    target: targetArtifact.analysis,
+                    reference: referenceArtifact.analysis,
+                    options: keynessOptions
+                )
+                return GlifiProjectKeynessResult(
+                    projectID: snapshot.projectID,
+                    sourceGeneration: snapshot.generation,
+                    generation: preparedSnapshot.generation,
+                    artifactID: artifact.artifactID,
+                    analysisNodeID: nodeID,
+                    comparison: payload.comparison
+                )
+            }
             let comparison = try GlifiDiagnostics.measure(.compareKeyness) {
-                let target = try corpusAnalyzer.analyze(targetSources, options: corpusOptions)
-                let reference = try corpusAnalyzer.analyze(referenceSources, options: corpusOptions)
-                return try GlifiKeynessAnalyzer().compare(
-                    target: target,
-                    reference: reference,
+                try GlifiKeynessAnalyzer().compare(
+                    target: targetArtifact.analysis,
+                    reference: referenceArtifact.analysis,
                     options: keynessOptions
                 )
             }
+            try validatePlannedKeyness(
+                comparison,
+                target: targetArtifact.analysis,
+                reference: referenceArtifact.analysis,
+                options: keynessOptions
+            )
             try Task.checkCancellation()
+            let committed = try await project.storeArtifact(
+                GlifiKeynessArtifactPayload(
+                    analysisNodeID: nodeID,
+                    comparison: comparison
+                ),
+                descriptor: descriptor
+            )
+            guard let artifact = committed.artifacts.first(where: { $0.node.id == nodeID }) else {
+                throw analysisArtifactFailure("keyness.persisted-artifact-missing")
+            }
             return GlifiProjectKeynessResult(
                 projectID: snapshot.projectID,
-                generation: snapshot.generation,
+                sourceGeneration: snapshot.generation,
+                generation: committed.generation,
+                artifactID: artifact.artifactID,
+                analysisNodeID: nodeID,
                 comparison: comparison
             )
         } catch let failure as GlifiFailure {
@@ -598,6 +738,118 @@ public actor GlifiEngine {
         }
     }
 
+    private func corpusAnalysisArtifact(
+        _ records: [GlifiProjectSourceRecord],
+        projectID: ProjectID,
+        sourceRootDigest: String,
+        options: GlifiCorpusAnalysisOptions,
+        in project: GlifiProjectPackage
+    ) async throws -> (analysis: GlifiCorpusAnalysis, record: GlifiProjectArtifactRecord) {
+        let descriptor = try GlifiAnalysisArtifactDescriptorFactory.corpusProfile(
+            projectID: projectID,
+            sourceRootDigest: sourceRootDigest,
+            sourceRevisionIDs: records.map(\.sourceRevisionID),
+            tokenizationContractIdentifier: textTokenizer.tokenizationContractIdentifier,
+            options: options
+        )
+        let nodeID = try descriptor.nodeID()
+        let currentSnapshot = await project.snapshot()
+        guard currentSnapshot.sourceRootDigest == sourceRootDigest else {
+            throw GlifiFailure(
+                code: "project.artifact-corpus-mismatch",
+                category: .staleArtifact,
+                operation: .analyze,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.project.artifact-corpus-mismatch"
+            )
+        }
+        if let artifact = currentSnapshot.artifacts.first(where: { $0.node.id == nodeID }) {
+            let data = try await project.artifactData(for: artifact.artifactID)
+            let payload: GlifiCorpusAnalysisArtifactPayload = try decodeArtifact(data)
+            guard payload.analysisNodeID == nodeID else {
+                throw analysisArtifactFailure("analysis.payload-node-mismatch")
+            }
+            try validatePlannedAnalysis(
+                payload.analysis,
+                sourceRevisionIDs: records.map(\.sourceRevisionID)
+            )
+            return (payload.analysis, artifact)
+        }
+        let sources = try await importedSources(
+            records,
+            from: project,
+            maximumSourceByteCount: options.maximumSourceByteCount
+        )
+        let analysis = try GlifiDiagnostics.measure(.analyzeCorpus) {
+            try corpusAnalyzer.analyze(sources, options: options)
+        }
+        try validatePlannedAnalysis(
+            analysis,
+            sourceRevisionIDs: records.map(\.sourceRevisionID)
+        )
+        let committed = try await project.storeArtifact(
+            GlifiCorpusAnalysisArtifactPayload(
+                analysisNodeID: nodeID,
+                analysis: analysis
+            ),
+            descriptor: descriptor
+        )
+        guard let artifact = committed.artifacts.first(where: { $0.node.id == nodeID }) else {
+            throw analysisArtifactFailure("analysis.persisted-artifact-missing")
+        }
+        return (analysis, artifact)
+    }
+
+    private func decodeArtifact<Payload: Decodable>(_ data: Data) throws -> Payload {
+        do {
+            return try JSONDecoder().decode(Payload.self, from: data)
+        } catch {
+            throw GlifiFailure(
+                code: "analysis.artifact-payload-invalid",
+                category: .corruption,
+                operation: .analyze,
+                retryDisposition: .never,
+                retainedState: .readOnlyRecovery,
+                messageKey: "failure.analysis.artifact-payload-invalid"
+            )
+        }
+    }
+
+    private func validatePlannedAnalysis(
+        _ analysis: GlifiCorpusAnalysis,
+        sourceRevisionIDs: [SourceRevisionID]
+    ) throws {
+        let expectedIDs = sourceRevisionIDs.sorted {
+            $0.canonicalValue < $1.canonicalValue
+        }
+        guard analysis.sourceRevisionIDs == expectedIDs,
+            analysis.tokenizationContractIdentifier
+                == textTokenizer.tokenizationContractIdentifier,
+            analysis.normalizationIdentifier == "nfc-lowercase-it-v1",
+            analysis.numericPolicyIdentifier == "IEEE-754-binary64-ordered-reduction-v1"
+        else {
+            throw analysisArtifactFailure("analysis.descriptor-result-mismatch")
+        }
+    }
+
+    private func validatePlannedKeyness(
+        _ comparison: GlifiKeynessComparison,
+        target: GlifiCorpusAnalysis,
+        reference: GlifiCorpusAnalysis,
+        options: GlifiKeynessOptions
+    ) throws {
+        guard comparison.targetSourceRevisionIDs == target.sourceRevisionIDs,
+            comparison.referenceSourceRevisionIDs == reference.sourceRevisionIDs,
+            comparison.targetCorpusDigest == target.corpusDigest,
+            comparison.referenceCorpusDigest == reference.corpusDigest,
+            comparison.lowExpectedCountThreshold == options.lowExpectedCountThreshold,
+            comparison.numericPolicyIdentifier == "IEEE-754-binary64-ordered-reduction-v1"
+        else {
+            throw analysisArtifactFailure("keyness.descriptor-result-mismatch")
+        }
+    }
+
     private func importedSources(
         _ records: [GlifiProjectSourceRecord],
         from project: GlifiProjectPackage,
@@ -647,4 +899,15 @@ public actor GlifiEngine {
             messageKey: "failure.file.unreadable"
         )
     }
+}
+
+private func analysisArtifactFailure(_ code: String) -> GlifiFailure {
+    GlifiFailure(
+        code: code,
+        category: .invariantViolation,
+        operation: .analyze,
+        retryDisposition: .never,
+        retainedState: .validityUnknown,
+        messageKey: "failure.\(code)"
+    )
 }

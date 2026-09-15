@@ -62,9 +62,11 @@
 Il test di interruzione è deterministico nello stesso processo: terminazione reale,
 power-loss, file provider e dispositivi fisici restano aperti. Il singolo Artifact
 è bounded a 64 MiB e il descriptor a 1 MiB; streaming/spill e garbage collection
-non sono implementati. Le analisi correnti non effettuano ancora il commit
-automatico nel deposito. L'invalidazione al cambio corpus è volutamente
-conservativa fino alla persistenza della mappa SourceRevision→AnalysisNode.
+non sono implementati. Questa evidenza non copriva il commit automatico delle
+analisi, acquisito separatamente da
+[GS-VER-026](GS-VER-026-analisi-persistenti-riusabili.md). L'invalidazione al cambio
+corpus è volutamente conservativa fino alla persistenza della mappa
+SourceRevision→AnalysisNode.
 
 ## Esito
 

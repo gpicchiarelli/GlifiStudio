@@ -53,7 +53,7 @@ public enum GlifiKeynessDirection: String, Codable, Equatable, Sendable {
 }
 
 /// Complete G-test and effect-size result for one normalized term.
-public struct GlifiKeynessTermResult: Equatable, Sendable {
+public struct GlifiKeynessTermResult: Codable, Equatable, Sendable {
     /// NFC, Italian-lowercased lexical form.
     public let term: String
     /// Exact occurrence count in the target group.
@@ -85,7 +85,7 @@ public struct GlifiKeynessTermResult: Equatable, Sendable {
 }
 
 /// Deterministic two-group keyness result with explicit population lineage.
-public struct GlifiKeynessComparison: Equatable, Sendable {
+public struct GlifiKeynessComparison: Codable, Equatable, Sendable {
     /// Versioned aggregate comparison contract.
     public let comparisonIdentifier: String
     /// Digest of groups, methods, thresholds, and ordering.

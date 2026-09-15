@@ -143,6 +143,8 @@ public struct GlifiStudioProjectSnapshot: Equatable, Sendable {
     public let generation: Int
     /// Number of incorporated immutable source revisions.
     public let sourceCount: Int
+    /// Number of verified analytical artifacts reachable from this generation.
+    public let artifactCount: Int
     /// Ordered immutable source records without package-internal paths.
     public let sources: [GlifiStudioProjectSource]
 
@@ -150,6 +152,7 @@ public struct GlifiStudioProjectSnapshot: Equatable, Sendable {
         projectID = snapshot.projectID.canonicalValue
         generation = snapshot.generation
         sourceCount = snapshot.sources.count
+        artifactCount = snapshot.artifacts.count
         sources = snapshot.sources.map(GlifiStudioProjectSource.init)
     }
 }

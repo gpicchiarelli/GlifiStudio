@@ -193,8 +193,14 @@ public struct GlifiStudioSparseTermMatrix: Codable, Equatable, Sendable {
 public struct GlifiStudioCorpusAnalysisResult: Codable, Equatable, Sendable {
     /// Stable project identity.
     public let projectID: String
-    /// Exact verified generation captured by the operation.
+    /// Exact source generation captured by the operation.
+    public let sourceGeneration: Int
+    /// Authoritative generation that reaches the Artifact.
     public let generation: Int
+    /// Immutable persisted Artifact identity.
+    public let artifactID: String
+    /// Semantic producer identity.
+    public let analysisNodeID: String
     /// Versioned aggregate-analysis contract.
     public let analysisIdentifier: String
     /// Digest of semantic inputs, methods, and parameters.
@@ -241,7 +247,10 @@ public struct GlifiStudioCorpusAnalysisResult: Codable, Equatable, Sendable {
     init(_ result: GlifiProjectCorpusAnalysisResult) {
         let analysis = result.analysis
         projectID = result.projectID.canonicalValue
+        sourceGeneration = result.sourceGeneration
         generation = result.generation
+        artifactID = result.artifactID.canonicalValue
+        analysisNodeID = result.analysisNodeID.canonicalValue
         analysisIdentifier = analysis.analysisIdentifier
         corpusDigest = analysis.corpusDigest
         countDeterminismClass = analysis.countDeterminismClass

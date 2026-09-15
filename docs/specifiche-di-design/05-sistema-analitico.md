@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-ANA-001 |
 | Tipo | Specifica di design del sistema analitico |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -205,11 +205,16 @@ attesi. Popolazioni, identità dei metodi, soglie, policy numerica, tolleranza,
 ordinamento e digest sono parte del risultato. Il limite sul numero di ipotesi è
 applicato prima di costruire le righe finali.
 
-I risultati di `analyzeCorpus` e `compareKeyness` restano ancora effimeri: il
-deposito Artifact è disponibile nel Core ma non è invocato automaticamente da
-queste operazioni. Mancano inoltre segmenti documentali, spill fuori memoria,
-analisi temporale, Evidence/Finding/Caveat e planner. Le slice non possono quindi
-essere promosse a conformità completa GS-ANA-001 né al percorso Must 0.1.
+`analyzeCorpus` e `compareKeyness` costruiscono il descriptor prima del lavoro,
+riusano un payload schema-versioned quando nodo e catena sono validi e committano
+il nuovo risultato attraverso lo stesso manifest del progetto. Keyness persiste i
+due profili di popolazione come dipendenze tipizzate. Il risultato espone sia la
+generazione sorgente sia quella che raggiunge l'Artifact, oltre a ArtifactID e
+AnalysisNodeID.
+
+Mancano ancora segmenti documentali, spill fuori memoria, analisi temporale,
+Evidence/Finding/Caveat e planner. Le slice non possono quindi essere promosse a
+conformità completa GS-ANA-001 né al percorso Must 0.1.
 
 ## Conformità
 

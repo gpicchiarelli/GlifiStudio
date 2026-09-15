@@ -220,7 +220,7 @@
       ],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query, analisi descrittiva, keyness e DAG logico bounded sono operativi; progressi, planner, persistenza DAG, indice, streaming ed export restano da implementare."
+      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query, analisi descrittiva, keyness e DAG/Artifact persistenti sono operativi; progressi, planner, indice, streaming ed export restano da implementare."
     },
     {
       "id": "CMP-013",
@@ -705,6 +705,33 @@
       ],
       "fixtures": [],
       "evidence": ["docs/evidenze/GS-VER-025-persistenza-artifact-dag.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-040",
+      "clause": "GS-ANA-001 § Esecuzione persistente e riuso di profilo corpus e keyness",
+      "specification": "docs/specifiche-di-design/05-sistema-analitico.md",
+      "requirements": ["RF-011", "RF-023", "RF-031", "RF-076", "RF-081", "RQ-008", "RQ-059", "RQ-060"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiAnalysisArtifacts.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiProjectPackage.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiCorpusAnalysisPresentation.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiKeynessPresentation.swift",
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift",
+        "Scripts/verify.sh"
+      ],
+      "fixtures": [
+        "Fixtures/Scientific/v1/reference-cases.json",
+        "Fixtures/Persistence/v1/basic/source.txt"
+      ],
+      "evidence": ["docs/evidenze/GS-VER-026-analisi-persistenti-riusabili.md"],
       "gate": "G2",
       "status": "verified",
       "blockingReason": null

@@ -7,6 +7,9 @@ public struct GlifiItalianTokenizer: GlifiTokenizing {
     /// Stable version of the linguistic contract implemented by this tokenizer.
     public static let contractIdentifier = "it-token-v1"
 
+    /// Stable contract identity exposed through the tokenizer abstraction.
+    public var tokenizationContractIdentifier: String { Self.contractIdentifier }
+
     private static let abbreviations: Set<String> = [
         "dott", "dr", "ecc", "ing", "prof", "sig", "sigg", "sigra",
     ]

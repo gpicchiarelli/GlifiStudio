@@ -95,6 +95,7 @@ func serviceProjectSessionRoundTrip() async throws {
     let result = try await session.importText(at: sourceURL, format: .plainText)
     #expect(result.project.generation == 1)
     #expect(result.project.sourceCount == 1)
+    #expect(result.project.artifactCount == 0)
     #expect(result.profile.lexicalTokenCount == 4)
 
     let query = try await session.query("normalized:fonte")
@@ -109,13 +110,19 @@ func serviceProjectSessionRoundTrip() async throws {
 
     let analysis = try await session.analyzeCorpus()
     #expect(analysis.projectID == result.project.projectID)
-    #expect(analysis.generation == 1)
+    #expect(analysis.sourceGeneration == 1)
+    #expect(analysis.generation == 2)
+    #expect(analysis.artifactID.hasPrefix("artifact:sha256:"))
+    #expect(analysis.analysisNodeID.hasPrefix("analysis-node:sha256:"))
     #expect(analysis.analysisIdentifier == "corpus-profile-it-v1")
     #expect(analysis.corpusDigest.hasPrefix("sha256:"))
     #expect(analysis.documentCount == 1)
     #expect(analysis.lexicalTokenCount == 4)
     #expect(analysis.terms.first?.term == "affidabile")
     #expect(analysis.matrix.cells.count == 4)
+    let analyzedSnapshot = try await session.snapshot()
+    #expect(analyzedSnapshot.generation == 2)
+    #expect(analyzedSnapshot.artifactCount == 1)
     await session.close()
 
     await #expect(throws: GlifiStudioFailure.self) {
@@ -123,7 +130,7 @@ func serviceProjectSessionRoundTrip() async throws {
     }
 
     let reopened = try await service.openProject(at: projectURL)
-    #expect(try await reopened.snapshot() == result.project)
+    #expect(try await reopened.snapshot() == analyzedSnapshot)
 }
 
 @Test("GlifiKit confronta due gruppi espliciti senza esporre dettagli del package")
@@ -155,7 +162,10 @@ func serviceComparesExplicitSourceGroups() async throws {
     )
 
     #expect(result.projectID == second.project.projectID)
-    #expect(result.generation == 2)
+    #expect(result.sourceGeneration == 2)
+    #expect(result.generation == 5)
+    #expect(result.artifactID.hasPrefix("artifact:sha256:"))
+    #expect(result.analysisNodeID.hasPrefix("analysis-node:sha256:"))
     #expect(result.comparisonIdentifier == "keyness-gtest-ha-bh-v1")
     #expect(result.comparisonDigest.hasPrefix("sha256:"))
     #expect(result.targetTokenCount == 3)
@@ -185,5 +195,8 @@ func serviceComparesExplicitSourceGroups() async throws {
         #expect(failure.code == "keyness.invalid-source-identifier")
         #expect(failure.operation == "analyze")
     }
-    #expect(try await session.snapshot() == second.project)
+    let finalSnapshot = try await session.snapshot()
+    #expect(finalSnapshot.generation == 5)
+    #expect(finalSnapshot.sourceCount == second.project.sourceCount)
+    #expect(finalSnapshot.artifactCount == 3)
 }

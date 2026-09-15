@@ -56,11 +56,13 @@
 
 ## Limiti
 
-Il risultato è bounded ed effimero. Non prova ancora persistenza in
-AnalysisDescriptor/DAG/Artifact, intervalli di confidenza, selezione Fisher
+Questa evidenza isolava il risultato bounded in memoria e non provava persistenza
+in AnalysisDescriptor/DAG/Artifact, intervalli di confidenza, selezione Fisher
 pre-registrata, campioni grandi o sbilanciati, corpus gold, fuzzing, benchmark su
 hardware reale, review scientifica esterna o UI comparativa accessibile. Il
 diagnostico su celle attese non trasforma automaticamente il test scelto.
+Persistenza e riuso sono acquisiti separatamente da
+[GS-VER-026](GS-VER-026-analisi-persistenti-riusabili.md).
 
 ## Esito
 
