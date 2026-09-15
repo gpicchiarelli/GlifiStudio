@@ -271,6 +271,59 @@ def validate_adversarial(manifest: dict[str, Any], errors: list[str]) -> int:
     return len(cases)
 
 
+def validate_query(manifest: dict[str, Any], errors: list[str]) -> int:
+    """Validate the independent positional and diagnostic query seed."""
+    if manifest.get("schema") != "studio.glifi.query-fixture-manifest":
+        errors.append("manifest query: schema non valido")
+    if manifest.get("license") != "BSD-3-Clause" or not manifest.get("provenance"):
+        errors.append("manifest query: licenza/provenienza mancante")
+    data = load_json(str(manifest.get("cases", "")), errors)
+    if (
+        data.get("schema") != "studio.glifi.query-fixture-cases"
+        or data.get("coordinateSpace") != "sourceUTF8"
+        or data.get("intervalConvention") != "half-open"
+    ):
+        errors.append("fixture query: schema o coordinate non valide")
+    source = data.get("source")
+    cases = data.get("cases", [])
+    if not isinstance(source, str) or not isinstance(cases, list):
+        errors.append("fixture query: source/cases non validi")
+        return 0
+    raw = source.encode("utf-8")
+    seen_ids: set[str] = set()
+    observed_outcomes: set[str] = set()
+    for case in cases:
+        case_id = case.get("id", "<senza-id>")
+        if case_id in seen_ids:
+            errors.append(f"fixture query duplicata: {case_id}")
+        seen_ids.add(case_id)
+        if not isinstance(case.get("query"), str) or not case.get("query"):
+            errors.append(f"{case_id}: query mancante")
+        outcome = case.get("outcome")
+        if isinstance(outcome, str):
+            observed_outcomes.add(outcome)
+        if outcome == "succeeded":
+            matches = case.get("matches")
+            if not isinstance(matches, list):
+                errors.append(f"{case_id}: matches non è una lista")
+                continue
+            previous = (-1, -1)
+            for index, match in enumerate(matches):
+                result = validate_interval(raw, match, f"{case_id}/match/{index}", errors)
+                if result is not None and result < previous:
+                    errors.append(f"{case_id}: match non ordinati")
+                if result is not None:
+                    previous = result
+        elif outcome == "failed":
+            if not str(case.get("failureCode", "")).startswith("query."):
+                errors.append(f"{case_id}: failureCode query non valido")
+        else:
+            errors.append(f"{case_id}: outcome non valido")
+    if observed_outcomes != {"succeeded", "failed"} or len(cases) < 7:
+        errors.append("fixture query: richiesti almeno sette casi positivi e negativi")
+    return len(cases)
+
+
 def main() -> int:
     """Run every fixture validation."""
     errors: list[str] = []
@@ -295,6 +348,7 @@ def main() -> int:
     adversarial_count = validate_adversarial(
         manifests.get("adversarial-v1-descriptors", {}), errors
     )
+    query_count = validate_query(manifests.get("query-v1-seed", {}), errors)
 
     if errors:
         print("Fixture validation failed:", file=sys.stderr)
@@ -304,7 +358,8 @@ def main() -> int:
     print(
         "Fixtures: "
         f"Italian={linguistic_count}, numerical={scientific_count}, "
-        f"adversarial-descriptors={adversarial_count}; seed status preserved"
+        f"adversarial-descriptors={adversarial_count}, query={query_count}; "
+        "seed status preserved"
     )
     return 0
 

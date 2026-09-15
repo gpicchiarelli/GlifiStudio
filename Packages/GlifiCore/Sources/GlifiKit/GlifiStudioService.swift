@@ -140,6 +140,58 @@ public struct GlifiStudioProjectImportResult: Equatable, Sendable {
     }
 }
 
+/// One bounded concordance row ready for native or machine presentation.
+public struct GlifiStudioQueryMatch: Equatable, Identifiable, Sendable {
+    /// Stable row identity within a query result.
+    public var id: String { "\(sourceRevisionID):\(startUTF8):\(endUTF8)" }
+    /// Opaque source revision identity.
+    public let sourceRevisionID: String
+    /// Inclusive UTF-8 byte offset of the match.
+    public let startUTF8: Int
+    /// Exclusive UTF-8 byte offset of the match.
+    public let endUTF8: Int
+    /// Bounded source text before the match.
+    public let leftContext: String
+    /// Exact matched source surface.
+    public let match: String
+    /// Bounded source text after the match.
+    public let rightContext: String
+
+    init(_ match: GlifiProjectQueryMatch) {
+        sourceRevisionID = match.sourceRevisionID.canonicalValue
+        startUTF8 = match.range.start
+        endUTF8 = match.range.end
+        leftContext = match.leftContext
+        self.match = match.match
+        rightContext = match.rightContext
+    }
+}
+
+/// Deterministic bounded query result for one authoritative project generation.
+public struct GlifiStudioProjectQueryResult: Equatable, Sendable {
+    /// Opaque project identity.
+    public let projectID: String
+    /// Exact authoritative generation queried.
+    public let generation: Int
+    /// Digest of the canonical QueryAST.
+    public let queryDigest: String
+    /// Number of source scopes selected by the predicate.
+    public let matchedSourceCount: Int
+    /// Canonically ordered concordance rows.
+    public let matches: [GlifiStudioQueryMatch]
+    /// Whether a declared bound curtailed result materialization.
+    public let isTruncated: Bool
+
+    init(_ result: GlifiProjectQueryResult) {
+        projectID = result.projectID.canonicalValue
+        generation = result.generation
+        queryDigest = result.queryDigest
+        matchedSourceCount = result.matchedSourceCount
+        matches = result.matches.map(GlifiStudioQueryMatch.init)
+        isTruncated = result.isTruncated
+    }
+}
+
 /// Actor-isolated lifecycle for one verified `.glifi` project.
 public actor GlifiStudioProjectSession {
     private let engine: GlifiEngine
@@ -169,6 +221,16 @@ public actor GlifiStudioProjectSession {
             )
         } catch {
             throw Self.map(error, operation: .importText)
+        }
+    }
+
+    /// Parses and executes one bounded textual query against the current generation.
+    public func query(_ text: String) async throws -> GlifiStudioProjectQueryResult {
+        try ensureOpen()
+        do {
+            return try await GlifiStudioProjectQueryResult(engine.query(text, in: project))
+        } catch {
+            throw Self.map(error, operation: .query)
         }
     }
 

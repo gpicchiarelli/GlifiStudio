@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-API-001 |
 | Tipo | Specifica normativa delle interfacce applicative e headless |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -88,13 +88,14 @@ correlazione effimera.
 creazione non apre file, non avvia rete, non crea lavoro background persistente e
 non acquisisce security scope. `status()` è idempotente, asincrono e non modifica
 lo stato scientifico. La superficie corrente implementa `ready`, il primo profilo
-bounded di un TXT autorizzato e la creazione/apertura di sessioni `.glifi`.
+bounded di un TXT autorizzato, la creazione/apertura di sessioni `.glifi` e query
+testuali bounded sulla generazione autorevole.
 
 ### 5.2 Sessione di progetto
 
 `GlifiStudioProjectSession` è actor-isolated e viene ottenuta da `createProject` o
-`openProject`. Il prototipo corrente possiede il package coordinato e l'import TXT;
-`close` è idempotente e impedisce nuove operazioni. Ownership di task lunghi,
+`openProject`. Il prototipo corrente possiede il package coordinato, l'import TXT e
+la query bounded; `close` è idempotente e impedisce nuove operazioni. Ownership di task lunghi,
 cache handles e bookmark entreranno con le rispettive funzioni, senza cambiare la
 semantica di chiusura.
 
@@ -187,7 +188,7 @@ contenuto, query, path o nomi file.
 | profila raccolta | TXT autorizzato nella slice; revisioni nel target | profilo descrittivo bounded | Prima slice TXT implementata e verificata; CollectionProfile multiplo non implementato |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
 | analizza | piano e budget | Artifact/Evidence/Findings | Specificata; non implementata |
-| interroga | QueryAST, scope, limiti | risultati ordinati con lineage | Specificata; non implementata |
+| interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
 | esporta | selezione, formato, destinazione | ExportReceipt + manifest | Specificata; non implementata |
 
 Le operazioni non implementate non devono essere simulate con placeholder né
@@ -204,14 +205,16 @@ glifi project create|info|validate <project>
 glifi import <project> <source>...
 glifi plan <project> --request <json-file>
 glifi analyze <project> --plan <json-file>
-glifi query <project> --request <json-file>
+glifi query <project> --text <query>
 glifi export <project> --request <json-file> --output <path>
 ```
 
-Sono disponibili `status`, `project create`, `project info`, `project validate` e
-`import` per TXT. Accettano `--format text|json`; l'envelope JSON ha
-`cliProtocolVersion = 1`. `plan`, `analyze`, `query` ed `export` restano
-fail-closed e non sono pubblicizzati come comandi disponibili. L'invocazione senza
+Sono disponibili `status`, `project create`, `project info`, `project validate`,
+`import` per TXT e `query --text`. Accettano `--format text|json`; l'envelope JSON
+ha `cliProtocolVersion = 1`. La query JSON include generazione, digest canonico,
+conteggio degli scope selezionati, righe KWIC e troncatura. `plan`, `analyze`, file
+QueryAST, streaming ed `export` restano fail-closed e non sono pubblicizzati come
+comandi disponibili. L'invocazione senza
 argomenti resta alias temporaneo dello smoke test e stampa `GlifiCore pronto`;
 prima del protocollo CLI 1.0 deve diventare `help` o essere rimossa con nota di
 migrazione.

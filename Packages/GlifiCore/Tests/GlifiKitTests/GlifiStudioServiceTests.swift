@@ -63,6 +63,12 @@ func serviceProjectSessionRoundTrip() async throws {
     #expect(result.project.generation == 1)
     #expect(result.project.sourceCount == 1)
     #expect(result.profile.lexicalTokenCount == 4)
+
+    let query = try await session.query("normalized:fonte")
+    #expect(query.generation == 1)
+    #expect(query.matchedSourceCount == 1)
+    #expect(query.matches.count == 1)
+    #expect(query.matches[0].match == "fonte")
     await session.close()
 
     await #expect(throws: GlifiStudioFailure.self) {

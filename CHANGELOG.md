@@ -17,6 +17,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   SHA-256 immutabili, verifica di integrità e fault injection generazionale.
 - `GlifiStudioProjectSession` actor-isolated e comandi CLI `project
   create|info|validate`/`import` con envelope e codici di uscita v1.
+- `QueryAST v1` canonico, parser `glifi-query-v1` bounded, query per forma/frase,
+  booleani, prossimità e regex NFA senza backtracking sul corpus TXT incorporato.
+- Concordanze KWIC con SourceRevision, offset UTF-8, contesto configurabile,
+  troncatura esplicita e comando CLI `query --text` testuale/JSON v1.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

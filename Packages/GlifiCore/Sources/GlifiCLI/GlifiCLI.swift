@@ -7,18 +7,20 @@ import GlifiKit
 @main
 enum GlifiCLI {
     static func main() async {
+        var commandName = "unknown"
         do {
             let request = try CLIRequest(arguments: Array(CommandLine.arguments.dropFirst()))
+            commandName = request.command.name
             try await execute(request)
         } catch is CLIUsageError {
             writeStandardError(CLIRequest.usage)
             exit(2)
         } catch let failure as GlifiStudioFailure {
-            writeFailure(failure)
+            writeFailure(failure, command: commandName)
             exit(exitCode(for: failure.category))
         } catch {
             let failure = CLIError.internalFailure
-            writeFailure(failure)
+            writeFailure(failure, command: commandName)
             exit(70)
         }
     }
@@ -93,6 +95,26 @@ enum GlifiCLI {
                     )
                 )
             }
+        case let .query(projectURL, queryText):
+            let session = try await service.openProject(at: projectURL)
+            let result = try await session.query(queryText)
+            await session.close()
+            switch request.format {
+            case .text:
+                for match in result.matches {
+                    print("\(match.leftContext)\t\(match.match)\t\(match.rightContext)")
+                }
+                if result.isTruncated {
+                    writeStandardError("Risultati troncati dal limite dichiarato.\n")
+                }
+            case .json:
+                try writeJSON(
+                    SuccessEnvelope(
+                        command: request.command.name,
+                        result: QueryResult(result)
+                    )
+                )
+            }
         }
     }
 
@@ -116,12 +138,12 @@ enum GlifiCLI {
         }
     }
 
-    private static func writeFailure(_ failure: GlifiStudioFailure) {
+    private static func writeFailure(_ failure: GlifiStudioFailure, command: String) {
         let arguments = Array(failure.arguments).sorted { $0.key < $1.key }.map {
             FailureArgument(key: $0.key, value: $0.value)
         }
         let envelope = FailureEnvelope(
-            command: "unknown",
+            command: command,
             failure: FailureResult(
                 code: failure.code,
                 category: failure.category,
@@ -179,6 +201,7 @@ private struct CLIRequest {
           glifi [--format text|json] project info <progetto.glifi>
           glifi [--format text|json] project validate <progetto.glifi>
           glifi [--format text|json] import <progetto.glifi> <fonte.txt>...
+          glifi [--format text|json] query <progetto.glifi> --text <query>
         """ + "\n"
 
     let format: CLIOutputFormat
@@ -227,6 +250,14 @@ private struct CLIRequest {
                 throw CLIUsageError.invalidArguments
             }
             command = .importSources(projectURL, sourceURLs)
+        } else if remaining.count == 4,
+            remaining[0] == "query",
+            remaining[2] == "--text"
+        {
+            command = .query(
+                URL(fileURLWithPath: remaining[1]).standardizedFileURL,
+                remaining[3]
+            )
         } else {
             throw CLIUsageError.invalidArguments
         }
@@ -240,6 +271,7 @@ private enum CLICommand {
     case projectInfo(URL)
     case projectValidate(URL)
     case importSources(URL, [URL])
+    case query(URL, String)
 
     var name: String {
         switch self {
@@ -248,6 +280,7 @@ private enum CLICommand {
         case .projectInfo: "project.info"
         case .projectValidate: "project.validate"
         case .importSources: "import"
+        case .query: "query"
         }
     }
 }
@@ -369,5 +402,41 @@ private struct TextProfileResult: Encodable {
         sentenceCount = profile.sentenceCount
         lexicalTokenCount = profile.lexicalTokenCount
         typeCount = profile.typeCount
+    }
+}
+
+private struct QueryResult: Encodable {
+    let projectID: String
+    let generation: Int
+    let queryDigest: String
+    let matchedSourceCount: Int
+    let matches: [QueryMatchResult]
+    let isTruncated: Bool
+
+    init(_ result: GlifiStudioProjectQueryResult) {
+        projectID = result.projectID
+        generation = result.generation
+        queryDigest = result.queryDigest
+        matchedSourceCount = result.matchedSourceCount
+        matches = result.matches.map(QueryMatchResult.init)
+        isTruncated = result.isTruncated
+    }
+}
+
+private struct QueryMatchResult: Encodable {
+    let sourceRevisionID: String
+    let startUTF8: Int
+    let endUTF8: Int
+    let leftContext: String
+    let match: String
+    let rightContext: String
+
+    init(_ match: GlifiStudioQueryMatch) {
+        sourceRevisionID = match.sourceRevisionID
+        startUTF8 = match.startUTF8
+        endUTF8 = match.endUTF8
+        leftContext = match.leftContext
+        self.match = match.match
+        rightContext = match.rightContext
     }
 }

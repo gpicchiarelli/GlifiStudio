@@ -72,12 +72,18 @@ cli_validate_output="$(swift run \
     --scratch-path "$temporary_build_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json project validate "$cli_project_path")"
+cli_query_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json query "$cli_project_path" --text "normalized:due")"
 
-python3 - "$cli_create_output" "$cli_import_output" "$cli_validate_output" <<'PY'
+python3 - "$cli_create_output" "$cli_import_output" "$cli_validate_output" \
+    "$cli_query_output" <<'PY'
 import json
 import sys
 
-created, imported, validated = (json.loads(value) for value in sys.argv[1:])
+created, imported, validated, queried = (json.loads(value) for value in sys.argv[1:])
 assert created["command"] == "project.create"
 assert created["result"]["project"]["generation"] == 0
 assert imported["command"] == "import"
@@ -87,6 +93,16 @@ assert imported["result"]["lastProfile"]["lexicalTokenCount"] == 3
 assert validated["command"] == "project.validate"
 assert validated["result"]["status"] == "valid"
 assert validated["result"]["project"] == imported["result"]["project"]
+assert queried["command"] == "query"
+assert queried["outcome"] == "succeeded"
+assert queried["result"]["generation"] == 1
+assert queried["result"]["matchedSourceCount"] == 1
+assert queried["result"]["isTruncated"] is False
+assert queried["result"]["queryDigest"].startswith("sha256:")
+assert [
+    (match["startUTF8"], match["endUTF8"], match["match"])
+    for match in queried["result"]["matches"]
+] == [(4, 7, "due"), (8, 11, "due")]
 PY
 
 xcodebuild build \

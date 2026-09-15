@@ -6,12 +6,28 @@
 | --- | --- |
 | Identificatore | GS-QRY-001 |
 | Tipo | Specifica di design della ricerca |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
 | Approvazione | Baseline proposta; parser e usability test richiesti |
 | Riferimenti | GS-DOM-001; GS-DAT-001; GS-LNG-001; GS-UX-001-11; ADR-0016 |
+
+## Stato implementativo 0.1
+
+La prima slice verificata rende disponibili `QueryAST v1`, parser testuale
+bounded, digest canonico e valutazione sulla generazione `.glifi` autorevole. Sono
+operative ricerca per forma esatta, forma normalizzata e testo tokenizzato,
+phrase/slop, `NOT`/`AND`/`OR`, prossimità ordinata o simmetrica, scope di
+SourceRevision, regex sul singolo token in un sottoinsieme NFA senza backtracking e
+concordanze KWIC con offset UTF-8. GlifiKit e GlifiCLI usano lo stesso percorso.
+
+La slice esegue uno scan bounded delle fonti TXT incorporate; non costituisce
+l'indice persistente target. Lemmi, POS, entità, metadati, range tipizzati, scope
+Project/Corpus, cursor firmati, ranking e spiegazioni estese restano fail-closed.
+L'ordine provvisorio è SourceRevisionID/offset finché il modello DocumentID non è
+persistito. Fuzz corpus, benchmark avversari e usability test restano necessari
+prima di stabilizzare il protocollo.
 
 ## Scopo e principio canonico
 
@@ -120,8 +136,9 @@ nome canonico, ma non entrano nella serializzazione.
 
 Il parser è iterativo o limita profondità e nodi. La baseline impone massimi
 configurabili: 64 KiB di query, profondità 32, 1.024 nodi AST, phrase 256 token,
-prossimità 10.000 token e 1.000 alternative espanse. Superare un limite produce
-errore prima dell'esecuzione.
+prossimità 10.000 token, pattern regex 256 byte, token regex 4 KiB, 1.000 fonti,
+256 MiB letti e 1.000 righe materializzate. Superare un limite produce errore
+prima dell'esecuzione o della successiva unità bounded.
 
 Il motore regex deve garantire tempo lineare per il sottoinsieme accettato oppure
 eseguire con deadline, cancellation e budget di passi. Backreference, lookbehind
@@ -140,9 +157,10 @@ execute(validatedQuery, scope, budget) -> AsyncSequence<SearchBatch>
 explain(matchID) -> MatchExplanation
 ```
 
-GlifiCLI accetta sia testo sia file AST canonico, emette progress strutturato e
-CSV/JSON con lo stesso ordine dell'API. GUI e CLI non possono aggiungere semantiche
-private al motore.
+Il comando disponibile `glifi query <progetto.glifi> --text <query>` accetta testo
+e produce righe tabulate oppure un envelope JSON v1. File AST, progress strutturato,
+CSV e streaming restano superficie target non ancora esposta. GUI e CLI non
+possono aggiungere semantiche private al motore.
 
 ## Conformità
 

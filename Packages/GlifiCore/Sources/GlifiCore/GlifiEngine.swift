@@ -22,10 +22,73 @@ public struct GlifiProjectTextImportResult: Equatable, Sendable {
     }
 }
 
+/// One bounded concordance row resolved against immutable source bytes.
+public struct GlifiProjectQueryMatch: Equatable, Sendable {
+    /// Source revision that owns every returned interval and excerpt.
+    public let sourceRevisionID: SourceRevisionID
+    /// Exact UTF-8 match interval in the source revision.
+    public let range: GlifiUTF8Range
+    /// Bounded text preceding the match.
+    public let leftContext: String
+    /// Exact surface covered by `range`.
+    public let match: String
+    /// Bounded text following the match.
+    public let rightContext: String
+
+    /// Creates a concordance row from already verified source coordinates.
+    public init(
+        sourceRevisionID: SourceRevisionID,
+        range: GlifiUTF8Range,
+        leftContext: String,
+        match: String,
+        rightContext: String
+    ) {
+        self.sourceRevisionID = sourceRevisionID
+        self.range = range
+        self.leftContext = leftContext
+        self.match = match
+        self.rightContext = rightContext
+    }
+}
+
+/// Deterministic bounded project query result ordered by source identity and position.
+public struct GlifiProjectQueryResult: Equatable, Sendable {
+    /// Project queried by this result.
+    public let projectID: ProjectID
+    /// Exact authoritative generation queried.
+    public let generation: Int
+    /// Digest of the canonical query AST.
+    public let queryDigest: String
+    /// Number of source scopes selected by the predicate.
+    public let matchedSourceCount: Int
+    /// Bounded concordance rows in canonical order.
+    public let matches: [GlifiProjectQueryMatch]
+    /// Whether rows or source scans were curtailed by a declared limit.
+    public let isTruncated: Bool
+
+    /// Creates one immutable project query result.
+    public init(
+        projectID: ProjectID,
+        generation: Int,
+        queryDigest: String,
+        matchedSourceCount: Int,
+        matches: [GlifiProjectQueryMatch],
+        isTruncated: Bool
+    ) {
+        self.projectID = projectID
+        self.generation = generation
+        self.queryDigest = queryDigest
+        self.matchedSourceCount = matchedSourceCount
+        self.matches = matches
+        self.isTruncated = isTruncated
+    }
+}
+
 /// Provides the headless entry point to GlifiCore capabilities.
 public actor GlifiEngine {
     private let defaultLanguageConfiguration: GlifiLanguageConfiguration
     private let textImporter: GlifiTextImporter
+    private let textTokenizer: any GlifiTokenizing
     private let textAnalyzer: GlifiTextAnalyzer
     private var hasReportedReady = false
 
@@ -42,6 +105,7 @@ public actor GlifiEngine {
     ) {
         self.defaultLanguageConfiguration = defaultLanguageConfiguration
         self.textImporter = textImporter
+        textTokenizer = tokenizer
         textAnalyzer = GlifiTextAnalyzer(tokenizer: tokenizer)
     }
 
@@ -158,6 +222,144 @@ public actor GlifiEngine {
             throw cancellationFailure()
         } catch {
             throw unreadableFileFailure()
+        }
+    }
+
+    /// Parses and executes a bounded query against one verified project generation.
+    public func query(
+        _ queryText: String,
+        in project: GlifiProjectPackage,
+        limits: GlifiQueryLimits = .standard
+    ) async throws -> GlifiProjectQueryResult {
+        do {
+            let query = try GlifiQueryParser(tokenizer: textTokenizer).parse(
+                queryText,
+                limits: limits
+            )
+            let queryDigest = try query.canonicalDigest()
+            let snapshot = await project.snapshot()
+            guard !snapshot.sources.isEmpty else {
+                throw GlifiFailure(
+                    code: "query.empty-project",
+                    category: .insufficientData,
+                    operation: .query,
+                    retryDisposition: .afterCorrection,
+                    retainedState: .lastCommittedGeneration,
+                    messageKey: "failure.query.empty-project"
+                )
+            }
+            guard snapshot.sources.count <= limits.maximumSourceCount else {
+                throw GlifiFailure(
+                    code: "query.source-limit-exceeded",
+                    category: .insufficientResources,
+                    operation: .query,
+                    retryDisposition: .afterConditionsChange,
+                    retainedState: .lastCommittedGeneration,
+                    messageKey: "failure.query.source-limit-exceeded",
+                    arguments: ["maximumSourceCount": String(limits.maximumSourceCount)]
+                )
+            }
+
+            var scannedByteCount = 0
+            var matchedSourceCount = 0
+            var matches: [GlifiProjectQueryMatch] = []
+            var isTruncated = false
+            for source in snapshot.sources {
+                try Task.checkCancellation()
+                guard source.byteCount <= limits.maximumScannedByteCount - scannedByteCount else {
+                    throw GlifiFailure(
+                        code: "query.scan-byte-limit-exceeded",
+                        category: .insufficientResources,
+                        operation: .query,
+                        retryDisposition: .afterConditionsChange,
+                        retainedState: .lastCommittedGeneration,
+                        messageKey: "failure.query.scan-byte-limit-exceeded",
+                        arguments: [
+                            "maximumScannedByteCount": String(limits.maximumScannedByteCount)
+                        ]
+                    )
+                }
+                scannedByteCount += source.byteCount
+                let data = try await project.sourceData(for: source.sourceRevisionID)
+                let importedText = try textImporter.importText(
+                    from: data,
+                    format: source.format,
+                    sourceRevisionID: source.sourceRevisionID
+                )
+                guard importedText.format == .plainText else {
+                    throw GlifiFailure(
+                        code: "query.markdown-unavailable",
+                        category: .unsupportedFormat,
+                        operation: .query,
+                        retryDisposition: .afterCorrection,
+                        retainedState: .lastCommittedGeneration,
+                        messageKey: "failure.query.markdown-unavailable"
+                    )
+                }
+                let tokenization = try textTokenizer.tokenize(importedText.text)
+                let result = try GlifiQueryEvaluator().evaluate(
+                    query,
+                    in: importedText,
+                    tokenization: tokenization,
+                    limits: limits
+                )
+                if result.matchedScope { matchedSourceCount += 1 }
+                for match in result.matches {
+                    guard matches.count < limits.maximumResultCount else {
+                        isTruncated = true
+                        break
+                    }
+                    guard let surface = match.range.text(in: importedText.text) else {
+                        throw GlifiFailure(
+                            code: "query.invalid-match",
+                            category: .invariantViolation,
+                            operation: .query,
+                            retryDisposition: .never,
+                            retainedState: .validityUnknown,
+                            messageKey: "failure.query.invalid-match"
+                        )
+                    }
+                    matches.append(
+                        GlifiProjectQueryMatch(
+                            sourceRevisionID: match.sourceRevisionID,
+                            range: match.range,
+                            leftContext: match.leftContextRange?.text(in: importedText.text) ?? "",
+                            match: surface,
+                            rightContext: match.rightContextRange?.text(in: importedText.text) ?? ""
+                        )
+                    )
+                }
+                isTruncated = isTruncated || result.isTruncated
+                if isTruncated { break }
+            }
+            return GlifiProjectQueryResult(
+                projectID: snapshot.projectID,
+                generation: snapshot.generation,
+                queryDigest: queryDigest,
+                matchedSourceCount: matchedSourceCount,
+                matches: matches,
+                isTruncated: isTruncated
+            )
+        } catch let failure as GlifiFailure {
+            throw failure
+        } catch is CancellationError {
+            throw GlifiFailure(
+                code: "operation.cancelled",
+                category: .cancelled,
+                operation: .query,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.operation.cancelled"
+            )
+        } catch {
+            throw GlifiFailure(
+                code: "query.internal-failure",
+                category: .invariantViolation,
+                operation: .query,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.query.internal-failure"
+            )
         }
     }
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.22.0 |
+| Versione | 0.23.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -18,12 +18,12 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 
 | Necessità | Requisiti derivati | View/decisioni architetturali | Verifica pianificata | Stato |
 | --- | --- | --- | --- | --- |
-| NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, RF-050–RF-056, RF-079–RF-081, CV-006 | VA-01, VA-02, VA-06, VA-07, GS-LNG-001, GS-QRY-001, GS-ANA-001, ADR-0013–ADR-0016 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030, TV-039–TV-041, TV-052–TV-054 | Prima slice TXT/profilo verificata; corpus, query e analisi complete aperti |
-| NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RF-077–RF-078, RF-084, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, GS-DAT-001, GS-VIZ-001, ADR-0013, ADR-0016 | TV-003, TV-004, TV-006, TV-027, TV-035, TV-051, TV-058 | Offset UTF-8 sorgente seed verificati; SpanMap e lineage persistente aperti |
+| NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, RF-050–RF-056, RF-079–RF-081, CV-006 | VA-01, VA-02, VA-06, VA-07, GS-LNG-001, GS-QRY-001, GS-ANA-001, ADR-0013–ADR-0016 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030, TV-039–TV-041, TV-052–TV-054 | Slice TXT/profilo e query/KWIC bounded verificate; corpus ricchi, indice e analisi complete aperti |
+| NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RF-077–RF-078, RF-084, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, GS-DAT-001, GS-VIZ-001, ADR-0013, ADR-0016 | TV-003, TV-004, TV-006, TV-027, TV-035, TV-051, TV-058 | Offset UTF-8 e SourceRevision delle concordanze verificati; SpanMap e navigazione UI aperti |
 | NS-003 Elaborare corpus massivi | RF-014, RQ-001, RQ-002, RQ-006, RQ-009, RQ-015, RQ-016, RQ-018, RQ-041, RQ-048, RQ-052–RQ-055, CV-013, CV-016 | VA-03, VA-04, GS-RUN-001, GS-APL-015, ADR-0008, ADR-0016, ADR-0018 | TV-009, TV-010, TV-019, TV-056–TV-057, TV-065–TV-068 | Policy runtime attiva; sorgenti eventi, baseline hardware e soglie da misurare |
 | NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RF-047–RF-048, RF-070–RF-071, RF-075–RF-077, RF-081, RQ-004, RQ-033, RQ-043, RQ-059 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, GS-ANA-001, ADR-0014, ADR-0016, ADR-0019 | TV-001, TV-005, TV-037, TV-047, TV-050–TV-051, TV-054, TV-060, TV-072 | Package generazionale riapribile verificato; recovery completa e riuso analitico aperti |
 | NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Contratto metadata-first definito; implementazione incompleta |
-| NS-006 Usare capacità headless e automatizzabili | RF-023, RF-080, RF-083, RQ-058, RQ-060, CV-003 | VA-01, VA-02, GS-QRY-001, GS-ANA-001, GS-API-001, ADR-0002, ADR-0016, ADR-0019 | TV-011, TV-053, TV-056, TV-071, TV-073 | Status, profilo e progetto/import GlifiKit/CLI verificati; protocollo analitico aperto |
+| NS-006 Usare capacità headless e automatizzabili | RF-023, RF-080, RF-083, RQ-058, RQ-060, CV-003 | VA-01, VA-02, GS-QRY-001, GS-ANA-001, GS-API-001, ADR-0002, ADR-0016, ADR-0019 | TV-011, TV-053, TV-056, TV-071, TV-073 | Status, profilo, progetto/import e query GlifiKit/CLI verificati; protocollo analitico aperto |
 | NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RF-076, RF-081–RF-083, RQ-003, RQ-007–RQ-018, RQ-023–RQ-029, RQ-043–RQ-062, CV-014, CV-016 | VA-03–VA-06, GS-DAT-001, GS-ANA-001, GS-VAL-001, GS-SEC-001, GS-API-001, GS-APL-014–GS-APL-015, ADR-0006, ADR-0008, ADR-0013, ADR-0016–ADR-0019 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033, TV-051, TV-054–TV-075 | Contratti e matrice meccanica definiti; prove funzionali/scientifiche reali incomplete |
 | NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RF-083, RF-086, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, RQ-047, RQ-049–RQ-056, CV-001–CV-020 | VA-01, VA-02, VA-04, VA-05, VA-07, GS-UI-001, GS-PROD-001, GS-APL-014–GS-APL-015, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014–ADR-0018 | TV-013, TV-015–TV-025, TV-044, TV-048–TV-049, TV-058, TV-061–TV-069 | Primo flusso condiviso compila; audit UI, hardware e percorso Must restano incompleti |
 | NS-009 Comprendere metodi e limiti | RF-026–RF-038, RF-042, RF-044–RF-046, RQ-023, RQ-025–RQ-028 | VA-06, ADR-0013, GS-MET-001 | TV-026–TV-032, TV-034–TV-036 | Specifica completa; review scientifica e implementazione mancanti |
@@ -74,7 +74,7 @@ path esistenti e impedisce le promozioni prive delle prove minime.
 | `verified` | prova riproducibile registrata | specifica, requisito, codice, test ed evidenza |
 | `blocked` | lavoro impedito da una lacuna esplicita | specifica, requisito e `blockingReason` |
 
-La matrice include 28 clausole ad alto rischio e rende visibili, senza
+La matrice include 30 clausole ad alto rischio e rende visibili, senza
 falsi positivi, le lacune su corpus italiano, baseline numerica, SupportPolicy e
 ranking, studi UX, PDF/OCR e hardware. La domanda “GS-DAT, protocollo di commit: è
 implementato e provato?” ottiene quindi stato, percorsi e blocco dalla stessa riga.
@@ -100,6 +100,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-017](evidenze/GS-VER-017-sicurezza-api-e-conformita.md) | Revisione documentale TV-070–TV-076 e gate della matrice | Superato localmente per contratti e automazione | Non prova parser, persistenza, API funzionale, corpus, benchmark o studi UX |
 | [GS-VER-018](evidenze/GS-VER-018-primo-incremento-verticale.md) | Slice parziale TV-002, TV-003, TV-040, TV-052 e TV-073 | Superato localmente per TXT bounded e integrazione Xcode | Non prova streaming, package, corpus gold, UI assistiva o dispositivi fisici |
 | [GS-VER-019](evidenze/GS-VER-019-package-glifi-transazionale.md) | Slice parziale TV-001, TV-002, TV-051, TV-060, TV-071–TV-073 | Superato localmente per package G2, commit point e API/CLI | Non prova power-loss, provider reali, migrazione, recovery completa o DocumentGroup |
+| [GS-VER-020](evidenze/GS-VER-020-query-ast-kwic-bounded.md) | Slice parziale TV-003, TV-007, TV-053, TV-060 e TV-073 | Superato localmente per QueryAST, parser, regex NFA, KWIC e CLI | Non prova indice, metadati/annotazioni, fuzz, benchmark, streaming o navigazione UI |
 
 ## Catalogo delle verifiche pianificate
 
@@ -186,7 +187,8 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 
 - La baseline 0.1 assegna il profilo Must/Should/fuori perimetro; manca la sua
   approvazione formale al gate G1.
-- Esiste un primo incremento funzionale TXT bounded; il percorso Must completo è ancora incompleto.
+- Esistono incrementi funzionali TXT, package e query/KWIC bounded; il percorso
+  Must completo è ancora incompleto.
 - TV-009, TV-010 e TV-019 richiedono dataset, soglie e hardware di riferimento.
 - TV-020 e TV-021 richiedono funzioni di prodotto e contratti persistenti ancora da implementare.
 - TV-026–TV-036 richiedono implementazioni, corpus gold, reference suite e
@@ -197,8 +199,8 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
   dispositivi e approvazioni; GS-VER-015 valida soltanto struttura e integrazione.
 - TV-063, TV-066–TV-069 richiedono flussi reali, corpus canary, build di rilascio e
   hardware; la baseline corrente copre soltanto policy, audit statico e test unitari.
-- TV-070–TV-074 e TV-076 sono contratti e verifiche pianificate: la sola validazione
-  documentale/strutturale di GS-VER-017 non prova parser, recovery, API o export.
+- TV-070–TV-074 e TV-076 restano verifiche parziali: GS-VER-020 prova il parser e
+  la query bounded, ma non sostituisce fuzz, recovery completa, progressi o export.
 - La matrice di conformità è inizialmente campionata sulle clausole ad alto rischio;
   ogni feature deve aggiungere le proprie righe al gate Definition of Ready.
 - TV-023–TV-025 richiedono una build funzionalmente completa, identità Apple, URL pubblici e attività nei sistemi Apple.
