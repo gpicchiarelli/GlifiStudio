@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-DAT-001 |
 | Tipo | Specifica di design di dati e persistenza |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -353,10 +353,18 @@ limite prima della decodifica, conserva i byte immutati e calcola SHA-256 tramit
 CryptoKit. File non regolari, link simbolici, input malformati e superamento del
 limite producono failure tipizzate senza path o contenuto nei messaggi macchina.
 
-La slice è intenzionalmente bounded a 64 MiB e in-memory. Non soddisfa ancora i
-requisiti di streaming per corpus, package `.glifi`, store SQLite, commit
-generazionale, recovery o SpanMap. Markdown non viene presentato come analizzabile
-finché estrazione strutturale e mappa verso la fonte non sono implementate.
+La slice è intenzionalmente bounded a 64 MiB e in-memory durante ingestion e
+profilazione. Il prototipo G2 crea e riapre package `.glifi` v1, incorpora gli
+originali come oggetti SHA-256, usa SQLite di sistema per generazioni append-only e
+adotta la sostituzione del solo manifest radice come commit point. Riapertura,
+corruzione dei byte, writer stale e sei checkpoint di interruzione sono coperti da
+test; GlifiKit e GlifiCLI attraversano lo stesso percorso.
+
+Non sono ancora soddisfatti streaming di corpus, recovery read-only verso una
+generazione precedente, terminazione reale/power-loss, migrazione N-1, autosave,
+indice, DAG o SpanMap. Markdown non viene presentato come analizzabile finché
+estrazione strutturale e mappa verso la fonte non sono implementate. Il dettaglio
+osservato e il rischio residuo del VFS SQLite Apple sono registrati in GS-VER-019.
 
 ## Riferimenti tecnici
 

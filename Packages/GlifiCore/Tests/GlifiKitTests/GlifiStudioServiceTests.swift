@@ -42,3 +42,33 @@ func serviceMapsFailures() async {
         Issue.record("Tipo di errore inatteso")
     }
 }
+
+@Test("GlifiKit crea, importa, riapre e chiude una sessione di progetto")
+func serviceProjectSessionRoundTrip() async throws {
+    let root = FileManager.default.temporaryDirectory.appending(
+        path: "GlifiKitProjectTests-\(UUID().uuidString)",
+        directoryHint: .isDirectory
+    )
+    try FileManager.default.createDirectory(at: root, withIntermediateDirectories: false)
+    defer { try? FileManager.default.removeItem(at: root) }
+    let projectURL = root.appending(path: "Progetto.glifi", directoryHint: .isDirectory)
+    let sourceURL = root.appending(path: "fonte.txt")
+    try Data("Una fonte italiana affidabile.".utf8).write(to: sourceURL)
+
+    let service = GlifiStudioService()
+    let session = try await service.createProject(at: projectURL)
+    #expect(try await session.snapshot().generation == 0)
+
+    let result = try await session.importText(at: sourceURL, format: .plainText)
+    #expect(result.project.generation == 1)
+    #expect(result.project.sourceCount == 1)
+    #expect(result.profile.lexicalTokenCount == 4)
+    await session.close()
+
+    await #expect(throws: GlifiStudioFailure.self) {
+        try await session.snapshot()
+    }
+
+    let reopened = try await service.openProject(at: projectURL)
+    #expect(try await reopened.snapshot() == result.project)
+}

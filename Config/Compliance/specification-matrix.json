@@ -75,26 +75,32 @@
       "clause": "GS-DAT-001 § Protocollo di commit",
       "specification": "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md",
       "requirements": ["RQ-043", "RQ-059"],
-      "code": [],
-      "tests": [],
-      "fixtures": [],
-      "evidence": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiProjectPackage.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiSQLiteProjectStore.swift"
+      ],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift"],
+      "fixtures": ["Fixtures/Persistence/v1/basic/case.json"],
+      "evidence": ["docs/evidenze/GS-VER-019-package-glifi-transazionale.md"],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Adapter SQLite, package writer e prototipo di sostituzione atomica non sono ancora implementati."
+      "blockingReason": "Il prototipo generazionale e atomico è operativo; restano processo-kill/power-loss, autosave, migrazione N-1, recovery read-only e file provider su dispositivi reali."
     },
     {
       "id": "CMP-006",
       "clause": "GS-DAT-001 § Matrice di interruzione",
       "specification": "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md",
       "requirements": ["RQ-059"],
-      "code": [],
-      "tests": [],
-      "fixtures": [],
-      "evidence": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiProjectPackage.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiSQLiteProjectStore.swift"
+      ],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift"],
+      "fixtures": ["Fixtures/Persistence/v1/basic/case.json"],
+      "evidence": ["docs/evidenze/GS-VER-019-package-glifi-transazionale.md"],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Kill-injection harness e fixture di recovery non sono ancora disponibili."
+      "blockingReason": "Sei checkpoint simulati provano il commit point; manca ancora un harness con terminazione reale del processo e la matrice per indice, DAG, autosave, migrazione ed export."
     },
     {
       "id": "CMP-007",
@@ -120,9 +126,9 @@
         "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"
       ],
       "fixtures": [],
-      "evidence": [],
+      "evidence": ["docs/evidenze/GS-VER-019-package-glifi-transazionale.md"],
       "gate": "G2",
-      "status": "implemented",
+      "status": "verified",
       "blockingReason": null
     },
     {
@@ -179,12 +185,15 @@
         "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
         "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift"
       ],
-      "tests": ["Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"],
-      "fixtures": [],
-      "evidence": [],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift",
+        "Scripts/verify.sh"
+      ],
+      "fixtures": ["Fixtures/Persistence/v1/basic/case.json"],
+      "evidence": ["docs/evidenze/GS-VER-019-package-glifi-transazionale.md"],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Il profilo TXT singolo è operativo; ProjectSession, persistenza, QueryAST, analisi ed export restano da implementare."
+      "blockingReason": "Status, profilo, ProjectSession e comandi CLI di progetto/import sono operativi; progressi, QueryAST, analisi ed export restano da implementare."
     },
     {
       "id": "CMP-013",
@@ -396,6 +405,44 @@
       "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiIdentifiersTests.swift"],
       "fixtures": [],
       "evidence": ["docs/evidenze/GS-VER-018-primo-incremento-verticale.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-027",
+      "clause": "GS-DAT-001 § Prototipo package .glifi e commit point G2",
+      "specification": "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md",
+      "requirements": ["RF-001", "RF-002", "RQ-043", "RQ-044", "RQ-059"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiProjectPackage.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiSQLiteProjectStore.swift"
+      ],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift"],
+      "fixtures": [
+        "Fixtures/Persistence/v1/basic/case.json",
+        "Fixtures/Persistence/v1/basic/source.txt"
+      ],
+      "evidence": ["docs/evidenze/GS-VER-019-package-glifi-transazionale.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-028",
+      "clause": "GS-API-001 § ProjectSession e CLI di progetto",
+      "specification": "docs/api/README.md",
+      "requirements": ["RF-001", "RF-023", "RQ-058", "RQ-060"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift",
+        "Scripts/verify.sh"
+      ],
+      "fixtures": ["Fixtures/Persistence/v1/basic/source.txt"],
+      "evidence": ["docs/evidenze/GS-VER-019-package-glifi-transazionale.md"],
       "gate": "G2",
       "status": "verified",
       "blockingReason": null

@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-API-001 |
 | Tipo | Specifica normativa delle interfacce applicative e headless |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -87,15 +87,16 @@ correlazione effimera.
 `GlifiStudioService` è `Sendable` e rappresenta un ingresso leggero al motore. La
 creazione non apre file, non avvia rete, non crea lavoro background persistente e
 non acquisisce security scope. `status()` è idempotente, asincrono e non modifica
-lo stato scientifico. La superficie corrente implementa `ready` e il primo profilo
-bounded di un TXT autorizzato; non costituisce ancora una sessione di progetto.
+lo stato scientifico. La superficie corrente implementa `ready`, il primo profilo
+bounded di un TXT autorizzato e la creazione/apertura di sessioni `.glifi`.
 
-### 5.2 Sessione di progetto candidata
+### 5.2 Sessione di progetto
 
-L'API 0.1 deve convergere su una `ProjectSession` actor-isolated ottenuta da
-`createProject` o `openProject`. La sessione possiede file coordination, cache
-handles e operazioni; `close` è idempotente, cancella lavoro owned non committato,
-rilascia bookmark e termina solo dopo cleanup bounded.
+`GlifiStudioProjectSession` è actor-isolated e viene ottenuta da `createProject` o
+`openProject`. Il prototipo corrente possiede il package coordinato e l'import TXT;
+`close` è idempotente e impedisce nuove operazioni. Ownership di task lunghi,
+cache handles e bookmark entreranno con le rispettive funzioni, senza cambiare la
+semantica di chiusura.
 
 Una sessione chiusa rifiuta nuove operazioni con codice stabile. L'eliminazione del
 valore client non è un protocollo di chiusura e non autorizza salvataggi impliciti.
@@ -181,8 +182,8 @@ contenuto, query, path o nomi file.
 | Operazione semantica | Request minima | Esito | Stato |
 | --- | --- | --- | --- |
 | stato motore | nessuna | stato capability-neutral | Implementata |
-| crea/apri/chiudi progetto | URL autorizzato, modalità | sessione o failure | Specificata; non implementata |
-| importa | sessione, sorgenti, policy | SourceRevision e rapporto | Specificata; non implementata |
+| crea/apri/chiudi progetto | URL autorizzato, modalità | sessione o failure | Implementata e verificata per package locale `.glifi` v1 |
+| importa | sessione, sorgenti, policy | SourceRevision e rapporto | TXT bounded implementato e verificato; Markdown e streaming aperti |
 | profila raccolta | TXT autorizzato nella slice; revisioni nel target | profilo descrittivo bounded | Prima slice TXT implementata e verificata; CollectionProfile multiplo non implementato |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
 | analizza | piano e budget | Artifact/Evidence/Findings | Specificata; non implementata |
@@ -207,10 +208,13 @@ glifi query <project> --request <json-file>
 glifi export <project> --request <json-file> --output <path>
 ```
 
-Solo `status` è disponibile nella CLI. Accetta `--format text|json`; l'envelope JSON
-ha `cliProtocolVersion = 1`. L'invocazione senza argomenti resta alias temporaneo
-dello smoke test e stampa `GlifiCore pronto`; prima del protocollo CLI 1.0 deve
-diventare `help` o essere rimossa con nota di migrazione.
+Sono disponibili `status`, `project create`, `project info`, `project validate` e
+`import` per TXT. Accettano `--format text|json`; l'envelope JSON ha
+`cliProtocolVersion = 1`. `plan`, `analyze`, `query` ed `export` restano
+fail-closed e non sono pubblicizzati come comandi disponibili. L'invocazione senza
+argomenti resta alias temporaneo dello smoke test e stampa `GlifiCore pronto`;
+prima del protocollo CLI 1.0 deve diventare `help` o essere rimossa con nota di
+migrazione.
 
 ### 10.1 Stream
 

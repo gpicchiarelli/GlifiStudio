@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.18.0 |
+| Versione | 0.19.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -32,3 +32,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-016 — Osservabilità e sostenibilità macOS](GS-VER-016-osservabilita-e-sostenibilita-macos.md) — Superato localmente con prove hardware aperte
 - [GS-VER-017 — Sicurezza, API e conformità verificabile](GS-VER-017-sicurezza-api-e-conformita.md) — Superato localmente; evidenze funzionali/scientifiche ancora bloccate
 - [GS-VER-018 — Primo incremento verticale](GS-VER-018-primo-incremento-verticale.md) — Superato localmente per TXT bounded, `it-token-v1` seed e integrazione Xcode
+- [GS-VER-019 — Package `.glifi` transazionale](GS-VER-019-package-glifi-transazionale.md) — Superato localmente per prototipo G2, commit point e ProjectSession/CLI

@@ -55,6 +55,40 @@ if [[ "$cli_json_output" != "$expected_cli_json" ]]; then
     exit 1
 fi
 
+cli_project_path="$temporary_build_directory/CLI-Smoke.glifi"
+cli_create_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json project create "$cli_project_path")"
+cli_import_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json import "$cli_project_path" \
+    Fixtures/Persistence/v1/basic/source.txt)"
+cli_validate_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json project validate "$cli_project_path")"
+
+python3 - "$cli_create_output" "$cli_import_output" "$cli_validate_output" <<'PY'
+import json
+import sys
+
+created, imported, validated = (json.loads(value) for value in sys.argv[1:])
+assert created["command"] == "project.create"
+assert created["result"]["project"]["generation"] == 0
+assert imported["command"] == "import"
+assert imported["result"]["project"]["generation"] == 1
+assert imported["result"]["project"]["sourceCount"] == 1
+assert imported["result"]["lastProfile"]["lexicalTokenCount"] == 3
+assert validated["command"] == "project.validate"
+assert validated["result"]["status"] == "valid"
+assert validated["result"]["project"] == imported["result"]["project"]
+PY
+
 xcodebuild build \
     -quiet \
     -workspace GlifiStudio.xcworkspace \

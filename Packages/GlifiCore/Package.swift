@@ -15,7 +15,10 @@ let package = Package(
         .executable(name: "GlifiCLI", targets: ["GlifiCLI"]),
     ],
     targets: [
-        .target(name: "GlifiCore"),
+        .target(
+            name: "GlifiCore",
+            linkerSettings: [.linkedLibrary("sqlite3")]
+        ),
         .target(name: "GlifiKit", dependencies: ["GlifiCore"]),
         .executableTarget(name: "GlifiCLI", dependencies: ["GlifiKit"]),
         .testTarget(name: "GlifiCoreTests", dependencies: ["GlifiCore"]),

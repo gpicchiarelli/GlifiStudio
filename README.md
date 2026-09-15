@@ -54,7 +54,7 @@ Glifi Studio non è un editor generalista con qualche statistica aggiunta e non 
 ## Stato del progetto
 
 > [!IMPORTANT]
-> **Primo incremento verticale eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS importano un TXT UTF-8 bounded, applicano `it-token-v1` e mostrano un profilo deterministico attraverso lo stesso percorso GlifiKit/GlifiCore. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) restano l'autorità; package `.glifi`, Markdown con SpanMap, indice, QueryAST e analisi ulteriori non sono ancora disponibili.
+> **Incrementi verticali eseguibili — non ancora un prodotto pronto al rilascio.** Il motore crea e verifica package `.glifi`, incorpora TXT UTF-8 bounded con commit generazionale, applica `it-token-v1` e produce un profilo deterministico attraverso GlifiKit e GlifiCLI; le app mostrano il primo percorso TXT. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) restano l'autorità; Markdown con SpanMap, indice, QueryAST, recovery completa e analisi ulteriori non sono ancora disponibili.
 
 La documentazione è una baseline controllata: requisiti, architettura e decisioni aperte sono tracciati, ma non tutte le scelte di prodotto hanno ancora approvazione definitiva. La presenza di una tecnologia o di un documento non equivale alla disponibilità della relativa funzione.
 
@@ -62,9 +62,9 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | --- | --- |
 | App macOS | `NavigationSplitView` nativa con import TXT, stati tipizzati e profilo localizzato |
 | App iPadOS | Stesso flusso condiviso, adattivo per navigazione e file importer di sistema |
-| `GlifiKit` | Status e profilo TXT asincrono con DTO/failure indipendenti dalla presentazione |
-| `GlifiCore` | Motore actor-based con import strict, ID tipizzati, SHA-256, tokenizer sostituibile, offset UTF-8 e frequenze |
-| `GlifiCLI` | Status testuale e JSON v1 verificati; comandi di progetto ancora non disponibili |
+| `GlifiKit` | Status, profilo TXT e `ProjectSession` actor-isolated con failure complete indipendenti dalla presentazione |
+| `GlifiCore` | Motore actor-based con import strict, package `.glifi`/SQLite generazionale, ID tipizzati, SHA-256, tokenizer sostituibile, offset UTF-8 e frequenze |
+| `GlifiCLI` | Status, create/info/validate/import testuali e JSON v1 verificati; query, analisi ed export ancora non disponibili |
 | Qualità | Gate riproducibile con Apple Swift 6.4, test/build, controlli Apple/App Store, zero telemetria e matrice di conformità automatica |
 | Design implementativo | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD definiti come baseline candidata; nessuna funzione è dichiarata implementata per questo solo fatto |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |

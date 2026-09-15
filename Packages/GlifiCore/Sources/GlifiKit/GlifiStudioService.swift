@@ -70,16 +70,142 @@ public struct GlifiStudioFailure: Error, Equatable, Sendable {
     public let code: String
     /// Stable failure category.
     public let category: String
+    /// Stable operation that observed the failure.
+    public let operation: String
+    /// Stable condition under which retry can be meaningful.
+    public let retryDisposition: String
+    /// Stable description of the state retained after failure.
+    public let retainedState: String
     /// Localization key for presentation clients.
     public let messageKey: String
     /// Non-sensitive localization arguments.
     public let arguments: [String: String]
 
+    /// Creates a stable failure value for a presentation or machine boundary.
+    public init(
+        code: String,
+        category: String,
+        operation: String,
+        retryDisposition: String,
+        retainedState: String,
+        messageKey: String,
+        arguments: [String: String] = [:]
+    ) {
+        self.code = code
+        self.category = category
+        self.operation = operation
+        self.retryDisposition = retryDisposition
+        self.retainedState = retainedState
+        self.messageKey = messageKey
+        self.arguments = arguments
+    }
+
     init(_ failure: GlifiFailure) {
         code = failure.code
         category = failure.category.rawValue
+        operation = failure.operation.rawValue
+        retryDisposition = failure.retryDisposition.rawValue
+        retainedState = failure.retainedState.rawValue
         messageKey = failure.messageKey
         arguments = failure.arguments
+    }
+}
+
+/// Presentation-independent view of an authoritative project generation.
+public struct GlifiStudioProjectSnapshot: Equatable, Sendable {
+    /// Stable opaque project identifier.
+    public let projectID: String
+    /// Monotonic authoritative generation.
+    public let generation: Int
+    /// Number of incorporated immutable source revisions.
+    public let sourceCount: Int
+
+    init(_ snapshot: GlifiProjectSnapshot) {
+        projectID = snapshot.projectID.canonicalValue
+        generation = snapshot.generation
+        sourceCount = snapshot.sources.count
+    }
+}
+
+/// Durable project state and profile returned by a successful source import.
+public struct GlifiStudioProjectImportResult: Equatable, Sendable {
+    /// Newly committed project generation.
+    public let project: GlifiStudioProjectSnapshot
+    /// Profile derived from the exact incorporated source revision.
+    public let profile: GlifiStudioTextProfile
+
+    init(_ result: GlifiProjectTextImportResult) {
+        project = GlifiStudioProjectSnapshot(result.project)
+        profile = GlifiStudioTextProfile(result.profile)
+    }
+}
+
+/// Actor-isolated lifecycle for one verified `.glifi` project.
+public actor GlifiStudioProjectSession {
+    private let engine: GlifiEngine
+    private let project: GlifiProjectPackage
+    private var isClosed = false
+
+    init(engine: GlifiEngine, project: GlifiProjectPackage) {
+        self.engine = engine
+        self.project = project
+    }
+
+    /// Returns the current verified generation while the session is open.
+    public func snapshot() async throws -> GlifiStudioProjectSnapshot {
+        try ensureOpen()
+        return GlifiStudioProjectSnapshot(await project.snapshot())
+    }
+
+    /// Validates, profiles, and incorporates one user-authorized text source.
+    public func importText(
+        at url: URL,
+        format: GlifiStudioTextFormat
+    ) async throws -> GlifiStudioProjectImportResult {
+        try ensureOpen()
+        do {
+            return try await GlifiStudioProjectImportResult(
+                engine.importText(at: url, format: format.coreValue, into: project)
+            )
+        } catch {
+            throw Self.map(error, operation: .importText)
+        }
+    }
+
+    /// Closes this logical session idempotently and rejects subsequent operations.
+    public func close() {
+        isClosed = true
+    }
+
+    private func ensureOpen() throws {
+        guard !isClosed else {
+            throw GlifiStudioFailure(
+                GlifiFailure(
+                    code: "project.session-closed",
+                    category: .invalidInput,
+                    operation: .persistProject,
+                    retryDisposition: .never,
+                    retainedState: .lastCommittedGeneration,
+                    messageKey: "failure.project.session-closed"
+                )
+            )
+        }
+    }
+
+    private static func map(_ error: Error, operation: GlifiOperationKind) -> GlifiStudioFailure {
+        if let failure = error as? GlifiFailure {
+            return GlifiStudioFailure(failure)
+        }
+        return GlifiStudioFailure(
+            GlifiFailure(
+                code: "internal.unexpected",
+                category: .invariantViolation,
+                operation: operation,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.internal.unexpected"
+            )
+        )
     }
 }
 
@@ -128,9 +254,45 @@ public struct GlifiStudioService: Sendable {
             )
         }
     }
+
+    /// Creates and opens an empty `.glifi` project at a user-authorized destination.
+    public func createProject(at url: URL) async throws -> GlifiStudioProjectSession {
+        do {
+            let project = try await engine.createProject(at: url)
+            return GlifiStudioProjectSession(engine: engine, project: project)
+        } catch {
+            throw map(error, operation: .persistProject)
+        }
+    }
+
+    /// Opens an existing `.glifi` project after complete integrity verification.
+    public func openProject(at url: URL) async throws -> GlifiStudioProjectSession {
+        do {
+            let project = try await engine.openProject(at: url)
+            return GlifiStudioProjectSession(engine: engine, project: project)
+        } catch {
+            throw map(error, operation: .persistProject)
+        }
+    }
+
+    private func map(_ error: Error, operation: GlifiOperationKind) -> GlifiStudioFailure {
+        if let failure = error as? GlifiFailure {
+            return GlifiStudioFailure(failure)
+        }
+        return GlifiStudioFailure(
+            GlifiFailure(
+                code: "internal.unexpected",
+                category: .invariantViolation,
+                operation: operation,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.internal.unexpected"
+            )
+        )
+    }
 }
 
-private extension GlifiStudioTextFormat {
+extension GlifiStudioTextFormat {
     var coreValue: GlifiTextFormat {
         switch self {
         case .plainText:

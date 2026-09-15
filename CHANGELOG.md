@@ -13,6 +13,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 - Identificatori opachi e tipizzati, tassonomia di failure eseguibile e
   sostituibilità del tokenizer nel motore headless.
 - Output JSON v1 di `GlifiCLI status` e contract check nel quality gate.
+- Package `.glifi` v1 con manifest commit point, SQLite di sistema, oggetti fonte
+  SHA-256 immutabili, verifica di integrità e fault injection generazionale.
+- `GlifiStudioProjectSession` actor-isolated e comandi CLI `project
+  create|info|validate`/`import` con envelope e codici di uscita v1.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.
