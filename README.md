@@ -4,7 +4,7 @@
   <img src="Design/AppIcon/AppIcon-master-1024.png" width="88" height="88" alt="Icona di Glifi Studio">
 </p>
 
-# Glifi Studio
+<h1 align="center">Glifi Studio</h1>
 
 <p align="center">
   <strong>Documenti, corpus e analisi testuale. Con rigore, fino alla fonte.</strong>

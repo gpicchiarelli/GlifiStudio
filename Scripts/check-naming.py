@@ -16,7 +16,7 @@ LEGACY_STEM = "Gly" + "pha"
 LEGACY_STEM_LOWERCASE = LEGACY_STEM.lower()
 
 REQUIRED_FRAGMENTS = {
-    Path("README.md"): ("# Glifi Studio", "GlifiStudio.xcworkspace"),
+    Path("README.md"): ("GlifiStudio.xcworkspace",),
     Path("Apps/Shared/Resources/Localizable.xcstrings"): (
         '"value" : "Glifi Studio"',
         '"value" : "GlifiCore pronto"',
@@ -36,6 +36,11 @@ REQUIRED_FRAGMENTS = {
         "INFOPLIST_KEY_CFBundleDisplayName = Glifi Studio",
     ),
 }
+
+CANONICAL_README_HEADINGS = (
+    "# Glifi Studio",
+    '<h1 align="center">Glifi Studio</h1>',
+)
 
 
 def main() -> int:
@@ -68,6 +73,13 @@ def main() -> int:
         for fragment in fragments:
             if fragment not in body:
                 errors.append(f"Nome canonico mancante in {relative_path}: {fragment}")
+
+    readme_body = (PROJECT_DIRECTORY / "README.md").read_text(encoding="utf-8")
+    if not any(heading in readme_body for heading in CANONICAL_README_HEADINGS):
+        errors.append(
+            "Titolo canonico mancante in README.md: "
+            + " oppure ".join(CANONICAL_README_HEADINGS)
+        )
 
     if errors:
         print("Naming validation failed:", file=sys.stderr)
