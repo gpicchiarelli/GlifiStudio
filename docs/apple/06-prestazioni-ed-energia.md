@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-006 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -29,3 +29,6 @@
   spiegabili.
 
 Gli strumenti di riferimento sono Instruments, Organizer e i checker di Xcode. La strategia dei backend è definita in [Calcolo accelerato su Apple silicon](11-calcolo-accelerato-apple-silicon.md). Riferimento: [Testing and performance](https://developer.apple.com/documentation/technologyoverviews/testing-and-performance).
+
+Task tree, code bounded, pressure response, classi S/M/L/XL e budget quantitativi
+sono governati da [GS-RUN-001](../specifiche-di-design/06-runtime-e-risorse.md).

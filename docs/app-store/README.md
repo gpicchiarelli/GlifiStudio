@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-IDX-001 |
 | Tipo | Indice del piano App Store |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -19,6 +19,11 @@ espliciti requisiti, responsabilità, prove e blocchi prima della submission.
 La readiness dell'esperienza è valutata contro [GS-UX-001](../esperienza-utente/README.md):
 uno scaffold compilabile o un insieme di schermate non costituiscono funzionalità
 minima, comprensione, accessibilità o valore autonomo.
+
+Perimetro e completezza sono valutati contro
+[GS-PROD-001](../specifiche-di-design/10-product-baseline-mvp.md); una capacità
+scientifica è pubblicabile soltanto con il ValidationManifest richiesto da
+GS-VAL-001.
 
 ## Information item
 

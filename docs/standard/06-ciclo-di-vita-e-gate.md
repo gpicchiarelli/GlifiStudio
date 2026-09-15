@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-06 |
 | Tipo | Capitolo normativo |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -16,8 +16,8 @@ Il progetto usa sviluppo iterativo. I gate non impongono un modello a cascata: s
 | Gate | Obiettivo | Evidenze minime | Autorità |
 | --- | --- | --- | --- |
 | G0 — Avvio | Autorizzare l'esplorazione | Visione, stakeholder candidati, rischi iniziali, responsabili | Product owner |
-| G1 — Baseline requisiti | Definire ciò che una slice deve ottenere | Requisiti verificabili, priorità, tracciabilità, criteri di accettazione | Product owner e responsabile requisiti |
-| G2 — Baseline architettura | Autorizzare l'implementazione strutturale | View applicabili, ADR, prototipi di rischio, scenari di qualità | Responsabile architettura |
+| G1 — Baseline requisiti | Definire ciò che una slice deve ottenere | Requisiti verificabili, GS-PROD, dieci specifiche GS-DSG, priorità, tracciabilità e criteri | Product owner e responsabile requisiti |
+| G2 — Baseline architettura | Autorizzare l'implementazione strutturale | View, ADR, vertical prototype `.glifi`/SpanMap/QueryAST/DAG/runtime, scenari di qualità | Responsabile architettura |
 | G3 — Ready for integration | Integrare una modifica | Code review, test, documentazione, controlli automatici verdi | Maintainer e responsabile qualità |
 | G4 — Release candidate | Congelare il candidato | Tracciabilità completa, test di sistema, benchmark, security review, note bozza | Responsabile qualità |
 | G5 — Release | Pubblicare | Artefatto firmato, checklist, note, migrazioni, rollback, approvazione | Responsabile rilascio e product owner |

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-007 |
 | Tipo | Piano di test di rilascio |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Pianificato |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -29,6 +29,8 @@ La matrice definitiva nasce da DA-001 e comprende almeno:
   applicabile; finding sostenuto e dati insufficienti;
 - navigazione oggetto/confronto, numero → fonte, dettaglio metodologico e relazione;
 - finestre multiple macOS/iPadOS e ripristino di selezione e contesto.
+- classi benchmark S su tutta la matrice e M sui dispositivi minimi dichiarati,
+  con ResourceBudget GS-RUN, termica, cancellazione e rifiuto sicuro.
 
 ## Qualità richiesta
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-IDX-001 |
 | Tipo | Indice delle pratiche Apple |
-| Versione | 1.3.0 |
+| Versione | 1.4.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -20,6 +20,12 @@ La [specifica dell'esperienza](../esperienza-utente/README.md) definisce indagin
 intenzioni, planner, findings e progressive disclosure. I componenti Apple ne
 forniscono l'espressione nativa e accessibile senza spostare regole di dominio nelle
 view.
+
+Le specifiche implementative [GS-DAT-001](../specifiche-di-design/02-dati-lineage-e-persistenza.md),
+[GS-RUN-001](../specifiche-di-design/06-runtime-e-risorse.md) e
+[GS-UI-001](../specifiche-di-design/07-information-architecture-e-interazione.md)
+rendono vincolanti package, risorse e interazione; questo profilo seleziona le API
+Apple con cui realizzarli.
 
 La strategia distingue:
 
@@ -37,14 +43,14 @@ La strategia distingue:
 | GS-APL-002 | [Interfaccia adattiva](02-interfaccia-adattiva.md) | Regole attive; flussi da progettare |
 | GS-APL-003 | [Accessibilità](03-accessibilita.md) | Baseline attiva; audit UI progressivi |
 | GS-APL-004 | [Privacy e sicurezza](04-privacy-e-sicurezza.md) | Manifest e sandbox attivi |
-| GS-APL-005 | [Documenti e accesso ai file](05-documenti-e-accesso-ai-file.md) | Contratto da definire prima dell'importazione |
+| GS-APL-005 | [Documenti e accesso ai file](05-documenti-e-accesso-ai-file.md) | Package documentale definito; prototipo da realizzare |
 | GS-APL-006 | [Prestazioni ed energia](06-prestazioni-ed-energia.md) | Regole attive; baseline da misurare |
 | GS-APL-007 | [Test e diagnostica](07-test-e-diagnostica.md) | Gate locale attivo; test UI da aggiungere |
 | GS-APL-008 | [Firma e distribuzione](08-firma-e-distribuzione.md) | Da completare prima del rilascio |
 | GS-APL-009 | [Pipeline documentale e OCR](09-pipeline-documentale-e-ocr.md) | Tecnologie assegnate; implementazione per fasi |
 | GS-APL-010 | [Linguistica e intelligenza on-device](10-linguistica-e-intelligenza-on-device.md) | Natural Language prioritario; ML e generazione condizionali |
 | GS-APL-011 | [Calcolo accelerato su Apple silicon](11-calcolo-accelerato-apple-silicon.md) | Strategia CPU/Accelerate/GPU/Neural Engine approvata |
-| GS-APL-012 | [Persistenza e indicizzazione di sistema](12-persistenza-e-indicizzazione-di-sistema.md) | Alternative assegnate; scelta storage da benchmark |
+| GS-APL-012 | [Persistenza e indicizzazione di sistema](12-persistenza-e-indicizzazione-di-sistema.md) | SQLite/formati Foundation adottati; Spotlight post-MVP |
 | GS-APL-013 | [Integrazione di sistema e lavoro prolungato](13-integrazione-di-sistema-e-lavoro-prolungato.md) | App Intents, trasferimento e background pianificati |
 
 ## Mappa sintetica delle tecnologie
@@ -61,7 +67,7 @@ La strategia distingue:
 | GPU | Metal, Metal Performance Shaders | Solo con vantaggio end-to-end misurato |
 | Machine learning | Core ML su CPU, GPU e Neural Engine | Per modelli specializzati e versionati |
 | Generative AI | Foundation Models e Core AI | Assistiva, condizionale, con fallback |
-| Dati | SwiftData, formati Foundation versionati, Compression/Apple Archive | Scelta ibrida da prototipare |
+| Dati | SQLite di sistema, FileWrapper/Foundation, CryptoKit, formati versionati | Package `.glifi` GS-DAT; SwiftData non canonico |
 | Ricerca di sistema | Core Spotlight, App Entities | Per entità utente, non per l'indice scientifico |
 | Automazione | App Intents, Shortcuts, Siri, Apple Intelligence | Dopo la stabilizzazione dei contratti di dominio |
 | Lavoro prolungato | BackgroundTasks su iPadOS; task controllati su macOS | Attivazione per operazioni approvate |
@@ -75,4 +81,6 @@ Mac Catalyst, ML Compute deprecato, polling perpetuo e dipendenze necessarie da 
 
 StoreKit, AVFoundation, Speech, ARKit/RealityKit, MapKit, HealthKit, HomeKit e altri framework verticali non sono attualmente necessari: vengono aggiunti al portafoglio soltanto se un requisito di prodotto ne introduce il dominio. Questa esclusione evita permessi, superficie di test e coupling privi di valore per l'analisi testuale.
 
-Le decisioni sono registrate in [ADR-0006](../adr/0006-baseline-applicativa-apple.md) e [ADR-0008](../adr/0008-portafoglio-tecnologico-apple-silicon.md).
+Le decisioni sono registrate in [ADR-0006](../adr/0006-baseline-applicativa-apple.md),
+[ADR-0008](../adr/0008-portafoglio-tecnologico-apple-silicon.md) e
+[ADR-0016](../adr/0016-specifiche-di-design-e-baseline-prodotto.md).

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-I18N-001 |
 | Tipo | Specifica della configurazione linguistica analitica |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -30,6 +30,9 @@ La baseline analitica iniziale di Glifi Studio è calibrata per la lingua italia
   discorso, feature morfologiche ed entità seguono
   [GS-MET-001-18](metodi-analitici/18-valutazione-servizi-linguistici.md) e restano
   da approvare tramite DA-008.
+- Segmentazione, SurfaceToken, apostrofi, clitici, trattini, abbreviazioni,
+  normalizzazione e corpus gold applicano il contratto operativo
+  [GS-LNG-001](specifiche-di-design/03-contratto-linguistico-italiano.md).
 
 ## Estensione futura
 

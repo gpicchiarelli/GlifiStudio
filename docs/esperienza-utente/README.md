@@ -26,6 +26,10 @@ la progressione informativa e le azioni offerte alle persone. I
 [profili Apple](../apple/README.md) governano il comportamento nativo di piattaforma.
 Nessuno dei tre livelli può ridefinire implicitamente gli altri.
 
+GS-UI-001 rende concreti route, scene, comandi e componenti; GS-ANA-001 rende
+concreti planner, interpretation e ranking. Questi documenti implementano il
+modello mentale GS-UX senza diventarne una fonte alternativa.
+
 ## Principio costituzionale
 
 Glifi Studio organizza l'interazione intorno a ciò che la persona studia, a ciò che

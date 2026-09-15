@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-003 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -28,5 +28,7 @@
   ripetitivi; ogni stato importante resta percepibile.
 - Drag, hover, cross-filter e selezione di un segno **DEVONO** avere azioni
   equivalenti con tastiera e tecnologia assistiva.
+- Ogni VisualizationSpec GS-VIZ-001 **DEVE** produrre sintesi, struttura e tabella
+  equivalente collegate alla stessa selezione e allo stesso lineage.
 
 Riferimenti: [Accessibility modifiers](https://developer.apple.com/documentation/swiftui/view-accessibility) e [Accessibility Inspector](https://developer.apple.com/documentation/accessibility/accessibility-inspector).

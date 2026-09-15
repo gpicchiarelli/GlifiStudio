@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-DMP-001 |
 | Tipo | Documentation management plan |
-| Versione | 0.13.0 |
+| Versione | 0.14.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -54,6 +54,7 @@ Il formato Markdown è un mezzo di registrazione e non modifica gli obblighi inf
 | Specifica requisiti software | `GS-SRS-*` | Contesto, interfacce, vincoli, requisiti e attributi di verifica |
 | Specifica dei metodi analitici | `GS-MET-*` | Semantica, formule, input/output, precondizioni, determinismo, provenienza e verifica dei metodi scientifici |
 | Specifica dell'esperienza utente | `GS-UX-*` | Modello mentale, intenzioni, indagine, planner, catena epistemica, navigazione, accessibilità e validazione human-centred |
+| Specifica di design implementativo | `GS-DOM-*`, `GS-DAT-*`, `GS-LNG-*`, `GS-QRY-*`, `GS-ANA-*`, `GS-RUN-*`, `GS-UI-*`, `GS-VIZ-*`, `GS-VAL-*`, `GS-PROD-*` | Contratto eseguibile di un solo sottosistema o baseline, con invarianti, stati, interfacce e criteri di conformità |
 | Matrice di tracciabilità | `GS-TRC-*` | Collegamenti bidirezionali tra fonti, necessità, requisiti, design e verifica |
 | Descrizione architetturale | `GS-AD-*` | Entità, stakeholder, concern, viewpoint, view, corrispondenze e rationale |
 | Glossario | `GS-GLO-*` | Termini, definizioni e abbreviazioni condivise |
@@ -80,6 +81,11 @@ La famiglia UX **DEVE** separare responsabilità cognitive e d'interazione auton
 Non duplica formule GS-MET, regole Apple o requisiti: li collega dichiarando
 rispettivamente significato scientifico, comportamento di piattaforma e obblighi
 verificabili.
+
+La famiglia di design **DEVE** contenere un documento autorevole per ciascuno dei
+dieci concern registrati in GS-DSG-IDX-001. L'indice mantiene confini e dipendenze,
+non requisiti o norme duplicati. Una nuova specifica richiede ADR che dimostri che
+il concern non appartiene già a un documento esistente.
 
 ## 4. Metadati obbligatori
 
@@ -170,6 +176,13 @@ progressive disclosure, accessibilità, localizzazione e verifica applicabili. U
 wireframe supporta la valutazione, ma non sostituisce semantica, requisiti o prova
 con persone rappresentative. Il linguaggio dell'esperienza non deve alterare la
 terminologia normativa dei metodi.
+
+### 9.3 Regole per le specifiche di design
+
+Ogni specifica di design deve indicare scopo, confine di autorità, invarianti,
+stati o flussi, contratti tra componenti, comportamento di errore e criteri di
+conformità. Scelte irreversibili o costose devono rinviare a un ADR; valori
+quantitativi non validati devono essere marcati come baseline da calibrare.
 
 ## 10. Tracciabilità
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-005 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -23,5 +23,16 @@
   indagini, cronologia, artefatti autorevoli, cache e stato per-scena.
 - Una persona **NON DEVE** essere obbligata a esportare manualmente ogni grafico per
   conservarne il finding; la persistenza segue il dominio dell'indagine.
+- Le app **DEVONO** dichiarare `studio.glifi.project` conforme a `UTType.package` e
+  usare un ciclo document-based SwiftUI coerente con GS-DAT-001.
+- Lettura e serializzazione del package **NON DEVONO** eseguire I/O lungo sul
+  Main Actor; autosave e conflitti mantengono generazioni verificabili.
+- `DocumentGroup` e il Document API disponibile in Xcode 27 **DEVONO** essere
+  prototipati contro multiwindow, file coordination, autosave e conflict handling;
+  la scelta del protocollo Swift non cambia il formato `.glifi`.
 
-La scelta tra `DocumentGroup`, package documentale e progetto gestito resta vincolata a DA-003 e DA-004. Riferimento: [Accessing files from the macOS App Sandbox](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox).
+Il contratto è [GS-DAT-001](../specifiche-di-design/02-dati-lineage-e-persistenza.md).
+Riferimenti: [DocumentGroup](https://developer.apple.com/documentation/swiftui/documentgroup),
+[FileDocument](https://developer.apple.com/documentation/swiftui/filedocument),
+[Creating a document-based app](https://developer.apple.com/documentation/swiftui/creating-a-document-based-app)
+e [Accessing files from the macOS App Sandbox](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox).

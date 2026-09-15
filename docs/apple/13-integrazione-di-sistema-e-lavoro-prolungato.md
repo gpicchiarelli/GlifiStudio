@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-013 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -14,8 +14,8 @@
 
 | Tecnologia | Valore per Glifi Studio | Stato |
 | --- | --- | --- |
-| App Intents e App Entities | Progetti, corpus e azioni disponibili a Shortcuts, Siri, Spotlight e Apple Intelligence | Pianificato quando identità e permessi sono stabili |
-| Core Spotlight | Ritrovamento e apertura profonda di entità | Pianificato secondo GS-APL-012 |
+| App Intents e App Entities | Progetti, corpus e azioni disponibili a Shortcuts, Siri, Spotlight e Apple Intelligence | Post-MVP; quando identità e permessi sono stabili |
+| Core Spotlight | Ritrovamento e apertura profonda di entità | Post-MVP secondo GS-PROD-001 |
 | Core Transferable e ShareLink | Importazione, esportazione, drag and drop e condivisione tipizzata | Da adottare con i primi formati stabili |
 | Swift Charts | Visualizzazioni statistiche native, accessibili e adattive | Prima scelta per grafici compatibili |
 | BackgroundTasks | Continuazione su iPadOS di elaborazioni esplicitamente avviate dalla persona | Condizionale alla prima operazione lunga |
@@ -51,6 +51,8 @@ Su macOS, il lavoro controllato resta legato a task con ownership, progresso e c
 - iPadOS **DEVE** supportare touch, puntatore, tastiera hardware, multitasking e finestre ridimensionabili.
 - La parità fra piattaforme riguarda oggetti e azioni semantiche GS-UX; disposizione,
   densità e presentazioni possono seguire convenzioni native differenti.
+- Route, scene, selezione e comandi applicano GS-UI-001; progress, cancellazione e
+  checkpoint delle operazioni applicano GS-RUN-001.
 - Apple Pencil, hover, fotocamera, widget, Live Activities e Handoff **DEVONO** essere attivati soltanto se migliorano un flusso approvato e con fallback accessibile.
 
 ## Riferimenti Apple

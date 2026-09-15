@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-27 |
 | Tipo | Capitolo normativo |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -33,6 +33,7 @@ GlifiStudio/
 │   ├── esperienza-utente/     # paradigma, indagine, planner e interazione
 │   ├── metodi-analitici/      # specifiche matematiche e scientifiche
 │   ├── repository/            # governo e configurazione del repository
+│   ├── specifiche-di-design/  # dieci contratti implementativi autorevoli
 │   └── standard/              # un argomento normativo per documento
 ├── GlifiStudio.xcodeproj/     # progetto Xcode condiviso
 ├── GlifiStudio.xcworkspace/   # ingresso Xcode canonico
@@ -59,6 +60,9 @@ GlifiStudio/
 - `docs/metodi-analitici/` definisce semantica e verifica dei metodi senza dipendere da implementazione o GUI.
 - `docs/esperienza-utente/` definisce semantica dell'interazione senza duplicare
   formule GS-MET, regole Apple o layout non ancora validati.
+- `docs/specifiche-di-design/` definisce dominio, dati, lingua, query, sistema
+  analitico, runtime, UI, visualizzazione, validazione e baseline prodotto; il suo
+  indice mantiene i confini di autorità.
 
 ## 27.3 Dati e artefatti
 

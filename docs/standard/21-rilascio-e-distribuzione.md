@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-21 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -31,6 +31,11 @@ Ogni candidato **DEVE** essere costruito da una revisione identificabile e produ
 ## 21.3 Approvazione
 
 Un rilascio **NON DEVE** essere pubblicato con requisiti `Must` non verificati, vulnerabilità non valutate, migrazioni non provate o dati di test non autorizzati.
+
+Per 0.1, Must, Should, esclusioni e gate G1–G5 sono governati da GS-PROD-001.
+Catalogo GS-MET e specifiche di design non costituiscono da soli funzioni
+pubblicabili. Una capacità post-MVP **NON DEVE** apparire stabile nel binario,
+metadati, screenshot o API.
 
 ## 21.4 Separazione e protezione
 

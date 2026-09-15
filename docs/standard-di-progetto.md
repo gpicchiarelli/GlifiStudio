@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001 |
 | Tipo | Indice normativo e standard interno di ingegneria del software |
-| Versione | 0.8.0 |
+| Versione | 0.9.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -66,6 +66,16 @@ sono progettati, implementati e verificati.
 GS-UX-001 è normativa per modello mentale, intenzioni, indagine, pianificazione,
 catena epistemica, navigazione e validazione human-centred. Non sostituisce GS-MET
 né i profili Apple: ne disciplina l'esposizione coerente alle persone.
+
+## Specifiche di design implementativo
+
+| ID | Documento |
+| --- | --- |
+| GS-DSG-IDX-001 | [Dominio, dati, lingua, query, analisi, runtime, UI, visualizzazione, validazione e prodotto](specifiche-di-design/README.md) |
+
+La famiglia GS-DSG traduce requisiti, GS-MET e GS-UX in contratti implementabili.
+La mappa delle autorità dell'indice impedisce che una specifica ridefinisca formule,
+modello mentale o regole di processo governate da altri documenti.
 
 ## Qualità e operazioni
 

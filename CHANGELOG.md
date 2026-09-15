@@ -23,6 +23,11 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   accessibilità, comprensione e localizzazione semantica.
 - ADR-0015 e verifica TV-049 per distinguere compilatore Apple Swift 6.4,
   Swift 6 language mode e SwiftPM tools 6.4.
+- Famiglia GS-DSG con dieci specifiche implementative per dominio, package `.glifi`
+  e lineage, italiano, QueryAST, sistema analitico, runtime, UI, visualizzazioni,
+  validazione scientifica e product baseline 0.1.
+- ADR-0016 per formato di progetto, store SQLite di sistema, oggetti SHA-256,
+  SpanMap, perimetro locale e nucleo analitico del primo prodotto completo.
 
 ### Modificato
 
@@ -30,6 +35,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 - `actions/checkout` aggiornato dalla versione 5.1.0 alla 7.0.1 con SHA immutabile.
 - Quality gate documentale esteso a indicizzazione, copertura e integrazione delle specifiche GS-MET.
 - Quality gate documentale esteso alla copertura e integrazione delle specifiche GS-UX.
+- Quality gate documentale esteso a presenza, identificatori, copertura e
+  integrazione delle dieci specifiche di design.
 - Manifest SwiftPM elevato a tools 6.4 e controllo toolchain reso vincolante sulla
   versione minima compatibile, sul language mode e sulla strict concurrency.
 

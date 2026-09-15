@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-004 |
 | Tipo | Piano di conformità privacy |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Baseline candidata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -19,6 +19,11 @@ ogni dipendenza, API, telemetria, funzione cloud o modello remoto introdotto.
 `ITSAppUsesNonExemptEncryption = NO` è valido soltanto finché app e dipendenze non
 usano crittografia non esente. Ogni modifica di rete o sicurezza riapre la
 valutazione export compliance.
+
+GS-PROD-001 rende questa scelta un vincolo del prodotto 0.1: elaborazione locale,
+nessun account, rete, sincronizzazione o telemetria e nessun contenuto/query/path
+del corpus nei log. Qualunque difformità riapre ADR-0016, threat model, manifest,
+label e review.
 
 ## Prima della submission
 

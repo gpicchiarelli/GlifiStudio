@@ -15,6 +15,7 @@ PROJECT_DIRECTORY = Path(__file__).resolve().parent.parent
 DOCS_DIRECTORY = PROJECT_DIRECTORY / "docs"
 METHODS_DIRECTORY = DOCS_DIRECTORY / "metodi-analitici"
 UX_DIRECTORY = DOCS_DIRECTORY / "esperienza-utente"
+DESIGN_SPEC_DIRECTORY = DOCS_DIRECTORY / "specifiche-di-design"
 REQUIRED_FIELDS = (
     "Identificatore",
     "Versione",
@@ -89,6 +90,70 @@ UX_INTEGRATION_MARKERS = {
     "docs/apple/README.md": ("GS-UX",),
     "docs/app-store/README.md": ("GS-UX-001",),
     "docs/metodi-analitici/README.md": ("GS-UX-001",),
+}
+DESIGN_SPEC_FILES = {
+    "01-modello-del-dominio.md": (
+        "GS-DOM-001",
+        ("Project", "SourceRevision", "Aggregate", "Invarianti epistemiche"),
+    ),
+    "02-dati-lineage-e-persistenza.md": (
+        "GS-DAT-001",
+        (".glifi", "SpanMap", "SHA-256", "manifest è il commit point"),
+    ),
+    "03-contratto-linguistico-italiano.md": (
+        "GS-LNG-001",
+        ("it-token-v1", "SurfaceToken", "apostrofi", "Corpus gold italiano"),
+    ),
+    "04-ricerca-e-linguaggio-di-query.md": (
+        "GS-QRY-001",
+        ("QueryAST", "glifi-query-v1", "EBNF", "budgetExceeded"),
+    ),
+    "05-sistema-analitico.md": (
+        "GS-ANA-001",
+        (
+            "CapabilityDescriptor",
+            "AnalysisNodeID",
+            "Ranking editoriale",
+            "Contratto di spiegazione",
+        ),
+    ),
+    "06-runtime-e-risorse.md": (
+        "GS-RUN-001",
+        ("structured concurrency", "ResourceBudget v1", "Backpressure", "Matrice di benchmark"),
+    ),
+    "07-information-architecture-e-interazione.md": (
+        "GS-UI-001",
+        ("NavigationSplitView", "Selection", "Design system nativo", "VoiceOver"),
+    ),
+    "08-visualizzazione-scientifica.md": (
+        "GS-VIZ-001",
+        ("VisualizationSpec", "interactive lineage", "tabella equivalente", "Export"),
+    ),
+    "09-validazione-scientifica.md": (
+        "GS-VAL-001",
+        ("Oracoli indipendenti", "Property-based", "metamorphic", "ValidationManifest"),
+    ),
+    "10-product-baseline-mvp.md": (
+        "GS-PROD-001",
+        ("Product baseline", "Percorso Must end-to-end", "Fuori dal prodotto 0.1", "G5 Release"),
+    ),
+}
+DESIGN_INTEGRATION_MARKERS = {
+    "docs/README.md": ("GS-DOM-001", "GS-PROD-001"),
+    "docs/standard-di-progetto.md": ("GS-DSG-IDX-001",),
+    "docs/requisiti.md": ("GS-DAT-001", "GS-QRY-001", "GS-VAL-001"),
+    "docs/architettura.md": ("GS-DOM-001", "GS-RUN-001", "GS-UI-001"),
+    "docs/tracciabilita.md": ("TV-050", "TV-061"),
+    "docs/glossario.md": ("SpanMap", "QueryAST", "VisualizationSpec"),
+    "docs/roadmap.md": ("GS-PROD-001",),
+    "docs/decisioni-aperte.md": ("ADR-0016",),
+    "docs/adr/README.md": ("ADR-0016",),
+    "docs/evidenze/README.md": ("GS-VER-015",),
+    "docs/standard/11-dati-testo-e-persistenza.md": ("GS-DAT-001",),
+    "docs/standard/14-sicurezza-e-privacy.md": ("regex DoS", "path traversal"),
+    "docs/standard/18-errori-logging-e-osservabilita.md": ("GS-RUN-001",),
+    "docs/standard/22-manutenzione-e-compatibilita.md": ("N-1",),
+    "docs/apple/README.md": ("GS-DAT-001", "GS-UI-001"),
 }
 
 
@@ -242,6 +307,61 @@ def validate_ux_specification(errors: list[str]) -> int:
     return len(ux_paths)
 
 
+def validate_design_specifications(errors: list[str]) -> int:
+    """Validate the complete implementable-design family and its integration."""
+    index_path = DESIGN_SPEC_DIRECTORY / "README.md"
+    if not index_path.is_file():
+        errors.append("docs/specifiche-di-design/README.md: indice di design mancante")
+        return 0
+
+    index_text = index_path.read_text(encoding="utf-8")
+    actual_paths = {
+        path.name: path
+        for path in DESIGN_SPEC_DIRECTORY.glob("*.md")
+        if path.name != "README.md"
+    }
+    expected_names = set(DESIGN_SPEC_FILES)
+    for name in sorted(expected_names - set(actual_paths)):
+        errors.append(f"docs/specifiche-di-design/{name}: specifica obbligatoria mancante")
+    for name in sorted(set(actual_paths) - expected_names):
+        errors.append(f"docs/specifiche-di-design/{name}: specifica non registrata")
+
+    indexed_paths: set[Path] = set()
+    for raw_target in LINK_PATTERN.findall(index_text):
+        target = local_link_target(index_path, raw_target)
+        if target is not None and target.parent == DESIGN_SPEC_DIRECTORY:
+            indexed_paths.add(target)
+
+    for name, (identifier, markers) in DESIGN_SPEC_FILES.items():
+        path = actual_paths.get(name)
+        if path is None:
+            continue
+        relative_path = path.relative_to(PROJECT_DIRECTORY)
+        if path not in indexed_paths:
+            errors.append(f"{relative_path}: non indicizzato")
+        body = path.read_text(encoding="utf-8")
+        fields = metadata(body)
+        if fields.get("Identificatore") != identifier:
+            errors.append(f"{relative_path}: atteso identificatore {identifier}")
+        if not body.startswith("<!-- SPDX-License-Identifier: BSD-3-Clause -->"):
+            errors.append(f"{relative_path}: intestazione SPDX mancante")
+        for marker in markers:
+            if marker not in body:
+                errors.append(f"{relative_path}: copertura design mancante: {marker}")
+
+    for relative, markers in DESIGN_INTEGRATION_MARKERS.items():
+        path = PROJECT_DIRECTORY / relative
+        if not path.is_file():
+            errors.append(f"{relative}: documento di integrazione mancante")
+            continue
+        body = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in body:
+                errors.append(f"{relative}: integrazione design mancante: {marker}")
+
+    return len(actual_paths)
+
+
 def main() -> int:
     """Run all documentation checks."""
     errors: list[str] = []
@@ -276,6 +396,7 @@ def main() -> int:
 
     method_count = validate_scientific_specification(errors)
     ux_count = validate_ux_specification(errors)
+    design_count = validate_design_specifications(errors)
 
     if errors:
         print("Documentation validation failed:", file=sys.stderr)
@@ -287,7 +408,8 @@ def main() -> int:
         f"Documentation: {len(markdown_files)} files, "
         f"{len(identifiers)} unique identifiers, valid local links, "
         f"{method_count} scientific method specifications, "
-        f"{ux_count} UX specifications"
+        f"{ux_count} UX specifications, "
+        f"{design_count} implementation design specifications"
     )
     return 0
 

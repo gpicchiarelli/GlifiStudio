@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-15 |
 | Tipo | Capitolo normativo |
-| Versione | 0.5.0 |
+| Versione | 0.6.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -24,6 +24,11 @@
 - Layout e interazioni **DEVONO** applicare i profili Apple per [interfaccia adattiva](../apple/02-interfaccia-adattiva.md) e [accessibilità](../apple/03-accessibilita.md).
 - Il paradigma, il modello mentale e la catena epistemica **DEVONO** applicare
   [GS-UX-001](../esperienza-utente/README.md).
+- Route, scene, selezione, comandi, stati e componenti semantici **DEVONO**
+  applicare [GS-UI-001](../specifiche-di-design/07-information-architecture-e-interazione.md).
+- Grafici e tabelle analitiche **DEVONO** applicare
+  [GS-VIZ-001](../specifiche-di-design/08-visualizzazione-scientifica.md), inclusa
+  un'alternativa tabellare accessibile collegata allo stesso lineage.
 - La navigazione primaria **DEVE** partire da indagine, intenzione e oggetto studiato;
   nomi degli algoritmi appartengono al dettaglio metodologico.
 - Ogni finding **DEVE** rendere raggiungibili evidenza, fonti, metodo e caveat con

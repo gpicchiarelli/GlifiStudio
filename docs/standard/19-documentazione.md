@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-19 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -37,10 +37,17 @@ presentazione Apple e semantica GS-MET. Tassonomie, stati, journey e microcopy
 devono essere versionabili e verificabili; mockup e screenshot non costituiscono da
 soli specifica o validazione.
 
-## 19.5 Documentazione API
+## 19.5 Specifiche di design implementativo
+
+La famiglia GS-DSG **DEVE** mantenere esattamente i dieci concern autorizzati dal
+suo indice finché un ADR non ne modifica il perimetro. Ogni documento dichiara un
+solo argomento, confine, invarianti, stati o flussi, errori e criteri di conformità;
+non duplica requisiti, formule GS-MET o modello mentale GS-UX.
+
+## 19.6 Documentazione API
 
 Le API pubbliche **DEVONO** essere documentate con DocC. La documentazione deve descrivere contratto, parametri, risultato, errori, precondizioni, effetti collaterali, thread-safety e complessità quando non ovvi.
 
-## 19.6 Aggiornamento con il codice
+## 19.7 Aggiornamento con il codice
 
 Una modifica **NON È** completa se rende inesatti requisiti, architettura, ADR, esempi, guide o note di migrazione. Codice e documentazione applicabile **DEVONO** essere aggiornati nella stessa unità di cambiamento.

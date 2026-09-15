@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-004 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -28,5 +28,12 @@
 - Crittografia proprietaria **NON DEVE** sostituire primitive e protocolli Apple verificati.
 - Eccezioni App Transport Security globali **NON DEVONO** essere abilitate.
 - Telemetria e tracking restano disabilitati finché non esiste una decisione esplicita e conforme.
+- Il prodotto 0.1 **NON DEVE** richiedere rete, account o sincronizzazione; query,
+  estratti, contenuto e path del corpus **NON DEVONO** comparire in diagnostica.
+- Spotlight sul contenuto, Quick Look persistente e thumbnail fuori dal container
+  restano disabilitati finché minimizzazione, cancellazione e consenso non sono
+  progettati e verificati.
+- SHA-256 di CryptoKit è usato per integrità e content addressing GS-DAT-001; non
+  costituisce cifratura né anonimizzazione del contenuto.
 
 Riferimenti: [Privacy manifest files](https://developer.apple.com/documentation/bundleresources/privacy-manifest-files), [required-reason APIs](https://developer.apple.com/documentation/bundleresources/describing-use-of-required-reason-api), [App Sandbox](https://developer.apple.com/documentation/security/app-sandbox), [Keychain Services](https://developer.apple.com/documentation/security/keychain-services), [CryptoKit](https://developer.apple.com/documentation/cryptokit) e [LocalAuthentication](https://developer.apple.com/documentation/localauthentication).

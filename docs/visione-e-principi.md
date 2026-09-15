@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VIS-001 |
 | Tipo | Visione, contesto e stakeholder needs |
-| Versione | 0.6.0 |
+| Versione | 0.7.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -89,7 +89,7 @@ Il **progetto Glifi Studio** è il contenitore persistente fondamentale, non il
 singolo file. L'**indagine** è l'unità cognitiva con cui la persona sviluppa un
 percorso di ricerca. Un progetto raccoglie:
 
-- riferimenti alle fonti originali;
+- fonti originali incorporate per default o riferimenti esterni espliciti;
 - metadati e corpus logici;
 - configurazioni linguistiche e trasformazioni;
 - indici e artefatti derivati;
@@ -168,7 +168,10 @@ Glifi Studio non viene progettato come:
 
 - L'italiano è la lingua iniziale dell'interfaccia e dell'analisi; lingue successive e soglie qualitative restano da definire.
 - La disponibilità di framework Apple non implica automaticamente che essi soddisfino i requisiti scientifici.
-- L'elaborazione è concepita come locale; le garanzie formali di privacy e l'eventuale uso di servizi remoti restano da decidere.
+- Il prodotto 0.1 è locale, senza account, rete, sincronizzazione o telemetria;
+  ogni futuro servizio remoto richiede nuova decisione e modello privacy.
+- Il perimetro 0.1 è definito da GS-PROD-001; il catalogo scientifico completo non
+  costituisce automaticamente scope di rilascio.
 - L'uso commerciale del nome richiede una verifica giuridica separata.
 
 ## Famiglia del prodotto

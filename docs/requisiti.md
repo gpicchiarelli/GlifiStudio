@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.12.0 |
+| Versione | 0.13.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -13,7 +13,7 @@
 
 ## 1. Scopo
 
-Questa specifica traduce le necessità definite in [Visione e principi](visione-e-principi.md) in requisiti del software Glifi Studio. Il perimetro di rilascio e la priorità dei requisiti non sono ancora stati approvati.
+Questa specifica traduce le necessità definite in [Visione e principi](visione-e-principi.md) in requisiti del software Glifi Studio. Il profilo di rilascio 0.1 e la classificazione Must/Should/fuori perimetro sono definiti da [GS-PROD-001](specifiche-di-design/10-product-baseline-mvp.md); restano baseline candidate fino al gate G1.
 
 ## 2. Sistema di interesse
 
@@ -28,46 +28,49 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | VIS | GS-VIS-001, visione e necessità degli stakeholder |
 | MET | GS-MET-001, specifica normativa dei metodi analitici |
 | UX | GS-UX-001, specifica normativa dell'esperienza utente |
+| DSG | GS-DOM-001–GS-PROD-001, specifiche di design implementativo |
 
 ## 4. Interfacce esterne
 
 | ID | Interfaccia | Descrizione | Stato |
 | --- | --- | --- | --- |
-| IE-001 | Interfaccia macOS | Indagini, importazione, esplorazione per oggetti, confronto, evidenze e relazioni con interazioni desktop native | Specificata concettualmente da GS-UX; da prototipare |
-| IE-002 | GlifiKit | Contratto programmatico usato dal prodotto per accedere al motore | Da specificare |
-| IE-003 | GlifiCLI | Interfaccia headless per batch, test e automazione | Da specificare |
-| IE-004 | Filesystem | Accesso alle fonti, al progetto persistente e agli artefatti | Da specificare |
+| IE-001 | Interfaccia macOS | Indagini, importazione, esplorazione per oggetti, confronto, evidenze e relazioni con interazioni desktop native | Contratto GS-UX/GS-UI; da prototipare |
+| IE-002 | GlifiKit | Contratto asincrono per dominio, QueryAST, piani, progresso, cancellazione, errori ed export | Contratto GS-DOM/GS-QRY/GS-ANA/GS-RUN; API Swift da stabilizzare |
+| IE-003 | GlifiCLI | Interfaccia headless per batch, piani riproducibili e output strutturato | Semantica GS-QRY/GS-ANA; comandi da implementare |
+| IE-004 | Filesystem | Package `.glifi`, fonti incorporate/esterne, oggetti e cache | Contratto GS-DAT-001 definito; prototipo richiesto |
 | IE-005 | Framework Apple | Portafoglio Apple-native per documenti, linguistica, calcolo, dati, ricerca di sistema, automazione e lavoro prolungato, secondo GS-APL-* | Da validare per fase |
-| IE-006 | Interfaccia iPadOS | Stesso percorso semantico adattato a touch, puntatore, tastiera, multitasking e finestre ridimensionabili | Specificata concettualmente da GS-UX; da prototipare |
+| IE-006 | Interfaccia iPadOS | Stesso percorso semantico adattato a touch, puntatore, tastiera, multitasking e finestre ridimensionabili | Contratto GS-UX/GS-UI; da prototipare |
 
 ## 5. Requisiti funzionali
 
-`Priorità` indica la priorità di prodotto, non la forza normativa. Tutte le priorità restano da assegnare durante la definizione dell'MVP.
+`Priorità` indica il profilo di prodotto, non la forza normativa. GS-PROD-001
+assegna Must/Should/fuori perimetro per 0.1; le righe storiche `Da assegnare`
+restano requisiti di evoluzione finché una successiva baseline non le classifica.
 
 | ID | Requisito | Rationale/fonte | Priorità | Verifica | Stato |
 | --- | --- | --- | --- | --- | --- |
 | RF-001 | Il sistema **DEVE** creare, salvare, chiudere e riaprire un progetto persistente. | NS-004; A1 | Da assegnare | TV-001 | Baseline candidata |
-| RF-002 | Il sistema **DEVE** importare file di testo semplice nelle codifiche approvate. | NS-001; A1 | Da assegnare | TV-002 | Incompleto: codifiche da definire |
+| RF-002 | Il sistema **DEVE** importare file di testo semplice UTF-8 valido, con o senza BOM, nel perimetro 0.1. | NS-001; A1; GS-DAT-001 | Must 0.1 | TV-002, TV-051 | Baseline definita |
 | RF-003 | Il sistema **DEVE** importare documenti Markdown preservando contenuto e provenienza. | NS-001; A1 | Da assegnare | TV-002 | Baseline candidata |
 | RF-004 | Il sistema **DEVE** estrarre il testo digitale da un PDF e associarlo almeno alla pagina di origine. | NS-001, NS-002; A1 | Da assegnare | TV-002, TV-006 | Baseline candidata |
 | RF-005 | Il sistema **DEVE** indicare se un testo deriva da un livello digitale o da OCR. | NS-002, NS-007; A1 | Da assegnare | TV-006 | Baseline candidata |
 | RF-006 | Ogni importer **DEVE** produrre una rappresentazione documentale comune con metadati di provenienza. | NS-001, NS-007; A1 | Da assegnare | TV-002, TV-004 | Baseline candidata |
 | RF-007 | Il sistema **NON DEVE** modificare implicitamente la fonte originale durante le trasformazioni analitiche. | NS-002, NS-007; A1, A2 | Da assegnare | TV-004 | Baseline candidata |
 | RF-008 | Il sistema **DEVE** registrare configurazione e versione di ogni trasformazione di normalizzazione applicata. | NS-007; A1, A2 | Da assegnare | TV-004 | Baseline candidata |
-| RF-009 | La tokenizzazione **DEVE** preservare un riferimento non ambiguo alla posizione corrispondente nella fonte o nel testo estratto. | NS-002; A1 | Da assegnare | TV-003 | Incompleto: modello offset aperto |
+| RF-009 | La tokenizzazione **DEVE** preservare intervalli UTF-8 half-open legati alla revisione e SpanMap verso fonte o testo estratto secondo GS-DAT-001. | NS-002; A1; GS-DAT-001 | Must 0.1 | TV-003, TV-051 | Baseline definita |
 | RF-010 | GlifiCore **DEVE** consentire implementazioni sostituibili dei servizi di tokenizzazione e analisi linguistica. | NS-001; A1, A2 | Da assegnare | Ispezione API e test di sostituzione | Baseline candidata |
-| RF-011 | Il sistema **DEVE** riutilizzare gli artefatti derivati ancora validi dopo la riapertura di un progetto. | NS-004; A1 | Da assegnare | TV-005 | Incompleto: digest, storage e migrazione concreti da definire |
+| RF-011 | Il sistema **DEVE** riutilizzare gli artefatti content-addressed ancora validi dopo la riapertura di un progetto. | NS-004; A1; GS-DAT-001, GS-ANA-001 | Must 0.1 | TV-005, TV-054 | Baseline definita |
 | RF-012 | Un progetto **DEVE** contenere più corpus logici senza richiedere la duplicazione delle fonti. | NS-005; A1 | Da assegnare | Test di sistema | Baseline candidata |
 | RF-013 | Il sistema **DEVE** permettere metadati personalizzati utilizzabili per selezione, filtro e raggruppamento. | NS-005; A1 | Da assegnare | TV-007 | Baseline candidata |
 | RF-014 | L'indice **DEVE** rappresentare termini e documenti mediante identificatori distinti e recuperare le posizioni delle occorrenze. | NS-001, NS-002, NS-003; A1, A2 | Da assegnare | TV-003, TV-007 | Baseline candidata |
-| RF-015 | Il sistema **DEVE** ricercare parole, forme normalizzate, lemmi e frasi nell'ambito selezionato. | NS-001; A1 | Da assegnare | TV-007 | Incompleto: sintassi query aperta |
-| RF-016 | Il sistema **DEVE** combinare criteri testuali con espressioni regolari, operatori booleani e filtri sui metadati. | NS-001, NS-005; A1 | Da assegnare | TV-007 | Incompleto: sintassi query aperta |
+| RF-015 | Il sistema **DEVE** ricercare parole, forme normalizzate, lemmi e frasi nell'ambito selezionato mediante QueryAST v1. | NS-001; A1; GS-QRY-001 | Must 0.1 | TV-007, TV-053 | Baseline definita |
+| RF-016 | Il sistema **DEVE** combinare criteri testuali con espressioni regolari sicure, operatori booleani e filtri sui metadati secondo `glifi-query-v1`. | NS-001, NS-005; A1; GS-QRY-001 | Must 0.1 | TV-007, TV-053 | Baseline definita |
 | RF-017 | Ogni risultato di ricerca **DEVE** includere contesto sufficiente e consentire la navigazione alla fonte. | NS-002; A1 | Da assegnare | TV-003, TV-007 | Baseline candidata |
 | RF-018 | Il sistema **DEVE** produrre concordanze KWIC con ampiezza del contesto configurabile, ordinamento e filtri. | NS-001, NS-005; A1 | Da assegnare | TV-007 | Baseline candidata |
 | RF-019 | Il sistema **DEVE** calcolare frequenze assolute e relative applicando soglie, stopword e filtri configurati. | NS-001, NS-005; A1 | Da assegnare | TV-007, TV-008 | Baseline candidata |
 | RF-020 | Il sistema **DEVE** calcolare n-grammi di parole e di caratteri per i valori di `n` e le soglie configurati. | NS-001; A1 | Da assegnare | TV-007, TV-008 | Baseline candidata |
 | RF-021 | Il sistema **DEVE** calcolare co-occorrenze rispetto a una definizione esplicita di contesto e misura di associazione. | NS-001, NS-005; A1 | Da assegnare | TV-008 | Baseline candidata |
-| RF-022 | Il sottosistema statistico **DEVE** produrre risultati confrontabili con dataset o implementazioni di riferimento. | NS-007; A1, A2 | Da assegnare | TV-008 | Incompleto: metodi iniziali da definire |
+| RF-022 | Il sottosistema statistico **DEVE** produrre risultati confrontabili con dataset, proprietà o implementazioni indipendenti secondo GS-VAL-001. | NS-007; A1, A2; GS-VAL-001 | Must per le capacità 0.1 | TV-008, TV-059 | Baseline definita; oracoli da costruire |
 | RF-023 | Le capacità fondamentali di GlifiCore **DEVONO** essere eseguibili senza inizializzare SwiftUI, AppKit o UIKit. | NS-006; A1, A2; ADR-0001 | Da assegnare | TV-011 | Baseline candidata |
 | RF-024 | Il sistema **DEVE** fornire applicazioni native operative su macOS e iPadOS per il perimetro `Must` del rilascio. | NS-008; ADR-0001 | Must | TV-013 | Approvato |
 | RF-025 | Il sistema **DEVE** offrire la configurazione linguistica italiana nel perimetro `Must` del primo rilascio. | NS-001; ADR-0004 | Must | TV-014 | Approvato |
@@ -120,6 +123,18 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | RF-072 | macOS e iPadOS **DEVONO** condividere semantica e identità del percorso, adattandone navigazione e interazioni alle convenzioni di piattaforma. | NS-008, NS-022; UX | Must | TV-048 | Approvato |
 | RF-073 | Stati, intenzioni, findings, caveat e azioni dell'esperienza **DEVONO** usare identificatori semantici indipendenti dalla lingua e messaggi localizzabili tipizzati. | NS-018, NS-022; UX | Must | TV-015, TV-045 | Approvato |
 | RF-074 | Il dettaglio esperto **DEVE** esporre metodi e parametri GS-MET senza trasformare il primo livello dell'esperienza in un catalogo di algoritmi. | NS-009, NS-015, NS-018; MET, UX | Da assegnare | TV-042, TV-045 | Baseline candidata |
+| RF-075 | GlifiCore **DEVE** rappresentare entità, value object, cardinalità, revisioni e lifecycle mediante identità tipizzate e invarianti GS-DOM-001. | NS-004, NS-016; DSG | Must 0.1 | TV-050 | Baseline definita |
+| RF-076 | Il sistema **DEVE** persistere il progetto 0.1 come package `.glifi` v1 con manifest, store SQLite di sistema e oggetti immutabili content-addressed. | NS-004, NS-007; GS-DAT-001 | Must 0.1 | TV-051 | Baseline definita |
+| RF-077 | Il sistema **DEVE** incorporare le fonti per default e trattare ogni aggiornamento o riferimento esterno mutato come SourceRevision distinta. | NS-002, NS-004; GS-DAT-001 | Must 0.1; riferimento esterno Should | TV-051 | Baseline definita |
+| RF-078 | Ogni trasformazione che modifica lunghezza o ordine del testo **DEVE** produrre SpanMap composabili con classi exact, contributive, synthetic o derivational. | NS-002, NS-019; GS-DAT-001 | Must 0.1 | TV-051 | Baseline definita |
+| RF-079 | La pipeline italiana **DEVE** applicare il profilo `it-token-v1`, preservando superficie, componenti e versioni delle annotazioni secondo GS-LNG-001. | NS-001, NS-013; GS-LNG-001 | Must 0.1 | TV-052 | Baseline definita |
+| RF-080 | GUI, GlifiKit e GlifiCLI **DEVONO** compilare ed eseguire la stessa rappresentazione QueryAST canonica e produrre lo stesso ordinamento. | NS-001, NS-006; GS-QRY-001 | Must 0.1 | TV-053 | Baseline definita |
+| RF-081 | Il sistema **DEVE** identificare ogni nodo analitico dal descrittore canonico, deduplicare equivalenti e invalidare transitivamente soltanto i discendenti. | NS-004, NS-007; GS-ANA-001 | Must 0.1 | TV-054 | Baseline definita |
+| RF-082 | Findings, ranking editoriale e spiegazioni **DEVONO** derivare da regole deterministiche versionate, senza confidence score universale. | NS-017, NS-018, NS-021; GS-ANA-001 | Must 0.1 | TV-055 | Baseline definita |
+| RF-083 | Ogni operazione lunga **DEVE** esporre lo stesso piano, progresso, cancellazione, stato terminale ed errore tipizzato attraverso GUI, GlifiKit e GlifiCLI. | NS-006, NS-008; GS-ANA-001, GS-RUN-001 | Must 0.1 | TV-056 | Baseline definita |
+| RF-084 | Ogni vista scientifica **DEVE** derivare da VisualizationSpec e offrire selezione, lineage, alternativa tabellare accessibile ed export con provenance. | NS-002, NS-019, NS-022; GS-VIZ-001 | Must per viste 0.1 | TV-058 | Baseline definita |
+| RF-085 | Il sistema **DEVE** produrre report PDF/Markdown ed export CSV/JSON con ExportManifest senza includere fonti complete per default. | NS-016, NS-018; GS-DAT-001, GS-PROD-001 | Must 0.1 | TV-059 | Baseline definita |
+| RF-086 | Il prodotto 0.1 **DEVE** completare il percorso Must e **NON DEVE** esporre come stabili le capacità classificate post-MVP da GS-PROD-001. | NS-008, NS-015; GS-PROD-001 | Must 0.1 | TV-061 | Baseline definita |
 
 ## 6. Requisiti di qualità
 
@@ -148,7 +163,7 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-019 | Capacità di interazione | Entità e azioni esposte a Spotlight, App Intents o trasferimento di sistema **DEVONO** preservare identità, autorizzazioni, localizzazione e navigazione al contenuto corretto. | Test di indicizzazione, intent, deep link e trasferimento su entrambe le piattaforme applicabili | TV-021 | Baseline candidata |
 | RQ-020 | Adeguatezza funzionale | Una build candidata App Store **DEVE** offrire valore autonomo, flussi `Must` completi e contenuti finali, senza placeholder o schermate puramente dimostrative. | Audit di funzionalità minima, metadati coerenti e nessun blocco P0/P1 | TV-024, TV-025 | Incompleto: prodotto ancora scaffold |
 | RQ-021 | Protezione | Comportamento reale, privacy manifest, dichiarazioni App Store e privacy policy **DEVONO** descrivere lo stesso trattamento di dati, SDK e Required Reason API. | Inventario riesaminato sulla build candidata senza difformità | TV-023 | Baseline candidata |
-| RQ-022 | Protezione | Se il pubblico è ristretto, l'app **DEVE** applicare autenticazione e autorizzazione indipendenti dal possesso del link App Store non in elenco. | Accesso negato a soggetto non autorizzato anche con link valido | TV-024 | Incompleto: DA-024 aperta |
+| RQ-022 | Protezione | Se una versione futura prometterà un pubblico autorizzato ristretto, l'app **DEVE** applicare autenticazione e autorizzazione indipendenti dal link App Store. | Accesso negato a soggetto non autorizzato anche con link valido | TV-024 | Non applicabile a 0.1: nessun account o pubblico autorizzato ristretto |
 | RQ-023 | Affidabilità | Ogni artefatto analitico persistibile **DEVE** avere un `AnalysisDescriptor` completo secondo GS-MET-001-01. | Round-trip e completezza semantica su tutti i tipi di artefatto | TV-027 | Baseline candidata |
 | RQ-024 | Manutenibilità | Le dipendenze analitiche **DEVONO** formare un DAG con invalidazione transitiva limitata ai discendenti effettivi. | Suite su grafi ramificati senza riuso scorretto o ricalcolo estraneo | TV-027 | Baseline candidata |
 | RQ-025 | Affidabilità | Ogni algoritmo **DEVE** dichiarare e rispettare una classe di determinismo, una politica numerica e il seed applicabile. | Ripetizioni e backend conformi a GS-MET-001-03 | TV-028 | Baseline candidata |
@@ -167,6 +182,14 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-038 | Capacità di interazione | Ogni flusso `Must` dell'indagine **DEVE** essere completabile con VoiceOver e Full Keyboard Access sulle piattaforme applicabili. | Audit end-to-end con nessun blocco di severità critica | TV-017, TV-048 | Incompleto: flussi non implementati |
 | RQ-039 | Efficienza prestazionale | Preparazione e analisi **DEVONO** mostrare contenuto progressivo e consentire altro lavoro senza bloccare il Main Actor. | Profiling e prova di cancellazione/attività concorrente sui corpus approvati | TV-018, TV-040, TV-048 | Baseline candidata |
 | RQ-040 | Affidabilità | Una relazione **NON DEVE** contenere findings, valori o fonti assenti dalla revisione dell'indagine da cui deriva. | Confronto strutturale completo e test di output generativo ostile | TV-047 | Baseline candidata |
+| RQ-041 | Efficienza prestazionale | Il runtime **DEVE** rispettare ResourceBudget, code bounded e backpressure GS-RUN-001 senza alterare il risultato. | Equivalenza fra chunk/larghezze e memoria entro budget | TV-056, TV-057 | Baseline definita; coefficienti da calibrare |
+| RQ-042 | Protezione | Parser di query e regex **DEVONO** applicare limiti di dimensione, profondità, complessità, tempo e cancellazione prima di consumare risorse non limitate. | Fuzz e query avverse terminano nel budget | TV-053, TV-060 | Baseline definita |
+| RQ-043 | Affidabilità | Commit e migrazioni del package **DEVONO** essere transazionali, verificabili e recuperabili senza rendere valida una generazione parziale. | Kill injection e fixture N/N-1 senza perdita | TV-051, TV-060 | Baseline definita |
+| RQ-044 | Protezione | Importer, package ed export **DEVONO** resistere a path traversal, symlink, nesting, dimensioni false, decompression bomb e metadati ostili. | Corpus avversario e fuzz senza escape, hang o allocazioni illimitate | TV-060 | Baseline definita |
+| RQ-045 | Adeguatezza funzionale | Ogni capacità MVP **DEVE** possedere ValidationManifest e livelli V0–V4 di GS-VAL-001 prima di essere dichiarata supportata. | Manifest completi, suite riproducibile e review degli oracoli | TV-059 | Baseline definita |
+| RQ-046 | Protezione | La baseline 0.1 **NON DEVE** usare rete o telemetria e **NON DEVE** includere contenuto, query o path del corpus nei log e nei bundle diagnostici. | Audit statico/dinamico e ispezione della diagnostica | TV-060 | Baseline definita |
+| RQ-047 | Capacità di interazione | Route, selezione, restoration, multiwindow e confronto **DEVONO** usare identità di dominio e restare equivalenti tra modalità di input accessibili. | Contract test e UI test GS-UI su macOS/iPadOS | TV-058 | Baseline definita |
+| RQ-048 | Efficienza prestazionale | Le capacità Must **DEVONO** essere misurate sulle classi S/M applicabili e rifiutare in sicurezza L/XL non sostenibili, conservando gli stessi invarianti. | Report GS-RUN con memoria, I/O, energia, termica e cancellazione | TV-057 | Baseline definita; soglie temporali da approvare |
 
 ## 7. Vincoli di progetto
 
@@ -199,7 +222,7 @@ Non sono requisiti correnti:
 
 - supporto di piattaforme non Apple;
 - modifica delle fonti come in un editor generalista;
-- dipendenza obbligatoria da un singolo database;
+- database server o servizio di rete per aprire ed elaborare un progetto 0.1;
 - dipendenza esclusiva da Metal, Core ML, Neural Engine o Apple Intelligence per i flussi fondamentali;
 - servizi cloud o sincronizzazione, finché non esiste una decisione esplicita.
 
@@ -209,18 +232,12 @@ I metodi e le evidenze pianificate sono definiti nella [Matrice di tracciabilit�
 
 ## 10. Questioni bloccanti per la baseline
 
-- priorità e perimetro MVP;
-- codifiche e formati strutturati supportati;
+- approvazione formale del perimetro MVP GS-PROD-001 e assegnazione degli owner;
 - lingue successive all'italiano e soglie di qualità linguistica;
-- modello canonico degli offset;
-- serializzazione, digest, persistenza e migrazione concrete per descriptor e Analysis DAG;
-- sintassi e semantica delle query;
 - soglie UX, profili degli utenti, compiti e campione di validazione;
-- serializzazione di indagini, storia ramificata, piani, findings e relazioni;
-- policy MVP del planner e regole di solidità per ciascuna famiglia;
-- sottoinsieme di metodi analitici per l'MVP, dataset di riferimento e tolleranze numeriche;
-- corpus, hardware e soglie prestazionali;
+- corpus gold, implementazioni di riferimento e tolleranze per le varianti Must;
+- soglie quantitative di tempo, memoria e dispositivi entro il modello GS-RUN;
 - funzioni assistive che possono usare Foundation Models e relativa policy di modello, contesto e retention;
-- modello di accesso per il pubblico della distribuzione non in elenco.
+- eventuale modello futuro di accesso autenticato, fuori dal prodotto 0.1.
 
 Questi temi sono registrati in [Decisioni aperte](decisioni-aperte.md).

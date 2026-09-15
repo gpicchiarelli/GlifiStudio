@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-012 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -18,19 +18,21 @@ Metadati transazionali, fonti, posting list, matrici, cache e indice Spotlight h
 
 | Tecnologia | Ruolo | Decisione corrente |
 | --- | --- | --- |
-| SwiftData | Metadati, relazioni, history, undo e migrazioni | Candidato da confrontare in DA-004 |
-| Foundation e formato binario versionato | Fonti incorporate, indici, matrici, cache e accesso incrementale/mappato | Candidato per grandi payload |
-| Core Spotlight | Ricerca di progetti, documenti e risultati riconoscibili dalla persona | Integrazione pianificata; non sostituisce GlifiIndex |
+| SQLite di sistema | Metadati, relazioni, history e riferimenti agli oggetti | Store canonico `.glifi` 0.1 secondo GS-DAT-001 |
+| Foundation, FileWrapper e formato binario versionato | Package, fonti incorporate, indici, matrici e accesso incrementale | Adottati come contratti; layout da prototipare |
+| CryptoKit SHA-256 | Digest incrementali e content addressing | Adottato per oggetti e serializzazioni canoniche |
+| SwiftData | Eventuali proiezioni locali non autorevoli | Non definisce formato o schema canonico 0.1 |
+| Core Spotlight | Ricerca di progetti, documenti e risultati riconoscibili dalla persona | Post-MVP; non sostituisce GlifiIndex |
 | CloudKit/iCloud | Sincronizzazione opzionale tra dispositivi | Non adottato finché DA-017 e privacy non sono approvate |
 | Keychain e CryptoKit | Segreti, chiavi e integrità crittografica quando richiesti | Obbligatori soltanto per il requisito pertinente |
 | Compression/Apple Archive | Packaging, trasferimento e cache | Da valutare su compatibilità e benchmark |
 
 ## SwiftData
 
-- SwiftData **PUÒ** gestire metadati e relazioni se prototipo, migrazioni e carichi massivi soddisfano i criteri di DA-004.
-- Posting list, vettori, matrici e blob massivi **NON DEVONO** essere inseriti in SwiftData senza benchmark rappresentativi.
-- Lo schema **DEVE** essere versionato e le migrazioni automatiche o personalizzate devono avere fixture di aggiornamento e rollback.
-- Context e actor **DEVONO** rispettare l'isolamento; il `ModelContext` della UI non deve eseguire lavoro massivo sul Main Actor.
+- SwiftData **NON DEVE** diventare la fonte di verità del package 0.1 né definire
+  identità, schema esportabile o migrazione.
+- Una futura proiezione SwiftData **DEVE** essere eliminabile e ricostruibile dalla
+  fonte canonica, con actor isolation e senza blob massivi.
 - L'aggiunta dell'entitlement CloudKit **NON DEVE** essere usata come scorciatoia per decidere la sincronizzazione.
 
 ## Core Spotlight
@@ -44,6 +46,9 @@ Metadati transazionali, fonti, posting list, matrici, cache e indice Spotlight h
 ## Sincronizzazione
 
 CloudKit o documenti iCloud richiedono prima un contratto su identità cross-device, conflitti, quote, file mancanti, cifratura, cancellazione, uso offline e compatibilità di schema. La modalità locale **DEVE** rimanere utilizzabile salvo requisito contrario esplicitamente approvato.
+
+Il contratto completo di package, transazioni, cache e migrazioni è
+[GS-DAT-001](../specifiche-di-design/02-dati-lineage-e-persistenza.md).
 
 ## Riferimenti Apple
 

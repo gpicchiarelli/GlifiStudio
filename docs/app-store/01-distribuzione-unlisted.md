@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-001 |
 | Tipo | Piano di distribuzione |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -27,9 +27,10 @@ meccanismo di sicurezza.
 6. attendere l'approvazione e verificare il collegamento prima di comunicarlo;
 7. rilasciare manualmente secondo il piano approvato.
 
-Una build beta o incompleta non è idonea alla richiesta. Se il pubblico deve essere
-limitato, il prodotto deve implementare autenticazione e autorizzazione; la scelta è
-aperta in DA-024.
+Una build beta o incompleta non è idonea alla richiesta. Per la baseline 0.1 il
+collegamento è sufficiente e non esiste account applicativo: il prodotto limita la
+scoperta, non autorizza un pubblico chiuso. Un futuro requisito di accesso ristretto
+richiederà autenticazione indipendente e una nuova decisione.
 
 ## Riferimento normativo
 

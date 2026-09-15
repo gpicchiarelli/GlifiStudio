@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-25 |
 | Tipo | Capitolo normativo |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -37,5 +37,10 @@ Una modifica è completa soltanto quando tutti i punti applicabili sono soddisfa
   verificate per ogni modifica dell'esperienza;
 - finding, caveat, solidità e suggerimenti confrontati con evidenze e rule set;
 - impatto su cronologia, ripristino e relazione valutato quando cambia il dominio.
+- conformità alla specifica GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD
+  applicabile, senza estenderne implicitamente il contratto;
+- ValidationManifest almeno V0–V4 per ogni capacità che entra nel percorso Must;
+- kill/recovery, risorse bounded e diagnostica senza contenuto provati quando
+  cambiano package, parser, query o operazioni lunghe.
 
 Una modifica non è completa se il solo modo di integrarla richiede bypass, credenziali personali, stato locale non versionato o un controllo disabilitato.

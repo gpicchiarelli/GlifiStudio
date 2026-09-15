@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-009 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -12,7 +12,9 @@
 
 ## Scopo
 
-Questo documento assegna le tecnologie Apple alla pipeline di acquisizione, interpretazione e presentazione dei documenti. Il formato persistente e il modello canonico degli offset restano subordinati a DA-003, DA-004 e DA-006.
+Questo documento assegna le tecnologie Apple alla pipeline di acquisizione,
+interpretazione e presentazione. GS-DAT-001 governa formato, ingestion e offset;
+PDF/OCR restano post-MVP e non modificano il contratto già deciso.
 
 ## Portafoglio tecnologico
 
@@ -42,7 +44,8 @@ Questo documento assegna le tecnologie Apple alla pipeline di acquisizione, inte
 
 ## Evidenze richieste
 
-- fixture per testo, Markdown, PDF digitale, PDF immagine, rotazioni, documenti corrotti e lingue approvate;
+- fixture MVP per testo/Markdown e, prima dell'attivazione post-MVP, PDF digitale,
+  PDF immagine, rotazioni, documenti corrotti e lingue approvate;
 - round-trip tra risultato, testo estratto, pagina e regione sorgente;
 - profili memoria e tempo su Mac e iPad reali;
 - confronto OCR per accuratezza, throughput ed energia;

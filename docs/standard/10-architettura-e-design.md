@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-10 |
 | Tipo | Capitolo normativo |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -66,3 +66,9 @@ La fondazione scientifica è governata da [GS-MET-001](../metodi-analitici/READM
 e [ADR-0013](../adr/0013-semantica-analitica-e-analysis-dag.md). `GlifiMath` è un
 confine concettuale; la sua eventuale separazione in target richiede evidenza sulle
 dipendenze e non può modificare i contratti matematici.
+
+Il design implementativo è governato da
+[GS-DSG-IDX-001](../specifiche-di-design/README.md) e ADR-0016. Domain model,
+package, QueryAST, DAG, runtime, route e VisualizationSpec **NON DEVONO** emergere
+come convenzioni private di una singola feature. I confini di autorità della
+famiglia impediscono duplicazioni con GS-MET e GS-UX.

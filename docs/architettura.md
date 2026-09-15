@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AD-001 |
 | Tipo | Architecture description |
-| Versione | 0.12.0 |
+| Versione | 0.13.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -22,7 +22,10 @@ Questa descrizione serve a:
 - guidare prototipi e decisioni senza cristallizzare implementazioni premature;
 - fornire una base verificabile per requisiti, ADR, codice e test.
 
-L'architettura descritta è una baseline candidata. La struttura minima del workspace ora ne realizza i confini principali, mentre i sottosistemi funzionali restano da progettare e implementare.
+L'architettura descritta è una baseline candidata. I confini implementabili sono
+stabiliti dalla [famiglia GS-DSG](specifiche-di-design/README.md); la struttura
+minima del workspace realizza soltanto i livelli principali e non ancora i
+sottosistemi funzionali.
 
 ## 2. Stakeholder e concern
 
@@ -36,7 +39,7 @@ Gli stakeholder sono definiti in GS-VIS-001 e sono ancora da validare.
 | CO-04 | Prestazioni sull'hardware Apple target | ST-02, ST-03, ST-05 | Benchmark versionati di CPU, memoria e I/O su Mac e iPad |
 | CO-05 | Modularità ed evolvibilità | ST-03, ST-04 | Dipendenze acicliche, API ridotte e backend sostituibili |
 | CO-06 | Operabilità e diagnosi | ST-02, ST-04 | Errori strutturati, avanzamento, cancellazione e logging |
-| CO-07 | Integrità e privacy dei dati | ST-01, ST-06 | Modello delle minacce e policy ancora da definire |
+| CO-07 | Integrità e privacy dei dati | ST-01, ST-06 | Threat model, package recovery e audit privacy della build |
 | CO-08 | Riproducibilità | ST-01, ST-05, ST-06 | Versioni e parametri associati a ogni artefatto |
 | CO-09 | Usabilità del flusso analitico | ST-01, ST-02 | Validazione del flusso interattivo ancora da pianificare |
 | CO-10 | Semantica scientifica e limiti interpretativi | ST-01, ST-05 | Conformità a GS-MET-001 e reference test indipendenti |
@@ -122,6 +125,11 @@ I nomi descrivono responsabilità e non sono ancora target o package approvati.
 | `GlifiPersistence` | Contratti e implementazioni di memorizzazione | RF-001, RF-011, RQ-003, RQ-010 |
 | `GlifiCompute` | Scheduling e backend CPU/GPU | RQ-001, RQ-002, RQ-009, RQ-011 |
 
+Le responsabilità sono governate rispettivamente da GS-DOM-001 per il modello,
+GS-DAT-001 per storage e lineage, GS-LNG-001/GS-QRY-001 per lingua e ricerca,
+GS-ANA-001 per orchestration e GS-RUN-001 per esecuzione. I nomi di area non
+autorizzano ancora target Swift separati.
+
 ### 5.3 Mappatura iniziale nell'implementazione
 
 | Elemento | Collocazione | Stato |
@@ -160,7 +168,9 @@ Ogni passaggio è una trasformazione identificabile. Ogni artefatto dichiara ori
 
 - Documenti, corpus, analisi e artefatti hanno identità logiche stabili.
 - Path e nomi visualizzati non costituiscono l'identità.
-- Gli offset dichiarano l'unità usata; byte, UTF-16, scalar e grapheme cluster non sono intercambiabili.
+- Gli offset canonici sono intervalli UTF-8 half-open legati a representation ID e
+  digest; `SpanMap` compone il lineage. UTF-16, scalar, grapheme cluster e
+  `String.Index` sono proiezioni e non sono intercambiabili.
 - Token e occorrenze usano rappresentazioni compatte e data-oriented.
 - Le stringhe ripetute sono internate o sostituite da identificatori.
 - `TermID`, `DocumentID` e `CorpusID` sono tipi semanticamente distinti.
@@ -177,9 +187,14 @@ Le posting list possono essere compresse e lette selettivamente. Delta encoding,
 
 ### 6.4 Persistenza
 
-La persistenza non determina il dominio. Implementazioni differenti possono essere usate per metadati transazionali, posting list, matrici, cache e fonti. Un eventuale formato binario Glifi è un protocollo indipendente dall'ABI Swift e deve rispettare RQ-010.
+GS-DAT-001 definisce il package `.glifi` v1: manifest come commit point, SQLite di
+sistema per lo stato relazionale, oggetti immutabili SHA-256 per fonti e payload,
+cache ricostruibili fuori dal documento. Le fonti sono incorporate per default;
+il riferimento esterno è esplicito e verificato tramite digest.
 
-Le scelte concrete di persistenza, incorporazione delle fonti e invalidazione sono ancora aperte.
+La persistenza non determina GS-DOM e nessun formato dipende dall'ABI Swift.
+Transazioni, file coordination, migrazione N/N-1, recovery e rifiuto sicuro di
+versioni future appartengono al contratto, non a dettagli opportunistici dello store.
 
 ### 6.5 Descrittori e grafo delle analisi
 
@@ -193,6 +208,9 @@ Identità del descrittore e cache key sono indipendenti dalla GUI. Backend,
 precisione, tolleranza e seed fanno parte della provenienza quando possono cambiare
 il risultato. Il DAG deve spiegare sia perché un risultato esiste sia quale modifica
 lo rende non più valido.
+
+GS-ANA-001 rende concreta l'identità di nodo mediante serializzazione canonica,
+domain separation e SHA-256, e separa il DAG semantico dal record dell'esecuzione.
 
 ### 6.6 Progetto, corpus e indagine
 
@@ -223,6 +241,11 @@ Il memory mapping può essere una tecnica di implementazione, ma non sostituisce
 Swift Concurrency è il modello principale. Task, task group e actor devono avere ownership e durata comprensibili. Gli actor definiscono confini di isolamento deliberati e non vengono creati automaticamente per ogni entità.
 
 Le operazioni lunghe espongono avanzamento, cancellazione ed errori strutturati. Il backpressure impedisce la crescita incontrollata delle code e della memoria.
+
+GS-RUN-001 definisce task tree, MainActor boundary, actor ownership, bounded
+AsyncSequence, `ResourceBudget v1`, pressione memoria/termica e classi benchmark
+S/M/L/XL. I coefficienti sono baseline conservativa e richiedono calibrazione, ma
+il rifiuto sicuro e l'equivalenza dei risultati sono invarianti immediati.
 
 ### 7.3 Percorsi di calcolo
 
@@ -272,7 +295,8 @@ Entrambe le app includono un privacy manifest condiviso. Il target macOS applica
 | Accelerate | Backend numerico e vettoriale prioritario | Correttezza e benchmark obbligatori |
 | Core ML | Inferenza su CPU, GPU e Neural Engine | Modelli versionati e backend sostituibile |
 | Metal e Metal Performance Shaders | Backend parallelo specializzato | Solo con beneficio end-to-end misurato |
-| SwiftData e formati Foundation | Metadati e payload persistenti separati | Decisione DA-004 e migrazioni verificate |
+| SQLite di sistema e formati Foundation | Store relazionale canonico e payload versionati separati | GS-DAT-001; migrazioni transazionali e nessun blob massivo |
+| SwiftData | Eventuali proiezioni locali non autorevoli post-baseline | Non definisce il formato `.glifi` 0.1 |
 | Core Spotlight | Ricerca di entità utente nel sistema | Non sostituisce l'indice analitico |
 | App Intents e Core Transferable | Automazione, Siri/Shortcuts e scambio tipizzato | Contratti di dominio e permessi stabili |
 | BackgroundTasks | Lavoro prolungato e differibile su iPadOS | Progress, checkpoint, scadenza e capability minima |
@@ -319,7 +343,9 @@ epistemica distinta e non può diventare un dato analitico autoritativo.
 
 ## 10. VA-07 — View dell'esperienza e dell'interazione
 
-La [specifica GS-UX-001](esperienza-utente/README.md) governa il modello mentale.
+La [specifica GS-UX-001](esperienza-utente/README.md) governa il modello mentale;
+[GS-UI-001](specifiche-di-design/07-information-architecture-e-interazione.md)
+governa route, scene, selezione, comandi, componenti e stati concreti.
 Il primo livello segue domanda, intenzione, indagine e oggetto studiato; gli
 algoritmi sono accessibili nel dettaglio metodologico.
 
@@ -394,6 +420,14 @@ progressivi preservano focus e contesto.
 | CR-18 | Stato di finestra e scena in VA-07 non può essere l'unica copia di contenuto autorevole dell'indagine in VA-03. |
 | CR-19 | macOS e iPadOS possono avere layout diversi, ma ogni azione condivisa deve attraversare lo stesso contratto GlifiKit. |
 | CR-20 | Un livello generativo può operare soltanto sopra evidence/finding validi e non può introdurre archi autoritativi nel DAG. |
+| CR-21 | Ogni oggetto persistito deve rispettare identità, aggregate e lifecycle GS-DOM-001 senza dipendere da tipi UI. |
+| CR-22 | Ogni commit di progetto deve diventare visibile soltanto attraverso una generazione `.glifi` interamente verificabile secondo GS-DAT-001. |
+| CR-23 | Query provenienti da UI, CLI o API devono compilare nello stesso QueryAST GS-QRY-001 e mantenere ordine ed errori equivalenti. |
+| CR-24 | Pianificazione e interpretazione di VA-04 devono usare identità e regole GS-ANA-001; lo scheduling GS-RUN-001 non ne cambia la semantica. |
+| CR-25 | Variare chunk, parallelismo, backend equivalente o spill non deve cambiare un Artifact oltre la politica GS-MET. |
+| CR-26 | Route, selection e restoration di VA-07 devono usare ID GS-DOM e il contratto GS-UI-001. |
+| CR-27 | Ogni vista scientifica deve derivare da VisualizationSpec GS-VIZ-001 e offrire una rappresentazione accessibile equivalente. |
+| CR-28 | Una capacità può essere pubblicata dal prodotto 0.1 soltanto se inclusa da GS-PROD-001 e validata secondo GS-VAL-001. |
 
 ## 12. Decisioni e rationale
 
@@ -407,21 +441,23 @@ progressivi preservano focus e contesto.
 - [ADR-0013 — Semantica analitica backend-neutral e Analysis DAG](adr/0013-semantica-analitica-e-analysis-dag.md)
 - [ADR-0014 — Esperienza guidata da indagini, intenzioni ed evidenze](adr/0014-esperienza-guidata-da-indagini.md)
 - [ADR-0015 — Baseline Swift 6.4 e modalità linguistica Swift 6](adr/0015-baseline-swift-6-4.md)
+- [ADR-0016 — Specifiche implementative e baseline prodotto 0.1](adr/0016-specifiche-di-design-e-baseline-prodotto.md)
 
 Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il [Registro delle decisioni aperte](decisioni-aperte.md) identifica le questioni che richiedono ADR ulteriori.
 
 ## 13. Lacune della descrizione
 
 - stakeholder e concern non sono ancora validati;
-- mancano soglie quantitative e scenari di qualità;
+- mancano l'approvazione e la misura delle soglie quantitative di qualità;
 - i confini dei package non sono approvati;
-- non sono definite persistenza, formato progetto e offset; il contratto
-  d'invalidazione è definito, ma manca la scelta dello storage;
-- le soglie numeriche, i corpus gold e il sottoinsieme MVP dei metodi non sono
+- package `.glifi`, store, offset e invalidazione sono specificati ma non ancora
+  provati con prototipi, dati ostili e migrazioni;
+- il sottoinsieme MVP è definito; soglie numeriche, corpus gold e oracoli non sono
   ancora approvati;
-- tassonomia, planner e rule set sono specificati concettualmente ma non esistono
-  ancora tipi pubblici, storage, prototipi o studi con utenti;
+- tassonomia, planner e rule set hanno un design implementativo ma non esistono
+  ancora tipi pubblici, storage, fixture o studi con utenti;
 - soglie di comprensione, profili degli utenti, policy di solidità e formato della
   relazione non sono ancora approvati;
-- non esistono ancora view di sicurezza, deployment dettagliato o recovery;
+- threat model e recovery sono integrati nei contratti, ma non esistono ancora
+  prove implementative o deployment firmato;
 - la coerenza dei confini iniziali è verificata, ma manca ancora una regola automatica per il grafo completo delle dipendenze future.

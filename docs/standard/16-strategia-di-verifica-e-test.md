@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-16 |
 | Tipo | Capitolo normativo |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -30,6 +30,8 @@
 | Planner decision test | Applicabilità e piano rispetto a profilo, intento, capability e policy |
 | Epistemic integrity test | Corrispondenza fra evidenze, rule set, findings, caveat e relazione |
 | Benchmark | Throughput, latenza, memoria e I/O |
+| Kill/recovery test | Interruzione in ogni commit point e recupero della generazione valida |
+| Cross-interface contract test | Equivalenza di QueryAST, piano, ordine, errori e output fra GUI, API e CLI |
 
 ## 16.2 Regole
 
@@ -65,5 +67,10 @@ Devono essere coperti almeno:
 - parità semantica dei flussi macOS/iPadOS e ripristino del contesto;
 - comprensione e calibrazione mediante protocolli e soglie definiti prima dello studio;
 - output generativi ostili che tentano di aggiungere findings o rimuovere caveat.
+- package `.glifi`, SpanMap, QueryAST, InterpretationRule, VisualizationSpec e
+  ValidationManifest secondo GS-DAT/GS-QRY/GS-ANA/GS-VIZ/GS-VAL;
+- path traversal, symlink, dimensioni false, nesting, regex DoS, pressione di
+  memoria/disco e kill injection.
 
 Le app **DEVONO** applicare anche il profilo Apple per [test e diagnostica](../apple/07-test-e-diagnostica.md).
+Il protocollo scientifico trasversale è [GS-VAL-001](../specifiche-di-design/09-validazione-scientifica.md).

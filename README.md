@@ -54,7 +54,7 @@ Glifi Studio non è un editor generalista con qualche statistica aggiunta e non 
 ## Stato del progetto
 
 > [!IMPORTANT]
-> **Baseline ingegneristica eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS, il package condiviso, il contratto applicativo, la CLI headless, la localizzazione iniziale e i quality gate sono operativi. Importazione, persistenza dei progetti, indicizzazione e capacità analitiche appartengono ancora alle fasi di validazione e sviluppo descritte nella [roadmap](docs/roadmap.md).
+> **Baseline ingegneristica eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS, il package condiviso, il contratto applicativo, la CLI headless, la localizzazione iniziale e i quality gate sono operativi. Le [dieci specifiche di design](docs/specifiche-di-design/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) rendono ora implementabili i confini; importazione, persistenza, indicizzazione e analisi restano da costruire e validare.
 
 La documentazione è una baseline controllata: requisiti, architettura e decisioni aperte sono tracciati, ma non tutte le scelte di prodotto hanno ancora approvazione definitiva. La presenza di una tecnologia o di un documento non equivale alla disponibilità della relativa funzione.
 
@@ -66,6 +66,7 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | `GlifiCore` | Motore headless actor-based con configurazione linguistica esplicita |
 | `GlifiCLI` | Smoke test eseguibile del percorso senza interfaccia grafica |
 | Qualità | Gate riproducibile con Apple Swift 6.4, Swift 6 language mode, SwiftPM tools 6.4, test, build, documentazione scientifica/UX e controlli Apple/App Store |
+| Design implementativo | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD definiti come baseline candidata; nessuna funzione è dichiarata implementata per questo solo fatto |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |
 
 ## Principi di progetto
@@ -112,6 +113,11 @@ GlifiCLI ────────────────────► GlifiKi
 ```
 
 La dipendenza procede dall’esterno verso l’interno: il dominio non dipende da SwiftUI, gli algoritmi non dipendono da una persistenza concreta e la GUI non determina il modello scientifico. La [descrizione dell’architettura](docs/architettura.md) definisce view, invarianti e corrispondenze; le [ADR](docs/adr/README.md) registrano le decisioni senza riscriverne retroattivamente il rationale.
+
+Il formato candidato è un package `.glifi` v1: fonti incorporate per default,
+metadati relazionali controllati e artefatti immutabili content-addressed. Il
+contratto completo, inclusi SpanMap, recovery e migrazioni, è in
+[GS-DAT-001](docs/specifiche-di-design/02-dati-lineage-e-persistenza.md).
 
 ## Avvio rapido
 
@@ -198,7 +204,8 @@ Le prove riproducibili vengono registrate nell’[indice delle evidenze](docs/ev
 
 Lo sviluppo riduce prima i rischi che possono invalidare l’architettura:
 
-1. **Decisioni e fattibilità** — streaming, offset Unicode, persistenza, corpus di riferimento, tassonomia delle intenzioni, planner e policy di solidità.
+1. **Convalida delle specifiche** — prototipi di `.glifi`, SpanMap, QueryAST, DAG,
+   budget runtime e navigazione; corpus e soglie di riferimento.
 2. **Vertical slice headless** — dal testo UTF-8 a progetto, indagine, profilo della raccolta, piano spiegabile, evidenze e risultati riproducibili.
 3. **Primo flusso interattivo** — domanda iniziale, importazione progressiva, sintesi editoriale, oggetti esplorabili e catena Conclusione → Evidenza → Fonti → Metodo.
 4. **Documenti e corpus ricchi** — PDF, OCR tracciato, metadati, confronto, cronologia ramificata e relazione dell'indagine.
@@ -227,6 +234,8 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Specifica dei requisiti](docs/requisiti.md)
 - [Specifica normativa dei metodi analitici](docs/metodi-analitici/README.md)
 - [Specifica dell'esperienza utente](docs/esperienza-utente/README.md)
+- [Specifiche di design implementativo](docs/specifiche-di-design/README.md)
+- [Product baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md)
 - [Architettura](docs/architettura.md)
 - [Matrice di tracciabilità](docs/tracciabilita.md)
 - [Standard di progetto](docs/standard-di-progetto.md)

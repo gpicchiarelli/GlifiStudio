@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-GLO-001 |
 | Tipo | Glossario e definizioni |
-| Versione | 0.6.0 |
+| Versione | 0.7.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,6 +21,7 @@
 | Baseline | Versione formalmente approvata e identificata di un information item o altro elemento di configurazione. |
 | Baseline candidata | Contenuto proposto per l'approvazione che non costituisce ancora una baseline. |
 | CapabilitySnapshot | Rappresentazione versionata delle capacità software, hardware e dei backend effettivamente disponibili a una pianificazione. |
+| Content-addressed | Identificazione di un oggetto tramite digest canonico del contenuto, indipendente da path e nome visualizzato. |
 | Caveat | Condizione strutturata che limita qualità, validità, generalizzabilità o interpretazione di un dato, piano, evidence o finding. |
 | CollectionProfile | Artefatto versionato che caratterizza consistenza, formati, lingue, estrazione, tempo, metadati, duplicazioni, annotazioni e insufficienze di una raccolta. |
 | Concern | Interesse o problema rilevante per uno o più stakeholder rispetto al sistema. |
@@ -36,6 +37,7 @@
 | FollowUpAction | Approfondimento tipizzato derivato da finding, oggetti e applicabilità corrente, non suggerimento casuale. |
 | Frequency spectrum | Distribuzione `V_r` del numero di type osservati esattamente `r` volte. |
 | Fonte | Contenuto originale acquisito dal sistema e non modificato implicitamente dalle trasformazioni analitiche. |
+| Generazione del progetto | Stato `.glifi` interamente committato e identificato dal manifest; una generazione parziale non è apribile come valida. |
 | Glifi Studio | Nome canonico e localizzato del prodotto; non coincide con i suoi identificatori tecnici senza spazi. |
 | GlifiStudio | Radice tecnica usata da workspace, progetto, target e tipi applicativi. |
 | Information item | Insieme identificabile di informazioni prodotto o mantenuto durante il ciclo di vita; in questo progetto è normalmente registrato in uno o più file Markdown. |
@@ -56,10 +58,13 @@
 | Progetto Glifi Studio | Unità di lavoro persistente contenente fonti o riferimenti, metadati, corpus, configurazioni, artefatti e risultati. |
 | Progressive disclosure | Organizzazione a profondità crescente che rende accessibili conclusione, evidenza, fonti e metodo nella stessa esperienza. |
 | Question | Domanda originale della persona associata a lingua, autore e interpretazione canonica versionata. |
+| QueryAST | Rappresentazione canonica, tipizzata e versionata di una ricerca, condivisa da testo, builder, GUI, API e CLI. |
 | Requisito | Obbligazione o vincolo necessario, espresso in forma precisa e verificabile, relativo al sistema di interesse. |
 | Quality gate | Insieme di controlli obbligatori il cui esito determina se una modifica o un rilascio può procedere. |
 | Significatività statistica | Valutazione di compatibilità dei dati con un'ipotesi secondo un test dichiarato; non misura la grandezza dell'effetto né la probabilità che l'ipotesi sia vera. |
 | SourceReference | Riferimento persistente e risolvibile a documento, segmento, occorrenza, pagina o regione di una fonte versionata. |
+| SpanMap | Mappa versionata e componibile tra intervalli half-open di due rappresentazioni, con relazione exact, contributive, synthetic o derivational. |
+| SurfaceToken | Token primario che conserva forma e intervallo contiguo della superficie; eventuali elisioni, clitici o composti sono componenti annotati. |
 | SupportPolicy | Regola scientifica versionata e specifica per famiglia che valuta la solidità senza produrre un confidence score universale. |
 | Report | Proiezione editoriale versionata di un'indagine con attribuzione a findings, evidenze, caveat, visualizzazioni e fonti. |
 | Stakeholder | Individuo, gruppo o organizzazione con un interesse rilevante nel sistema. |
@@ -68,6 +73,8 @@
 | Unità analitica | Entità identificata su cui si aggregano osservazioni, per esempio documento, segmento, autore, categoria o periodo. |
 | Matrice unità-termine | Matrice sparsa o logica in cui righe identificate sono unità analitiche, colonne identificate sono type e celle sono conteggi o trasformazioni dichiarate. |
 | Variante algoritmica | Formula e procedura versionate che eliminano ambiguità fra implementazioni accomunate da un nome generico. |
+| ValidationManifest | Record machine-readable dello stato di validazione di una capacità, con evidenze, toolchain, fixture, dataset, tolleranze e limiti. |
+| VisualizationSpec | Contratto versionato che lega artefatti, encoding, scale, trasformazioni, selezione, accessibilità, lineage ed export di una vista scientifica. |
 | View | Insieme di uno o più model che esprime l'architettura rispetto a specifici concern. |
 | Viewpoint | Convenzioni che stabiliscono come costruire, interpretare e usare una view per determinati stakeholder e concern. |
 

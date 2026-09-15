@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-007 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -31,5 +31,11 @@
 - Metriche Organizer e MetricKit disponibili **POSSONO** alimentare la diagnosi aggregata senza introdurre telemetria di terzi; ogni raccolta aggiuntiva richiede la policy privacy.
 - Logger e signpost tecnici **NON DEVONO** diventare la cronologia visibile
   dell'indagine; i due flussi hanno scopo e retention differenti.
+- Le capacità scientifiche **DEVONO** seguire i livelli V0–V6 e i
+  ValidationManifest di GS-VAL-001; XCTest o snapshot isolati non costituiscono
+  oracolo scientifico.
+- Package, migrazioni e query **DEVONO** aggiungere kill injection e fuzzing
+  bounded oltre ai test nominali.
 
+Il protocollo completo è [GS-VAL-001](../specifiche-di-design/09-validazione-scientifica.md).
 Riferimenti: [Testing and performance](https://developer.apple.com/documentation/technologyoverviews/testing-and-performance), [diagnosing issues early](https://developer.apple.com/documentation/xcode/diagnosing-memory-thread-and-crash-issues-early), [performance tests](https://developer.apple.com/documentation/xcode/writing-and-running-performance-tests), [Logging](https://developer.apple.com/documentation/os/logging) e [OSSignposter](https://developer.apple.com/documentation/os/ossignposter).

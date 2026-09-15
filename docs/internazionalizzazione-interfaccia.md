@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-I18N-002 |
 | Tipo | Specifica di internazionalizzazione dell'interfaccia |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -42,6 +42,8 @@ Le app Glifi Studio devono adattare lingua e formattazione alle preferenze della
   unità; non possono essere costruite concatenando frammenti o numeri preformattati.
 - Una traduzione **NON DEVE** cambiare negazione, direzione, solidità, categoria
   epistemica o caveat di un finding.
+- Route, comandi, Selection, componenti e stati GS-UI-001 **DEVONO** usare ID
+  canonici e argomenti tipizzati indipendenti dal catalogo localizzato.
 
 ## Flusso per una nuova stringa
 

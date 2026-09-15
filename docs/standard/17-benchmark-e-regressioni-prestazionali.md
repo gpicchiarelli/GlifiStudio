@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-17 |
 | Tipo | Capitolo normativo |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,6 +21,10 @@ I benchmark **DEVONO** registrare:
 - condizioni rilevanti, inclusi cache calde o fredde;
 - metrica, unità, numero di ripetizioni e dispersione.
 
+Le classi iniziali S/M/L/XL, i criteri di ammissione e `ResourceBudget v1` sono
+definiti da [GS-RUN-001](../specifiche-di-design/06-runtime-e-risorse.md). La classe
+XL è stress macOS, non una promessa di latenza finché non esiste una soglia approvata.
+
 ## 17.2 Metriche minime
 
 - throughput di importazione, tokenizzazione e indicizzazione;
@@ -32,6 +36,7 @@ I benchmark **DEVONO** registrare:
 - energia, stato termico e impatto sulla responsività;
 - tempo di warm-up, copie e sincronizzazioni per GPU o modelli;
 - unità di calcolo selezionata e fallback osservato.
+- latenza del primo risultato, cancellazione, spazio temporaneo e riuso cache.
 
 ## 17.3 Gate di regressione
 

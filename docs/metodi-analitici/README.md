@@ -22,6 +22,8 @@ non è un manuale didattico e non prescrive un particolare layout dell'interfacc
 La [specifica GS-UX-001](../esperienza-utente/README.md) governa intenzioni,
 findings, progressive disclosure e navigazione. Un titolo comprensibile o una
 vista orientata alla domanda non rinomina la variante scientifica sottostante.
+GS-ANA-001 governa planning, DAG operativo e interpretation; GS-VAL-001 governa le
+prove trasversali. Nessuno dei due può ridefinire formule o precondizioni GS-MET.
 
 I documenti `GS-MET-001-*` sono parte normativa di questa specifica. In caso di
 conflitto, una formula o precondizione definita nel documento specialistico prevale

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-002 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -26,6 +26,8 @@
   un catalogo delle famiglie algoritmiche.
 - Findings, evidenze, fonti e metodo **DEVONO** condividere la stessa catena di
   navigazione progressiva definita da GS-UX-001.
+- Route, scene, selezione, compare set, restoration, menu e componenti semantici
+  **DEVONO** realizzare GS-UI-001 senza usare posizioni di riga come identità.
 
 ## macOS
 
