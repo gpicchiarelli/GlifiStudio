@@ -14,9 +14,9 @@ Le fixture ostili devono essere innocue fuori dal test, chiaramente identificate
 
 - `Linguistics/it-v1`: otto casi sintetici con offset UTF-8 half-open per
   apostrofi, clitici, abbreviazioni, NFC/NFD, numeri, emoji ed email;
-- `Scientific/v1`: cinque casi V1 per χ²/Cramér's V, cosine, PMI/NPMI, TF-IDF
-  smoothed e profilo corpus italiano, ricalcolati dal gate senza dipendere dal
-  codice prodotto;
+- `Scientific/v1`: sei casi V1 per χ²/Cramér's V, cosine, PMI/NPMI, TF-IDF
+  smoothed, profilo corpus italiano e keyness G-test/effect/BH, ricalcolati dal
+  gate senza dipendere dal codice prodotto;
 - `Adversarial/v1`: dieci descrittori innocui collegati a THR-003–THR-016, senza
   materializzare exploit, archivi espansivi o dati sensibili.
 - `Query/v1`: casi sintetici italiani per termini normalizzati, frasi, booleani,

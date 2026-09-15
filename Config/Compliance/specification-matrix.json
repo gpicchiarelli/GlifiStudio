@@ -220,7 +220,7 @@
       ],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query e analisi descrittiva bounded sono operativi; progressi, planner/DAG, indice, streaming ed export restano da implementare."
+      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query, analisi descrittiva e keyness bounded sono operativi; progressi, planner/DAG, indice, streaming ed export restano da implementare."
     },
     {
       "id": "CMP-013",
@@ -612,6 +612,50 @@
         "Fixtures/Markdown/v1/source.md"
       ],
       "evidence": ["docs/evidenze/GS-VER-022-profilo-corpus-riproducibile.md"],
+      "gate": "G3",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-035",
+      "clause": "GS-MET-001-08 § Profilo keyness-gtest-ha-bh-v1 bounded",
+      "specification": "docs/metodi-analitici/08-keyness.md",
+      "requirements": ["RF-031", "RF-045", "RQ-008"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiKeynessAnalysis.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiKeynessAnalysisTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift",
+        "Scripts/check-fixtures.py"
+      ],
+      "fixtures": ["Fixtures/Scientific/v1/reference-cases.json"],
+      "evidence": ["docs/evidenze/GS-VER-023-keyness-gtest-bh.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-036",
+      "clause": "GS-API-001 § compareKeyness e CLI keyness bounded",
+      "specification": "docs/api/README.md",
+      "requirements": ["RF-023", "RQ-011", "RQ-060"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiKeynessPresentation.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift",
+        "Scripts/verify.sh"
+      ],
+      "fixtures": [
+        "Fixtures/Persistence/v1/basic/source.txt",
+        "Fixtures/Markdown/v1/source.md"
+      ],
+      "evidence": ["docs/evidenze/GS-VER-023-keyness-gtest-bh.md"],
       "gate": "G3",
       "status": "verified",
       "blockingReason": null

@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-08 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -76,6 +76,32 @@ Termini assenti in entrambi i gruppi non entrano nella famiglia. Le fixture incl
 zero in ciascuna cella, margini sbilanciati, piccoli campioni e confronto con
 implementazioni indipendenti. L'ordinamento finale usa una chiave dichiarata e
 tie-break stabile su `TermID`.
+
+## Profilo implementato `keyness-gtest-ha-bh-v1`
+
+La prima variante eseguibile confronta due insiemi espliciti, non vuoti e
+disgiunti di `SourceRevisionID` appartenenti alla stessa generazione verificata.
+Usa conteggi token-based normalizzati da `it-token-v1` e conserva per l'intera
+famiglia:
+
+- frequenze e tassi in target e riferimento;
+- `GTest-v1` con un grado di libertà e
+  `ChiSquareSurvival-df1-erfc-v1` per il p-value;
+- `OddsRatio-HA-v1` e `LogRatio-HA-v1-base2` con direzione separata;
+- `BenjaminiHochberg-v1` su tutti i termini osservati in almeno un gruppo;
+- minimo conteggio atteso e caveat diagnostico sotto la soglia configurata;
+- popolazioni ordinate canonicamente, digest dei profili, digest del confronto,
+  policy numerica D1 e tolleranza assoluta `1e-12`.
+
+La famiglia è limitata prima della materializzazione a 100.000 ipotesi per
+default. Gruppi sovrapposti o duplicati, revisioni assenti, popolazioni senza
+token, margini degeneri e soglie non finite falliscono con codici tipizzati senza
+modificare il progetto. L'ordinamento è per valore assoluto del log ratio
+decrescente e termine crescente come tie-break.
+
+Il profilo è bounded ed effimero: non sostituisce ancora
+`AnalysisDescriptor`/Artifact persistiti, intervalli di confidenza, selezione
+pre-registrata di Fisher né review scientifica esterna.
 
 ## Riferimento scientifico
 

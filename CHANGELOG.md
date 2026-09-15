@@ -30,6 +30,11 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   matrice documento-termine sparsa con TF-raw/IDF-smooth/TFIDF versionati.
 - Operazione `analyzeCorpus` in GlifiCore/GlifiKit, comando CLI `analyze` con
   JSON v1 completo, signpost locale allowlist e reference test indipendente.
+- Keyness `keyness-gtest-ha-bh-v1` tra gruppi espliciti con G-test, p-value χ²,
+  odds/log ratio Haldane–Anscombe, correzione Benjamini–Hochberg, diagnostica dei
+  conteggi attesi, digest, limiti e fixture indipendente.
+- Operazione `compareKeyness`, identificatori revisioni nello snapshot pubblico e
+  comando CLI `keyness` testuale/JSON v1 con contract smoke end-to-end.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

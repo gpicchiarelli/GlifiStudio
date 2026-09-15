@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-API-001 |
 | Tipo | Specifica normativa delle interfacce applicative e headless |
-| Versione | 1.5.0 |
+| Versione | 1.6.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -89,15 +89,18 @@ creazione non apre file, non avvia rete, non crea lavoro background persistente 
 non acquisisce security scope. `status()` è idempotente, asincrono e non modifica
 lo stato scientifico. La superficie corrente implementa `ready`, il profilo
 bounded di TXT/Markdown autorizzati, la creazione/apertura di sessioni `.glifi` e
-query testuali e primo profilo corpus bounded sulla generazione autorevole.
+query testuali, profilo corpus bounded e confronto keyness sulla generazione
+autorevole.
 
 ### 5.2 Sessione di progetto
 
 `GlifiStudioProjectSession` è actor-isolated e viene ottenuta da `createProject` o
 `openProject`. Il prototipo corrente possiede il package coordinato, l'import
-TXT/Markdown, la query bounded e `analyzeCorpus`; `close` è idempotente e impedisce
-nuove operazioni. Ownership di task lunghi, cache handle e bookmark entreranno con
-le rispettive funzioni, senza cambiare la semantica di chiusura.
+TXT/Markdown, la query bounded, `analyzeCorpus` e `compareKeyness`; `close` è
+idempotente e impedisce nuove operazioni. Lo snapshot espone gli identificatori
+opachi delle revisioni necessari a formare i gruppi senza rivelare path interni.
+Ownership di task lunghi, cache handle e bookmark entreranno con le rispettive
+funzioni, senza cambiare la semantica di chiusura.
 
 Una sessione chiusa rifiuta nuove operazioni con codice stabile. L'eliminazione del
 valore client non è un protocollo di chiusura e non autorizza salvataggi impliciti.
@@ -187,7 +190,8 @@ contenuto, query, path o nomi file.
 | importa | sessione, sorgenti, policy | SourceRevision e rapporto | TXT/Markdown bounded implementati e verificati; streaming e document model completo aperti |
 | profila raccolta | revisioni TXT/Markdown della generazione e limiti | conteggi, distribuzioni e matrice sparsa con digest | Slice `corpus-profile-it-v1` implementata e verificata; metadati, duplicazioni e problemi di qualità del CollectionProfile completo restano aperti |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
-| analizza | generazione corrente e budget bounded nella slice | profilo corpus effimero versionato | Slice descrittiva implementata; AnalysisDescriptor/DAG/Artifact persistiti, keyness, tempo, Evidence e Findings non implementati |
+| analizza | generazione corrente e budget bounded nella slice | profilo corpus effimero versionato | Slice descrittiva implementata; AnalysisDescriptor/DAG/Artifact persistiti, tempo, Evidence e Findings non implementati |
+| confronta keyness | due insiemi espliciti e disgiunti di SourceRevisionID | famiglia G-test/effect/BH con popolazioni e digest | `keyness-gtest-ha-bh-v1` bounded implementata e verificata; risultato ancora effimero |
 | interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT/Markdown con `sourceRanges` implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
 | esporta | selezione, formato, destinazione | ExportReceipt + manifest | Specificata; non implementata |
 
@@ -205,18 +209,22 @@ glifi project create|info|validate <project>
 glifi import <project> <source>...
 glifi plan <project> --request <json-file>
 glifi analyze <project>
+glifi keyness <project> --target <source-revision-id,...> --reference <source-revision-id,...>
 glifi query <project> --text <query>
 glifi export <project> --request <json-file> --output <path>
 ```
 
 Sono disponibili `status`, `project create`, `project info`, `project validate`,
-`import` per TXT/Markdown, `query --text` e `analyze`. Accettano `--format text|json`;
+`import` per TXT/Markdown, `query --text`, `analyze` e `keyness`. Accettano
+`--format text|json`;
 l'envelope JSON ha `cliProtocolVersion = 1`. La query JSON include generazione,
 digest canonico, coordinate `extractedUTF8`, intervalli `sourceBytes`, conteggio
 degli scope selezionati, righe KWIC e troncatura. `analyze` restituisce identità
 dei metodi, digest del corpus, conteggi, diversità, termini, n-grammi e matrice
-sparsa della generazione. `plan`, AnalysisDescriptor/DAG persistiti, file QueryAST,
-streaming ed `export` restano fail-closed. L'invocazione senza
+sparsa della generazione. `keyness` richiede revisioni target/riferimento separate
+da virgola e restituisce popolazioni, identità G-test/p-value/effect/BH,
+diagnostica, valori completi e digest. `plan`, AnalysisDescriptor/DAG persistiti,
+file QueryAST, streaming ed `export` restano fail-closed. L'invocazione senza
 argomenti resta alias temporaneo dello smoke test e stampa `GlifiCore pronto`;
 prima del protocollo CLI 1.0 deve diventare `help` o essere rimossa con nota di
 migrazione.

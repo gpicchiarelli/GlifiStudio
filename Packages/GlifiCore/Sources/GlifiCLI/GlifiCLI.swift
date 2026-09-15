@@ -134,6 +134,28 @@ enum GlifiCLI {
                     SuccessEnvelope(command: request.command.name, result: result)
                 )
             }
+        case let .keyness(projectURL, targetSourceRevisionIDs, referenceSourceRevisionIDs):
+            let session = try await service.openProject(at: projectURL)
+            let result = try await session.compareKeyness(
+                targetSourceRevisionIDs: targetSourceRevisionIDs,
+                referenceSourceRevisionIDs: referenceSourceRevisionIDs
+            )
+            await session.close()
+            switch request.format {
+            case .text:
+                print(
+                    "Keyness calcolata · generazione \(result.generation) · \(result.targetTokenCount) token target · \(result.referenceTokenCount) token riferimento"
+                )
+                for term in result.terms.prefix(20) {
+                    print(
+                        "\(term.term)\tG=\(term.gStatistic)\tp=\(term.pValue)\tq=\(term.qValue)\tlog2=\(term.log2RatioHaldaneAnscombe)\t\(term.direction)"
+                    )
+                }
+            case .json:
+                try writeJSON(
+                    SuccessEnvelope(command: request.command.name, result: result)
+                )
+            }
         }
     }
 
@@ -222,6 +244,7 @@ private struct CLIRequest {
           glifi [--format text|json] import <progetto.glifi> <fonte.txt>...
           glifi [--format text|json] query <progetto.glifi> --text <query>
           glifi [--format text|json] analyze <progetto.glifi>
+          glifi [--format text|json] keyness <progetto.glifi> --target <source-revision-id,...> --reference <source-revision-id,...>
         """ + "\n"
 
     let format: CLIOutputFormat
@@ -280,10 +303,34 @@ private struct CLIRequest {
             )
         } else if remaining.count == 2, remaining[0] == "analyze" {
             command = .analyze(URL(fileURLWithPath: remaining[1]).standardizedFileURL)
+        } else if remaining.count == 6, remaining[0] == "keyness" {
+            let groups: (target: String, reference: String)
+            if remaining[2] == "--target", remaining[4] == "--reference" {
+                groups = (remaining[3], remaining[5])
+            } else if remaining[2] == "--reference", remaining[4] == "--target" {
+                groups = (remaining[5], remaining[3])
+            } else {
+                throw CLIUsageError.invalidArguments
+            }
+            command = .keyness(
+                URL(fileURLWithPath: remaining[1]).standardizedFileURL,
+                try Self.identifiers(groups.target),
+                try Self.identifiers(groups.reference)
+            )
         } else {
             throw CLIUsageError.invalidArguments
         }
         format = resolvedFormat
+    }
+
+    private static func identifiers(_ value: String) throws -> [String] {
+        let identifiers = value.split(separator: ",", omittingEmptySubsequences: false).map(
+            String.init
+        )
+        guard !identifiers.isEmpty, identifiers.allSatisfy({ !$0.isEmpty }) else {
+            throw CLIUsageError.invalidArguments
+        }
+        return identifiers
     }
 }
 
@@ -295,6 +342,7 @@ private enum CLICommand {
     case importSources(URL, [URL])
     case query(URL, String)
     case analyze(URL)
+    case keyness(URL, [String], [String])
 
     var name: String {
         switch self {
@@ -305,6 +353,7 @@ private enum CLICommand {
         case .importSources: "import"
         case .query: "query"
         case .analyze: "analyze"
+        case .keyness: "keyness"
         }
     }
 }
@@ -389,11 +438,29 @@ private struct ProjectSnapshotResult: Encodable {
     let projectID: String
     let generation: Int
     let sourceCount: Int
+    let sources: [ProjectSourceResult]
 
     init(_ project: GlifiStudioProjectSnapshot) {
         projectID = project.projectID
         generation = project.generation
         sourceCount = project.sourceCount
+        sources = project.sources.map(ProjectSourceResult.init)
+    }
+}
+
+private struct ProjectSourceResult: Encodable {
+    let sourceID: String
+    let sourceRevisionID: String
+    let format: String
+    let contentDigest: String
+    let byteCount: Int
+
+    init(_ source: GlifiStudioProjectSource) {
+        sourceID = source.sourceID
+        sourceRevisionID = source.sourceRevisionID
+        format = source.format.rawValue
+        contentDigest = source.contentDigest
+        byteCount = source.byteCount
     }
 }
 

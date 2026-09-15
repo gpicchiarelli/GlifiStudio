@@ -10,7 +10,7 @@ public enum GlifiStudioStatus: String, Sendable, Equatable {
 }
 
 /// Text formats supported by the first product ingestion slice.
-public enum GlifiStudioTextFormat: String, Codable, Sendable {
+public enum GlifiStudioTextFormat: String, Codable, Equatable, Sendable {
     case plainText
     case markdown
 }
@@ -112,6 +112,30 @@ public struct GlifiStudioFailure: Error, Equatable, Sendable {
 }
 
 /// Presentation-independent view of an authoritative project generation.
+public struct GlifiStudioProjectSource: Codable, Equatable, Identifiable, Sendable {
+    /// Stable row identity derived from the immutable revision.
+    public var id: String { sourceRevisionID }
+    /// Stable logical source identity.
+    public let sourceID: String
+    /// Stable immutable source-revision identity.
+    public let sourceRevisionID: String
+    /// Validated source format.
+    public let format: GlifiStudioTextFormat
+    /// Digest of the exact original bytes.
+    public let contentDigest: String
+    /// Exact original byte count.
+    public let byteCount: Int
+
+    init(_ source: GlifiProjectSourceRecord) {
+        sourceID = source.sourceID.canonicalValue
+        sourceRevisionID = source.sourceRevisionID.canonicalValue
+        format = GlifiStudioTextFormat(source.format)
+        contentDigest = source.contentDigest
+        byteCount = source.byteCount
+    }
+}
+
+/// Presentation-independent view of an authoritative project generation.
 public struct GlifiStudioProjectSnapshot: Equatable, Sendable {
     /// Stable opaque project identifier.
     public let projectID: String
@@ -119,11 +143,14 @@ public struct GlifiStudioProjectSnapshot: Equatable, Sendable {
     public let generation: Int
     /// Number of incorporated immutable source revisions.
     public let sourceCount: Int
+    /// Ordered immutable source records without package-internal paths.
+    public let sources: [GlifiStudioProjectSource]
 
     init(_ snapshot: GlifiProjectSnapshot) {
         projectID = snapshot.projectID.canonicalValue
         generation = snapshot.generation
         sourceCount = snapshot.sources.count
+        sources = snapshot.sources.map(GlifiStudioProjectSource.init)
     }
 }
 
@@ -267,6 +294,44 @@ public actor GlifiStudioProjectSession {
         }
     }
 
+    /// Compares two explicit, disjoint source groups from the current generation.
+    public func compareKeyness(
+        targetSourceRevisionIDs: [String],
+        referenceSourceRevisionIDs: [String],
+        corpusOptions: GlifiStudioCorpusAnalysisOptions = .standard,
+        keynessOptions: GlifiStudioKeynessOptions = .standard
+    ) async throws -> GlifiStudioKeynessResult {
+        try ensureOpen()
+        do {
+            let target = try targetSourceRevisionIDs.map(SourceRevisionID.init(canonicalValue:))
+            let reference = try referenceSourceRevisionIDs.map(
+                SourceRevisionID.init(canonicalValue:)
+            )
+            return try await GlifiStudioKeynessResult(
+                engine.compareKeyness(
+                    in: project,
+                    targetSourceRevisionIDs: target,
+                    referenceSourceRevisionIDs: reference,
+                    corpusOptions: corpusOptions.coreValue,
+                    keynessOptions: keynessOptions.coreValue
+                )
+            )
+        } catch let failure as GlifiFailure where failure.code == "identifier.invalid" {
+            throw GlifiStudioFailure(
+                GlifiFailure(
+                    code: "keyness.invalid-source-identifier",
+                    category: .invalidInput,
+                    operation: .analyze,
+                    retryDisposition: .afterCorrection,
+                    retainedState: .lastCommittedGeneration,
+                    messageKey: "failure.keyness.invalid-source-identifier"
+                )
+            )
+        } catch {
+            throw Self.map(error, operation: .analyze)
+        }
+    }
+
     /// Closes this logical session idempotently and rejects subsequent operations.
     public func close() {
         isClosed = true
@@ -388,6 +453,15 @@ public struct GlifiStudioService: Sendable {
 }
 
 extension GlifiStudioTextFormat {
+    init(_ value: GlifiTextFormat) {
+        switch value {
+        case .plainText:
+            self = .plainText
+        case .markdown:
+            self = .markdown
+        }
+    }
+
     var coreValue: GlifiTextFormat {
         switch self {
         case .plainText:

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.22.0 |
+| Versione | 0.23.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -36,3 +36,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-020 — QueryAST e KWIC bounded](GS-VER-020-query-ast-kwic-bounded.md) — Superato localmente per parser, valutatore bounded e GlifiKit/CLI
 - [GS-VER-021 — Markdown e SpanMap](GS-VER-021-markdown-spanmap.md) — Superato localmente per estrazione bounded, lineage sorgente e superfici condivise
 - [GS-VER-022 — Profilo corpus riproducibile](GS-VER-022-profilo-corpus-riproducibile.md) — Superato localmente per analisi descrittiva, dispersione, diversità e matrice sparsa bounded
+- [GS-VER-023 — Keyness G-test ed effect size con BH](GS-VER-023-keyness-gtest-bh.md) — Superato localmente per confronto bounded riproducibile attraverso Core, Kit e CLI

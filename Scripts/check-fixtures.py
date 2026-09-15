@@ -271,6 +271,75 @@ def validate_scientific(manifest: dict[str, Any], errors: list[str]) -> int:
                     ],
                 },
             }
+        elif case_id == "keyness-gtest-ha-bh-v1":
+            target = inputs["target"]
+            reference = inputs["reference"]
+            target_counts = Counter(target)
+            reference_counts = Counter(reference)
+            terms = sorted(set(target) | set(reference))
+            provisional = {}
+            for term in terms:
+                target_frequency = target_counts[term]
+                reference_frequency = reference_counts[term]
+                observations = [
+                    target_frequency,
+                    len(target) - target_frequency,
+                    reference_frequency,
+                    len(reference) - reference_frequency,
+                ]
+                column_totals = [
+                    target_frequency + reference_frequency,
+                    len(target) + len(reference) - target_frequency - reference_frequency,
+                ]
+                expected_counts = [
+                    len(target) * column_totals[0] / (len(target) + len(reference)),
+                    len(target) * column_totals[1] / (len(target) + len(reference)),
+                    len(reference) * column_totals[0] / (len(target) + len(reference)),
+                    len(reference) * column_totals[1] / (len(target) + len(reference)),
+                ]
+                statistic = 2 * sum(
+                    observed * math.log(observed / expected_count)
+                    for observed, expected_count in zip(
+                        observations, expected_counts, strict=True
+                    )
+                    if observed
+                )
+                adjusted_target_rate = (target_frequency + 0.5) / (len(target) + 1)
+                adjusted_reference_rate = (reference_frequency + 0.5) / (
+                    len(reference) + 1
+                )
+                odds_ratio = (
+                    (target_frequency + 0.5)
+                    / (len(target) - target_frequency + 0.5)
+                ) / (
+                    (reference_frequency + 0.5)
+                    / (len(reference) - reference_frequency + 0.5)
+                )
+                provisional[term] = {
+                    "targetFrequency": target_frequency,
+                    "referenceFrequency": reference_frequency,
+                    "targetRelativeFrequency": target_frequency / len(target),
+                    "referenceRelativeFrequency": reference_frequency / len(reference),
+                    "gStatistic": statistic,
+                    "pValue": math.erfc(math.sqrt(statistic / 2)),
+                    "oddsRatioHaldaneAnscombe": odds_ratio,
+                    "log2RatioHaldaneAnscombe": math.log2(
+                        adjusted_target_rate / adjusted_reference_rate
+                    ),
+                    "minimumExpectedCount": min(expected_counts),
+                }
+            ordered = sorted(terms, key=lambda term: (provisional[term]["pValue"], term))
+            running_minimum = 1.0
+            for rank in range(len(ordered), 0, -1):
+                term = ordered[rank - 1]
+                candidate = len(ordered) * provisional[term]["pValue"] / rank
+                running_minimum = min(running_minimum, candidate, 1.0)
+                provisional[term]["qValue"] = running_minimum
+            values = {
+                "targetTokenCount": len(target),
+                "referenceTokenCount": len(reference),
+                "terms": provisional,
+            }
         else:
             errors.append(f"{case_id}: caso non riconosciuto dal ricalcolo")
             continue

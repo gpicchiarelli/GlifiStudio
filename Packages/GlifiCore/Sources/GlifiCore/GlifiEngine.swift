@@ -105,6 +105,23 @@ public struct GlifiProjectCorpusAnalysisResult: Equatable, Sendable {
     }
 }
 
+/// Deterministic two-group comparison bound to one verified project generation.
+public struct GlifiProjectKeynessResult: Equatable, Sendable {
+    /// Project that owns both compared populations.
+    public let projectID: ProjectID
+    /// Exact authoritative generation captured before comparison.
+    public let generation: Int
+    /// Statistical comparison and complete population lineage.
+    public let comparison: GlifiKeynessComparison
+
+    /// Creates a result with explicit project and generation lineage.
+    public init(projectID: ProjectID, generation: Int, comparison: GlifiKeynessComparison) {
+        self.projectID = projectID
+        self.generation = generation
+        self.comparison = comparison
+    }
+}
+
 /// Provides the headless entry point to GlifiCore capabilities.
 public actor GlifiEngine {
     private let defaultLanguageConfiguration: GlifiLanguageConfiguration
@@ -309,6 +326,98 @@ public actor GlifiEngine {
         }
     }
 
+    /// Compares two disjoint source-revision groups from one verified generation.
+    public func compareKeyness(
+        in project: GlifiProjectPackage,
+        targetSourceRevisionIDs: [SourceRevisionID],
+        referenceSourceRevisionIDs: [SourceRevisionID],
+        corpusOptions: GlifiCorpusAnalysisOptions = .standard,
+        keynessOptions: GlifiKeynessOptions = .standard
+    ) async throws -> GlifiProjectKeynessResult {
+        do {
+            try Task.checkCancellation()
+            guard !targetSourceRevisionIDs.isEmpty, !referenceSourceRevisionIDs.isEmpty else {
+                throw keynessFailure("keyness.empty-group", category: .insufficientData)
+            }
+            guard Set(targetSourceRevisionIDs).count == targetSourceRevisionIDs.count,
+                Set(referenceSourceRevisionIDs).count == referenceSourceRevisionIDs.count
+            else {
+                throw keynessFailure("keyness.duplicate-source", category: .invalidInput)
+            }
+            guard Set(targetSourceRevisionIDs).isDisjoint(with: referenceSourceRevisionIDs) else {
+                throw keynessFailure("keyness.overlapping-groups", category: .invalidInput)
+            }
+
+            let snapshot = await project.snapshot()
+            let recordsByID = Dictionary(
+                uniqueKeysWithValues: snapshot.sources.map {
+                    ($0.sourceRevisionID, $0)
+                })
+            let targetRecords = try selectedRecords(
+                targetSourceRevisionIDs,
+                recordsByID: recordsByID
+            )
+            let referenceRecords = try selectedRecords(
+                referenceSourceRevisionIDs,
+                recordsByID: recordsByID
+            )
+            try validateCorpusSelection(
+                documentByteCounts: targetRecords.map(\.byteCount),
+                options: corpusOptions
+            )
+            try validateCorpusSelection(
+                documentByteCounts: referenceRecords.map(\.byteCount),
+                options: corpusOptions
+            )
+
+            let targetSources = try await importedSources(
+                targetRecords,
+                from: project,
+                maximumSourceByteCount: corpusOptions.maximumSourceByteCount
+            )
+            let referenceSources = try await importedSources(
+                referenceRecords,
+                from: project,
+                maximumSourceByteCount: corpusOptions.maximumSourceByteCount
+            )
+            let comparison = try GlifiDiagnostics.measure(.compareKeyness) {
+                let target = try corpusAnalyzer.analyze(targetSources, options: corpusOptions)
+                let reference = try corpusAnalyzer.analyze(referenceSources, options: corpusOptions)
+                return try GlifiKeynessAnalyzer().compare(
+                    target: target,
+                    reference: reference,
+                    options: keynessOptions
+                )
+            }
+            try Task.checkCancellation()
+            return GlifiProjectKeynessResult(
+                projectID: snapshot.projectID,
+                generation: snapshot.generation,
+                comparison: comparison
+            )
+        } catch let failure as GlifiFailure {
+            throw failure
+        } catch is CancellationError {
+            throw GlifiFailure(
+                code: "operation.cancelled",
+                category: .cancelled,
+                operation: .analyze,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.operation.cancelled"
+            )
+        } catch {
+            throw GlifiFailure(
+                code: "keyness.internal-failure",
+                category: .invariantViolation,
+                operation: .analyze,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.keyness.internal-failure"
+            )
+        }
+    }
+
     /// Parses and executes a bounded query against one verified project generation.
     public func query(
         _ queryText: String,
@@ -473,6 +582,42 @@ public actor GlifiEngine {
         }
         let data = try Data(contentsOf: url, options: [.mappedIfSafe, .uncached])
         return try textImporter.importText(from: data, format: format, limits: limits)
+    }
+
+    private func selectedRecords(
+        _ sourceRevisionIDs: [SourceRevisionID],
+        recordsByID: [SourceRevisionID: GlifiProjectSourceRecord]
+    ) throws -> [GlifiProjectSourceRecord] {
+        try sourceRevisionIDs.sorted {
+            $0.canonicalValue < $1.canonicalValue
+        }.map { sourceRevisionID in
+            guard let record = recordsByID[sourceRevisionID] else {
+                throw keynessFailure("keyness.source-not-found", category: .invalidInput)
+            }
+            return record
+        }
+    }
+
+    private func importedSources(
+        _ records: [GlifiProjectSourceRecord],
+        from project: GlifiProjectPackage,
+        maximumSourceByteCount: Int
+    ) async throws -> [GlifiImportedText] {
+        var sources: [GlifiImportedText] = []
+        sources.reserveCapacity(records.count)
+        for record in records {
+            try Task.checkCancellation()
+            let data = try await project.sourceData(for: record.sourceRevisionID)
+            sources.append(
+                try textImporter.importText(
+                    from: data,
+                    format: record.format,
+                    limits: GlifiTextImportLimits(maximumByteCount: maximumSourceByteCount),
+                    sourceRevisionID: record.sourceRevisionID
+                )
+            )
+        }
+        return sources
     }
 
     private func profile(_ importedText: GlifiImportedText) throws -> GlifiTextProfile {

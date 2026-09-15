@@ -161,6 +161,17 @@ func engineAnalyzesVerifiedProjectGeneration() async throws {
         #expect(result.generation == 2)
         #expect(result.analysis.documentCount == 2)
         #expect(result.analysis.lexicalTokenCount == 5)
+
+        let comparison = try await GlifiEngine().compareKeyness(
+            in: project,
+            targetSourceRevisionIDs: [first.sourceRevisionID],
+            referenceSourceRevisionIDs: [second.sourceRevisionID]
+        )
+        #expect(comparison.projectID == committed.projectID)
+        #expect(comparison.generation == 2)
+        #expect(comparison.comparison.targetTokenCount == 3)
+        #expect(comparison.comparison.referenceTokenCount == 2)
+        #expect(comparison.comparison.terms.count == 3)
         #expect(await project.snapshot() == committed)
     }
 }

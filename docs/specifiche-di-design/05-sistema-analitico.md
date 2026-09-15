@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-ANA-001 |
 | Tipo | Specifica di design del sistema analitico |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -164,7 +164,7 @@ GlifiKit e GlifiCLI usano gli stessi `AnalysisPlanRevision`, `QueryAST`, Artifac
 errori tipizzati. Un errore di un ramo non annulla artefatti validi indipendenti;
 lo stato del piano rende visibili completezza e partial failure.
 
-### Slice implementata `corpus-profile-it-v1`
+### Slice implementate di analisi bounded
 
 La prima slice eseguibile acquisisce una generazione verificata, ordina le
 `SourceRevisionID` canonicamente e calcola in memoria entro limiti espliciti:
@@ -184,10 +184,18 @@ contenuto, contratto di estrazione e parametri analitici. I limiti predefiniti s
 distinti e 500.000 celle non-zero. Cancellazione e superamento dei limiti producono
 failure tipizzate senza modificare la generazione.
 
-Questa slice è un risultato effimero di riferimento: non implementa ancora
+`keyness-gtest-ha-bh-v1` riceve due gruppi espliciti e disgiunti dalla stessa
+generazione, costruisce due profili compatibili e produce l'intera famiglia di
+confronti con `GTest-v1`, p-value χ² a un grado di libertà, effect size
+Haldane–Anscombe, correzione `BenjaminiHochberg-v1` e diagnostica sui conteggi
+attesi. Popolazioni, identità dei metodi, soglie, policy numerica, tolleranza,
+ordinamento e digest sono parte del risultato. Il limite sul numero di ipotesi è
+applicato prima di costruire le righe finali.
+
+Queste slice sono risultati effimeri di riferimento: non implementano ancora
 segmenti documentali, spill fuori memoria, AnalysisDescriptor/AnalysisNodeID,
-DAG, persistenza/deduplica degli Artifact, keyness, analisi temporale,
-Evidence/Finding/Caveat o planner. Non può quindi essere promossa a conformità
+DAG, persistenza/deduplica degli Artifact, analisi temporale,
+Evidence/Finding/Caveat o planner. Non possono quindi essere promosse a conformità
 completa GS-ANA-001 né al percorso Must 0.1.
 
 ## Conformità

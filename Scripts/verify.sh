@@ -93,14 +93,27 @@ cli_analysis_output="$(swift run \
     --scratch-path "$temporary_build_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json analyze "$cli_project_path")"
+target_source_revision_id="$(python3 -c \
+    'import json, sys; print(json.loads(sys.argv[1])["result"]["project"]["sources"][0]["sourceRevisionID"])' \
+    "$cli_import_output")"
+reference_source_revision_id="$(python3 -c \
+    'import json, sys; sources=json.loads(sys.argv[1])["result"]["project"]["sources"]; print(next(source["sourceRevisionID"] for source in sources if source["sourceRevisionID"] != sys.argv[2]))' \
+    "$cli_markdown_import_output" "$target_source_revision_id")"
+cli_keyness_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json keyness "$cli_project_path" \
+    --target "$target_source_revision_id" \
+    --reference "$reference_source_revision_id")"
 
 python3 - "$cli_create_output" "$cli_import_output" "$cli_markdown_import_output" \
     "$cli_validate_output" "$cli_query_output" "$cli_markdown_query_output" \
-    "$cli_analysis_output" <<'PY'
+    "$cli_analysis_output" "$cli_keyness_output" <<'PY'
 import json
 import sys
 
-created, imported, markdown_imported, validated, queried, markdown_queried, analyzed = (
+created, imported, markdown_imported, validated, queried, markdown_queried, analyzed, keyness = (
     json.loads(value) for value in sys.argv[1:]
 )
 assert created["command"] == "project.create"
@@ -108,6 +121,9 @@ assert created["result"]["project"]["generation"] == 0
 assert imported["command"] == "import"
 assert imported["result"]["project"]["generation"] == 1
 assert imported["result"]["project"]["sourceCount"] == 1
+assert len(imported["result"]["project"]["sources"]) == 1
+assert imported["result"]["project"]["sources"][0]["format"] == "plainText"
+assert imported["result"]["project"]["sources"][0]["contentDigest"].startswith("sha256:")
 assert imported["result"]["lastProfile"]["lexicalTokenCount"] == 3
 assert markdown_imported["command"] == "import"
 assert markdown_imported["result"]["project"]["generation"] == 2
@@ -147,6 +163,18 @@ assert analyzed["result"]["terms"][0]["term"] == "due"
 assert analyzed["result"]["terms"][0]["frequency"] == 2
 assert len(analyzed["result"]["matrix"]["cells"]) == 7
 assert analyzed["result"]["matrix"]["tfidfIdentifier"] == "TFIDF-v1"
+assert keyness["command"] == "keyness"
+assert keyness["outcome"] == "succeeded"
+assert keyness["result"]["generation"] == 2
+assert keyness["result"]["comparisonIdentifier"] == "keyness-gtest-ha-bh-v1"
+assert keyness["result"]["comparisonDigest"].startswith("sha256:")
+assert keyness["result"]["testIdentifier"] == "GTest-v1"
+assert keyness["result"]["correctionIdentifier"] == "BenjaminiHochberg-v1"
+assert keyness["result"]["targetTokenCount"] == 3
+assert keyness["result"]["referenceTokenCount"] == 5
+assert len(keyness["result"]["terms"]) == 7
+assert all(0 <= term["qValue"] <= 1 for term in keyness["result"]["terms"])
+assert any(term["hasLowExpectedCount"] for term in keyness["result"]["terms"])
 PY
 
 xcodebuild build \

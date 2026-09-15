@@ -50,6 +50,20 @@
         }
       },
       "comparison": {"kind": "absoluteTolerance", "value": 1e-12}
+    },
+    {
+      "id": "keyness-gtest-ha-bh-v1", "method": "GTest-v1/ChiSquareSurvival-df1-erfc-v1/OddsRatio-HA-v1/LogRatio-HA-v1-base2/BenjaminiHochberg-v1", "formula": "G=2*sum(O*ln(O/E)); p=erfc(sqrt(G/2)); HA=+0.5 per cell; q=BH(p)",
+      "input": {"target": ["casa", "casa", "mare"], "reference": ["casa", "città", "città"]},
+      "expected": {
+        "targetTokenCount": 3,
+        "referenceTokenCount": 3,
+        "terms": {
+          "casa": {"targetFrequency": 2, "referenceFrequency": 1, "targetRelativeFrequency": 0.6666666666666666, "referenceRelativeFrequency": 0.3333333333333333, "gStatistic": 0.679596147181589, "pValue": 0.4097258240633153, "qValue": 0.4097258240633153, "oddsRatioHaldaneAnscombe": 2.777777777777778, "log2RatioHaldaneAnscombe": 0.7369655941662062, "minimumExpectedCount": 1.5},
+          "città": {"targetFrequency": 0, "referenceFrequency": 2, "targetRelativeFrequency": 0.0, "referenceRelativeFrequency": 0.6666666666666666, "gStatistic": 3.8190850097688767, "pValue": 0.05067190234699019, "qValue": 0.15201570704097056, "oddsRatioHaldaneAnscombe": 0.0857142857142857, "log2RatioHaldaneAnscombe": -2.321928094887362, "minimumExpectedCount": 1.0},
+          "mare": {"targetFrequency": 1, "referenceFrequency": 0, "targetRelativeFrequency": 0.3333333333333333, "referenceRelativeFrequency": 0.0, "gStatistic": 1.5876494966267793, "pValue": 0.20766227685840058, "qValue": 0.3114934152876009, "oddsRatioHaldaneAnscombe": 4.2, "log2RatioHaldaneAnscombe": 1.584962500721156, "minimumExpectedCount": 0.5}
+        }
+      },
+      "comparison": {"kind": "absoluteTolerance", "value": 1e-12}
     }
   ]
 }
