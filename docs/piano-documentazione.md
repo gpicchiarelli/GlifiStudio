@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-DMP-001 |
 | Tipo | Documentation management plan |
-| Versione | 0.11.0 |
+| Versione | 0.13.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -26,6 +26,8 @@ Il progetto adotta una conformità **tailored**, proporzionata alla fase inizial
 | [ISO/IEC/IEEE 29148:2018](https://www.iso.org/standard/72089.html) | Necessità degli stakeholder, requisiti ben formati, attributi, verifica, validazione e tracciabilità |
 | [ISO/IEC/IEEE 42010:2022](https://www.iso.org/standard/74393.html) | Entità di interesse, stakeholder, concern, viewpoint, view, model, corrispondenze e rationale |
 | [ISO/IEC 25010:2023](https://www.iso.org/standard/78176.html) | Classificazione delle caratteristiche di qualità del prodotto software |
+| [ISO 9241-11:2018](https://www.iso.org/standard/63500.html) | Concetti di usabilità, utenti, obiettivi, contesto d'uso, efficacia, efficienza e soddisfazione |
+| [ISO 9241-210:2019](https://www.iso.org/standard/77520.html) | Processo di progettazione human-centred, comprensione del contesto, valutazione e iterazione |
 
 ISO/IEC/IEEE 12207:2026 costituisce il riferimento generale per i processi del ciclo di vita, ma questo piano non dichiara la conformità dell'intero processo di sviluppo.
 
@@ -51,6 +53,7 @@ Il formato Markdown è un mezzo di registrazione e non modifica gli obblighi inf
 | Visione e stakeholder needs | `GS-VIS-*` | Contesto, obiettivi, stakeholder, necessità, confini, assunzioni |
 | Specifica requisiti software | `GS-SRS-*` | Contesto, interfacce, vincoli, requisiti e attributi di verifica |
 | Specifica dei metodi analitici | `GS-MET-*` | Semantica, formule, input/output, precondizioni, determinismo, provenienza e verifica dei metodi scientifici |
+| Specifica dell'esperienza utente | `GS-UX-*` | Modello mentale, intenzioni, indagine, planner, catena epistemica, navigazione, accessibilità e validazione human-centred |
 | Matrice di tracciabilità | `GS-TRC-*` | Collegamenti bidirezionali tra fonti, necessità, requisiti, design e verifica |
 | Descrizione architetturale | `GS-AD-*` | Entità, stakeholder, concern, viewpoint, view, corrispondenze e rationale |
 | Glossario | `GS-GLO-*` | Termini, definizioni e abbreviazioni condivise |
@@ -72,6 +75,11 @@ Gli indici non duplicano il contenuto normativo: forniscono identità, stato, or
 Una famiglia scientifica **DEVE** mantenere un documento per ciascun argomento
 analitico autonomo. L'indice della famiglia definisce contratto comune, autorità e
 relazioni, ma non duplica le formule dei documenti specialistici.
+
+La famiglia UX **DEVE** separare responsabilità cognitive e d'interazione autonome.
+Non duplica formule GS-MET, regole Apple o requisiti: li collega dichiarando
+rispettivamente significato scientifico, comportamento di piattaforma e obblighi
+verificabili.
 
 ## 4. Metadati obbligatori
 
@@ -107,7 +115,8 @@ I documenti usano `MAJOR.MINOR.PATCH`:
 
 La storia dettagliata dovrà essere affidata al controllo versione. A ogni baseline approvata deve corrispondere un tag o altro identificatore immutabile.
 
-Fino al primo commit e alla prima baseline identificata, le versioni riportate nei documenti sono identificatori logici e non costituiscono da sole una registrazione completa delle modifiche.
+Le versioni riportate nei documenti sono identificatori logici; la storia Git ne
+registra le modifiche, ma non costituisce da sola approvazione di una baseline.
 
 ## 7. Linguaggio normativo
 
@@ -154,6 +163,14 @@ parametri risolti, precondizioni, formula o procedura versionata, casi degeneri,
 proprietà, determinismo, provenienza e confronto indipendente. Una citazione
 bibliografica supporta il rationale ma non sostituisce la variante eseguibile.
 
+### 9.2 Regole per le specifiche UX
+
+Ogni elemento UX deve dichiarare modello mentale, oggetti, stati, azioni, errori,
+progressive disclosure, accessibilità, localizzazione e verifica applicabili. Un
+wireframe supporta la valutazione, ma non sostituisce semantica, requisiti o prova
+con persone rappresentative. Il linguaggio dell'esperienza non deve alterare la
+terminologia normativa dei metodi.
+
 ## 10. Tracciabilità
 
 La tracciabilità minima è:
@@ -179,7 +196,9 @@ Prima dell'approvazione di un documento devono essere verificati:
 - coerenza con ADR vigenti e altri documenti approvati;
 - correttezza dimensionale e matematica di formule, casi nulli e precondizioni;
 - distinzione tra dati osservati, trasformazioni, stime, inferenze e generazione;
-- presenza di oracoli, fixture o proprietà verificabili indipendentemente.
+- presenza di oracoli, fixture o proprietà verificabili indipendentemente;
+- tracciabilità fra necessità, intenzioni, flussi, modello del dominio e studi UX;
+- comprensibilità di findings, incertezza e caveat con tecnologie assistive.
 
 ## 12. Gestione delle fonti iniziali
 

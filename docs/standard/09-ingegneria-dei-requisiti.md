@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-09 |
 | Tipo | Capitolo normativo |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -35,6 +35,11 @@ Ogni requisito **DEVE**:
 
 Parole quali “veloce”, “intuitivo”, “grande”, “appropriato” o “quando utile” **NON DEVONO** comparire in un requisito approvato senza metrica o condizione che ne elimini l'ambiguità.
 
+Un requisito di esperienza **DEVE** derivare da contesto d'uso, bisogno o rischio
+epistemico identificato e specificare compito, persone, piattaforma, stato e metodo
+di valutazione applicabili. Preferenza dichiarata, telemetria, test di usabilità e
+accessibilità sono evidenze differenti e non intercambiabili.
+
 ## 9.3 Identificatori e stati
 
 - `NS-*`: necessità stakeholder.
@@ -43,6 +48,7 @@ Parole quali “veloce”, “intuitivo”, “grande”, “appropriato” o �
 - `CV-*`: vincolo.
 - `IE-*`: interfaccia esterna.
 - `TV-*`: verifica pianificata.
+- `GS-UX-*`: contratto dell'esperienza da cui possono derivare necessità e requisiti.
 
 Gli stati ammessi sono `Bozza`, `In revisione`, `Approvato`, `Sospeso`, `Sostituito` e `Respinto`. `Incompleto` **PUÒ** essere usato prima della revisione, mai in una baseline.
 

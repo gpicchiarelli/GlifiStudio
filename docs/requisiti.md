@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.9.0 |
+| Versione | 0.11.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -27,17 +27,18 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | A2 | `appunti 2.txt`, documento fondativo di ingegneria del software incompleto |
 | VIS | GS-VIS-001, visione e necessità degli stakeholder |
 | MET | GS-MET-001, specifica normativa dei metodi analitici |
+| UX | GS-UX-001, specifica normativa dell'esperienza utente |
 
 ## 4. Interfacce esterne
 
 | ID | Interfaccia | Descrizione | Stato |
 | --- | --- | --- | --- |
-| IE-001 | Interfaccia macOS | Creazione del progetto, importazione, esplorazione e analisi interattiva | Da specificare |
+| IE-001 | Interfaccia macOS | Indagini, importazione, esplorazione per oggetti, confronto, evidenze e relazioni con interazioni desktop native | Specificata concettualmente da GS-UX; da prototipare |
 | IE-002 | GlifiKit | Contratto programmatico usato dal prodotto per accedere al motore | Da specificare |
 | IE-003 | GlifiCLI | Interfaccia headless per batch, test e automazione | Da specificare |
 | IE-004 | Filesystem | Accesso alle fonti, al progetto persistente e agli artefatti | Da specificare |
 | IE-005 | Framework Apple | Portafoglio Apple-native per documenti, linguistica, calcolo, dati, ricerca di sistema, automazione e lavoro prolungato, secondo GS-APL-* | Da validare per fase |
-| IE-006 | Interfaccia iPadOS | Creazione del progetto, importazione, esplorazione e analisi adattate a touch, puntatore e tastiera | Da specificare |
+| IE-006 | Interfaccia iPadOS | Stesso percorso semantico adattato a touch, puntatore, tastiera, multitasking e finestre ridimensionabili | Specificata concettualmente da GS-UX; da prototipare |
 
 ## 5. Requisiti funzionali
 
@@ -55,7 +56,7 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | RF-008 | Il sistema **DEVE** registrare configurazione e versione di ogni trasformazione di normalizzazione applicata. | NS-007; A1, A2 | Da assegnare | TV-004 | Baseline candidata |
 | RF-009 | La tokenizzazione **DEVE** preservare un riferimento non ambiguo alla posizione corrispondente nella fonte o nel testo estratto. | NS-002; A1 | Da assegnare | TV-003 | Incompleto: modello offset aperto |
 | RF-010 | GlifiCore **DEVE** consentire implementazioni sostituibili dei servizi di tokenizzazione e analisi linguistica. | NS-001; A1, A2 | Da assegnare | Ispezione API e test di sostituzione | Baseline candidata |
-| RF-011 | Il sistema **DEVE** riutilizzare gli artefatti derivati ancora validi dopo la riapertura di un progetto. | NS-004; A1 | Da assegnare | TV-005 | Incompleto: invalidazione da definire |
+| RF-011 | Il sistema **DEVE** riutilizzare gli artefatti derivati ancora validi dopo la riapertura di un progetto. | NS-004; A1 | Da assegnare | TV-005 | Incompleto: digest, storage e migrazione concreti da definire |
 | RF-012 | Un progetto **DEVE** contenere più corpus logici senza richiedere la duplicazione delle fonti. | NS-005; A1 | Da assegnare | Test di sistema | Baseline candidata |
 | RF-013 | Il sistema **DEVE** permettere metadati personalizzati utilizzabili per selezione, filtro e raggruppamento. | NS-005; A1 | Da assegnare | TV-007 | Baseline candidata |
 | RF-014 | L'indice **DEVE** rappresentare termini e documenti mediante identificatori distinti e recuperare le posizioni delle occorrenze. | NS-001, NS-002, NS-003; A1, A2 | Da assegnare | TV-003, TV-007 | Baseline candidata |
@@ -91,6 +92,34 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | RF-044 | Il sistema **DEVE** confrontare codificatori mediante una variante dichiarata di Cohen's kappa o Krippendorff's alpha quando ne ricorrono le condizioni. | NS-009, NS-012; MET | Da assegnare | TV-034 | Baseline candidata |
 | RF-045 | Il sistema **DEVE** offrire test e intervalli della fondazione statistica soltanto con ipotesi, disegno, precondizioni e metodo di selezione dichiarati. | NS-007, NS-009; MET | Da assegnare | TV-031 | Baseline candidata |
 | RF-046 | Il sistema **DEVE** rappresentare le visualizzazioni scientifiche come viste di artefatti analitici indipendenti dalla GUI. | NS-002, NS-009, NS-011; MET | Da assegnare | TV-035 | Baseline candidata |
+| RF-047 | Un progetto **DEVE** contenere più indagini persistenti senza duplicare le fonti o alterare i corpus esistenti. | NS-004, NS-016; UX | Da assegnare | TV-037 | Baseline candidata |
+| RF-048 | Ogni indagine **DEVE** associare domanda, intenzioni, corpus/versioni, piani, DAG, evidenze, findings, caveat, cronologia e selezione editoriale applicabili. | NS-016, NS-018; UX | Da assegnare | TV-037 | Baseline candidata |
+| RF-049 | Il sistema **DEVE** rappresentare le intenzioni analitiche mediante una tassonomia versionata indipendente dalle formulazioni localizzate. | NS-015, NS-023; UX | Da assegnare | TV-038 | Baseline candidata |
+| RF-050 | Il primo percorso di un nuovo progetto **DEVE** partire da ciò che la persona vuole studiare e dall'aggiunta di fonti, senza richiedere configurazione algoritmica. | NS-015; UX | Da assegnare | TV-039 | Baseline candidata |
+| RF-051 | Il sistema **DEVE** produrre un profilo versionato della raccolta con consistenza, formati, lingue, estrazione, tempo, metadati, duplicazioni, annotazioni e insufficienze. | NS-017, NS-021; UX | Da assegnare | TV-040 | Baseline candidata |
+| RF-052 | Durante la preparazione il sistema **DEVE** rendere disponibili progressivamente stato, contenuto utilizzabile, problemi comprensibili e dettaglio tecnico verificabile. | NS-015, NS-022; UX | Da assegnare | TV-039, TV-040 | Baseline candidata |
+| RF-053 | Un Analysis Planner **DEVE** derivare un piano tipizzato da profilo, intenzioni, oggetti, capacità e policy versionate. | NS-017; UX | Da assegnare | TV-041 | Baseline candidata |
+| RF-054 | Ogni capacità analitica pianificabile **DEVE** dichiarare dati richiesti, precondizioni, qualità minima, costi, dipendenze, output e regola di applicabilità. | NS-009, NS-017; MET, UX | Da assegnare | TV-041 | Baseline candidata |
+| RF-055 | Il planner **DEVE** registrare e spiegare inclusioni, esclusioni, rinvii, fallback e condizioni che renderebbero applicabile un metodo. | NS-017, NS-021; UX | Da assegnare | TV-041, TV-042 | Baseline candidata |
+| RF-056 | L'intenzione di analisi completa **DEVE** pianificare tutte e sole le famiglie applicabili, informative e sostenibili secondo la policy risolta. | NS-017; UX | Da assegnare | TV-041 | Baseline candidata |
+| RF-057 | Il dominio **DEVE** distinguere Evidence, Finding e Caveat e conservarne identità, relazioni, stato e categoria epistemica. | NS-018, NS-021; UX | Da assegnare | TV-043 | Baseline candidata |
+| RF-058 | Il sistema **NON DEVE** persistere un finding come risultato proprio senza almeno un'evidenza valida e risolvibile. | NS-002, NS-018; UX | Da assegnare | TV-043 | Baseline candidata |
+| RF-059 | Un motore interpretativo deterministico **DEVE** trasformare evidenze in findings soltanto mediante rule set verificabili e versionati. | NS-007, NS-018, NS-021; UX | Da assegnare | TV-043 | Baseline candidata |
+| RF-060 | Il sistema **DEVE** mantenere separati dati osservati, trasformazioni, stime, inferenze, interpretazioni deterministiche e contenuti generativi lungo l'intera pipeline. | NS-007, NS-009, NS-018; MET, UX | Da assegnare | TV-027, TV-043 | Baseline candidata |
+| RF-061 | Ogni finding **DEVE** offrire la catena navigabile Conclusione → Evidenza → Fonti → Metodo con progressive disclosure. | NS-002, NS-018, NS-019; UX | Da assegnare | TV-044 | Baseline candidata |
+| RF-062 | Ogni numero o segno analitico significativo **DEVE** esporre valore, unità, ambito e lineage esatto, contributivo o derivazionale applicabile. | NS-002, NS-019; MET, UX | Da assegnare | TV-044 | Baseline candidata |
+| RF-063 | Dopo un piano completo il sistema **DEVE** presentare una sintesi editoriale per famiglie semantiche sostenute dai dati, non un catalogo degli algoritmi eseguiti. | NS-015, NS-018; UX | Da assegnare | TV-042, TV-045 | Baseline candidata |
+| RF-064 | Il sistema **DEVE** comunicare la solidità soltanto tramite policy specifiche per famiglia, documentate e versionate, senza confidence score universale. | NS-009, NS-021; MET, UX | Da assegnare | TV-043, TV-045 | Baseline candidata |
+| RF-065 | Il sistema **DEVE** sopprimere conclusioni non sostenibili e produrre un caveat o uno stato di evidenza insufficiente con causa e conseguenza. | NS-007, NS-021; UX | Da assegnare | TV-043, TV-045 | Baseline candidata |
+| RF-066 | Termine, concetto, documento, segmento, autore, categoria, periodo, gruppo e corpus **DEVONO** essere esplorabili come oggetti senza scelta preventiva di un algoritmo. | NS-015, NS-020; UX | Da assegnare | TV-042 | Baseline candidata |
+| RF-067 | Il sistema **DEVE** trattare il confronto tra oggetti compatibili come un'intenzione primaria e selezionare i metodi applicabili. | NS-005, NS-020; UX | Da assegnare | TV-041, TV-042 | Baseline candidata |
+| RF-068 | Dopo un finding il sistema **DEVE** poter proporre pochi approfondimenti derivati deterministicamente dal tipo del finding e dall'applicabilità corrente. | NS-017, NS-020; UX | Da assegnare | TV-042, TV-045 | Baseline candidata |
+| RF-069 | Un futuro ingresso naturale **DEVE** conservare la domanda originale e produrre un'interpretazione canonica ispezionabile prima del piano. | NS-023; UX | Da assegnare | TV-046 | Baseline candidata |
+| RF-070 | La cronologia dell'indagine **DEVE** essere persistente, navigabile e diramabile, distinguendosi da Undo/Redo e dallo stato della finestra. | NS-016; UX | Da assegnare | TV-037, TV-047 | Baseline candidata |
+| RF-071 | Il sistema **DEVE** consentire di conservare findings, evidenze e materiali in un'indagine e derivarne una relazione con attribuzione e caveat integri. | NS-016, NS-018; UX | Da assegnare | TV-047 | Baseline candidata |
+| RF-072 | macOS e iPadOS **DEVONO** condividere semantica e identità del percorso, adattandone navigazione e interazioni alle convenzioni di piattaforma. | NS-008, NS-022; UX | Must | TV-048 | Approvato |
+| RF-073 | Stati, intenzioni, findings, caveat e azioni dell'esperienza **DEVONO** usare identificatori semantici indipendenti dalla lingua e messaggi localizzabili tipizzati. | NS-018, NS-022; UX | Must | TV-015, TV-045 | Approvato |
+| RF-074 | Il dettaglio esperto **DEVE** esporre metodi e parametri GS-MET senza trasformare il primo livello dell'esperienza in un catalogo di algoritmi. | NS-009, NS-015, NS-018; MET, UX | Da assegnare | TV-042, TV-045 | Baseline candidata |
 
 ## 6. Requisiti di qualità
 
@@ -125,8 +154,19 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-025 | Affidabilità | Ogni algoritmo **DEVE** dichiarare e rispettare una classe di determinismo, una politica numerica e il seed applicabile. | Ripetizioni e backend conformi a GS-MET-001-03 | TV-028 | Baseline candidata |
 | RQ-026 | Adeguatezza funzionale | Ogni famiglia di test multipli **DEVE** conservare p-value grezzi e una correzione approvata senza ridefinire la famiglia a posteriori. | Fixture Bonferroni/BH e audit del descrittore | TV-031 | Baseline candidata |
 | RQ-027 | Adeguatezza funzionale | Ogni metodo scientifico **DEVE** essere validabile contro proprietà, dataset o implementazioni indipendenti. | Reference suite versionata per ogni variante resa disponibile | TV-026, TV-029–TV-036 | Baseline candidata |
-| RQ-028 | Affidabilità | Ogni valore analitico **DEVE** distinguere dato osservato, trasformato, stimato, inferito, annotato o generativo. | Classificazione preservata in persistenza, API, export e UI | TV-027, TV-035 | Baseline candidata |
+| RQ-028 | Affidabilità | Ogni valore o proposizione analitica **DEVE** distinguere dato osservato, trasformato, stimato, inferito, annotato, interpretato deterministicamente o generativo. | Classificazione preservata in persistenza, API, export e UI | TV-027, TV-035, TV-043 | Baseline candidata |
 | RQ-029 | Adeguatezza funzionale | Un backend linguistico **NON DEVE** essere promosso come supportato per una lingua senza soglie approvate e risultati su corpus di riferimento. | Report per lingua, servizio, dominio e versione | TV-033 | Incompleto: DA-008 aperta |
+| RQ-030 | Capacità di interazione | I flussi primari **DEVONO** raggiungere soglie approvate di efficacia, efficienza e comprensione con utenti rappresentativi. | Protocollo, campione, compiti e soglie definiti prima dello studio | TV-039, TV-045 | Incompleto: DA-026 aperta |
+| RQ-031 | Capacità di interazione | Le persone **DEVONO** distinguere finding, evidenza, caveat, associazione e causalità entro le soglie di comprensione approvate. | Test di comprensione e calibrazione senza blocchi critici | TV-045 | Incompleto: DA-026 aperta |
+| RQ-032 | Capacità di interazione | Aggiornamenti progressivi **NON DEVONO** perdere selezione, focus o posizione di lettura senza una transizione annunciata. | Test UI, tastiera e VoiceOver su aggiornamenti e invalidazioni | TV-044, TV-048 | Baseline candidata |
+| RQ-033 | Affidabilità | Stato persistente dell'indagine, cache, stato effimero e stato per-scena **DEVONO** essere separati e recuperabili secondo il rispettivo contratto. | Riapertura, crash simulato, cache eliminata e ripristino di più scene | TV-037, TV-047 | Baseline candidata |
+| RQ-034 | Compatibilità | Lo stesso oggetto e la stessa azione semantica **DEVONO** conservare identità ed effetto tra macOS e iPadOS. | Test contrattuali condivisi e scenari UI specifici di piattaforma | TV-048 | Baseline candidata |
+| RQ-035 | Affidabilità | A parità di input, capability e policy, il planner **DEVE** produrre lo stesso piano ordinato e la stessa motivazione strutturata. | Decision table e ripetizioni deterministiche | TV-041 | Baseline candidata |
+| RQ-036 | Affidabilità | L'interpretazione strutturata **DEVE** essere riproducibile senza un modello generativo e preservare ogni caveat applicabile. | Reference rule set, test negativi e confronto della struttura | TV-043 | Baseline candidata |
+| RQ-037 | Capacità di interazione | Il lineage interattivo **DEVE** essere disponibile con mouse, touch, tastiera e VoiceOver senza falsificare la classe di reversibilità. | Round-trip equivalente per modalità di input e tecnologia assistiva | TV-044 | Baseline candidata |
+| RQ-038 | Capacità di interazione | Ogni flusso `Must` dell'indagine **DEVE** essere completabile con VoiceOver e Full Keyboard Access sulle piattaforme applicabili. | Audit end-to-end con nessun blocco di severità critica | TV-017, TV-048 | Incompleto: flussi non implementati |
+| RQ-039 | Efficienza prestazionale | Preparazione e analisi **DEVONO** mostrare contenuto progressivo e consentire altro lavoro senza bloccare il Main Actor. | Profiling e prova di cancellazione/attività concorrente sui corpus approvati | TV-018, TV-040, TV-048 | Baseline candidata |
+| RQ-040 | Affidabilità | Una relazione **NON DEVE** contenere findings, valori o fonti assenti dalla revisione dell'indagine da cui deriva. | Confronto strutturale completo e test di output generativo ostile | TV-047 | Baseline candidata |
 
 ## 7. Vincoli di progetto
 
@@ -164,7 +204,7 @@ Non sono requisiti correnti:
 
 ## 9. Verifica, validazione e tracciabilità
 
-I metodi e le evidenze pianificate sono definiti nella [Matrice di tracciabilità](tracciabilita.md). La validazione con stakeholder reali non è ancora avvenuta; pertanto tutti i requisiti restano baseline candidate o incompleti.
+I metodi e le evidenze pianificate sono definiti nella [Matrice di tracciabilità](tracciabilita.md). La specifica nel suo insieme non è ancora una baseline approvata perché manca la validazione con stakeholder reali. Le singole decisioni già approvate conservano tuttavia lo stato indicato nelle rispettive righe.
 
 ## 10. Questioni bloccanti per la baseline
 
@@ -174,6 +214,9 @@ I metodi e le evidenze pianificate sono definiti nella [Matrice di tracciabilit�
 - modello canonico degli offset;
 - serializzazione, digest, persistenza e migrazione concrete per descriptor e Analysis DAG;
 - sintassi e semantica delle query;
+- soglie UX, profili degli utenti, compiti e campione di validazione;
+- serializzazione di indagini, storia ramificata, piani, findings e relazioni;
+- policy MVP del planner e regole di solidità per ciascuna famiglia;
 - sottoinsieme di metodi analitici per l'MVP, dataset di riferimento e tolleranze numeriche;
 - corpus, hardware e soglie prestazionali;
 - funzioni assistive che possono usare Foundation Models e relativa policy di modello, contesto e retention;

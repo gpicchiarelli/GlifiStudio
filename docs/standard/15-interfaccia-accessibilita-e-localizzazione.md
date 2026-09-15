@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-15 |
 | Tipo | Capitolo normativo |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -22,3 +22,17 @@
 - La baseline analitica iniziale **DEVE** applicare [GS-I18N-001](../localizzazione-italiana.md).
 - L'interfaccia **DEVE** applicare [GS-I18N-002](../internazionalizzazione-interfaccia.md): italiano come lingua sorgente, chiavi semantiche, cataloghi condivisi e indipendenza dalla lingua dell'analisi.
 - Layout e interazioni **DEVONO** applicare i profili Apple per [interfaccia adattiva](../apple/02-interfaccia-adattiva.md) e [accessibilità](../apple/03-accessibilita.md).
+- Il paradigma, il modello mentale e la catena epistemica **DEVONO** applicare
+  [GS-UX-001](../esperienza-utente/README.md).
+- La navigazione primaria **DEVE** partire da indagine, intenzione e oggetto studiato;
+  nomi degli algoritmi appartengono al dettaglio metodologico.
+- Ogni finding **DEVE** rendere raggiungibili evidenza, fonti, metodo e caveat con
+  progressive disclosure nella stessa esperienza.
+- Ogni numero o segno significativo **DEVE** avere un'azione equivalente per mouse,
+  touch, tastiera e VoiceOver e dichiarare la classe di lineage effettiva.
+- Aggiornamenti progressivi **NON DEVONO** perdere focus, selezione o contesto senza
+  una transizione percepibile.
+- Un'etichetta di solidità **NON DEVE** derivare da un confidence score universale;
+  richiede una policy scientifica specifica e versionata.
+- L'interfaccia **DEVE** poter comunicare dati insufficienti senza trasformarli in
+  errore tecnico o conclusione debole.

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-25 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -30,6 +30,12 @@ Una modifica è completa soltanto quando tutti i punti applicabili sono soddisfa
 - evidenza di verifica archiviata;
 - variante scientifica, descriptor, determinismo e casi degeneri specificati quando applicabili;
 - reference test indipendente e invarianti matematiche superati per ogni metodo modificato;
-- lineage e invalidazione del DAG verificati per ogni nuovo artefatto analitico.
+- lineage e invalidazione del DAG verificati per ogni nuovo artefatto analitico;
+- intenzione, oggetto, stato, errore e livello di disclosure specificati per ogni
+  nuovo flusso utente;
+- parità semantica, localizzazione, tastiera, VoiceOver, focus e dimensioni adattive
+  verificate per ogni modifica dell'esperienza;
+- finding, caveat, solidità e suggerimenti confrontati con evidenze e rule set;
+- impatto su cronologia, ripristino e relazione valutato quando cambia il dominio.
 
 Una modifica non è completa se il solo modo di integrarla richiede bypass, credenziali personali, stato locale non versionato o un controllo disabilitato.

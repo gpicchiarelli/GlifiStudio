@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-21 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.0.0 |
+| Versione | 1.0.1 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,7 +25,7 @@ probabilità che l'ipotesi nulla sia vera.
 
 | Famiglia | Dominio e variante richiesta |
 | --- | --- |
-| Chi-quadrato/G/Fisher | conteggi categoriali secondo GS-MET-001-08/09 |
+| Chi-quadrato/G/Fisher | conteggi categoriali secondo GS-MET-001-08 e GS-MET-001-09 |
 | `PearsonR-v1` | coppie quantitative finite; `r=Σ(x-x̄)(y-ȳ)/sqrt[Σ(x-x̄)²Σ(y-ȳ)²]`, varianze positive |
 | `SpearmanRho-v1` | Pearson sui ranghi medi in presenza di tie; p-value esatto, permutation o asintotico dichiarato |
 | t-test | one-sample, paired o independent-Welch come varianti distinte; unità indipendenti e assunzioni diagnosticate |

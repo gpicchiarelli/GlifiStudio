@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-IDX-001 |
 | Tipo | Indice degli information item |
-| Versione | 0.16.0 |
+| Versione | 0.17.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -26,6 +26,7 @@ Lo [Standard di progetto](standard-di-progetto.md) è la norma interna principal
 | GS-VIS-001 | [Visione e principi](visione-e-principi.md) | Contesto, finalità, stakeholder, necessità e confini | ISO/IEC/IEEE 29148:2018 | Bozza controllata |
 | GS-SRS-001 | [Specifica dei requisiti](requisiti.md) | Requisiti software e attributi di verifica | ISO/IEC/IEEE 29148:2018; ISO/IEC 25010:2023 | Bozza controllata |
 | GS-MET-001 | [Specifica normativa dei metodi analitici](metodi-analitici/README.md) | Contratti matematici, statistici, linguistici e algoritmici verificabili | Letteratura scientifica primaria; ADR-0013 | Bozza controllata |
+| GS-UX-001 | [Specifica dell'esperienza utente](esperienza-utente/README.md) | Paradigma d'indagine, intenzioni, planner, findings, navigazione e validazione human-centred | ISO 9241-210:2019; Apple HIG; ADR-0014 | Bozza controllata |
 | GS-TRC-001 | [Matrice di tracciabilità](tracciabilita.md) | Collega necessità, requisiti, architettura e verifica | ISO/IEC/IEEE 29148:2018 | Bozza controllata |
 | GS-AD-001 | [Descrizione dell'architettura](architettura.md) | Stakeholder, concern, viewpoint, view e decisioni | ISO/IEC/IEEE 42010:2022 | Bozza controllata |
 | GS-GLO-001 | [Glossario](glossario.md) | Vocabolario comune e termini controllati | Supporta tutti gli information item | Bozza controllata |
@@ -51,6 +52,8 @@ Lo [Standard di progetto](standard-di-progetto.md) è la norma interna principal
 - I metodi analitici usano `GS-MET-*`; nome, variante, formula, precondizioni e
   classe di determinismo fanno parte del contratto e non possono essere sostituiti
   da un'etichetta generica.
+- La famiglia `GS-UX-*` governa semantica dell'interazione e modello mentale senza
+  duplicare formule GS-MET o regole specifiche dei profili Apple.
 - Le decisioni architetturali importanti vengono registrate come ADR e non riscritte retroattivamente: se cambiano, un nuovo ADR sostituisce il precedente.
 - I termini definiti nel glossario mantengono lo stesso significato in tutti gli information item.
 

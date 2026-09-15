@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-16 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,6 +25,10 @@
 | Migration test | Lettura e trasformazione di ogni versione supportata |
 | Robustness/fuzz test | Parser, formati binari, query e input ostili |
 | UI/accessibility test | Flussi critici, tastiera e semantica accessibile |
+| Usability study | Efficacia, efficienza, errori, recupero e soddisfazione su compiti definiti |
+| Comprehension study | Interpretazione di finding, evidenza, caveat, solidità e causalità |
+| Planner decision test | Applicabilità e piano rispetto a profilo, intento, capability e policy |
+| Epistemic integrity test | Corrispondenza fra evidenze, rule set, findings, caveat e relazione |
 | Benchmark | Throughput, latenza, memoria e I/O |
 
 ## 16.2 Regole
@@ -55,5 +59,11 @@ Devono essere coperti almeno:
 - p-value, effect size, multiple testing e intervalli conservati separatamente;
 - equivalenze strutturali di cluster, fattori e sottospazi;
 - input corrotti per ogni parser controllato dal progetto.
+- cardinalità e invarianti di Project, Corpus e Investigation;
+- determinismo del planner e del motore interpretativo;
+- lineage exact/contributive/derivational dalla UI alla fonte;
+- parità semantica dei flussi macOS/iPadOS e ripristino del contesto;
+- comprensione e calibrazione mediante protocolli e soglie definiti prima dello studio;
+- output generativi ostili che tentano di aggiungere findings o rimuovere caveat.
 
 Le app **DEVONO** applicare anche il profilo Apple per [test e diagnostica](../apple/07-test-e-diagnostica.md).

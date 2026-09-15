@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-10 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -41,12 +41,26 @@ Un ADR **DEVE** riportare stato, contesto, decisione, alternative, conseguenze, 
 - Ogni artefatto analitico persistibile **DEVE** avere un descrittore conforme a GS-MET-001-01.
 - Le dipendenze analitiche **DEVONO** formare un DAG con invalidazione transitiva selettiva.
 - La semantica di un metodo **NON DEVE** dipendere dalla GUI, dallo storage o dal backend Apple scelto.
+- Il primo livello dell'esperienza **NON DEVE** essere un catalogo di algoritmi.
+- Project, Corpus e Investigation **DEVONO** avere identità indipendenti da scene,
+  finestre e formulazioni localizzate.
+- Applicabilità e findings **DEVONO** essere prodotti da planner e rule set
+  verificabili fuori dalla GUI.
+- Un finding **NON DEVE** essere persistito come risultato senza evidenza e caveat
+  applicabili risolvibili.
+- macOS e iPadOS **DEVONO** condividere semantica del dominio senza imporre layout
+  identici.
 
 ## 10.4 API e confini
 
 Le API pubbliche **DEVONO** essere minime, documentate e orientate al dominio. Tipi interni **NON DEVONO** diventare pubblici per aggirare un confine architetturale. Dipendenze verso framework e servizi sostituibili **DEVONO** attraversare contratti espliciti.
 
 I backend Apple sono governati da [ADR-0008](../adr/0008-portafoglio-tecnologico-apple-silicon.md) e dal [profilo tecnologico Apple](../apple/README.md).
+
+La semantica dell'interazione è governata da [GS-UX-001](../esperienza-utente/README.md)
+e [ADR-0014](../adr/0014-esperienza-guidata-da-indagini.md). I suoi concetti non
+impongono automaticamente nuovi target Swift; i confini si stabilizzano mediante
+vertical slice e test di dipendenza.
 
 La fondazione scientifica è governata da [GS-MET-001](../metodi-analitici/README.md)
 e [ADR-0013](../adr/0013-semantica-analitica-e-analysis-dag.md). `GlifiMath` è un

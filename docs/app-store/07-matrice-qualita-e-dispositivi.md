@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-007 |
 | Tipo | Piano di test di rilascio |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Pianificato |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,6 +25,10 @@ La matrice definitiva nasce da DA-001 e comprende almeno:
   italiani; ripetizioni D0/D1/P1 e confronto dei backend applicabili;
 - spazio insufficiente, memoria sotto pressione, cancellazione e ripresa;
 - offline e indisponibilità dei servizi per ogni funzione che li usa.
+- indagine nuova, riaperta e ramificata; profilo parziale; piano applicabile e non
+  applicabile; finding sostenuto e dati insufficienti;
+- navigazione oggetto/confronto, numero → fonte, dettaglio metodologico e relazione;
+- finestre multiple macOS/iPadOS e ripristino di selezione e contesto.
 
 ## Qualità richiesta
 
@@ -36,6 +40,10 @@ archivi firmati validati con la toolchain bloccata.
 Ogni metodo incluso nei flussi `Must` deve avere variante GS-MET, descriptor,
 reference test, lineage e tolleranze approvati. Grafici o claim non possono
 compensare un artefatto matematico non verificato.
+
+Ogni flusso `Must` deve inoltre soddisfare GS-UX con soglie approvate di efficacia,
+comprensione e accessibilità; un'interfaccia visivamente completa non compensa un
+finding non verificabile o una sovrainterpretazione sistematica.
 
 Simulatori e build senza firma costituiscono prove anticipate, non sostituiscono i
 dispositivi fisici né la validazione di App Store Connect.

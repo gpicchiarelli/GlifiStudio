@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-19 |
 | Tipo | Capitolo normativo |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -30,10 +30,17 @@ documento. Formula, variante, casi nulli, smoothing, logaritmi, determinismo e
 tolleranze **NON DEVONO** essere lasciati a convenzioni implicite o alla sola
 citazione bibliografica.
 
-## 19.4 Documentazione API
+## 19.4 Specifiche dell'esperienza
+
+La UX **DEVE** rispettare GS-UX-001 e mantenere separati modello mentale, dominio,
+presentazione Apple e semantica GS-MET. Tassonomie, stati, journey e microcopy
+devono essere versionabili e verificabili; mockup e screenshot non costituiscono da
+soli specifica o validazione.
+
+## 19.5 Documentazione API
 
 Le API pubbliche **DEVONO** essere documentate con DocC. La documentazione deve descrivere contratto, parametri, risultato, errori, precondizioni, effetti collaterali, thread-safety e complessità quando non ovvi.
 
-## 19.5 Aggiornamento con il codice
+## 19.6 Aggiornamento con il codice
 
 Una modifica **NON È** completa se rende inesatti requisiti, architettura, ADR, esempi, guide o note di migrazione. Codice e documentazione applicabile **DEVONO** essere aggiornati nella stessa unità di cambiamento.

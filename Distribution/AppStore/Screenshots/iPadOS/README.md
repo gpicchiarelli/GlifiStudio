@@ -6,5 +6,6 @@ usare dati dimostrativi autorizzati, mostrare l'interfaccia italiana nella sched
 primaria e avere una descrizione accessibile nel relativo manifesto futuro.
 
 Non usare mockup per rappresentare funzioni non implementate. La serie finale deve
-coprire almeno: avvio o progetto, importazione, esplorazione, risultato verificabile
-e stato di errore o recupero rilevante.
+coprire almeno: domanda o indagine, preparazione progressiva, sintesi di un finding,
+evidenza con fonte e stato di dati insufficienti o recupero rilevante, in una
+finestra iPadOS rappresentativa.

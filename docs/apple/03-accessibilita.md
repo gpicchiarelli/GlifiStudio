@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-003 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -20,5 +20,13 @@
 - Reduce Motion, Increase Contrast e Differentiate Without Color **DEVONO** essere rispettati quando pertinenti.
 - Controlli personalizzati **DEVONO** essere verificati con Accessibility Inspector prima dell'integrazione.
 - Ogni rilascio **DEVE** includere un audit dei flussi principali e una verifica manuale VoiceOver.
+- L'audit **DEVE** coprire l'intero percorso indagine → finding → evidenza → fonte
+  → metodo e non soltanto i controlli isolati.
+- Grafici compatibili **DEVONO** offrire descrizione, riepilogo e Audio Graphs;
+  matrici e reti richiedono alternative strutturate navigabili.
+- Aggiornamenti parziali non devono azzerare il cursore VoiceOver o produrre annunci
+  ripetitivi; ogni stato importante resta percepibile.
+- Drag, hover, cross-filter e selezione di un segno **DEVONO** avere azioni
+  equivalenti con tastiera e tecnologia assistiva.
 
 Riferimenti: [Accessibility modifiers](https://developer.apple.com/documentation/swiftui/view-accessibility) e [Accessibility Inspector](https://developer.apple.com/documentation/accessibility/accessibility-inspector).

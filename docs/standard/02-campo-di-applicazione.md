@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-02 |
 | Tipo | Capitolo normativo |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -20,6 +20,8 @@ Lo standard si applica a:
 - documentazione, modelli, dataset di prova e risultati di verifica;
 - metodi matematici, statistici, linguistici, algoritmici e relative visualizzazioni;
 - descrittori, DAG, seed, tolleranze e artefatti analitici persistiti;
+- intenzioni, indagini, profili, piani, evidenze, findings, caveat, cronologia e relazioni;
+- architettura dell'informazione, microcopy, accessibilità e studi con utenti;
 - dipendenze, pipeline di integrazione e artefatti di rilascio;
 - contributi umani o generati con strumenti automatici.
 

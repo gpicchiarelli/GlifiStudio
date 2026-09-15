@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-I18N-001 |
 | Tipo | Specifica della configurazione linguistica analitica |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -41,3 +41,12 @@ La baseline richiede un test del default `it`/`it_IT` e, quando saranno disponib
 le prime funzioni linguistiche, corpus gold italiani versionati con precision,
 recall, F1, accuracy e metriche specifiche del compito. La sola presenza di Natural
 Language non costituisce una verifica.
+
+## Esperienza iniziale in italiano
+
+La tassonomia concettuale resta indipendente dalla lingua, ma microcopy, domande,
+findings, caveat, solidità e messaggi di dati insufficienti vengono progettati
+inizialmente in italiano secondo [GS-UX-001-14](esperienza-utente/14-vocabolario-e-localizzazione-semantica.md).
+La validazione deve verificare comprensione scientifica e non soltanto correttezza
+grammaticale. “Confidenza” non viene usato come termine ombrello per confidence OCR,
+probabilità, intervallo statistico e solidità.

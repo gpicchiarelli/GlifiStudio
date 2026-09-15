@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001 |
 | Tipo | Indice normativo e standard interno di ingegneria del software |
-| Versione | 0.7.0 |
+| Versione | 0.8.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -56,6 +56,16 @@ Finché lo stato è `Proposto`, lo standard costituisce una baseline normativa c
 GS-MET-001 è normativa per semantica matematica, statistica, linguistica e
 algoritmica. I capitoli dello standard disciplinano il processo con cui tali metodi
 sono progettati, implementati e verificati.
+
+## Fondazione dell'esperienza
+
+| ID | Documento |
+| --- | --- |
+| GS-UX-001 | [Specifica dell'esperienza utente](esperienza-utente/README.md) |
+
+GS-UX-001 è normativa per modello mentale, intenzioni, indagine, pianificazione,
+catena epistemica, navigazione e validazione human-centred. Non sostituisce GS-MET
+né i profili Apple: ne disciplina l'esposizione coerente alle persone.
 
 ## Qualità e operazioni
 

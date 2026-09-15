@@ -35,7 +35,11 @@ acquisizione, organizzazione, interrogazione, corpus analysis, linguistica
 computazionale, text mining, content analysis e studio quantitativo, qualitativo,
 statistico e semantico di documenti e grandi collezioni testuali su macOS e iPadOS.
 
-L’unità di lavoro è un **progetto persistente**, non un singolo file. Fonti, metadati, trasformazioni, indici, parametri e risultati restano collegati in una catena di provenienza ispezionabile: ogni risultato deve poter tornare al documento e al passaggio che lo hanno prodotto.
+Il **progetto persistente** è il contenitore fondamentale; al suo interno l'utente
+sviluppa una o più **indagini** guidate da una domanda e da ciò che desidera
+comprendere. Fonti, metadati, trasformazioni, piani, evidenze, findings e risultati
+restano collegati in una catena di provenienza ispezionabile: ogni affermazione deve
+poter tornare al metodo e al materiale che la sostengono.
 
 ```text
 acquisizione → estrazione → normalizzazione → segmentazione
@@ -73,6 +77,10 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 - **Automazione senza GUI.** Il motore deve restare utilizzabile tramite contratto pubblico e strumenti headless.
 - **Semantica scientifica esplicita.** Formula, dominio, precondizioni, determinismo,
   provenienza e verifica indipendente precedono backend e visualizzazione.
+- **Intenzioni prima degli algoritmi.** L'esperienza parte da ciò che la persona
+  studia e vuole comprendere; metodi e parametri emergono per approfondimento.
+- **Conclusioni verificabili.** Ogni finding attraversa evidenza, fonti e metodo;
+  quando i dati non sostengono una conclusione, Glifi Studio lo dichiara.
 
 ## Architettura
 
@@ -88,8 +96,8 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
                              │
           ┌──────────────────▼──────────────────┐
           │              GlifiCore              │
-          │ importazione · testo · corpus       │
-          │ ricerca · analisi · provenienza     │
+          │ progetti · corpus · indagini        │
+          │ planner · evidenze · provenienza    │
           └──────────────┬───────────┬──────────┘
                          │           │
                  persistenza    calcolo/linguistica
@@ -194,6 +202,7 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Visione e principi](docs/visione-e-principi.md)
 - [Specifica dei requisiti](docs/requisiti.md)
 - [Specifica normativa dei metodi analitici](docs/metodi-analitici/README.md)
+- [Specifica dell'esperienza utente](docs/esperienza-utente/README.md)
 - [Architettura](docs/architettura.md)
 - [Matrice di tracciabilità](docs/tracciabilita.md)
 - [Standard di progetto](docs/standard-di-progetto.md)

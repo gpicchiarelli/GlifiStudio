@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ISS-001 |
 | Tipo | Registro delle questioni e decisioni aperte |
-| Versione | 0.14.0 |
+| Versione | 0.15.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,7 +21,7 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-004 | Persistenza | Quale combinazione usare per metadati, posting list, matrici e cache? | Prototipi e benchmark | Da assegnare | Aperta |
 | DA-005 | GlifiStore | Quali requisiti copre il progetto esistente e con quali costi di integrazione? | Valutazione tecnica e prestazionale | Da assegnare | Aperta |
 | DA-006 | Offset | Qual è il contratto canonico per collegare byte, testo estratto e posizioni UI? | Prototipi Unicode, PDF e OCR | Da assegnare | Aperta |
-| DA-007 | Versionamento | Quali identificatori, digest e formati concreti realizzano versioni, descriptor e Analysis DAG? | Prototipo di serializzazione, invalidazione e migrazione | Da assegnare | Parzialmente definita da ADR-0013 e GS-MET-001-01/02 |
+| DA-007 | Versionamento | Quali identificatori, digest e formati concreti realizzano versioni, descriptor e Analysis DAG? | Prototipo di serializzazione, invalidazione e migrazione | Da assegnare | Parzialmente definita da ADR-0013, GS-MET-001-01 e GS-MET-001-02 |
 | DA-008 | Linguistica | Quali annotazioni italiane e quali lingue successive devono raggiungere quali soglie qualitative? | Corpus gold, split, metriche GS-MET-001-18 e valutazione dei backend | Da assegnare | Parzialmente definita: italiano e protocollo approvati; corpus e soglie aperti |
 | DA-009 | PDF/OCR | Quale qualità e quali informazioni spaziali devono essere preservate? | Corpus PDF rappresentativo e metriche OCR | Da assegnare | Aperta |
 | DA-010 | Query | Qual è la sintassi pubblica per query testuali, linguistiche e sui metadati? | Prototipi API e UX | Da assegnare | Aperta |
@@ -31,7 +31,7 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-014 | Nome | Il nome Glifi Studio è utilizzabile e registrabile? | Ricerca legale e marchi | Da assegnare | Aperta |
 | DA-015 | Governo documentale | Chi approva formalmente le baseline? | Nomina dei ruoli e autorità del progetto | Da assegnare | Parzialmente definita: flusso e responsabilità provvisorie approvati da ADR-0009 |
 | DA-016 | Contributi e copyright | Come vengono attestati i diritti sui contributi e chi può autorizzare un futuro cambio di licenza? | Titolarità, modello contributivo, eventuale CLA o DCO | Da assegnare | Aperta |
-| DA-017 | Parità e trasferimento | Quali funzioni devono essere identiche sulle due piattaforme e come vengono trasferiti o sincronizzati i progetti? | Flussi prioritari, formato progetto, UX documentale e privacy | Da assegnare | Aperta |
+| DA-017 | Parità e trasferimento | Quali funzioni appartengono a ciascun rilascio e come vengono trasferiti o sincronizzati i progetti? | Flussi prioritari, formato progetto, UX documentale e privacy | Da assegnare | Parzialmente definita: parità semantica approvata da ADR-0014; perimetro e trasferimento aperti |
 | DA-018 | Identità e firma | Quali bundle identifier, Apple Developer Team, entitlements e profili di firma sono definitivi? | Titolarità dell'account, modalità di distribuzione e capacità applicative | Da assegnare | Parzialmente definita: bundle multipiattaforma candidato `studio.glifi.GlifiStudio`; team e profili aperti |
 | DA-019 | Intelligenza generativa | Quali funzioni assistive usano Foundation Models e con quali policy di modello, contesto, retention e fallback? | Prototipi italiani, valutazione qualità, privacy e disponibilità dispositivi | Da assegnare | Aperta; vincoli generali approvati da ADR-0008 |
 | DA-020 | Sincronizzazione Apple | CloudKit, iCloud e Handoff appartengono al prodotto e con quale modello di conflitto e uso offline? | Identità cross-device, privacy, quote, migrazioni e UX | Da assegnare | Aperta |
@@ -40,10 +40,15 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-023 | Ownership del codice | Quali handle o team sono proprietari dei percorsi sensibili? | Identità GitHub verificate e separazione delle responsabilità | Da assegnare | Aperta; `CODEOWNERS` intenzionalmente non attivo |
 | DA-024 | Accesso all'app non in elenco | Il possesso del link è sufficiente o gli utenti devono anche essere autenticati e autorizzati? | Pubblico previsto, dati trattati e modello di supporto | Da assegnare | Aperta; il link App Store non costituisce controllo degli accessi |
 | DA-025 | Baseline numerica | Quali dataset, implementazioni indipendenti, tipi floating-point e tolleranze approvano ogni variante GS-MET iniziale? | Review scientifica, fixture pubblicabili e confronto cross-backend | Da assegnare | Aperta; classi e criteri definiti da GS-MET-001-03 |
+| DA-026 | Validazione UX | Quali profili utente, compiti, campione e soglie approvano efficacia, efficienza, comprensione e calibrazione? | Ricerca sul campo, protocollo ISO 9241-210 tailored e studi accessibili | Da assegnare | Aperta; dimensioni definite da GS-UX-001-13 |
+| DA-027 | Persistenza dell'indagine | Come serializzare storia ramificata, piani, findings, caveat, selezioni editoriali e stato per-scena? | Prototipi, migrazioni, crash recovery, concorrenza multi-finestra e dimensioni reali | Da assegnare | Aperta; semantica definita da GS-UX-001-02 e GS-UX-001-10 |
+| DA-028 | Policy del planner | Quali intenzioni, famiglie, budget, regole di ridondanza e stime di costo appartengono al primo planner? | Casi d'uso, corpus, benchmark, decision table e review scientifica | Da assegnare | Aperta; contratto definito da GS-UX-001-04 |
+| DA-029 | Solidità dei findings | Quali SupportPolicy e soglie per famiglia consentono strong/moderate/weak/caution/insufficient? | Simulazioni, corpus gold, effect size, stabilità e studi di comprensione | Da assegnare | Aperta; vietato un confidence score universale |
+| DA-030 | Relazione ed export | Quali formati, manifesti di lineage, regole editoriali e livelli generativi sono supportati? | Prototipi interoperabili, accessibilità, round-trip e verifica di attribuzione | Da assegnare | Aperta; modello concettuale definito da GS-UX-001-10 |
 
 ## Prossime decisioni consigliate
 
 Le prime decisioni da affrontare sono DA-001, DA-002, DA-003, DA-006, DA-007,
-DA-008, DA-011, DA-015, DA-023 e DA-025. DA-019–DA-021 seguono la stabilizzazione dei contratti
+DA-008, DA-011, DA-015, DA-023 e DA-025–DA-029. DA-019–DA-021 e DA-030 seguono la stabilizzazione dei contratti
 fondamentali: impediscono che AI generativa, sincronizzazione o integrazioni di
 sistema diventino dipendenze premature.

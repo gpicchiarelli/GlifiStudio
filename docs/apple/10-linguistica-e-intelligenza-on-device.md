@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-010 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -52,6 +52,13 @@ Glifi Studio distingue analisi deterministica, modelli statistici specializzati 
 - Il limite di contesto **DEVE** essere gestito con chunking e retrieval; un intero corpus non deve essere inserito in una sessione.
 - Tool calling **DEVE** esporre operazioni minime, senza effetti collaterali impliciti e con autorizzazione separata per le modifiche.
 - Private Cloud Compute o provider server **NON DEVONO** essere abilitati senza requisito, valutazione privacy, rete autorizzata, disclosure e ADR dedicato.
+- Una domanda naturale **DEVE** essere trasformata in un'interpretazione canonica
+  validata prima di produrre un piano; non viene inoltrata come richiesta di una
+  conclusione libera.
+- Un modello generativo **NON DEVE** stabilire applicabilità, significatività,
+  solidità o stato di un finding e non può rimuovere caveat.
+- La prosa generata per una relazione **DEVE** essere controllata contro finding ed
+  evidenze strutturati prima di essere conservata.
 
 Il riassunto estrattivo deterministico e i percorsi LSA/NMF/LDA sono governati da
 GS-MET-001-19 e GS-MET-001-15. Foundation Models non li sostituisce e produce una

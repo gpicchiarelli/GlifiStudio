@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-I18N-002 |
 | Tipo | Specifica di internazionalizzazione dell'interfaccia |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -36,6 +36,12 @@ Le app Glifi Studio devono adattare lingua e formattazione alle preferenze della
 - Lingua dell'interfaccia e lingua dell'analisi **DEVONO** essere configurazioni indipendenti.
 - Aggiungere una lingua **NON DEVE** richiedere modifiche a GlifiCore, GlifiKit o ai formati persistenti.
 - Layout e controlli **DEVONO** tollerare espansione del testo, pluralizzazione e direzioni di scrittura future.
+- Intenzioni, stati, tipi di finding/caveat e azioni **DEVONO** avere identificatori
+  semantici indipendenti dalle frasi localizzate secondo GS-UX-001-14.
+- Le formulazioni deterministiche **DEVONO** usare chiave, argomenti tipizzati e
+  unità; non possono essere costruite concatenando frammenti o numeri preformattati.
+- Una traduzione **NON DEVE** cambiare negazione, direzione, solidità, categoria
+  epistemica o caveat di un finding.
 
 ## Flusso per una nuova stringa
 
@@ -44,6 +50,8 @@ Le app Glifi Studio devono adattare lingua e formattazione alle preferenze della
 3. fornire o marcare esplicitamente le traduzioni previste dal rilascio;
 4. usare la chiave tramite le API localizzabili SwiftUI;
 5. verificare accessibilità, testo lungo e almeno italiano e inglese.
+6. per findings e caveat, verificare la corrispondenza con la struttura canonica e
+   la comprensione della formulazione.
 
 ## Verifica automatica
 

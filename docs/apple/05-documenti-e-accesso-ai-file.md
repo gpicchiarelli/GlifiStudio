@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-005 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -19,5 +19,9 @@
 - File ricevuti da provider esterni **DEVONO** essere considerati input non affidabili e validati prima dell'uso.
 - Path visualizzato e identità persistente **NON DEVONO** coincidere.
 - Cache ricostruibili **DEVONO** risiedere in collocazioni appropriate e non essere incluse nei backup senza necessità.
+- Salvataggio naturale e ripristino **DEVONO** distinguere fonti, progetto,
+  indagini, cronologia, artefatti autorevoli, cache e stato per-scena.
+- Una persona **NON DEVE** essere obbligata a esportare manualmente ogni grafico per
+  conservarne il finding; la persistenza segue il dominio dell'indagine.
 
 La scelta tra `DocumentGroup`, package documentale e progetto gestito resta vincolata a DA-003 e DA-004. Riferimento: [Accessing files from the macOS App Sandbox](https://developer.apple.com/documentation/security/accessing-files-from-the-macos-app-sandbox).

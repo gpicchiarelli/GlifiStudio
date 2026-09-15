@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001 |
 | Tipo | Specifica normativa ingegneristico-scientifica |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -18,6 +18,10 @@
 Questa specifica definisce la semantica scientifica delle analisi di Glifi Studio.
 Serve a progettazione, implementazione, test, review e interpretazione dei risultati;
 non è un manuale didattico e non prescrive un particolare layout dell'interfaccia.
+
+La [specifica GS-UX-001](../esperienza-utente/README.md) governa intenzioni,
+findings, progressive disclosure e navigazione. Un titolo comprensibile o una
+vista orientata alla domanda non rinomina la variante scientifica sottostante.
 
 I documenti `GS-MET-001-*` sono parte normativa di questa specifica. In caso di
 conflitto, una formula o precondizione definita nel documento specialistico prevale

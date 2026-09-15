@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-003 |
 | Tipo | Specifica editoriale App Store |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,6 +25,11 @@ build; la disponibilità di un framework Apple non è sufficiente.
 La bozza versionata in `Distribution/AppStore/Metadata` non è approvata finché il
 prodotto è uno scaffold.
 
+La pagina prodotto **NON DEVE** descrivere Glifi Studio come catalogo di algoritmi.
+Può comunicare indagini guidate, sintesi, confronto e ritorno alle fonti soltanto
+quando i relativi flussi GS-UX sono implementati e verificati. Claim su “evidenza
+forte” o comprensione automatica richiedono SupportPolicy e studi applicabili.
+
 ## Screenshot e icona
 
 L'icona candidata è originale, senza trasparenza e presente nel catalogo Xcode. La
@@ -35,6 +40,10 @@ Gli screenshot devono provenire dalla build candidata, usare dati autorizzati,
 evitare cornici o claim fuorvianti e rappresentare i principali flussi reali. Ogni
 piattaforma ha una propria serie. Prima del caricamento si verificano dimensioni e
 numero direttamente in App Store Connect, perché Apple può aggiornarli.
+
+La sequenza candidata racconta un percorso reale: domanda e raccolta, preparazione,
+sintesi di un finding, verifica dell'evidenza e ritorno alla fonte. Il dettaglio
+metodologico può comparire, ma non sostituisce il valore comprensibile del flusso.
 
 ## Riferimenti
 

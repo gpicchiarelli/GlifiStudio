@@ -15,12 +15,19 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 - Specifica normativa GS-MET con 22 contratti matematici, statistici, linguistici e algoritmici.
 - `AnalysisDescriptor`, Analysis DAG, classi di determinismo e fondazione concettuale `GlifiMath` tramite ADR-0013.
 - Requisiti e verifiche tracciate per metodi analitici, content analysis e visualizzazioni scientifiche.
+- Specifica normativa GS-UX con 14 contratti per paradigma d'indagine, intenzioni,
+  profilo della raccolta, planner, findings, navigazione, lineage, storia e rapporto.
+- Modello concettuale di Project/Corpus/Investigation, motore interpretativo
+  deterministico e progressive disclosure Conclusione → Evidenza → Fonti → Metodo.
+- ADR-0014, requisiti e verifiche tracciate per esperienza macOS/iPadOS,
+  accessibilità, comprensione e localizzazione semantica.
 
 ### Modificato
 
 - Configurazione Dependabot con etichette controllate e aggiornamenti GitHub Actions raggruppati.
 - `actions/checkout` aggiornato dalla versione 5.1.0 alla 7.0.1 con SHA immutabile.
 - Quality gate documentale esteso a indicizzazione, copertura e integrazione delle specifiche GS-MET.
+- Quality gate documentale esteso alla copertura e integrazione delle specifiche GS-UX.
 
 ### Corretto
 

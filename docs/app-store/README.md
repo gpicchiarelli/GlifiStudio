@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-IDX-001 |
 | Tipo | Indice del piano App Store |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -15,6 +15,10 @@
 Questo profilo governa la preparazione, la verifica e il rilascio di Glifi Studio
 come app App Store non in elenco. Non promette l'approvazione di Apple: rende
 espliciti requisiti, responsabilità, prove e blocchi prima della submission.
+
+La readiness dell'esperienza è valutata contro [GS-UX-001](../esperienza-utente/README.md):
+uno scaffold compilabile o un insieme di schermate non costituiscono funzionalità
+minima, comprensione, accessibilità o valore autonomo.
 
 ## Information item
 

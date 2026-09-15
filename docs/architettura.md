@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AD-001 |
 | Tipo | Architecture description |
-| Versione | 0.10.0 |
+| Versione | 0.11.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -42,6 +42,10 @@ Gli stakeholder sono definiti in GS-VIS-001 e sono ancora da validare.
 | CO-10 | Semantica scientifica e limiti interpretativi | ST-01, ST-05 | Conformità a GS-MET-001 e reference test indipendenti |
 | CO-11 | Determinismo e stabilità numerica cross-backend | ST-01, ST-03, ST-05 | Classi D0/D1/P1/N1, tolleranze e prove comparative |
 | CO-12 | Spiegabilità delle dipendenze analitiche | ST-01, ST-04, ST-06 | AnalysisDescriptor e DAG risolvibili fino alle fonti |
+| CO-13 | Modello mentale dell'indagine e continuità del percorso | ST-01, ST-02 | Test del dominio, riapertura, diramazione e studi UX |
+| CO-14 | Applicabilità e spiegabilità del piano | ST-01, ST-05 | Decision table del planner e rationale ispezionabile |
+| CO-15 | Integrità epistemica della presentazione | ST-01, ST-05, ST-06 | Finding sostenuti, caveat propagati e confine generativo |
+| CO-16 | Adattabilità, accessibilità e parità semantica | ST-01, ST-02 | Flussi equivalenti macOS/iPadOS, VoiceOver e tastiera |
 
 ## 3. Catalogo dei viewpoint
 
@@ -53,8 +57,9 @@ Gli stakeholder sono definiti in GS-VIS-001 e sono ancora da validare.
 | VP-04 | Runtime ed elaborazione | ST-02, ST-03, ST-05 | CO-03, CO-04, CO-06 | Pipeline, flussi, concorrenza, cancellazione ed errori |
 | VP-05 | Tecnologia e deployment | ST-03, ST-04, ST-06 | CO-04, CO-05, CO-07 | Processi locali, framework e backend sostituibili |
 | VP-06 | Semantica analitica | ST-01, ST-03, ST-05, ST-06 | CO-01, CO-02, CO-08, CO-10–CO-12 | Contratti matematici, descrittori e grafo di derivazione |
+| VP-07 | Esperienza e semantica dell'interazione | ST-01, ST-02, ST-03, ST-05 | CO-02, CO-09, CO-12–CO-16 | Modello concettuale, journey, stati, navigazione e corrispondenze epistemiche |
 
-Ogni view successiva è governata dal viewpoint con lo stesso numero. La correttezza tra view è specificata nella sezione 10.
+Ogni view successiva è governata dal viewpoint con lo stesso numero. La correttezza tra view è specificata nella sezione 11.
 
 ## 4. VA-01 — View di contesto
 
@@ -111,6 +116,9 @@ I nomi descrivono responsabilità e non sono ancora target o package approvati.
 | `GlifiMath` | Fondazione concettuale backend-neutral: statistica, algebra lineare, matrici sparse, distanze, grafi, ottimizzazione e PRNG | RF-022, RF-029–RF-045, RQ-008, RQ-025–RQ-027 |
 | `GlifiStatistics` | Test, stime, intervalli, multiple testing ed effect size sopra `GlifiMath` | RF-031, RF-032, RF-044, RF-045 |
 | `GlifiAnalysis` | Rappresentazioni e metodi definiti da GS-MET-001 | RF-019–RF-046 |
+| `GlifiInvestigation` | Domande, intenzioni, indagini, storia, findings, caveat e relazioni | RF-047–RF-050, RF-057–RF-071 |
+| `GlifiPlanning` | Profilo della raccolta, applicabilità, piani e spiegazioni | RF-051–RF-056, RF-064–RF-068 |
+| `GlifiInterpretation` | Rule set deterministici che trasformano evidenze in findings | RF-057–RF-065, RQ-036 |
 | `GlifiPersistence` | Contratti e implementazioni di memorizzazione | RF-001, RF-011, RQ-003, RQ-010 |
 | `GlifiCompute` | Scheduling e backend CPU/GPU | RQ-001, RQ-002, RQ-009, RQ-011 |
 
@@ -125,6 +133,10 @@ I nomi descrivono responsabilità e non sono ancora target o package approvati.
 | Verifica | `Packages/GlifiCore/Tests`, `Scripts` | Test e gate locali attivi |
 
 I confini candidati della sezione 5.2 non sono ancora target separati: verranno introdotti soltanto quando responsabilità e dipendenze siano sufficientemente stabili.
+
+`GlifiInvestigation`, `GlifiPlanning` e `GlifiInterpretation` indicano responsabilità
+concettuali e **NON** impongono nomi di target o API. I modelli di presentazione in
+GlifiKit proiettano questi contratti senza trasferire regole scientifiche nelle view.
 
 ## 6. VA-03 — View dei dati e del lineage
 
@@ -182,6 +194,18 @@ precisione, tolleranza e seed fanno parte della provenienza quando possono cambi
 il risultato. Il DAG deve spiegare sia perché un risultato esiste sia quale modifica
 lo rende non più valido.
 
+### 6.6 Progetto, corpus e indagine
+
+Il progetto è il confine persistente; un corpus è una selezione logica versionata;
+un'indagine è il percorso cognitivo che collega domanda, piano, DAG, evidenze,
+findings, caveat, cronologia e relazione. Queste identità non dipendono da finestre,
+colonne di navigazione o titoli localizzati.
+
+La cronologia dell'indagine è un grafo di eventi distinto dal DAG computazionale:
+il primo spiega il percorso della persona, il secondo le dipendenze degli artefatti.
+Entrambi possono ramificarsi, ma hanno tipi di nodo, invalidazione e retention
+separati. Lo stato per-scena conserva soltanto contesto di presentazione recuperabile.
+
 ## 7. VA-04 — View runtime ed elaborazione
 
 ### 7.1 Pipeline
@@ -205,6 +229,20 @@ Le operazioni lunghe espongono avanzamento, cancellazione ed errori strutturati.
 Il percorso Swift/CPU costituisce la baseline corretta e testabile. La promozione segue la scala definita da ADR-0008: Accelerate per primitive numeriche e vettoriali, Core ML per modelli con selezione di CPU/GPU/Neural Engine e Metal/MPS per carichi massivamente paralleli. Ogni backend mantiene fallback, osservabilità, cancellazione e confronto sulla stessa semantica.
 
 La selezione dipende da capacità interrogate a runtime e benchmark end-to-end, non dal nome commerciale del chip. Il piano completo è definito in [GS-APL-011](apple/11-calcolo-accelerato-apple-silicon.md).
+
+### 7.4 Pipeline epistemica e pianificazione
+
+```text
+profilo + intenzione + capability → AnalysisPlan → AnalysisDAG
+fonti → rappresentazioni → analisi → Evidence → interpretazione → Finding
+                                      └──────── Caveat ────────────┘
+```
+
+Il planner valuta regole di applicabilità prima di costruire il sottografo. Il
+motore interpretativo consuma soltanto evidenze strutturate e rule set versionati;
+non esegue generazione libera. Findings validi possono essere proiettati
+progressivamente mentre altri rami continuano, senza dichiarare completo un piano
+parziale.
 
 ## 8. VA-05 — View tecnologica e di deployment
 
@@ -275,7 +313,60 @@ artefatti fondamentali riusabili. Ponderazioni, keyness, CA, clustering, fattori
 topic e reti sono nodi derivati. Un output generativo appartiene a una classe
 epistemica distinta e non può diventare un dato analitico autoritativo.
 
-## 10. Corrispondenze e invarianti tra le view
+## 10. VA-07 — View dell'esperienza e dell'interazione
+
+La [specifica GS-UX-001](esperienza-utente/README.md) governa il modello mentale.
+Il primo livello segue domanda, intenzione, indagine e oggetto studiato; gli
+algoritmi sono accessibili nel dettaglio metodologico.
+
+### 10.1 Flusso principale
+
+```text
+Che cosa vuoi studiare?
+        ↓
+fonti → profilo progressivo → domanda/intenzione → piano spiegabile
+        ↓                                         ↓
+ problemi e limiti                       sintesi di findings
+                                                  ↓
+                              Evidence → Fonti → Metodo
+                                                  ↓
+                              approfondimento / confronto
+                                                  ↓
+                                  cronologia e relazione
+```
+
+Ogni passaggio può dichiarare dati insufficienti e preserva il lavoro valido. La
+sintesi editoriale mostra soltanto sezioni sostenute; il dettaglio tecnico resta
+raggiungibile senza creare un prodotto separato per utenti esperti.
+
+### 10.2 Navigazione logica
+
+Progetto, corpus, indagine e oggetti analitici sono destinazioni identificate. Una
+composizione a due o tre colonne è candidata su spazio ampio; su larghezze compatte
+collassa mantenendo percorso e selezione. Ricerca globale e locale dichiarano
+sempre l'ambito. Confronto, lineage e approfondimenti sono azioni sul dominio, non
+scorciatoie legate a un particolare grafico.
+
+### 10.3 Stato di presentazione
+
+I modelli UI sul Main Actor conservano navigazione, focus, selezione e stato
+effimero. Chiamano servizi GlifiKit asincroni e cancellabili che restituiscono
+snapshot o flussi tipizzati di profilo, piano, evidenze e findings. Nessuna view
+formula conclusioni, decide applicabilità o ricalcola valori scientifici.
+
+macOS espone menu, tastiera, finestre e inspector appropriati; iPadOS adatta gli
+stessi oggetti a touch, puntatore, tastiera, multitasking e finestre ridimensionabili.
+La parità è semantica, non pixel-identica.
+
+### 10.4 Progressive disclosure e accessibilità
+
+La catena `Conclusione → Evidenza → Fonti → Metodo` è una relazione del dominio e
+non una semplice gerarchia visiva. Ogni numero significativo dichiara la classe di
+lineage e ha un percorso equivalente per mouse, touch, tastiera e VoiceOver.
+Grafici, matrici e reti forniscono alternative strutturate; aggiornamenti
+progressivi preservano focus e contesto.
+
+## 11. Corrispondenze e invarianti tra le view
 
 | ID | Regola di corrispondenza |
 | --- | --- |
@@ -291,8 +382,16 @@ epistemica distinta e non può diventare un dato analitico autoritativo.
 | CR-10 | Ogni metodo di VA-06 deve essere eseguibile in GlifiCore o headless senza dipendere dalla sua visualizzazione in VA-01. |
 | CR-11 | Backend differenti in VA-04/VA-05 devono rispettare la stessa versione logica e la politica D0/D1/P1/N1 di VA-06. |
 | CR-12 | Ogni selezione visuale deve risolvere il lineage di VA-03 quando GS-MET-001 dichiara la navigazione semanticamente possibile. |
+| CR-13 | Ogni finding mostrato in VA-07 deve riferire evidenze valide di VA-06 e un rule set deterministico di VA-04. |
+| CR-14 | Ogni piano esposto in VA-07 deve derivare da profilo, intenzione, capability e policy identificati in VA-03/VA-04. |
+| CR-15 | Un caveat di VA-07 deve restare collegato alla causa e propagarsi ai soli discendenti epistemici applicabili. |
+| CR-16 | Ogni oggetto navigabile in VA-07 deve usare identità persistente di VA-03, non una posizione della view. |
+| CR-17 | Una formulazione localizzata non può cambiare categoria epistemica, valore o regola definiti in VA-06. |
+| CR-18 | Stato di finestra e scena in VA-07 non può essere l'unica copia di contenuto autorevole dell'indagine in VA-03. |
+| CR-19 | macOS e iPadOS possono avere layout diversi, ma ogni azione condivisa deve attraversare lo stesso contratto GlifiKit. |
+| CR-20 | Un livello generativo può operare soltanto sopra evidence/finding validi e non può introdurre archi autoritativi nel DAG. |
 
-## 11. Decisioni e rationale
+## 12. Decisioni e rationale
 
 - [ADR-0001 — Piattaforme native iniziali: macOS e iPadOS](adr/0001-piattaforme-native-macos-ipados.md)
 - [ADR-0002 — Separazione tra prodotto e motore](adr/0002-separazione-prodotto-motore.md)
@@ -302,10 +401,11 @@ epistemica distinta e non può diventare un dato analitico autoritativo.
 - [ADR-0006 — Baseline applicativa Apple](adr/0006-baseline-applicativa-apple.md)
 - [ADR-0008 — Portafoglio tecnologico Apple e strategia Apple silicon](adr/0008-portafoglio-tecnologico-apple-silicon.md)
 - [ADR-0013 — Semantica analitica backend-neutral e Analysis DAG](adr/0013-semantica-analitica-e-analysis-dag.md)
+- [ADR-0014 — Esperienza guidata da indagini, intenzioni ed evidenze](adr/0014-esperienza-guidata-da-indagini.md)
 
 Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il [Registro delle decisioni aperte](decisioni-aperte.md) identifica le questioni che richiedono ADR ulteriori.
 
-## 12. Lacune della descrizione
+## 13. Lacune della descrizione
 
 - stakeholder e concern non sono ancora validati;
 - mancano soglie quantitative e scenari di qualità;
@@ -314,5 +414,9 @@ Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il
   d'invalidazione è definito, ma manca la scelta dello storage;
 - le soglie numeriche, i corpus gold e il sottoinsieme MVP dei metodi non sono
   ancora approvati;
+- tassonomia, planner e rule set sono specificati concettualmente ma non esistono
+  ancora tipi pubblici, storage, prototipi o studi con utenti;
+- soglie di comprensione, profili degli utenti, policy di solidità e formato della
+  relazione non sono ancora approvati;
 - non esistono ancora view di sicurezza, deployment dettagliato o recovery;
 - la coerenza dei confini iniziali è verificata, ma manca ancora una regola automatica per il grafo completo delle dipendenze future.

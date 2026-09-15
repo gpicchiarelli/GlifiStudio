@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-007 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -16,6 +16,10 @@
 - I modelli di presentazione **DEVONO** essere testabili senza avviare l'intera app.
 - I flussi principali **DEVONO** essere provati su macOS e su simulatori/dispositivi iPad rappresentativi.
 - Test UI **DEVONO** coprire italiano, inglese, testo lungo, tastiera e almeno un audit di accessibilità.
+- Test UI **DEVONO** coprire primo percorso, profilo progressivo, sintesi,
+  confronto, lineage, dati insufficienti, storia e ripristino definiti da GS-UX.
+- Studi di usabilità e comprensione **DEVONO** usare compiti, campione, soglie e
+  build identificati e registrare anche errori e sovrainterpretazioni.
 - Address Sanitizer e Thread Sanitizer **DEVONO** essere eseguiti periodicamente in configurazioni separate compatibili.
 - Main Thread Checker e Thread Performance Checker **DEVONO** rimanere attivi durante lo sviluppo, salvo profiling controllato.
 - Crash e hang riproducibili **DEVONO** ricevere test di regressione quando possibile.
@@ -25,5 +29,7 @@
 - Log e signpost **NON DEVONO** contenere testo dei documenti, prompt, path personali o identificatori sensibili per impostazione predefinita.
 - Instruments **DEVE** verificare Time Profiler, Allocations, SwiftUI, I/O, energia e Metal/Core ML quando il flusso usa tali tecnologie.
 - Metriche Organizer e MetricKit disponibili **POSSONO** alimentare la diagnosi aggregata senza introdurre telemetria di terzi; ogni raccolta aggiuntiva richiede la policy privacy.
+- Logger e signpost tecnici **NON DEVONO** diventare la cronologia visibile
+  dell'indagine; i due flussi hanno scopo e retention differenti.
 
 Riferimenti: [Testing and performance](https://developer.apple.com/documentation/technologyoverviews/testing-and-performance), [diagnosing issues early](https://developer.apple.com/documentation/xcode/diagnosing-memory-thread-and-crash-issues-early), [performance tests](https://developer.apple.com/documentation/xcode/writing-and-running-performance-tests), [Logging](https://developer.apple.com/documentation/os/logging) e [OSSignposter](https://developer.apple.com/documentation/os/ossignposter).

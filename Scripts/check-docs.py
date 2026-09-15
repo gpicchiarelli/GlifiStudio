@@ -14,6 +14,7 @@ from urllib.parse import unquote
 PROJECT_DIRECTORY = Path(__file__).resolve().parent.parent
 DOCS_DIRECTORY = PROJECT_DIRECTORY / "docs"
 METHODS_DIRECTORY = DOCS_DIRECTORY / "metodi-analitici"
+UX_DIRECTORY = DOCS_DIRECTORY / "esperienza-utente"
 REQUIRED_FIELDS = (
     "Identificatore",
     "Versione",
@@ -25,6 +26,7 @@ REQUIRED_FIELDS = (
 FIELD_PATTERN = re.compile(r"^\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*$", re.MULTILINE)
 LINK_PATTERN = re.compile(r"(?<!!)\[[^\]]+\]\(([^)]+)\)")
 METHOD_FILE_PATTERN = re.compile(r"^(\d{2})-[a-z0-9-]+\.md$")
+UX_FILE_PATTERN = re.compile(r"^(\d{2})-[a-z0-9-]+\.md$")
 METHOD_REQUIRED_MARKERS = {
     "01": ("AnalysisDescriptor", "Lineage analitico"),
     "02": ("Analysis DAG", "invalidazione"),
@@ -57,6 +59,36 @@ SCIENTIFIC_INTEGRATION_MARKERS = {
     "docs/architettura.md": ("AnalysisDescriptor", "VA-06", "GlifiMath"),
     "docs/tracciabilita.md": ("TV-026", "TV-036"),
     "docs/glossario.md": ("Analysis DAG", "Effect size"),
+}
+UX_REQUIRED_MARKERS = {
+    "01": ("AnalyticalIntent", "review.completely", "algoritmo"),
+    "02": ("Project", "Corpus", "Investigation", "Question", "Report"),
+    "03": ("CollectionProfile", "partiallyReady", "needsAttention"),
+    "04": ("Analysis Planner", "notApplicable", "CapabilitySnapshot"),
+    "05": ("Evidence", "Finding", "Caveat", "motore interpretativo"),
+    "06": ("Conclusione", "EvidenceAssessment", "SupportPolicy"),
+    "07": ("L'oggetto è esplorabile", "Confronto come primitive UX"),
+    "08": ("sintesi editoriale", "FollowUpAction", "dati insufficienti"),
+    "09": ("exact", "contributive", "derivational", "VoiceOver"),
+    "10": ("InvestigationHistory", "Undo/Redo", "Report"),
+    "11": ("QuestionInterpretation", "domanda naturale", "needsClarification"),
+    "12": ("NavigationSplitView", "Parità semantica", "stato per-scena"),
+    "13": ("VoiceOver", "ISO 9241-210", "Comprensione"),
+    "14": ("messageKey", "Confidenza", "chiavi"),
+}
+UX_INTEGRATION_MARKERS = {
+    "docs/README.md": ("GS-UX-001",),
+    "docs/standard-di-progetto.md": ("GS-UX-001",),
+    "docs/visione-e-principi.md": ("NS-015", "NS-023"),
+    "docs/requisiti.md": ("RF-047", "RF-074", "RQ-030", "RQ-040"),
+    "docs/architettura.md": ("VA-07", "GlifiInvestigation", "CR-20"),
+    "docs/tracciabilita.md": ("TV-037", "TV-048"),
+    "docs/glossario.md": ("AnalyticalIntent", "EvidenceAssessment"),
+    "docs/roadmap.md": ("CollectionProfile", "insufficientEvidence"),
+    "docs/internazionalizzazione-interfaccia.md": ("GS-UX-001-14",),
+    "docs/apple/README.md": ("GS-UX",),
+    "docs/app-store/README.md": ("GS-UX-001",),
+    "docs/metodi-analitici/README.md": ("GS-UX-001",),
 }
 
 
@@ -143,6 +175,73 @@ def validate_scientific_specification(errors: list[str]) -> int:
     return len(method_paths)
 
 
+def validate_ux_specification(errors: list[str]) -> int:
+    """Validate coverage and integration of the user experience family."""
+    index_path = UX_DIRECTORY / "README.md"
+    if not index_path.is_file():
+        errors.append("docs/esperienza-utente/README.md: indice UX mancante")
+        return 0
+
+    index_text = index_path.read_text(encoding="utf-8")
+    ux_paths = sorted(
+        path for path in UX_DIRECTORY.glob("*.md") if path.name != "README.md"
+    )
+    indexed_paths: set[Path] = set()
+    for raw_target in LINK_PATTERN.findall(index_text):
+        target = local_link_target(index_path, raw_target)
+        if target is not None and target.parent == UX_DIRECTORY:
+            indexed_paths.add(target)
+
+    expected_paths = set(ux_paths)
+    for path in sorted(expected_paths - indexed_paths):
+        errors.append(f"{path.relative_to(PROJECT_DIRECTORY)}: non indicizzato")
+    for path in sorted(indexed_paths - expected_paths):
+        errors.append(
+            f"docs/esperienza-utente/README.md: riferimento estraneo o mancante: "
+            f"{path.name}"
+        )
+
+    for path in ux_paths:
+        relative_path = path.relative_to(PROJECT_DIRECTORY)
+        match = UX_FILE_PATTERN.fullmatch(path.name)
+        if match is None:
+            errors.append(f"{relative_path}: nome non conforme NN-argomento.md")
+            continue
+
+        sequence = match.group(1)
+        body = path.read_text(encoding="utf-8")
+        fields = metadata(body)
+        expected_identifier = f"GS-UX-001-{sequence}"
+        if fields.get("Identificatore") != expected_identifier:
+            errors.append(
+                f"{relative_path}: atteso identificatore {expected_identifier}"
+            )
+        if "GS-UX-001" not in fields.get("Documento padre", ""):
+            errors.append(f"{relative_path}: documento padre GS-UX-001 mancante")
+        if not body.startswith("<!-- SPDX-License-Identifier: BSD-3-Clause -->"):
+            errors.append(f"{relative_path}: intestazione SPDX mancante")
+        for marker in UX_REQUIRED_MARKERS.get(sequence, ()):
+            if marker not in body:
+                errors.append(f"{relative_path}: copertura UX mancante: {marker}")
+
+    actual_sequences = {path.name[:2] for path in ux_paths}
+    expected_sequences = set(UX_REQUIRED_MARKERS)
+    for sequence in sorted(expected_sequences - actual_sequences):
+        errors.append(f"GS-UX-001-{sequence}: documento obbligatorio mancante")
+
+    for relative, markers in UX_INTEGRATION_MARKERS.items():
+        path = PROJECT_DIRECTORY / relative
+        if not path.is_file():
+            errors.append(f"{relative}: documento di integrazione UX mancante")
+            continue
+        body = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in body:
+                errors.append(f"{relative}: integrazione UX mancante: {marker}")
+
+    return len(ux_paths)
+
+
 def main() -> int:
     """Run all documentation checks."""
     errors: list[str] = []
@@ -176,6 +275,7 @@ def main() -> int:
                 errors.append(f"{relative_path}: collegamento locale non valido: {raw_target}")
 
     method_count = validate_scientific_specification(errors)
+    ux_count = validate_ux_specification(errors)
 
     if errors:
         print("Documentation validation failed:", file=sys.stderr)
@@ -186,7 +286,8 @@ def main() -> int:
     print(
         f"Documentation: {len(markdown_files)} files, "
         f"{len(identifiers)} unique identifiers, valid local links, "
-        f"{method_count} scientific method specifications"
+        f"{method_count} scientific method specifications, "
+        f"{ux_count} UX specifications"
     )
     return 0
 

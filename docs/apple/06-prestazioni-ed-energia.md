@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-006 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -22,5 +22,10 @@
 - La disponibilità di memoria unificata **NON DEVE** giustificare copie, residency o buffer illimitati.
 - Stato termico, pressione di memoria e priorità del lavoro **DEVONO** produrre riduzione controllata, checkpoint o cancellazione quando necessario.
 - Lavoro in background **DEVE** usare le API di sistema appropriate e rispettare sospensione e limiti della piattaforma.
+- Profilo, evidenze e findings validi **DOVREBBERO** apparire progressivamente; la
+  persona deve poter esplorare contenuto già pronto o svolgere altro lavoro.
+- Il planner **DEVE** considerare costo, memoria, energia e stato termico senza
+  cambiare silenziosamente il significato del piano; rinvii e fallback sono
+  spiegabili.
 
 Gli strumenti di riferimento sono Instruments, Organizer e i checker di Xcode. La strategia dei backend è definita in [Calcolo accelerato su Apple silicon](11-calcolo-accelerato-apple-silicon.md). Riferimento: [Testing and performance](https://developer.apple.com/documentation/technologyoverviews/testing-and-performance).

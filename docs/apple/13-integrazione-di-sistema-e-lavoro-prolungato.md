@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-013 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -21,6 +21,11 @@
 | BackgroundTasks | Continuazione su iPadOS di elaborazioni esplicitamente avviate dalla persona | Condizionale alla prima operazione lunga |
 | `NSUserActivity` e Handoff | Ripresa contestuale e passaggio tra dispositivi | Condizionale a DA-017 |
 | PencilKit e interazioni Apple Pencil | Annotazione diretta di documenti | Condizionale a un requisito di annotazione |
+
+Indagine, corpus, documento e finding possono diventare `AppEntity` soltanto quando
+identità, autorizzazioni e deep link sono stabili. Il testo esposto a Spotlight o
+Shortcuts non deve divulgare contenuto sensibile né trasformare un finding invalido
+o storico in risultato corrente.
 
 ## App Intents
 
@@ -44,6 +49,8 @@ Su macOS, il lavoro controllato resta legato a task con ownership, progresso e c
 
 - macOS **DEVE** offrire menu, comandi da tastiera, mouse/trackpad, finestre multiple e drag and drop per i flussi professionali.
 - iPadOS **DEVE** supportare touch, puntatore, tastiera hardware, multitasking e finestre ridimensionabili.
+- La parità fra piattaforme riguarda oggetti e azioni semantiche GS-UX; disposizione,
+  densità e presentazioni possono seguire convenzioni native differenti.
 - Apple Pencil, hover, fotocamera, widget, Live Activities e Handoff **DEVONO** essere attivati soltanto se migliorano un flusso approvato e con fallback accessibile.
 
 ## Riferimenti Apple

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VIS-001 |
 | Tipo | Visione, contesto e stakeholder needs |
-| Versione | 0.5.0 |
+| Versione | 0.6.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -23,10 +23,12 @@ Il sistema accompagna l'utente lungo l'intera catena di lavoro:
 > acquisizione → estrazione → normalizzazione → segmentazione → tokenizzazione → annotazione → indicizzazione → analisi → esplorazione dei risultati
 
 Non è un editor arricchito con alcune funzioni statistiche, una semplice utility per
-contare parole o un insieme eterogeneo di strumenti. È un sistema scientificamente
-fondato nel quale dati, trasformazioni, algoritmi e risultati hanno semantica
-esplicita, provenienza verificabile, comportamento riproducibile e implementazioni
-validabili indipendentemente dalla GUI e dal backend computazionale.
+contare parole, un frontend di una libreria statistica o un insieme eterogeneo di
+strumenti. È un ambiente professionale di esplorazione guidata: l'interazione parte
+da ciò che la persona studia, da ciò che vuole comprendere, da ciò che il sistema ha
+trovato e dalle evidenze che sostengono ogni affermazione. Dati, trasformazioni,
+algoritmi e risultati mantengono semantica esplicita, provenienza verificabile e
+comportamento riproducibile indipendentemente dalla GUI e dal backend.
 
 ## Ambiti d'uso
 
@@ -69,18 +71,30 @@ Gli stakeholder devono essere validati prima dell'approvazione della baseline.
 | NS-012 | Eseguire content analysis manuale e qualitativa con codebook, annotazioni e affidabilità fra codificatori tracciabili. | Direzione scientifica del 2026-09-15 | Approvata |
 | NS-013 | Conoscere la qualità osservata dei servizi linguistici sulla lingua e sul dominio applicabili. | Direzione scientifica del 2026-09-15 | Approvata |
 | NS-014 | Disporre di percorsi classici riproducibili per sintesi e topic analysis distinti dall'intelligenza generativa. | Direzione scientifica del 2026-09-15 | Approvata |
+| NS-015 | Iniziare un lavoro dalla domanda e dall'intenzione analitica senza conoscere preventivamente gli algoritmi disponibili. | Direzione UX del 2026-09-15 | Approvata |
+| NS-016 | Sviluppare più indagini persistenti e diramabili nello stesso progetto, conservandone percorso, risultati, limiti e materiali. | Direzione UX del 2026-09-15 | Approvata |
+| NS-017 | Ottenere automaticamente tutte le analisi applicabili e informative per i dati e comprenderne inclusioni ed esclusioni. | Direzione UX del 2026-09-15 | Approvata |
+| NS-018 | Comprendere prima che cosa è emerso e poi verificarne evidenza, fonti e metodo con profondità progressiva. | Direzione UX del 2026-09-15 | Approvata |
+| NS-019 | Interrogare ogni numero o segno significativo e raggiungere le osservazioni contribuenti secondo il lineage matematicamente possibile. | Direzione UX del 2026-09-15 | Approvata |
+| NS-020 | Esplorare direttamente oggetti analitici e confrontare corpus, gruppi, autori, categorie o periodi senza scegliere prima un test. | Direzione UX del 2026-09-15 | Approvata |
+| NS-021 | Comprendere solidità e limiti dei risultati e ricevere esplicitamente “dati insufficienti” quando non è possibile concludere. | Direzione UX del 2026-09-15 | Approvata |
+| NS-022 | Svolgere lo stesso percorso semantico con un'esperienza nativa, adattiva e accessibile su macOS e iPadOS. | Direzione UX del 2026-09-15 | Approvata |
+| NS-023 | Formulare in futuro domande naturali trasformate in piani tipizzati, verificabili e riproducibili. | Direzione UX del 2026-09-15 | Approvata |
 
 La derivazione di queste necessità verso i requisiti software è registrata nella [Matrice di tracciabilità](tracciabilita.md).
 
 ## Unità di lavoro
 
-L'unità primaria per l'utente è il **progetto Glifi Studio**, non il singolo file. Un progetto persistente raccoglie:
+Il **progetto Glifi Studio** è il contenitore persistente fondamentale, non il
+singolo file. L'**indagine** è l'unità cognitiva con cui la persona sviluppa un
+percorso di ricerca. Un progetto raccoglie:
 
 - riferimenti alle fonti originali;
 - metadati e corpus logici;
 - configurazioni linguistiche e trasformazioni;
 - indici e artefatti derivati;
-- analisi, parametri e risultati.
+- corpus logici e più indagini;
+- domande, piani, analisi, evidenze, findings, caveat, cronologia e relazioni.
 
 La chiusura e la riapertura del progetto non devono comportare la perdita dello stato né la ripetizione non necessaria di elaborazioni costose.
 
@@ -99,6 +113,24 @@ La provenienza è parte del dato. Ogni risultato deve poter essere ricondotto al
 Ogni metodo deve dichiarare variante matematica, dominio, precondizioni, casi
 degeneri, classe di determinismo e criteri di verifica. Osservazione, modello,
 fitting, inferenza, effect size e generazione sono categorie distinte.
+
+### Intenzioni prima degli algoritmi
+
+L'esperienza **NON DEVE** essere organizzata primariamente come catalogo di metodi.
+Domanda, intenzione e oggetto studiato determinano un piano spiegabile; formule e
+parametri restano disponibili mediante progressive disclosure.
+
+### Prudenza epistemica
+
+Ogni finding deve essere sostenuto da evidenze e caveat tracciabili. Il sistema deve
+poter evitare una conclusione quando dati, qualità o assunzioni non la sostengono.
+Un modello generativo non decide la validità di un risultato.
+
+### Esplorabilità e confronto
+
+Oggetti e numeri significativi sono interrogabili fino alle fonti secondo la classe
+di lineage applicabile. Il confronto è un'intenzione primaria e non richiede alla
+persona di scegliere preventivamente il test statistico.
 
 ### Metadata-first
 

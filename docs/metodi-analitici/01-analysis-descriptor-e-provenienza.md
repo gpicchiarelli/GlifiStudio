@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-01 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -44,6 +44,8 @@ Ogni campo del risultato **DEVE** appartenere a una delle categorie:
 - `stimato`: parametro ottenuto tramite fitting o campionamento;
 - `inferito`: statistica inferenziale con ipotesi e incertezza;
 - `annotato`: giudizio umano o servizio linguistico con autore/backend;
+- `interpretato`: proposizione prodotta deterministicamente da evidenze mediante
+  un rule set identificato e versionato;
 - `generativo`: output probabilistico non autoritativo.
 
 La classificazione **NON DEVE** essere persa in esportazione o visualizzazione.
@@ -60,9 +62,17 @@ risultato ↔ cella/elemento ↔ unità analitica ↔ segmento/token ↔ fonte e
 
 Una matrice o un modello può usare lineage materializzato, indici invertiti o una
 query riproducibile; la strategia è sostituibile, ma il riferimento **DEVE** restare
-valido per la versione del corpus dichiarata. Aggregazioni che impediscono un
-lineage uno-a-uno **DEVONO** almeno fornire l'insieme o la procedura esatta per
-ricostruire i contributori.
+valido per la versione del corpus dichiarata.
+
+Ogni valore interrogabile dichiara una classe:
+
+- `exact`: insieme completo e risolvibile delle osservazioni determinanti;
+- `contributive`: contributori e pesi o ruoli pertinenti senza inversione uno-a-uno;
+- `derivational`: input e procedura esatti di una trasformazione non invertibile.
+
+Top-k, campioni, documenti rappresentativi o nearest neighbor **NON DEVONO** essere
+presentati come lineage `exact`. Aggregazioni massive possono fornire una query o
+un campione dichiarato con copertura, criterio e ordinamento espliciti.
 
 ## Identità e serializzazione
 
@@ -79,4 +89,5 @@ presentazionali. Collisioni, versioni sconosciute e dipendenze non risolvibili
 - invariabilità dell'identità rispetto a titolo, posizione UI e ordine di
   serializzazione non semantico;
 - navigazione campionata dal risultato alla fonte corretta;
+- classificazione exact/contributive/derivational e rifiuto dei falsi exact;
 - rifiuto di descrittori incompleti, versioni ignote e dipendenze incoerenti.

@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-22 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -19,6 +19,10 @@ Una visualizzazione è una proiezione di un artefatto analitico, non l'artefatto
 Il motore produce dati, identità, incertezza e lineage indipendenti da SwiftUI,
 AppKit o UIKit. La view **NON DEVE** ricalcolare con formule proprie né scartare
 silenziosamente valori non finiti, mancanti o esclusi.
+
+Il nome d'esperienza può descrivere la domanda a cui la vista risponde, secondo
+GS-UX-001, ma metodo e variante scientifica **DEVONO** restare espliciti nel
+dettaglio e nella provenienza.
 
 ## Contratto della specifica di vista
 
@@ -51,6 +55,10 @@ permettere, quando semanticamente possibile, di raggiungere unità, segmenti, to
 posizioni contribuenti. La fonte **DEVE** poter evidenziare a sua volta i risultati
 derivati applicabili. Aggregazioni troppo grandi possono restituire una query o un
 campione dichiarato, mai un insieme implicito differente.
+
+La vista espone la classe `exact`, `contributive` o `derivational` definita da
+GS-MET-001-01. Un'interazione visiva tramite hover **NON DEVE** essere l'unico
+accesso al valore o al lineage.
 
 ## Correttezza percettiva e accessibilità
 

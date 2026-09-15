@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-IDX-001 |
 | Tipo | Indice delle pratiche Apple |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -15,6 +15,11 @@ Questo indice applica le indicazioni Apple pertinenti alle app Glifi Studio per 
 La [specifica dei metodi analitici](../metodi-analitici/README.md) definisce la
 semantica scientifica. I framework Apple sono backend o strumenti di presentazione:
 non sostituiscono formule, precondizioni, provenance o reference test.
+
+La [specifica dell'esperienza](../esperienza-utente/README.md) definisce indagine,
+intenzioni, planner, findings e progressive disclosure. I componenti Apple ne
+forniscono l'espressione nativa e accessibile senza spostare regole di dominio nelle
+view.
 
 La strategia distingue:
 
@@ -48,7 +53,7 @@ La strategia distingue:
 | --- | --- | --- |
 | Linguaggio e concorrenza | Swift 6, Swift Concurrency, Foundation | Baseline attiva |
 | Applicazioni native | SwiftUI, Observation, AppKit/UIKit confinati | Baseline attiva |
-| Interazione | Accessibility, SF Symbols, Swift Charts, Core Transferable | Standard attivo; funzioni progressive |
+| Interazione | NavigationSplitView, Accessibility, SF Symbols, Swift Charts, Core Transferable | GS-UX definita; componenti da adottare per flusso |
 | Documenti | Uniform Type Identifiers, PDFKit, Vision, VisionKit, Image I/O, Core Image, Quick Look | Assegnate alle fasi di importazione e OCR |
 | Linguistica | Natural Language | Primo backend da validare sull'italiano |
 | Calcolo CPU | Accelerate: vDSP, vForce, BLAS/LAPACK, BNNS, vImage | Prima accelerazione da valutare |
