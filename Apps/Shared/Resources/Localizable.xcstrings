@@ -1,6 +1,40 @@
 {
   "sourceLanguage" : "it",
   "strings" : {
+    "action.import" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import text"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importa testo"
+          }
+        }
+      }
+    },
+    "action.try-again" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Try again"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riprova"
+          }
+        }
+      }
+    },
     "app.name" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -84,6 +118,263 @@
             "value" : "Un ambiente nativo per l’analisi computazionale del testo."
           }
         }
+      }
+    },
+    "home.question" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do you want to study?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Che cosa vuoi studiare?"
+          }
+        }
+      }
+    },
+    "import.allowed-formats" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "UTF-8 plain text is supported. Processing stays on this device."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "È supportato il testo semplice UTF-8. L’elaborazione resta sul dispositivo."
+          }
+        }
+      }
+    },
+    "import.failure.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The text could not be analyzed"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Impossibile analizzare il testo"
+          }
+        }
+      }
+    },
+    "import.progress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reading and analyzing the text…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lettura e analisi del testo…"
+          }
+        }
+      }
+    },
+    "failure.file.not-regular" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Choose a regular text file, not a folder or symbolic link."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scegli un normale file di testo, non una cartella o un collegamento simbolico."
+          }
+        }
+      }
+    },
+    "failure.file.unreadable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file cannot be read. Check access and try again."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file non è leggibile. Verifica l’accesso e riprova."
+          }
+        }
+      }
+    },
+    "failure.internal.unexpected" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "An unexpected problem occurred. Your source file was not changed."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Si è verificato un problema inatteso. Il file sorgente non è stato modificato."
+          }
+        }
+      }
+    },
+    "failure.operation.cancelled" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The operation was cancelled."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’operazione è stata annullata."
+          }
+        }
+      }
+    },
+    "failure.text.byte-limit-exceeded" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This file exceeds the current safe processing limit."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file supera il limite di elaborazione sicura attuale."
+          }
+        }
+      }
+    },
+    "failure.text.invalid-utf8" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The file is not valid UTF-8 text."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il file non contiene testo UTF-8 valido."
+          }
+        }
+      }
+    },
+    "failure.text.markdown-analysis-unavailable" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown analysis will be enabled after source-position mapping is complete."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "L’analisi Markdown sarà attivata dopo il completamento della mappa verso la fonte."
+          }
+        }
+      }
+    },
+    "metric.characters" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Characters" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Caratteri" } }
+      }
+    },
+    "metric.sentences" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sentences" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Frasi" } }
+      }
+    },
+    "metric.tokens" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lexical tokens" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Token lessicali" } }
+      }
+    },
+    "metric.types" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Distinct forms" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Forme distinte" } }
+      }
+    },
+    "profile.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Collection profile" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Profilo della raccolta" } }
+      }
+    },
+    "profile.top-terms" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Most frequent forms" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Forme più frequenti" } }
+      }
+    },
+    "sidebar.overview" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Overview" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Panoramica" } }
+      }
+    },
+    "sidebar.sources" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sources" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Fonti" } }
+      }
+    },
+    "sources.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "Import a UTF-8 plain-text file to obtain a reproducible first profile." } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Importa un file di testo semplice UTF-8 per ottenere un primo profilo riproducibile." } }
+      }
+    },
+    "sources.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : { "stringUnit" : { "state" : "translated", "value" : "No sources yet" } },
+        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nessuna fonte" } }
       }
     }
   },

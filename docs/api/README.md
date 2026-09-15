@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-API-001 |
 | Tipo | Specifica normativa delle interfacce applicative e headless |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -87,7 +87,8 @@ correlazione effimera.
 `GlifiStudioService` è `Sendable` e rappresenta un ingresso leggero al motore. La
 creazione non apre file, non avvia rete, non crea lavoro background persistente e
 non acquisisce security scope. `status()` è idempotente, asincrono e non modifica
-lo stato scientifico; la superficie corrente implementa soltanto lo stato `ready`.
+lo stato scientifico. La superficie corrente implementa `ready` e il primo profilo
+bounded di un TXT autorizzato; non costituisce ancora una sessione di progetto.
 
 ### 5.2 Sessione di progetto candidata
 
@@ -182,7 +183,7 @@ contenuto, query, path o nomi file.
 | stato motore | nessuna | stato capability-neutral | Implementata |
 | crea/apri/chiudi progetto | URL autorizzato, modalità | sessione o failure | Specificata; non implementata |
 | importa | sessione, sorgenti, policy | SourceRevision e rapporto | Specificata; non implementata |
-| profila raccolta | revisioni | CollectionProfile | Specificata; non implementata |
+| profila raccolta | TXT autorizzato nella slice; revisioni nel target | profilo descrittivo bounded | Prima slice TXT implementata e verificata; CollectionProfile multiplo non implementato |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
 | analizza | piano e budget | Artifact/Evidence/Findings | Specificata; non implementata |
 | interroga | QueryAST, scope, limiti | risultati ordinati con lineage | Specificata; non implementata |
@@ -206,9 +207,10 @@ glifi query <project> --request <json-file>
 glifi export <project> --request <json-file> --output <path>
 ```
 
-Solo `status` è disponibile nello scaffold. Invocazione senza argomenti resta alias
-temporaneo dello smoke test e stampa `GlifiCore pronto`; prima del protocollo CLI
-1.0 deve diventare `help` o essere rimossa con nota di migrazione.
+Solo `status` è disponibile nella CLI. Accetta `--format text|json`; l'envelope JSON
+ha `cliProtocolVersion = 1`. L'invocazione senza argomenti resta alias temporaneo
+dello smoke test e stampa `GlifiCore pronto`; prima del protocollo CLI 1.0 deve
+diventare `help` o essere rimossa con nota di migrazione.
 
 ### 10.1 Stream
 

@@ -43,6 +43,18 @@ if [[ "$cli_output" != "GlifiCore pronto" ]]; then
     exit 1
 fi
 
+cli_json_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json status)"
+
+expected_cli_json='{"cliProtocolVersion":1,"command":"status","outcome":"succeeded","result":{"status":"ready"}}'
+if [[ "$cli_json_output" != "$expected_cli_json" ]]; then
+    print -u2 "Headless JSON contract test non superato: $cli_json_output"
+    exit 1
+fi
+
 xcodebuild build \
     -quiet \
     -workspace GlifiStudio.xcworkspace \

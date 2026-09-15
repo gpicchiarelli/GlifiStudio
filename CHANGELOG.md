@@ -8,6 +8,11 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Primo percorso funzionale condiviso: import TXT UTF-8 bounded, digest SHA-256,
+  tokenizzazione italiana con offset, profilo e frequenze su macOS e iPadOS.
+- Identificatori opachi e tipizzati, tassonomia di failure eseguibile e
+  sostituibilità del tokenizer nel motore headless.
+- Output JSON v1 di `GlifiCLI status` e contract check nel quality gate.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

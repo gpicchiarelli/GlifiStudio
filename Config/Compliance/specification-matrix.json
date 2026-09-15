@@ -30,8 +30,11 @@
       "clause": "GS-SEC-001 § 7 Input e parser ostili",
       "specification": "docs/sicurezza/README.md",
       "requirements": ["RQ-044", "RQ-057"],
-      "code": [],
-      "tests": ["Scripts/check-fixtures.py"],
+      "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiTextImporterTests.swift",
+        "Scripts/check-fixtures.py"
+      ],
       "fixtures": [
         "Fixtures/Adversarial/v1/manifest.json",
         "Fixtures/Adversarial/v1/security-cases.json"
@@ -39,7 +42,7 @@
       "evidence": ["docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md"],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Importer e parser di prodotto non sono ancora implementati; corpus avversario da costruire."
+      "blockingReason": "Il confine TXT UTF-8 bounded è implementato; restano parser strutturati e corpus avversario eseguibile."
     },
     {
       "id": "CMP-003",
@@ -111,12 +114,15 @@
       "clause": "GS-STD-001-18 § Tassonomia delle failure",
       "specification": "docs/standard/18-errori-logging-e-osservabilita.md",
       "requirements": ["RQ-007", "RQ-011", "RQ-058"],
-      "code": [],
-      "tests": [],
+      "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiFailure.swift"],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiTextImporterTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"
+      ],
       "fixtures": [],
       "evidence": [],
       "gate": "G2",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {
@@ -156,7 +162,10 @@
       "code": ["Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"],
       "tests": ["Scripts/verify.sh"],
       "fixtures": [],
-      "evidence": ["docs/evidenze/GS-VER-014-baseline-swift-6-4.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-014-baseline-swift-6-4.md",
+        "docs/evidenze/GS-VER-018-primo-incremento-verticale.md"
+      ],
       "gate": "G3",
       "status": "verified",
       "blockingReason": null
@@ -166,13 +175,16 @@
       "clause": "GS-API-001 § 9 Operazioni applicative 0.1",
       "specification": "docs/api/README.md",
       "requirements": ["RQ-060"],
-      "code": [],
-      "tests": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift"
+      ],
+      "tests": ["Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"],
       "fixtures": [],
       "evidence": [],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "La superficie funzionale oltre status dipende dal vertical slice dominio/persistenza/query."
+      "blockingReason": "Il profilo TXT singolo è operativo; ProjectSession, persistenza, QueryAST, analisi ed export restano da implementare."
     },
     {
       "id": "CMP-013",
@@ -218,8 +230,14 @@
       "clause": "GS-LNG-001 § Corpus gold italiano",
       "specification": "docs/specifiche-di-design/03-contratto-linguistico-italiano.md",
       "requirements": ["RQ-029"],
-      "code": [],
-      "tests": ["Scripts/check-fixtures.py"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiItalianTokenizer.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiItalianTokenizerTests.swift",
+        "Scripts/check-fixtures.py"
+      ],
       "fixtures": [
         "Fixtures/Linguistics/it-v1/manifest.json",
         "Fixtures/Linguistics/it-v1/token-boundaries.json"
@@ -296,6 +314,91 @@
       "gate": "G4",
       "status": "blocked",
       "blockingReason": "Classi hardware, corpus, ripetizioni e soglie reali di memoria/energia/termica non sono misurati."
+    },
+    {
+      "id": "CMP-022",
+      "clause": "GS-DAT-001 § Pipeline di ingestion TXT UTF-8 bounded",
+      "specification": "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md",
+      "requirements": ["RF-002", "RF-007", "RQ-057"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiTextImporterTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"
+      ],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-018-primo-incremento-verticale.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-023",
+      "clause": "GS-LNG-001 § Regole italiane baseline it-token-v1 seed",
+      "specification": "docs/specifiche-di-design/03-contratto-linguistico-italiano.md",
+      "requirements": ["RF-009", "RF-010", "RF-079"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiItalianTokenizer.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"
+      ],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiItalianTokenizerTests.swift"],
+      "fixtures": ["Fixtures/Linguistics/it-v1/token-boundaries.json"],
+      "evidence": ["docs/evidenze/GS-VER-018-primo-incremento-verticale.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-024",
+      "clause": "GS-API-001 § 9 Profilo TXT bounded",
+      "specification": "docs/api/README.md",
+      "requirements": ["RF-051", "RQ-060"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextAnalyzer.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiEngineTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"
+      ],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-018-primo-incremento-verticale.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-025",
+      "clause": "GS-UI-001 § Primo percorso TXT e pattern di stato",
+      "specification": "docs/specifiche-di-design/07-information-architecture-e-interazione.md",
+      "requirements": ["RF-050", "RF-052", "RF-073"],
+      "code": [
+        "Apps/Shared/StudioHomeModel.swift",
+        "Apps/Shared/StudioHomeView.swift",
+        "Apps/Shared/Resources/Localizable.xcstrings"
+      ],
+      "tests": [],
+      "fixtures": [],
+      "evidence": [],
+      "gate": "G3",
+      "status": "implemented",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-026",
+      "clause": "GS-DOM-001 § Identificatori opachi e tipizzati",
+      "specification": "docs/specifiche-di-design/01-modello-del-dominio.md",
+      "requirements": ["RQ-060"],
+      "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiIdentifiers.swift"],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiIdentifiersTests.swift"],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-018-primo-incremento-verticale.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
     }
   ]
 }

@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-UI-001 |
 | Tipo | Specifica di design dell'interfaccia |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -159,3 +159,14 @@ se l'arabo non è una lingua di rilascio iniziale.
 - studi con compiti GS-UX per efficacia, comprensione e calibrazione;
 - snapshot e UI test localizzati senza basarsi esclusivamente su coordinate;
 - nessun comportamento di dominio implementato soltanto nella view.
+
+## Stato implementativo iniziale
+
+La prima superficie condivisa usa `NavigationSplitView`, file importer di sistema,
+chiavi semantiche `it`/`en` e stati `empty`, `loading`, `ready` e
+`recoverableError` per il profilo TXT. Il lavoro attraversa `StudioHomeModel`,
+GlifiKit e GlifiCore; la view non implementa tokenizzazione o conteggi.
+
+Build macOS/iPadOS e localizzazione sono verificate automaticamente. Restoration,
+document scene `.glifi`, route complete, VoiceOver manuale, tastiera end-to-end e
+studi con utenti restano gate aperti; la presenza della UI non li dichiara superati.

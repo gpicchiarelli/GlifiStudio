@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-LNG-001 |
 | Tipo | Specifica di design linguistico |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -147,6 +147,18 @@ media globale non può nascondere regressioni su classi critiche.
 
 `make check-fixtures` verifica integrità interna del seed e non sostituisce la
 valutazione del backend o l'approvazione di DA-008.
+
+## Stato implementativo iniziale
+
+`GlifiItalianTokenizer` realizza il percorso bounded di `it-token-v1` con token
+posizionali privi di copie permanenti della surface, componenti di elisione,
+abbreviazioni iniziali, numeri italiani, URL, email, emoji, hashtag e mention. I
+test prodotto leggono la fixture canonica e verificano gli otto casi seed byte per
+byte. Il backend è sostituibile tramite `GlifiTokenizing`.
+
+Questa implementazione non è ancora promossa a backend linguistico completo:
+normalizzazione con SpanMap, corpus gold, sentence boundary estesi, lemma, POS, NER,
+soglie e drift report restano obbligatori prima del supporto 0.1.
 
 ## Riferimenti tecnici
 

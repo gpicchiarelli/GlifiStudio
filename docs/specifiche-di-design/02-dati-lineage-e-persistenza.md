@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-DAT-001 |
 | Tipo | Specifica di design di dati e persistenza |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -345,6 +345,18 @@ manifest valido è incompleto e non riceve `ExportReceipt`.
 - nessun blob massivo nel database e nessuna lettura integrale obbligatoria.
 - validazione dello schema ExportManifest, digest di ogni file e assenza di path o
   contenuto non selezionato;
+
+## Stato implementativo iniziale
+
+Il primo confine TXT accetta soltanto UTF-8 valido con BOM opzionale, applica il
+limite prima della decodifica, conserva i byte immutati e calcola SHA-256 tramite
+CryptoKit. File non regolari, link simbolici, input malformati e superamento del
+limite producono failure tipizzate senza path o contenuto nei messaggi macchina.
+
+La slice è intenzionalmente bounded a 64 MiB e in-memory. Non soddisfa ancora i
+requisiti di streaming per corpus, package `.glifi`, store SQLite, commit
+generazionale, recovery o SpanMap. Markdown non viene presentato come analizzabile
+finché estrazione strutturale e mappa verso la fonte non sono implementate.
 
 ## Riferimenti tecnici
 

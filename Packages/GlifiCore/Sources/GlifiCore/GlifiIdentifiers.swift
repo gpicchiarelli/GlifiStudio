@@ -1,0 +1,148 @@
+// SPDX-License-Identifier: BSD-3-Clause
+
+import Foundation
+
+/// Supplies the stable namespace for a strongly typed Glifi identifier.
+public protocol GlifiIdentifierKind: Sendable {
+    /// Stable namespace serialized before the opaque value.
+    static var namespace: String { get }
+}
+
+/// A UUID-backed identifier whose phantom kind prevents cross-entity comparison.
+public struct GlifiIdentifier<Kind: GlifiIdentifierKind>:
+    Codable, CustomStringConvertible, Hashable, Sendable
+{
+    private let value: UUID
+
+    /// Creates a new opaque identifier.
+    public init() {
+        value = UUID()
+    }
+
+    /// Creates an identifier from a UUID for deterministic import and testing.
+    public init(uuid: UUID) {
+        value = uuid
+    }
+
+    /// Restores an identifier from its canonical, namespaced representation.
+    public init(canonicalValue: String) throws {
+        let prefix = "\(Kind.namespace):"
+        guard canonicalValue.hasPrefix(prefix),
+            let uuid = UUID(uuidString: String(canonicalValue.dropFirst(prefix.count)))
+        else {
+            throw GlifiFailure(
+                code: "identifier.invalid",
+                category: .invalidInput,
+                operation: .importText,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.identifier.invalid"
+            )
+        }
+
+        value = uuid
+    }
+
+    /// The stable representation used by persistence and machine interfaces.
+    public var canonicalValue: String {
+        "\(Kind.namespace):\(value.uuidString.lowercased())"
+    }
+
+    /// The canonical representation used for textual descriptions.
+    public var description: String {
+        canonicalValue
+    }
+
+    /// Decodes and validates a canonical identifier.
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        let canonicalValue = try container.decode(String.self)
+        do {
+            try self.init(canonicalValue: canonicalValue)
+        } catch {
+            throw DecodingError.dataCorruptedError(
+                in: container,
+                debugDescription: "Invalid \(Kind.namespace) identifier"
+            )
+        }
+    }
+
+    /// Encodes the canonical namespaced representation.
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(canonicalValue)
+    }
+}
+
+/// Phantom kind for projects.
+public enum ProjectIdentifierKind: GlifiIdentifierKind {
+    /// Stable project namespace.
+    public static let namespace = "project"
+}
+
+/// Phantom kind for sources.
+public enum SourceIdentifierKind: GlifiIdentifierKind {
+    /// Stable source namespace.
+    public static let namespace = "source"
+}
+
+/// Phantom kind for source revisions.
+public enum SourceRevisionIdentifierKind: GlifiIdentifierKind {
+    /// Stable source-revision namespace.
+    public static let namespace = "source-revision"
+}
+
+/// Phantom kind for documents.
+public enum DocumentIdentifierKind: GlifiIdentifierKind {
+    /// Stable document namespace.
+    public static let namespace = "document"
+}
+
+/// Phantom kind for document revisions.
+public enum DocumentRevisionIdentifierKind: GlifiIdentifierKind {
+    /// Stable document-revision namespace.
+    public static let namespace = "document-revision"
+}
+
+/// Phantom kind for corpora.
+public enum CorpusIdentifierKind: GlifiIdentifierKind {
+    /// Stable corpus namespace.
+    public static let namespace = "corpus"
+}
+
+/// Phantom kind for corpus versions.
+public enum CorpusVersionIdentifierKind: GlifiIdentifierKind {
+    /// Stable corpus-version namespace.
+    public static let namespace = "corpus-version"
+}
+
+/// Phantom kind for investigations.
+public enum InvestigationIdentifierKind: GlifiIdentifierKind {
+    /// Stable investigation namespace.
+    public static let namespace = "investigation"
+}
+
+/// Phantom kind for operations.
+public enum OperationIdentifierKind: GlifiIdentifierKind {
+    /// Stable operation namespace.
+    public static let namespace = "operation"
+}
+
+/// Strongly typed identifier for a project aggregate.
+public typealias ProjectID = GlifiIdentifier<ProjectIdentifierKind>
+/// Strongly typed identifier for a source entity.
+public typealias SourceID = GlifiIdentifier<SourceIdentifierKind>
+/// Strongly typed identifier for an immutable source revision.
+public typealias SourceRevisionID = GlifiIdentifier<SourceRevisionIdentifierKind>
+/// Strongly typed identifier for a document entity.
+public typealias DocumentID = GlifiIdentifier<DocumentIdentifierKind>
+/// Strongly typed identifier for an immutable document revision.
+public typealias DocumentRevisionID = GlifiIdentifier<DocumentRevisionIdentifierKind>
+/// Strongly typed identifier for a corpus aggregate.
+public typealias CorpusID = GlifiIdentifier<CorpusIdentifierKind>
+/// Strongly typed identifier for an immutable corpus version.
+public typealias CorpusVersionID = GlifiIdentifier<CorpusVersionIdentifierKind>
+/// Strongly typed identifier for an investigation aggregate.
+public typealias InvestigationID = GlifiIdentifier<InvestigationIdentifierKind>
+/// Strongly typed identifier for a runtime operation.
+public typealias OperationID = GlifiIdentifier<OperationIdentifierKind>

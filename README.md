@@ -24,7 +24,7 @@
   <a href="docs/apple/README.md"><img alt="Piattaforme: macOS 27 e iPadOS 27" src="https://img.shields.io/badge/piattaforme-macOS%2027%20%7C%20iPadOS%2027-315CFF.svg?logo=apple&logoColor=white"></a>
   <a href="docs/internazionalizzazione-interfaccia.md"><img alt="Interfaccia: italiano e inglese" src="https://img.shields.io/badge/interfaccia-it%20%7C%20en-6c63d9.svg"></a>
   <a href="docs/app-store/README.md"><img alt="Distribuzione: App Store non in elenco" src="https://img.shields.io/badge/distribuzione-App%20Store%20non%20in%20elenco-4f5eb8.svg?logo=appstore&logoColor=white"></a>
-  <a href="docs/repository/README.md"><img alt="Repository privato" src="https://img.shields.io/badge/repository-privato-2f3136.svg?logo=github&logoColor=white"></a>
+  <a href="docs/repository/README.md"><img alt="Repository pubblico" src="https://img.shields.io/badge/repository-pubblico-238636.svg?logo=github&logoColor=white"></a>
   <a href="LICENSE"><img alt="Licenza BSD 3-Clause" src="https://img.shields.io/badge/licenza-BSD--3--Clause-214237.svg"></a>
 </p>
 
@@ -54,17 +54,17 @@ Glifi Studio non è un editor generalista con qualche statistica aggiunta e non 
 ## Stato del progetto
 
 > [!IMPORTANT]
-> **Baseline ingegneristica eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS, il package condiviso, lo status applicativo/CLI, la localizzazione iniziale e i quality gate sono operativi. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) rendono implementabili i confini; importazione, persistenza, indicizzazione e analisi restano da costruire e validare.
+> **Primo incremento verticale eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS importano un TXT UTF-8 bounded, applicano `it-token-v1` e mostrano un profilo deterministico attraverso lo stesso percorso GlifiKit/GlifiCore. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) restano l'autorità; package `.glifi`, Markdown con SpanMap, indice, QueryAST e analisi ulteriori non sono ancora disponibili.
 
 La documentazione è una baseline controllata: requisiti, architettura e decisioni aperte sono tracciati, ma non tutte le scelte di prodotto hanno ancora approvazione definitiva. La presenza di una tecnologia o di un documento non equivale alla disponibilità della relativa funzione.
 
 | Superficie | Baseline attuale |
 | --- | --- |
-| App macOS | Shell SwiftUI nativa, localizzata e accessibile, collegata a `GlifiKit` |
-| App iPadOS | Stessa baseline condivisa, adattata al target iPadOS |
-| `GlifiKit` | Contratto applicativo pre-1.0 indipendente dalla presentazione; nessuna promessa ABI binaria |
-| `GlifiCore` | Motore headless actor-based con configurazione linguistica, policy runtime e diagnostica tipizzata |
-| `GlifiCLI` | Smoke/status eseguibile; protocollo completo specificato ma non implementato |
+| App macOS | `NavigationSplitView` nativa con import TXT, stati tipizzati e profilo localizzato |
+| App iPadOS | Stesso flusso condiviso, adattivo per navigazione e file importer di sistema |
+| `GlifiKit` | Status e profilo TXT asincrono con DTO/failure indipendenti dalla presentazione |
+| `GlifiCore` | Motore actor-based con import strict, ID tipizzati, SHA-256, tokenizer sostituibile, offset UTF-8 e frequenze |
+| `GlifiCLI` | Status testuale e JSON v1 verificati; comandi di progetto ancora non disponibili |
 | Qualità | Gate riproducibile con Apple Swift 6.4, test/build, controlli Apple/App Store, zero telemetria e matrice di conformità automatica |
 | Design implementativo | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD definiti come baseline candidata; nessuna funzione è dichiarata implementata per questo solo fatto |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |
