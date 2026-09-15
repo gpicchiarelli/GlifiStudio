@@ -88,12 +88,30 @@ public struct GlifiProjectQueryResult: Equatable, Sendable {
     }
 }
 
+/// Deterministic corpus profile bound to one verified project generation.
+public struct GlifiProjectCorpusAnalysisResult: Equatable, Sendable {
+    /// Project analyzed by this result.
+    public let projectID: ProjectID
+    /// Exact authoritative generation captured before analysis.
+    public let generation: Int
+    /// Analytical values derived from every source in the captured generation.
+    public let analysis: GlifiCorpusAnalysis
+
+    /// Creates a result with explicit project and generation lineage.
+    public init(projectID: ProjectID, generation: Int, analysis: GlifiCorpusAnalysis) {
+        self.projectID = projectID
+        self.generation = generation
+        self.analysis = analysis
+    }
+}
+
 /// Provides the headless entry point to GlifiCore capabilities.
 public actor GlifiEngine {
     private let defaultLanguageConfiguration: GlifiLanguageConfiguration
     private let textImporter: GlifiTextImporter
     private let textTokenizer: any GlifiTokenizing
     private let textAnalyzer: GlifiTextAnalyzer
+    private let corpusAnalyzer: GlifiCorpusAnalyzer
     private var hasReportedReady = false
 
     /// Creates an engine with no persistent project attached.
@@ -111,6 +129,7 @@ public actor GlifiEngine {
         self.textImporter = textImporter
         textTokenizer = tokenizer
         textAnalyzer = GlifiTextAnalyzer(tokenizer: tokenizer)
+        corpusAnalyzer = GlifiCorpusAnalyzer(tokenizer: tokenizer)
     }
 
     /// Returns the language used when a project has no explicit configuration.
@@ -226,6 +245,67 @@ public actor GlifiEngine {
             throw cancellationFailure()
         } catch {
             throw unreadableFileFailure()
+        }
+    }
+
+    /// Profiles every source in one verified generation using bounded deterministic methods.
+    public func analyzeCorpus(
+        in project: GlifiProjectPackage,
+        options: GlifiCorpusAnalysisOptions = .standard
+    ) async throws -> GlifiProjectCorpusAnalysisResult {
+        do {
+            try Task.checkCancellation()
+            let snapshot = await project.snapshot()
+            try validateCorpusSelection(
+                documentByteCounts: snapshot.sources.map(\.byteCount),
+                options: options
+            )
+
+            var sources: [GlifiImportedText] = []
+            sources.reserveCapacity(snapshot.sources.count)
+            for source in snapshot.sources {
+                try Task.checkCancellation()
+                let data = try await project.sourceData(for: source.sourceRevisionID)
+                sources.append(
+                    try textImporter.importText(
+                        from: data,
+                        format: source.format,
+                        limits: GlifiTextImportLimits(
+                            maximumByteCount: options.maximumSourceByteCount
+                        ),
+                        sourceRevisionID: source.sourceRevisionID
+                    )
+                )
+            }
+            let analysis = try GlifiDiagnostics.measure(.analyzeCorpus) {
+                try corpusAnalyzer.analyze(sources, options: options)
+            }
+            try Task.checkCancellation()
+            return GlifiProjectCorpusAnalysisResult(
+                projectID: snapshot.projectID,
+                generation: snapshot.generation,
+                analysis: analysis
+            )
+        } catch let failure as GlifiFailure {
+            throw failure
+        } catch is CancellationError {
+            throw GlifiFailure(
+                code: "operation.cancelled",
+                category: .cancelled,
+                operation: .analyze,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.operation.cancelled"
+            )
+        } catch {
+            throw GlifiFailure(
+                code: "analysis.internal-failure",
+                category: .invariantViolation,
+                operation: .analyze,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.analysis.internal-failure"
+            )
         }
     }
 

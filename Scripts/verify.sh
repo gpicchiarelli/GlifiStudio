@@ -88,13 +88,19 @@ cli_markdown_query_output="$(swift run \
     --scratch-path "$temporary_build_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json query "$cli_project_path" --text "normalized:fonte")"
+cli_analysis_output="$(swift run \
+    --package-path Packages/GlifiCore \
+    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --skip-build \
+    GlifiCLI --format json analyze "$cli_project_path")"
 
 python3 - "$cli_create_output" "$cli_import_output" "$cli_markdown_import_output" \
-    "$cli_validate_output" "$cli_query_output" "$cli_markdown_query_output" <<'PY'
+    "$cli_validate_output" "$cli_query_output" "$cli_markdown_query_output" \
+    "$cli_analysis_output" <<'PY'
 import json
 import sys
 
-created, imported, markdown_imported, validated, queried, markdown_queried = (
+created, imported, markdown_imported, validated, queried, markdown_queried, analyzed = (
     json.loads(value) for value in sys.argv[1:]
 )
 assert created["command"] == "project.create"
@@ -128,6 +134,19 @@ markdown_match = markdown_queried["result"]["matches"][0]
 assert markdown_match["coordinateSpace"] == "extractedUTF8"
 assert (markdown_match["startUTF8"], markdown_match["endUTF8"]) == (14, 19)
 assert markdown_match["sourceRanges"] == [{"start": 64, "end": 69}]
+assert analyzed["command"] == "analyze"
+assert analyzed["outcome"] == "succeeded"
+assert analyzed["result"]["generation"] == 2
+assert analyzed["result"]["analysisIdentifier"] == "corpus-profile-it-v1"
+assert analyzed["result"]["corpusDigest"].startswith("sha256:")
+assert analyzed["result"]["tokenizationContractIdentifier"] == "it-token-v1"
+assert analyzed["result"]["documentCount"] == 2
+assert analyzed["result"]["lexicalTokenCount"] == 8
+assert analyzed["result"]["typeCount"] == 7
+assert analyzed["result"]["terms"][0]["term"] == "due"
+assert analyzed["result"]["terms"][0]["frequency"] == 2
+assert len(analyzed["result"]["matrix"]["cells"]) == 7
+assert analyzed["result"]["matrix"]["tfidfIdentifier"] == "TFIDF-v1"
 PY
 
 xcodebuild build \

@@ -41,6 +41,7 @@ public enum GlifiOperationKind: String, Codable, Sendable {
     case tokenize
     case profileCollection
     case query
+    case analyze
     case persistProject
 }
 

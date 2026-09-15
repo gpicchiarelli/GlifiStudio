@@ -253,6 +253,20 @@ public actor GlifiStudioProjectSession {
         }
     }
 
+    /// Computes a bounded deterministic profile of every source in the current generation.
+    public func analyzeCorpus(
+        options: GlifiStudioCorpusAnalysisOptions = .standard
+    ) async throws -> GlifiStudioCorpusAnalysisResult {
+        try ensureOpen()
+        do {
+            return try await GlifiStudioCorpusAnalysisResult(
+                engine.analyzeCorpus(in: project, options: options.coreValue)
+            )
+        } catch {
+            throw Self.map(error, operation: .analyze)
+        }
+    }
+
     /// Closes this logical session idempotently and rejects subsequent operations.
     public func close() {
         isClosed = true

@@ -29,6 +29,27 @@
         "vectors": [{"a": 2.8109302162163288, "b": 1.0, "c": 0.0}, {"a": 0.0, "b": 1.0, "c": 1.4054651081081644}]
       },
       "comparison": {"kind": "absoluteTolerance", "value": 1e-12}
+    },
+    {
+      "id": "corpus-profile-italian-two-documents", "method": "corpus-profile-it-v1", "formula": "D/N/V; f/N; df/range; GriesDP-v1; TTR-v1; MSTTR-v1; MATTR-v1; word-bigram; TF-raw-v1/IDF-smooth-v1/TFIDF-v1",
+      "input": {"documents": [["casa", "casa", "mare"], ["casa", "città"]], "windowSize": 2},
+      "expected": {
+        "documentCount": 2,
+        "lexicalTokenCount": 5,
+        "typeCount": 3,
+        "terms": {
+          "casa": {"frequency": 3, "relativeFrequency": 0.6, "documentFrequency": 2, "range": 2, "griesDP": 0.06666666666666667},
+          "città": {"frequency": 1, "relativeFrequency": 0.2, "documentFrequency": 1, "range": 1, "griesDP": 0.6},
+          "mare": {"frequency": 1, "relativeFrequency": 0.2, "documentFrequency": 1, "range": 1, "griesDP": 0.4}
+        },
+        "diversity": {"ttr": 0.6, "msttr": 0.75, "mattr": 0.875},
+        "bigramCounts": {"casa casa": 1, "casa città": 1, "casa mare": 1},
+        "matrix": {
+          "counts": [[2, 0, 1], [1, 1, 0]],
+          "tfidf": [[2.0, 0.0, 1.4054651081081644], [1.0, 1.4054651081081644, 0.0]]
+        }
+      },
+      "comparison": {"kind": "absoluteTolerance", "value": 1e-12}
     }
   ]
 }

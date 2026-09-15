@@ -123,6 +123,48 @@ func projectPackageRejectsCorruptedObject() async throws {
     }
 }
 
+@Test("Il motore analizza una generazione verificata senza alterare il progetto")
+func engineAnalyzesVerifiedProjectGeneration() async throws {
+    try await withTemporaryProject { packageURL in
+        let project = try GlifiProjectPackage.create(at: packageURL)
+        let first = try GlifiTextImporter().importText(
+            from: Data("casa casa mare".utf8),
+            format: .plainText,
+            sourceRevisionID: SourceRevisionID(
+                uuid: try #require(UUID(uuidString: "00000000-0000-0000-0000-000000000001"))
+            )
+        )
+        let second = try GlifiTextImporter().importText(
+            from: Data("casa città".utf8),
+            format: .plainText,
+            sourceRevisionID: SourceRevisionID(
+                uuid: try #require(UUID(uuidString: "00000000-0000-0000-0000-000000000002"))
+            )
+        )
+        _ = try await project.importText(first)
+        let committed = try await project.importText(second)
+
+        let result = try await GlifiEngine().analyzeCorpus(
+            in: project,
+            options: try GlifiCorpusAnalysisOptions(
+                diversityWindowSize: 2,
+                ngramSizes: [2],
+                maximumDocumentCount: 2,
+                maximumSourceByteCount: 1_024,
+                maximumVocabularySize: 10,
+                maximumDistinctNGramCount: 10,
+                maximumNonZeroCellCount: 10
+            )
+        )
+
+        #expect(result.projectID == committed.projectID)
+        #expect(result.generation == 2)
+        #expect(result.analysis.documentCount == 2)
+        #expect(result.analysis.lexicalTokenCount == 5)
+        #expect(await project.snapshot() == committed)
+    }
+}
+
 private func withTemporaryProject(
     _ body: (URL) async throws -> Void
 ) async throws {

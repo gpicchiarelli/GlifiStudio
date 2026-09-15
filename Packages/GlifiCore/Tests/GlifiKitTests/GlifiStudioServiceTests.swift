@@ -55,6 +55,25 @@ func serviceMapsFailures() async {
     } catch {
         Issue.record("Tipo di errore inatteso")
     }
+
+    do {
+        _ = try GlifiStudioCorpusAnalysisOptions(
+            diversityWindowSize: 0,
+            ngramSizes: [6],
+            maximumDocumentCount: 1,
+            maximumSourceByteCount: 1,
+            maximumVocabularySize: 1,
+            maximumDistinctNGramCount: 1,
+            maximumNonZeroCellCount: 1
+        )
+        Issue.record("Erano attese opzioni analitiche non valide")
+    } catch let failure as GlifiStudioFailure {
+        #expect(failure.code == "analysis.invalid-options")
+        #expect(failure.category == "invalidInput")
+        #expect(failure.operation == "analyze")
+    } catch {
+        Issue.record("Tipo di errore inatteso")
+    }
 }
 
 @Test("GlifiKit crea, importa, riapre e chiude una sessione di progetto")
@@ -87,6 +106,16 @@ func serviceProjectSessionRoundTrip() async throws {
     #expect(query.matches[0].sourceRanges.count == 1)
     #expect(query.matches[0].sourceRanges[0].start == 4)
     #expect(query.matches[0].sourceRanges[0].end == 9)
+
+    let analysis = try await session.analyzeCorpus()
+    #expect(analysis.projectID == result.project.projectID)
+    #expect(analysis.generation == 1)
+    #expect(analysis.analysisIdentifier == "corpus-profile-it-v1")
+    #expect(analysis.corpusDigest.hasPrefix("sha256:"))
+    #expect(analysis.documentCount == 1)
+    #expect(analysis.lexicalTokenCount == 4)
+    #expect(analysis.terms.first?.term == "affidabile")
+    #expect(analysis.matrix.cells.count == 4)
     await session.close()
 
     await #expect(throws: GlifiStudioFailure.self) {

@@ -164,6 +164,32 @@ GlifiKit e GlifiCLI usano gli stessi `AnalysisPlanRevision`, `QueryAST`, Artifac
 errori tipizzati. Un errore di un ramo non annulla artefatti validi indipendenti;
 lo stato del piano rende visibili completezza e partial failure.
 
+### Slice implementata `corpus-profile-it-v1`
+
+La prima slice eseguibile acquisisce una generazione verificata, ordina le
+`SourceRevisionID` canonicamente e calcola in memoria entro limiti espliciti:
+
+- `D`, caratteri come extended grapheme cluster, frasi, `N`, `V`, frequenze
+  assolute/relative, document frequency e range;
+- `TTR-v1`, `MSTTR-v1` con `discard-remainder` e `MATTR-v1` sulla concatenazione
+  canonica delle revisioni, con finestra dichiarata;
+- n-grammi di parole che non attraversano il confine del documento e
+  `GriesDP-v1` sulla partizione per revisione;
+- matrice documento-termine sparsa con righe `SourceRevisionID`, colonne
+  lessicografiche, `TF-raw-v1`, `IDF-smooth-v1` e `TFIDF-v1`.
+
+L'identità `corpus-profile-it-v1` e il digest SHA-256 includono revisione,
+contenuto, contratto di estrazione e parametri analitici. I limiti predefiniti sono
+1.000 documenti, 256 MiB sorgente complessivi, 100.000 type, 100.000 n-grammi
+distinti e 500.000 celle non-zero. Cancellazione e superamento dei limiti producono
+failure tipizzate senza modificare la generazione.
+
+Questa slice è un risultato effimero di riferimento: non implementa ancora
+segmenti documentali, spill fuori memoria, AnalysisDescriptor/AnalysisNodeID,
+DAG, persistenza/deduplica degli Artifact, keyness, analisi temporale,
+Evidence/Finding/Caveat o planner. Non può quindi essere promossa a conformità
+completa GS-ANA-001 né al percorso Must 0.1.
+
 ## Conformità
 
 - golden decision table del planner e motivi di esclusione;

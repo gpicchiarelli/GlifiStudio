@@ -215,11 +215,12 @@
       ],
       "evidence": [
         "docs/evidenze/GS-VER-019-package-glifi-transazionale.md",
-        "docs/evidenze/GS-VER-020-query-ast-kwic-bounded.md"
+        "docs/evidenze/GS-VER-020-query-ast-kwic-bounded.md",
+        "docs/evidenze/GS-VER-022-profilo-corpus-riproducibile.md"
       ],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Status, profilo, ProjectSession, progetto/import e query bounded sono operativi; progressi, analisi, indice, streaming ed export restano da implementare."
+      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query e analisi descrittiva bounded sono operativi; progressi, planner/DAG, indice, streaming ed export restano da implementare."
     },
     {
       "id": "CMP-013",
@@ -566,6 +567,51 @@
       ],
       "fixtures": ["Fixtures/Markdown/v1/source.md"],
       "evidence": ["docs/evidenze/GS-VER-021-markdown-spanmap.md"],
+      "gate": "G3",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-033",
+      "clause": "GS-MET-001 § Slice corpus-profile-it-v1 bounded",
+      "specification": "docs/metodi-analitici/README.md",
+      "requirements": ["RF-019", "RF-020", "RF-026", "RF-027", "RF-029", "RF-030", "RF-035", "RQ-008"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiCorpusAnalysis.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiCorpusAnalysisTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift",
+        "Scripts/check-fixtures.py"
+      ],
+      "fixtures": ["Fixtures/Scientific/v1/reference-cases.json"],
+      "evidence": ["docs/evidenze/GS-VER-022-profilo-corpus-riproducibile.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-034",
+      "clause": "GS-API-001 § analyzeCorpus e CLI analyze bounded",
+      "specification": "docs/api/README.md",
+      "requirements": ["RF-023", "RQ-011", "RQ-060"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiCorpusAnalysisPresentation.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift",
+        "Scripts/verify.sh"
+      ],
+      "fixtures": [
+        "Fixtures/Persistence/v1/basic/source.txt",
+        "Fixtures/Markdown/v1/source.md"
+      ],
+      "evidence": ["docs/evidenze/GS-VER-022-profilo-corpus-riproducibile.md"],
       "gate": "G3",
       "status": "verified",
       "blockingReason": null

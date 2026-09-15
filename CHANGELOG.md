@@ -25,6 +25,11 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   `extractedUTF8` a `sourceBytes`, entità derivazionali e budget anti-lookahead.
 - Importazione, profilo e query Markdown condivisi da app, GlifiKit e GlifiCLI;
   le righe KWIC JSON espongono coordinate estratte e intervalli sorgente.
+- Profilo corpus `corpus-profile-it-v1` bounded e riproducibile con conteggi,
+  frequenze, document frequency/range, GriesDP-v1, n-grammi, TTR/MSTTR/MATTR e
+  matrice documento-termine sparsa con TF-raw/IDF-smooth/TFIDF versionati.
+- Operazione `analyzeCorpus` in GlifiCore/GlifiKit, comando CLI `analyze` con
+  JSON v1 completo, signpost locale allowlist e reference test indipendente.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

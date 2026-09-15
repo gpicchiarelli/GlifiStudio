@@ -14,6 +14,7 @@ enum GlifiMeasuredOperation: Sendable, CaseIterable {
     case tokenize
     case buildIndex
     case runQuery
+    case analyzeCorpus
     case runInference
 }
 
@@ -76,6 +77,12 @@ enum GlifiDiagnostics {
         case .runQuery:
             return try performanceSignposter.withIntervalSignpost(
                 "RunQuery",
+                id: signpostID,
+                around: body
+            )
+        case .analyzeCorpus:
+            return try performanceSignposter.withIntervalSignpost(
+                "AnalyzeCorpus",
                 id: signpostID,
                 around: body
             )

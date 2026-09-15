@@ -204,6 +204,73 @@ def validate_scientific(manifest: dict[str, Any], errors: list[str]) -> int:
                 for document in documents
             ]
             values = {"idf": idf, "vectors": vectors}
+        elif case_id == "corpus-profile-italian-two-documents":
+            documents = inputs["documents"]
+            window_size = inputs["windowSize"]
+            sequence = [term for document in documents for term in document]
+            terms = sorted(set(sequence))
+            document_counts = [Counter(document) for document in documents]
+            total_counts = Counter(sequence)
+            document_frequency = {
+                term: sum(term in document for document in documents) for term in terms
+            }
+            term_values = {}
+            for term in terms:
+                frequency = total_counts[term]
+                opportunities = [len(document) / len(sequence) for document in documents]
+                observed = [counts[term] / frequency for counts in document_counts]
+                term_values[term] = {
+                    "frequency": frequency,
+                    "relativeFrequency": frequency / len(sequence),
+                    "documentFrequency": document_frequency[term],
+                    "range": sum(counts[term] > 0 for counts in document_counts),
+                    "griesDP": 0.5
+                    * sum(abs(actual - expected) for actual, expected in zip(observed, opportunities, strict=True)),
+                }
+            complete_windows = [
+                sequence[start : start + window_size]
+                for start in range(0, len(sequence) - window_size + 1, window_size)
+            ]
+            moving_windows = [
+                sequence[start : start + window_size]
+                for start in range(len(sequence) - window_size + 1)
+            ]
+            bigrams = Counter(
+                " ".join(document[index : index + 2])
+                for document in documents
+                for index in range(len(document) - 1)
+            )
+            idf = {
+                term: math.log(
+                    (len(documents) + 1) / (document_frequency[term] + 1)
+                )
+                + 1
+                for term in terms
+            }
+            count_matrix = [
+                [counts[term] for term in terms] for counts in document_counts
+            ]
+            values = {
+                "documentCount": len(documents),
+                "lexicalTokenCount": len(sequence),
+                "typeCount": len(terms),
+                "terms": term_values,
+                "diversity": {
+                    "ttr": len(terms) / len(sequence),
+                    "msttr": sum(len(set(window)) / window_size for window in complete_windows)
+                    / len(complete_windows),
+                    "mattr": sum(len(set(window)) / window_size for window in moving_windows)
+                    / len(moving_windows),
+                },
+                "bigramCounts": dict(sorted(bigrams.items())),
+                "matrix": {
+                    "counts": count_matrix,
+                    "tfidf": [
+                        [count * idf[term] for count, term in zip(row, terms, strict=True)]
+                        for row in count_matrix
+                    ],
+                },
+            }
         else:
             errors.append(f"{case_id}: caso non riconosciuto dal ricalcolo")
             continue

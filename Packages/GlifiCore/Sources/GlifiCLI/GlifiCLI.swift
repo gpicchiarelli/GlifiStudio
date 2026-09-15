@@ -115,6 +115,25 @@ enum GlifiCLI {
                     )
                 )
             }
+        case let .analyze(projectURL):
+            let session = try await service.openProject(at: projectURL)
+            let result = try await session.analyzeCorpus()
+            await session.close()
+            switch request.format {
+            case .text:
+                print(
+                    "Corpus analizzato · generazione \(result.generation) · \(result.documentCount) documenti · \(result.sentenceCount) frasi · \(result.lexicalTokenCount) token · \(result.typeCount) type"
+                )
+                for term in result.terms.prefix(20) {
+                    print(
+                        "\(term.term)\t\(term.frequency)\tdf=\(term.documentFrequency)\tDP=\(term.griesDP)"
+                    )
+                }
+            case .json:
+                try writeJSON(
+                    SuccessEnvelope(command: request.command.name, result: result)
+                )
+            }
         }
     }
 
@@ -202,6 +221,7 @@ private struct CLIRequest {
           glifi [--format text|json] project validate <progetto.glifi>
           glifi [--format text|json] import <progetto.glifi> <fonte.txt>...
           glifi [--format text|json] query <progetto.glifi> --text <query>
+          glifi [--format text|json] analyze <progetto.glifi>
         """ + "\n"
 
     let format: CLIOutputFormat
@@ -258,6 +278,8 @@ private struct CLIRequest {
                 URL(fileURLWithPath: remaining[1]).standardizedFileURL,
                 remaining[3]
             )
+        } else if remaining.count == 2, remaining[0] == "analyze" {
+            command = .analyze(URL(fileURLWithPath: remaining[1]).standardizedFileURL)
         } else {
             throw CLIUsageError.invalidArguments
         }
@@ -272,6 +294,7 @@ private enum CLICommand {
     case projectValidate(URL)
     case importSources(URL, [URL])
     case query(URL, String)
+    case analyze(URL)
 
     var name: String {
         switch self {
@@ -281,6 +304,7 @@ private enum CLICommand {
         case .projectValidate: "project.validate"
         case .importSources: "import"
         case .query: "query"
+        case .analyze: "analyze"
         }
     }
 }
