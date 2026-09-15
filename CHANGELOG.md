@@ -16,6 +16,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 ### Modificato
 
 - Configurazione Dependabot con etichette controllate e aggiornamenti GitHub Actions raggruppati.
+- `actions/checkout` aggiornato dalla versione 5.1.0 alla 7.0.1 con SHA immutabile.
 
 ### Corretto
 

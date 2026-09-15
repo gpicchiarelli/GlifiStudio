@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.10.0 |
+| Versione | 0.11.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -24,3 +24,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-008 — Preparazione del repository GitHub privato](GS-VER-008-preparazione-github-privato.md) — Superato localmente; sostituita da GS-VER-010
 - [GS-VER-009 — Preflight App Store](GS-VER-009-preflight-app-store.md) — Superato localmente; submission bloccata dai gate reali
 - [GS-VER-010 — Attivazione del repository GitHub privato](GS-VER-010-attivazione-github-privato.md) — Superato con limitazioni del provider
+- [GS-VER-011 — Aggiornamento Dependabot di actions/checkout](GS-VER-011-aggiornamento-dependabot-checkout.md) — Superato con deroga temporanea CI
