@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-REP-005 |
 | Tipo | Descrizione della pipeline |
-| Versione | 1.4.0 |
+| Versione | 1.5.0 |
 | Stato | Configurato localmente |
 | Responsabile | Responsabile tecnico, da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -12,22 +12,30 @@
 
 ## Pipeline
 
-`.github/workflows/ci.yml` esegue il quality gate su pull request, push a `main` e avvio manuale. Il job early-fail `swift-style` verifica dialetto Swift e formattazione. Il job obbligatorio `verify` usa il runner Apple Silicon `xcode-27`, dipende da `swift-style`, applica una cache SPM deterministica e esegue lo stesso `Scripts/verify.sh` usato localmente.
+`.github/workflows/ci.yml` esegue il quality gate su pull request, push a `main` e
+avvio manuale con tre job:
+
+| Job | Runner | Ingresso locale | Ruolo |
+| --- | --- | --- | --- |
+| `static-quality` | `ubuntu-latest` | `Scripts/quality-static.sh` / `make quality-static` | Early-fail docs, compliance, segreti, dialetto e baseline statiche |
+| `format-check` | `xcode-27` | `check-swift-dialect` + `Scripts/format.sh --check` | Early-fail dialetto e formattazione Apple `swift-format` |
+| `verify` | `xcode-27` | `Scripts/verify.sh` / `make verify` | Gate completo obbligatorio; dipende dai due early-fail; cache SPM |
 
 `.github/workflows/app-store.yml` aggiunge il job obbligatorio
-`app-store-baseline`: ripete il gate completo e verifica analisi statica e archivi
-senza firma per entrambe le piattaforme. Il gate di submission finale non gira in
-CI finché richiede dati, firma e approvazioni esterne; viene invocato deliberatamente
-con `make app-store-submission-check`.
+`app-store-baseline` su `xcode-27`: ripete il gate completo e verifica analisi
+statica e archivi senza firma per entrambe le piattaforme, con cache SPM. Il gate
+di submission finale non gira in CI finché richiede dati, firma e approvazioni
+esterne; viene invocato deliberatamente con `make app-store-submission-check`.
 
-Il gate verifica repository e segreti, Xcode 27, Apple Swift 6.4 o successiva
-compatibile della serie 6, Swift 6 language mode, SwiftPM tools 6.4 e strict
-concurrency completa. Verifica inoltre identità, documentazione, architettura,
-localizzazione, baseline Apple, dialetto/formato Swift, test, smoke test CLI e build
-Debug/Release di macOS e iPadOS senza firma.
+Il gate completo verifica repository e segreti, Xcode 27, Apple Swift 6.4 o
+successiva compatibile della serie 6, Swift 6 language mode, SwiftPM tools 6.4 e
+strict concurrency completa. Verifica inoltre identità, documentazione,
+architettura, localizzazione, baseline Apple, dialetto/formato Swift, test, smoke
+test CLI e build Debug/Release di macOS e iPadOS senza firma.
 
 Il loop locale rapido è documentato in [GS-DEV-002](../loop-di-sviluppo-e-qualita.md)
-e deciso da ADR-0020: `make quality` non sostituisce `make verify`.
+e deciso da ADR-0020: `make quality` / `make quality-static` non sostituiscono
+`make verify`.
 
 ## Integrità della supply chain
 
@@ -43,7 +51,10 @@ Tag come `v5` sono leggibili ma mobili e non devono essere usati come riferiment
 
 Al 15 settembre 2026 il runner `xcode-27` è pubblicato da GitHub come immagine Apple Silicon in public preview e comprende Xcode 27 e gli SDK 27. La disponibilità, le caratteristiche e la tariffazione dei minuti per repository privati devono essere riverificate prima della creazione del remote e a ogni variazione del servizio.
 
-L'immagine preview può cambiare. `Scripts/check-toolchain.sh` trasforma una variazione incompatibile in un fallimento esplicito invece di costruire con una toolchain diversa senza evidenza.
+Il job `static-quality` usa Ubuntu soltanto per controlli che non richiedono Xcode,
+riducendo il consumo di minuti Apple Silicon sui fallimenti documentali o di
+policy. L'immagine preview Xcode può cambiare: `Scripts/check-toolchain.sh`
+trasforma una variazione incompatibile in un fallimento esplicito.
 
 ## Evoluzione
 
@@ -51,7 +62,7 @@ La cache SPM è attiva con chiave deterministica sul manifest e sui sorgenti del
 package e non contiene segreti. Coverage, benchmark e test UI si introducono quando
 esistono soglie reali. Workflow di firma e pubblicazione restano separati e
 richiedono un ambiente protetto. Il packaging senza firma è obbligatorio e non
-costituisce una release.
+costituisce una release. SwiftLint non è adottato.
 
 ## Stato remoto iniziale
 

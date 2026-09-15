@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.30.0 |
+| Versione | 0.31.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -107,7 +107,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-024](evidenze/GS-VER-024-analysis-descriptor-dag.md) | Slice parziale TV-004, TV-005, TV-027, TV-028, TV-054 e TV-060 | Superato localmente per descriptor canonico, DAG bounded, invalidazione e riuso | Persistenza/esecuzione acquisite da GS-VER-025/026; scheduler, recovery, fuzz e benchmark aperti |
 | [GS-VER-025](evidenze/GS-VER-025-persistenza-artifact-dag.md) | Slice parziale TV-001, TV-004, TV-005, TV-027, TV-051, TV-054, TV-060 e TV-072 | Superato localmente per persistenza Artifact/DAG, riapertura fail-closed e commit point | Non prova kill reale, power-loss, file provider, GC o planner; commit analisi acquisito da GS-VER-026 |
 | [GS-VER-026](evidenze/GS-VER-026-analisi-persistenti-riusabili.md) | Slice parziale TV-004, TV-005, TV-008, TV-011, TV-031, TV-054, TV-056, TV-060 e TV-073 | Superato localmente per commit e riuso di profilo corpus e keyness | Non prova altre famiglie, streaming/spill, concorrenza multiprocesso, planner, UI o hardware reale |
-| [GS-VER-027](evidenze/GS-VER-027-loop-qualita-dialetto-swift.md) | CV-020; porzione statica di TV-049; loop GS-DEV-002 / ADR-0020 | Superato parzialmente in cloud Linux | `swift format`, test e build demandati ai runner Xcode 27 |
+| [GS-VER-027](evidenze/GS-VER-027-loop-qualita-dialetto-swift.md) | CV-020; porzione statica di TV-049; loop GS-DEV-002 / ADR-0020; CI `static-quality`/`format-check`/`verify`/`app-store-baseline` | Superato parzialmente in cloud Linux | `swift format`, test e build demandati ai runner Xcode 27 |
 
 ## Catalogo delle verifiche pianificate
 

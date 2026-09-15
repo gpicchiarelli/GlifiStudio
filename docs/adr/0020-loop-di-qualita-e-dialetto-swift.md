@@ -5,7 +5,7 @@
 | Campo | Valore |
 | --- | --- |
 | Identificatore | GS-ADR-0020 |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Accettato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -38,8 +38,10 @@ stilistica e un percorso di sviluppo non equivalente alla CI.
    `make check-swift-dialect`, `make quality` e `make verify`.
 4. `make quality` esegue i controlli statici e stilistici senza build Xcode; non
    sostituisce `make verify`.
-5. La CI aggiunge il job early-fail `swift-style` e mantiene il job obbligatorio
-   `verify` che invoca `Scripts/verify.sh`, con cache SPM a chiave deterministica.
+5. La CI espone early-fail `static-quality` (Linux, senza Xcode) e `format-check`
+   (Xcode 27), e mantiene il job obbligatorio `verify` che invoca
+   `Scripts/verify.sh`, con cache SPM a chiave deterministica su `verify` e
+   `app-store-baseline`.
 6. Non si introducono pre-commit hook obbligatori; eventuali hook locali restano
    facoltativi e non normativi.
 

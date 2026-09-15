@@ -207,6 +207,7 @@ Il loop rapido senza build Xcode:
 
 ```sh
 make format
+make quality-static
 make quality
 ```
 
@@ -220,6 +221,7 @@ Controlli mirati:
 | `make check-swift-dialect` | Verifica dialetto Swift 6, `.swift-format` e coerenza Make/CI |
 | `make format` | Autofix di formattazione Swift su `Apps` e `Packages` |
 | `make lint` / `make format-check` | Formattazione Swift in modalità strict |
+| `make quality-static` | Docs, compliance, segreti, dialetto e baseline senza Swift format |
 | `make quality` | Controlli statici + dialetto + formattazione senza build Xcode |
 | `make test` | Test dei package Swift |
 | `make build-macos` | Build Debug macOS senza firma |

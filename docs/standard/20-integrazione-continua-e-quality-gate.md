@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-20 |
 | Tipo | Capitolo normativo |
-| Versione | 1.3.0 |
+| Versione | 1.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -13,9 +13,12 @@
 
 ## 20.1 Equivalenza locale e remota
 
-La CI **DEVE** invocare lo stesso ingresso versionato usato localmente. Una regola essenziale **NON DEVE** vivere soltanto nella configurazione del provider. `Scripts/verify.sh` è l'ingresso canonico della baseline corrente. Un job early-fail di stile/dialetto **PUÒ** precedere `verify`, ma **NON DEVE** sostituirlo né rinominare il check richiesto dalla ruleset.
+La CI **DEVE** invocare lo stesso ingresso versionato usato localmente. Una regola essenziale **NON DEVE** vivere soltanto nella configurazione del provider. `Scripts/verify.sh` è l'ingresso canonico della baseline corrente. Un job early-fail di controlli statici (docs, compliance, dialetto) **PUÒ** girare
+su runner Linux quando non richiede Xcode. Un job early-fail di formattazione
+Swift **DEVE** usare runner con Apple Swift della baseline. Nessuno dei due
+**DEVE** sostituire `verify` né rinominare i check richiesti dalla ruleset.
 
-Il loop locale rapido `make quality` **DEVE** restare un sottoinsieme non bloccante rispetto a `make verify`: utile per l'iterazione, insufficiente per l'integrazione.
+Il loop locale rapido `make quality` **DEVE** restare un sottoinsieme non bloccante rispetto a `make verify`: utile per l'iterazione, insufficiente per l'integrazione. `make quality-static` **DEVE** coprire i soli controlli eseguibili senza Apple Swift/Xcode.
 
 ## 20.2 Gate sempre obbligatori
 
@@ -58,4 +61,5 @@ L'assenza di un gate condizionale **DEVE** essere esplicita nello stato di adozi
 
 ## 20.5 Evidenze
 
-Il provider conserva log per diagnosi con retention minima adeguata. Un'evidenza controllata registra comando, revisione, ambiente, risultato e limiti senza copiare log contenenti dati sensibili. I job richiesti dalla ruleset si chiamano `verify` e `app-store-baseline`; `swift-style` è early-fail aggiuntivo e non li sostituisce.
+Il provider conserva log per diagnosi con retention minima adeguata. Un'evidenza controllata registra comando, revisione, ambiente, risultato e limiti senza copiare log contenenti dati sensibili. I job richiesti dalla ruleset si chiamano `verify` e `app-store-baseline`. I job
+early-fail `static-quality` e `format-check` sono aggiuntivi e non li sostituiscono.

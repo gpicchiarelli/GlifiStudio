@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-DEV-002 |
 | Tipo | Guida controllata del loop di sviluppo |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -26,7 +26,8 @@ sostituire il gate completo `make verify`.
 | `make format` | Prima di commitare sorgenti Swift | Riscrive `Apps` e `Packages` secondo `.swift-format` |
 | `make lint` / `make format-check` | Dopo `format` o in revisione | Controlla lo stile senza modificare i file |
 | `make check-swift-dialect` | Sempre nel loop e nel gate | Verifica language mode, concurrency, regole e CI |
-| `make quality` | Iterazione locale rapida | Controlli statici + dialetto + formattazione, senza build Xcode |
+| `make quality-static` | Iterazione senza toolchain Swift | Docs, compliance, segreti, dialetto e baseline statiche |
+| `make quality` | Iterazione locale rapida | `quality-static` + formattazione, senza build Xcode |
 | `make verify` | Prima di integrare | Gate completo locale, identico al job CI `verify` |
 | `make verify-app-store` | Modifiche ad app o distribuzione | Gate packaging senza firma |
 
@@ -65,11 +66,18 @@ privacy, packaging o metadati App Store eseguire anche `make verify-app-store`.
 
 `.github/workflows/ci.yml` esegue:
 
-1. `swift-style` — dialetto e formattazione early-fail;
-2. `verify` — `Scripts/verify.sh` con cache SPM deterministica.
+1. `static-quality` (Ubuntu) — docs, tracciabilità/compliance, segreti, naming,
+   repository, GitHub config, fixture, architettura, localizzazione, baseline
+   Apple/App Store e dialetto Swift, senza Xcode;
+2. `format-check` (Xcode 27) — dialetto machine-readable e `swift format` strict;
+3. `verify` (Xcode 27) — `Scripts/verify.sh` con cache SPM, dopo i due early-fail.
 
-Il check richiesto dalla ruleset resta `verify`. Un fallimento di stile o dialetto
-blocca l'integrazione; indebolire un controllo per ottenere verde è non conformità.
+`.github/workflows/app-store.yml` esegue `app-store-baseline` (Xcode 27) con cache
+SPM e `Scripts/verify-app-store.sh`.
+
+I check richiesti dalla ruleset restano `verify` e `app-store-baseline`. Un
+fallimento statico, di stile o dialetto blocca l'integrazione; indebolire un
+controllo per ottenere verde è non conformità.
 
 ## Riferimenti
 

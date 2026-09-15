@@ -58,6 +58,7 @@ REQUIRED_PATHS = (
     "Scripts/check-swift-dialect.py",
     "Scripts/format.sh",
     "Scripts/quality.sh",
+    "Scripts/quality-static.sh",
     "Scripts/github/audit-repository.py",
     "Scripts/github/configure-repository.sh",
     "Scripts/github/create-codeowners.sh",

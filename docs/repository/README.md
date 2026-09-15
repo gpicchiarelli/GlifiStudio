@@ -22,7 +22,7 @@ quelli che richiedono un piano o budget GitHub diverso.
 | GS-REP-002 | [Strategia Git e pull request](02-strategia-git-e-pull-request.md) | Operativo |
 | GS-REP-003 | [Configurazione GitHub](03-configurazione-github.md) | Applicata per le funzioni disponibili |
 | GS-REP-004 | [Sicurezza del repository](04-sicurezza-del-repository.md) | Operativo e progressivo |
-| GS-REP-005 | [CI e runner Xcode 27](05-ci-e-runner-xcode.md) | Configurato; esecuzione bloccata dal budget Actions |
+| GS-REP-005 | [CI e runner Xcode 27](05-ci-e-runner-xcode.md) | Configurato; `static-quality`/`format-check`/`verify`/`app-store-baseline` |
 | GS-REP-006 | [Segreti e firma Apple](06-segreti-e-firma-apple.md) | Divieto attivo; provisioning rinviato |
 | GS-REP-007 | [Backup e recupero](07-backup-e-recupero.md) | Da attivare e provare |
 | GS-REP-008 | [Passaggio futuro a pubblico](08-passaggio-a-pubblico.md) | Gate definito |

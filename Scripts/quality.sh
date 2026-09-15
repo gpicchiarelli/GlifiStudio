@@ -10,18 +10,7 @@ cd "$project_directory"
 
 print "Loop di qualità rapido (senza build Xcode)"
 
-Scripts/check-repository.py
-Scripts/check-secrets.py
-Scripts/check-github-config.py
-Scripts/check-naming.py
-Scripts/check-docs.py
-Scripts/check-compliance.py
-Scripts/check-fixtures.py
-Scripts/check-architecture.sh
-Scripts/check-localization.py
-Scripts/check-apple-baseline.py
-Scripts/check-app-store-baseline.py
-Scripts/check-swift-dialect.py
+Scripts/quality-static.sh
 Scripts/format.sh --check
 
 print "quality: controlli statici, dialetto Swift e formattazione superati"

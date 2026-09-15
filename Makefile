@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY: bootstrap check-app-store app-store-submission-check check-apple check-architecture check-compliance check-docs check-fixtures check-github check-localization check-naming check-repository check-secrets check-swift-dialect check-toolchain format format-check github-plan github-apply github-audit github-codeowners lint quality test build-macos build-ipados verify verify-app-store
+.PHONY: bootstrap check-app-store app-store-submission-check check-apple check-architecture check-compliance check-docs check-fixtures check-github check-localization check-naming check-repository check-secrets check-swift-dialect check-toolchain format format-check github-plan github-apply github-audit github-codeowners lint quality quality-static test build-macos build-ipados verify verify-app-store
 
 check-app-store:
 	./Scripts/check-app-store-baseline.py
@@ -64,6 +64,9 @@ format:
 
 format-check lint:
 	./Scripts/format.sh --check
+
+quality-static:
+	./Scripts/quality-static.sh
 
 quality:
 	./Scripts/quality.sh

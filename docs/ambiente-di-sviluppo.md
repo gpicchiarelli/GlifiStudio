@@ -101,7 +101,8 @@ I controlli singoli sono disponibili con `make check-docs`, `make check-localiza
 `make check-apple`, `make check-app-store`, `make check-architecture`,
 `make check-swift-dialect`, `make lint` e `make test`. Il loop rapido
 `make quality` esegue controlli statici, dialetto e formattazione senza build
-Xcode; `make verify` resta il gate completo da eseguire prima di integrare una
+Xcode; `make quality-static` omette la formattazione ed è il contratto del job CI
+Linux. `make verify` resta il gate completo da eseguire prima di integrare una
 modifica. Il contratto operativo è in [GS-DEV-002](loop-di-sviluppo-e-qualita.md).
 
 Per modifiche all'app o alla distribuzione, `make verify-app-store` aggiunge analisi

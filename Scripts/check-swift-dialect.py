@@ -184,6 +184,7 @@ def validate_developer_loop(errors: list[str]) -> None:
         "format:",
         "format-check",
         "quality:",
+        "quality-static:",
         "check-swift-dialect:",
         "verify:",
     ):
@@ -193,6 +194,8 @@ def validate_developer_loop(errors: list[str]) -> None:
         errors.append("Makefile: target lint mancante")
     if ".PHONY:" not in makefile or "check-swift-dialect" not in makefile:
         errors.append("Makefile: target di qualità non esposti in .PHONY")
+    if "quality-static" not in makefile:
+        errors.append("Makefile: target quality-static mancante")
 
     if not CI_WORKFLOW.is_file():
         errors.append(".github/workflows/ci.yml mancante")
@@ -203,10 +206,26 @@ def validate_developer_loop(errors: list[str]) -> None:
         errors.append("ci.yml: job obbligatorio verify non dichiarato")
     if "./Scripts/verify.sh" not in workflow and "Scripts/verify.sh" not in workflow:
         errors.append("ci.yml: deve invocare Scripts/verify.sh")
-    if "swift-style" not in workflow:
-        errors.append("ci.yml: job early-fail swift-style mancante")
+    if "static-quality" not in workflow:
+        errors.append("ci.yml: job early-fail static-quality mancante")
+    if "format-check" not in workflow:
+        errors.append("ci.yml: job early-fail format-check mancante")
+    if "quality-static.sh" not in workflow:
+        errors.append("ci.yml: deve invocare Scripts/quality-static.sh")
     if "org.swift.swiftpm" not in workflow:
         errors.append("ci.yml: cache SPM deterministica mancante")
+
+    app_store_workflow = PROJECT_DIRECTORY / ".github/workflows/app-store.yml"
+    if not app_store_workflow.is_file():
+        errors.append(".github/workflows/app-store.yml mancante")
+    else:
+        app_store_body = app_store_workflow.read_text(encoding="utf-8")
+        if "app-store-baseline" not in app_store_body:
+            errors.append("app-store.yml: job app-store-baseline mancante")
+        if "org.swift.swiftpm" not in app_store_body:
+            errors.append("app-store.yml: cache SPM deterministica mancante")
+        if "verify-app-store.sh" not in app_store_body:
+            errors.append("app-store.yml: deve invocare Scripts/verify-app-store.sh")
 
 
 def main() -> int:
