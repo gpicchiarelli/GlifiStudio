@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-01 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -91,3 +91,20 @@ presentazionali. Collisioni, versioni sconosciute e dipendenze non risolvibili
 - navigazione campionata dal risultato alla fonte corretta;
 - classificazione exact/contributive/derivational e rifiuto dei falsi exact;
 - rifiuto di descrittori incompleti, versioni ignote e dipendenze incoerenti.
+
+## Profilo implementato `studio.glifi.analysis-descriptor.v1`
+
+GlifiCore espone un primo descrittore `Codable`, immutabile e `Sendable` che
+risolve esplicitamente algoritmo/versione, corpus/versione, selezione, unità,
+preprocessing, profili linguistici, rappresentazione, parametri, seed, backend,
+policy numerica, classe D0/D1/P1/N1, schema di output, software e dipendenze.
+
+I parametri usano un'algebra tagged priva di ambiguità tra booleani, interi,
+binary64, testo, liste e oggetti. Float non finiti sono rifiutati, signed zero e
+Unicode sono canonicalizzati, le chiavi collidenti dopo NFC falliscono e il JSON
+usa chiavi ordinate. Il digest completo e `AnalysisNodeID` SHA-256 usano domain
+separation; decodifica, versione e identità sono rivalidate fail-closed.
+
+Il profilo costituisce la fondazione logica: non rende ancora persistenti
+descriptor e Artifact nel package `.glifi` e non implementa lineage a livello di
+cella o valore.

@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-ANA-001 |
 | Tipo | Specifica di design del sistema analitico |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -166,6 +166,12 @@ lo stato del piano rende visibili completezza e partial failure.
 
 ### Slice implementate di analisi bounded
 
+La fondazione `studio.glifi.analysis-descriptor.v1`/`analysis-dag-v1` implementa
+identità SHA-256 domain-separated, parametri canonici, round-trip fail-closed,
+deduplica, validazione aciclica e di schema, ordine topologico, sottografo minimo,
+invalidazione transitiva esatta e riuso condizionato dell'intera catena di
+Artifact. Il grafo resta bounded a 10.000 nodi e 50.000 archi.
+
 La prima slice eseguibile acquisisce una generazione verificata, ordina le
 `SourceRevisionID` canonicamente e calcola in memoria entro limiti espliciti:
 
@@ -193,8 +199,8 @@ ordinamento e digest sono parte del risultato. Il limite sul numero di ipotesi �
 applicato prima di costruire le righe finali.
 
 Queste slice sono risultati effimeri di riferimento: non implementano ancora
-segmenti documentali, spill fuori memoria, AnalysisDescriptor/AnalysisNodeID,
-DAG, persistenza/deduplica degli Artifact, analisi temporale,
+segmenti documentali, spill fuori memoria, persistenza transazionale e
+deduplica fisica di DAG/Artifact, analisi temporale,
 Evidence/Finding/Caveat o planner. Non possono quindi essere promosse a conformità
 completa GS-ANA-001 né al percorso Must 0.1.
 

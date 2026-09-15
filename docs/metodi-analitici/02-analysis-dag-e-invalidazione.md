@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-02 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -83,3 +83,20 @@ esaurimento memoria.
 - equivalenza tra esecuzione completa e ripresa da checkpoint;
 - stesso artefatto semantico con ordini di scheduling differenti entro la politica
   numerica dichiarata.
+
+## Profilo implementato `analysis-dag-v1`
+
+La prima struttura GlifiCore accetta candidati bounded, deduplica identità
+semanticamente equivalenti, convalida dipendenze e schema, rifiuta riferimenti
+mancanti, collisioni, cicli e superamento dei limiti, quindi produce un ordine
+topologico deterministico con tie-break su `AnalysisNodeID`.
+
+Il grafo immutabile calcola il sottografo minimo di un risultato, l'insieme esatto
+formato da nodi cambiati e discendenti e il riuso selettivo. Un Artifact è
+riusabile soltanto se stato, digest del descriptor, schema, digest e catena di
+dipendenze coincidono. Graph, node, descriptor e riferimenti Artifact hanno
+round-trip validato; indici derivati non sono serializzati e vengono ricostruiti.
+
+I limiti predefiniti sono 10.000 nodi e 50.000 archi. Persistenza transazionale,
+checkpoint, scheduling/esecuzione e invalidazione committata nel package restano
+fuori da questa slice logica.

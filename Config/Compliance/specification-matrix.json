@@ -220,7 +220,7 @@
       ],
       "gate": "G2",
       "status": "blocked",
-      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query, analisi descrittiva e keyness bounded sono operativi; progressi, planner/DAG, indice, streaming ed export restano da implementare."
+      "blockingReason": "Status, profilo, ProjectSession, progetto/import, query, analisi descrittiva, keyness e DAG logico bounded sono operativi; progressi, planner, persistenza DAG, indice, streaming ed export restano da implementare."
     },
     {
       "id": "CMP-013",
@@ -657,6 +657,35 @@
       ],
       "evidence": ["docs/evidenze/GS-VER-023-keyness-gtest-bh.md"],
       "gate": "G3",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-037",
+      "clause": "GS-MET-001-01 § AnalysisDescriptor canonico v1",
+      "specification": "docs/metodi-analitici/01-analysis-descriptor-e-provenienza.md",
+      "requirements": ["RF-075", "RF-081", "RQ-008"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiIdentifiers.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiAnalysisGraph.swift"
+      ],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisGraphTests.swift"],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-024-analysis-descriptor-dag.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-038",
+      "clause": "GS-MET-001-02 § Analysis DAG logico bounded",
+      "specification": "docs/metodi-analitici/02-analysis-dag-e-invalidazione.md",
+      "requirements": ["RF-011", "RF-081", "RQ-059"],
+      "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiAnalysisGraph.swift"],
+      "tests": ["Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisGraphTests.swift"],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-024-analysis-descriptor-dag.md"],
+      "gate": "G2",
       "status": "verified",
       "blockingReason": null
     }

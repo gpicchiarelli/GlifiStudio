@@ -35,6 +35,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   conteggi attesi, digest, limiti e fixture indipendente.
 - Operazione `compareKeyness`, identificatori revisioni nello snapshot pubblico e
   comando CLI `keyness` testuale/JSON v1 con contract smoke end-to-end.
+- `AnalysisDescriptor` v1 canonico con algebra di parametri tagged,
+  `AnalysisNodeID`/`ArtifactID` SHA-256 tipizzati e decodifica fail-closed.
+- Analysis DAG bounded con deduplica, verifica di cicli/dipendenze/schema, ordine
+  topologico, sottografo minimo, invalidazione transitiva e riuso selettivo.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

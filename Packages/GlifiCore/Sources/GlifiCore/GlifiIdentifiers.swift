@@ -8,6 +8,78 @@ public protocol GlifiIdentifierKind: Sendable {
     static var namespace: String { get }
 }
 
+/// Supplies the stable namespace for a content-addressed Glifi identifier.
+public protocol GlifiDigestIdentifierKind: Sendable {
+    /// Stable namespace serialized before the SHA-256 digest.
+    static var namespace: String { get }
+}
+
+/// A SHA-256-backed identifier for immutable semantic objects.
+public struct GlifiDigestIdentifier<Kind: GlifiDigestIdentifierKind>:
+    Codable, CustomStringConvertible, Hashable, Sendable
+{
+    private let digestValue: String
+
+    /// Creates an identifier from a lowercase `sha256:` digest.
+    public init(digest: String) throws {
+        guard Self.isValidDigest(digest) else {
+            throw GlifiFailure(
+                code: "identifier.invalid-digest",
+                category: .invalidInput,
+                operation: .analyze,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.identifier.invalid-digest"
+            )
+        }
+        digestValue = digest
+    }
+
+    /// Restores a namespaced content identifier.
+    public init(canonicalValue: String) throws {
+        let prefix = "\(Kind.namespace):"
+        guard canonicalValue.hasPrefix(prefix) else {
+            throw GlifiFailure(
+                code: "identifier.invalid-digest",
+                category: .invalidInput,
+                operation: .analyze,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.identifier.invalid-digest"
+            )
+        }
+        try self.init(digest: String(canonicalValue.dropFirst(prefix.count)))
+    }
+
+    /// The underlying content digest.
+    public var digest: String { digestValue }
+
+    /// Stable namespaced representation.
+    public var canonicalValue: String { "\(Kind.namespace):\(digestValue)" }
+
+    /// Canonical textual description.
+    public var description: String { canonicalValue }
+
+    /// Decodes and validates the canonical representation.
+    public init(from decoder: any Decoder) throws {
+        let container = try decoder.singleValueContainer()
+        try self.init(canonicalValue: container.decode(String.self))
+    }
+
+    /// Encodes the canonical representation.
+    public func encode(to encoder: any Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(canonicalValue)
+    }
+
+    private static func isValidDigest(_ value: String) -> Bool {
+        guard value.hasPrefix("sha256:"), value.count == 71 else { return false }
+        return value.dropFirst(7).allSatisfy { character in
+            "0123456789abcdef".contains(character)
+        }
+    }
+}
+
 /// A UUID-backed identifier whose phantom kind prevents cross-entity comparison.
 public struct GlifiIdentifier<Kind: GlifiIdentifierKind>:
     Codable, CustomStringConvertible, Hashable, Sendable
@@ -128,6 +200,18 @@ public enum OperationIdentifierKind: GlifiIdentifierKind {
     public static let namespace = "operation"
 }
 
+/// Phantom kind for semantic analysis nodes.
+public enum AnalysisNodeIdentifierKind: GlifiDigestIdentifierKind {
+    /// Stable analysis-node namespace.
+    public static let namespace = "analysis-node"
+}
+
+/// Phantom kind for immutable analytical artifacts.
+public enum ArtifactIdentifierKind: GlifiDigestIdentifierKind {
+    /// Stable artifact namespace.
+    public static let namespace = "artifact"
+}
+
 /// Strongly typed identifier for a project aggregate.
 public typealias ProjectID = GlifiIdentifier<ProjectIdentifierKind>
 /// Strongly typed identifier for a source entity.
@@ -146,3 +230,7 @@ public typealias CorpusVersionID = GlifiIdentifier<CorpusVersionIdentifierKind>
 public typealias InvestigationID = GlifiIdentifier<InvestigationIdentifierKind>
 /// Strongly typed identifier for a runtime operation.
 public typealias OperationID = GlifiIdentifier<OperationIdentifierKind>
+/// Strongly typed content identity for an analysis node.
+public typealias AnalysisNodeID = GlifiDigestIdentifier<AnalysisNodeIdentifierKind>
+/// Strongly typed content identity for an immutable analytical artifact.
+public typealias ArtifactID = GlifiDigestIdentifier<ArtifactIdentifierKind>

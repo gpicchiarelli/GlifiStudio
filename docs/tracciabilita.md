@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.26.0 |
+| Versione | 0.27.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,10 +21,10 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, RF-050–RF-056, RF-079–RF-081, CV-006 | VA-01, VA-02, VA-06, VA-07, GS-LNG-001, GS-QRY-001, GS-ANA-001, ADR-0013–ADR-0016 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030, TV-039–TV-041, TV-052–TV-054 | Slice TXT/Markdown, query/KWIC e profilo corpus descrittivo bounded verificati; indice, DAG e analisi complete aperti |
 | NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RF-077–RF-078, RF-084, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, GS-DAT-001, GS-VIZ-001, ADR-0013, ADR-0016 | TV-003, TV-004, TV-006, TV-027, TV-035, TV-051, TV-058 | SourceRevision, coordinate estratte e SpanMap verso byte originali verificati; navigazione UI aperta |
 | NS-003 Elaborare corpus massivi | RF-014, RQ-001, RQ-002, RQ-006, RQ-009, RQ-015, RQ-016, RQ-018, RQ-041, RQ-048, RQ-052–RQ-055, CV-013, CV-016 | VA-03, VA-04, GS-RUN-001, GS-APL-015, ADR-0008, ADR-0016, ADR-0018 | TV-009, TV-010, TV-019, TV-056–TV-057, TV-065–TV-068 | Policy runtime attiva; sorgenti eventi, baseline hardware e soglie da misurare |
-| NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RF-047–RF-048, RF-070–RF-071, RF-075–RF-077, RF-081, RQ-004, RQ-033, RQ-043, RQ-059 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, GS-ANA-001, ADR-0014, ADR-0016, ADR-0019 | TV-001, TV-005, TV-037, TV-047, TV-050–TV-051, TV-054, TV-060, TV-072 | Package generazionale riapribile verificato; recovery completa e riuso analitico aperti |
+| NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RF-047–RF-048, RF-070–RF-071, RF-075–RF-077, RF-081, RQ-004, RQ-033, RQ-043, RQ-059 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, GS-ANA-001, ADR-0014, ADR-0016, ADR-0019 | TV-001, TV-005, TV-037, TV-047, TV-050–TV-051, TV-054, TV-060, TV-072 | Package generazionale e riuso selettivo del DAG logico verificati; persistenza Artifact e recovery completa aperte |
 | NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Keyness fra revisioni esplicite verificata; selezione metadata-first incompleta |
 | NS-006 Usare capacità headless e automatizzabili | RF-023, RF-080, RF-083, RQ-058, RQ-060, CV-003 | VA-01, VA-02, GS-QRY-001, GS-ANA-001, GS-API-001, ADR-0002, ADR-0016, ADR-0019 | TV-011, TV-053, TV-056, TV-071, TV-073 | Status, progetto/import, query, profilo corpus e keyness GlifiKit/CLI verificati; piano, progressi ed export aperti |
-| NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RF-076, RF-081–RF-083, RQ-003, RQ-007–RQ-018, RQ-023–RQ-029, RQ-043–RQ-062, CV-014, CV-016 | VA-03–VA-06, GS-DAT-001, GS-ANA-001, GS-VAL-001, GS-SEC-001, GS-API-001, GS-APL-014–GS-APL-015, ADR-0006, ADR-0008, ADR-0013, ADR-0016–ADR-0019 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033, TV-051, TV-054–TV-075 | Contratti e matrice meccanica definiti; prove funzionali/scientifiche reali incomplete |
+| NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RF-076, RF-081–RF-083, RQ-003, RQ-007–RQ-018, RQ-023–RQ-029, RQ-043–RQ-062, CV-014, CV-016 | VA-03–VA-06, GS-DAT-001, GS-ANA-001, GS-VAL-001, GS-SEC-001, GS-API-001, GS-APL-014–GS-APL-015, ADR-0006, ADR-0008, ADR-0013, ADR-0016–ADR-0019 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033, TV-051, TV-054–TV-075 | Descriptor/DAG e prime analisi hanno prove riproducibili; validazione completa, hardware e studi restano incompleti |
 | NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RF-083, RF-086, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, RQ-047, RQ-049–RQ-056, CV-001–CV-020 | VA-01, VA-02, VA-04, VA-05, VA-07, GS-UI-001, GS-PROD-001, GS-APL-014–GS-APL-015, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014–ADR-0018 | TV-013, TV-015–TV-025, TV-044, TV-048–TV-049, TV-058, TV-061–TV-069 | Primo flusso condiviso compila; audit UI, hardware e percorso Must restano incompleti |
 | NS-009 Comprendere metodi e limiti | RF-026–RF-038, RF-042, RF-044–RF-046, RQ-023, RQ-025–RQ-028 | VA-06, ADR-0013, GS-MET-001 | TV-026–TV-032, TV-034–TV-036 | Profilo corpus e keyness bounded verificati; restanti metodi e review scientifica esterna aperti |
 | NS-010 Analizzare metadati e tempo | RF-029, RF-031, RF-032, RF-035, RF-040 | VA-03, VA-06, GS-MET-001-17 | TV-027, TV-029–TV-031 | Contratto definito; implementazione mancante |
@@ -74,7 +74,7 @@ path esistenti e impedisce le promozioni prive delle prove minime.
 | `verified` | prova riproducibile registrata | specifica, requisito, codice, test ed evidenza |
 | `blocked` | lavoro impedito da una lacuna esplicita | specifica, requisito e `blockingReason` |
 
-La matrice include 36 clausole ad alto rischio e rende visibili, senza
+La matrice include 38 clausole ad alto rischio e rende visibili, senza
 falsi positivi, le lacune su corpus italiano, baseline numerica, SupportPolicy e
 ranking, studi UX, PDF/OCR e hardware. La domanda “GS-DAT, protocollo di commit: è
 implementato e provato?” ottiene quindi stato, percorsi e blocco dalla stessa riga.
@@ -104,6 +104,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-021](evidenze/GS-VER-021-markdown-spanmap.md) | Slice parziale TV-002, TV-003, TV-007, TV-051, TV-060 e TV-073 | Superato localmente per estrazione Markdown, SpanMap e sourceRanges | Non prova document model/CommonMark completo, streaming, fuzz o navigazione UI |
 | [GS-VER-022](evidenze/GS-VER-022-profilo-corpus-riproducibile.md) | Slice parziale TV-008, TV-011, TV-029, TV-030, TV-056, TV-064 e TV-073 | Superato localmente per profilo corpus bounded e reference seed indipendente | Non prova segmenti, streaming/spill, DAG/Artifact, keyness, tempo, UI, export o benchmark |
 | [GS-VER-023](evidenze/GS-VER-023-keyness-gtest-bh.md) | Slice parziale TV-008, TV-011, TV-031, TV-056, TV-064 e TV-073 | Superato localmente per keyness G-test/effect/BH bounded e reference seed indipendente | Non prova Artifact persistiti, Fisher/CI, corpus gold, UI, review esterna o benchmark |
+| [GS-VER-024](evidenze/GS-VER-024-analysis-descriptor-dag.md) | Slice parziale TV-004, TV-005, TV-027, TV-028, TV-054 e TV-060 | Superato localmente per descriptor canonico, DAG bounded, invalidazione e riuso | Non prova persistenza Artifact, checkpoint, scheduler, recovery, fuzz o benchmark |
 
 ## Catalogo delle verifiche pianificate
 
