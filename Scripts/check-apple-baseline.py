@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import plistlib
+import re
 import sys
 from pathlib import Path
 
@@ -94,6 +95,7 @@ def main() -> int:
                 )
 
     project = read("GlifiStudio.xcodeproj/project.pbxproj")
+    package_manifest = read("Packages/GlifiCore/Package.swift")
     base_configuration = read("Config/Base.xcconfig")
     debug_configuration = read("Config/Debug.xcconfig")
     macos_debug_configuration = read("Config/macOS-Debug.xcconfig")
@@ -317,7 +319,30 @@ def main() -> int:
             if fragment in body:
                 errors.append(f"Assertion energetica non autorizzata in {relative_path}: {fragment}")
 
-    dependency_surfaces = "\n".join((read("Packages/GlifiCore/Package.swift"), project))
+    # The 0.1 allowlist is intentionally empty. Any external package or linked
+    # framework must first update requirements, an ADR, and this explicit policy.
+    if re.search(r"\.package\s*\(", package_manifest):
+        errors.append("La allowlist SwiftPM esterna della baseline 0.1 deve restare vuota.")
+
+    forbidden_project_dependency_markers = (
+        "XCRemoteSwiftPackageReference",
+        "repositoryURL =",
+        ".xcframework",
+        ".framework",
+    )
+    for marker in forbidden_project_dependency_markers:
+        if marker in project:
+            errors.append(
+                f"Dipendenza o framework fuori dalla allowlist vuota della baseline: {marker}"
+            )
+
+    for dependency_manifest in ("Podfile", "Cartfile", "Mintfile"):
+        if (PROJECT_DIRECTORY / dependency_manifest).exists():
+            errors.append(
+                f"Gestore di dipendenze fuori dalla allowlist della baseline: {dependency_manifest}"
+            )
+
+    dependency_surfaces = "\n".join((package_manifest, project))
     for fragment in (*forbidden_telemetry_fragments, *forbidden_network_fragments):
         if fragment.casefold() in dependency_surfaces.casefold():
             errors.append(f"Dipendenza operativa non autorizzata: {fragment}")

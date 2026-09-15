@@ -37,8 +37,9 @@
 - 174 file documentali e 173 identificatori univoci sono validi e tutti i link
   locali si risolvono;
 - il gate Apple riconosce 15 documenti di profilo, il privacy manifest vuoto e gli
-  entitlement minimi; respinge logging laterale, `print`, rete, MetricKit e SDK di
-  telemetria noti;
+  entitlement minimi; impone una allowlist esterna vuota e respinge package remoti,
+  framework collegati, gestori di dipendenze, logging laterale, `print`, rete e
+  MetricKit;
 - `GlifiTelemetryPolicy` disabilita telemetria remota/di terzi, export automatico e
   contenuto del corpus nella diagnostica;
 - `GlifiRuntimePolicy` limita il parallelismo a otto e produce decisioni

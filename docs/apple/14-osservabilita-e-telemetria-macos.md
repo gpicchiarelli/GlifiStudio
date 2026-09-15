@@ -36,8 +36,12 @@ La baseline è **senza telemetria gestita dall'app**:
   retention, threat model, aggiornamento delle dichiarazioni e un nuovo ADR.
 
 La proprietà `GlifiTelemetryPolicy` rende interrogabili questi divieti dal codice.
-Il quality gate respinge dipendenze di telemetria note, `MetricKit` sottoscritto,
-rete applicativa e logging non centralizzato.
+La allowlist delle dipendenze esterne e dei framework collegati è vuota nella 0.1:
+il quality gate respinge ogni nuovo package remoto, framework binario o gestore di
+dipendenze, oltre a `MetricKit` sottoscritto, rete applicativa e logging non
+centralizzato. Un framework Apple o package futuro entra nell'allowlist soltanto
+insieme a requisito, ADR e verifica applicabili; una denylist di vendor è solo
+difesa aggiuntiva e non costituisce prova di conformità.
 
 ## Diagnostica Apple di produzione
 
@@ -111,7 +115,8 @@ La 0.1 non espone un bundle diagnostico. Prima di introdurlo sono obbligatori:
 
 ## Gate di conformità
 
-- audit statico di import, dipendenze, endpoint, `print` e istanze OSLog;
+- audit statico con allowlist di package/framework, import, endpoint, `print` e
+  istanze OSLog;
 - test della policy `GlifiTelemetryPolicy` e del wrapper dei signpost;
 - confronto fra privacy manifest, binario, dichiarazione App Store e dipendenze;
 - ispezione Console/Instruments con corpus canary prima di ogni release candidate;
