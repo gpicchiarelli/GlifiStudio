@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-VAL-001 |
 | Tipo | Specifica di validazione e correttezza |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -70,6 +70,13 @@ Ogni caso contiene input minimo, output atteso o proprietà, provenienza/licenza
 digest, generatore opzionale, motivo della presenza e responsabile della review.
 Corpus reali sensibili e output non redistribuibili non entrano nel repository.
 Generatori sintetici sono seedati e conservano la versione.
+
+La collezione `Fixtures/Scientific/v1` è un seed V1 pre-review: contiene quattro
+casi sintetici per χ²/Cramér's V, cosine, PMI/NPMI e TF-IDF smoothed. Il gate li
+ricalcola senza codice prodotto, ma non li promuove a V2/V4: mancano ancora
+implementazione esterna revisionata, dataset indipendenti e copertura delle altre
+varianti Must. Dopo la promozione i casi vengono ripartiti per method ID secondo la
+struttura canonica sopra, conservando il seed originario.
 
 ## Protocollo numerico
 

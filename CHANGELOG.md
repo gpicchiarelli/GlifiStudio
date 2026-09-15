@@ -32,6 +32,16 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   centralizzato, signpost tipizzati e Xcode Organizer come canale di campo.
 - ADR-0018 e `GlifiRuntimePolicy` per Low Power Mode, termica, pressione memoria,
   lifecycle, QoS, App Nap e parallelismo adattivo coperti da test.
+- GS-SEC-001 con asset, trust boundary, minacce THR-001–THR-020, input ostili,
+  resource exhaustion, modelli, logging, export e gate di sicurezza.
+- GS-API-001 per lifecycle GlifiKit, structured concurrency, progressi,
+  cancellazione, failure semantics, CLI, exit status e compatibilità pre-1.0.
+- Matrice di conformità machine-readable e `make check-compliance`, con stati
+  verificabili e blocchi espliciti per le evidenze ancora mancanti.
+- Seed verificabili per otto casi linguistici italiani, quattro riferimenti
+  numerici e dieci descrittori avversari safe-by-construction.
+- ADR-0019 e Definition of Ready rafforzata per spostare il progetto dalla
+  completezza documentale alla prova di implementazione.
 
 ### Modificato
 
@@ -45,6 +55,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   versione minima compatibile, sul language mode e sulla strict concurrency.
 - Quality gate Apple esteso per respingere logging libero, output non strutturato,
   rete, MetricKit e SDK di telemetria non autorizzati.
+- GS-DAT-001 esteso con commit point formale, recovery per operazione e schema
+  riproducibile ExportManifest v1.
+- Modello trasversale degli errori esteso con categorie, retry, terminali e stato
+  che rimane valido.
 
 ### Corretto
 

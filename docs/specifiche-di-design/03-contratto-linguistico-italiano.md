@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-LNG-001 |
 | Tipo | Specifica di design linguistico |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -119,8 +119,11 @@ usa la stessa versione della vista interrogata.
 
 ## Corpus gold italiano
 
-`Fixtures/Linguistics/it-v1` dovrà contenere esclusivamente testo sintetico,
-pubblico dominio o redistribuibile, con manifest di licenza. Deve coprire almeno:
+`Fixtures/Linguistics/it-v1` contiene un primo seed BSD-3-Clause di otto casi con
+offset UTF-8 verificati automaticamente. È un avvio V1, non un corpus gold
+approvato: split, review annotatori, lemma/POS/NER, soglie e deriva restano da
+acquisire. La collezione completa deve contenere esclusivamente testo sintetico,
+pubblico dominio o redistribuibile, con manifest di licenza, e coprire almeno:
 
 - apostrofi ASCII/tipografici, elisioni e citazioni;
 - clitici semplici/composti e forme ambigue;
@@ -141,6 +144,9 @@ media globale non può nascondere regressioni su classi critiche.
 - metamorphic test NFC/NFD, newline e apostrofo senza perdita di lineage;
 - valutazione lemma/POS/NER con precision, recall, F1, accuracy e bootstrap CI;
 - confronto delle versioni con rapporto di deriva prima della promozione.
+
+`make check-fixtures` verifica integrità interna del seed e non sostituisce la
+valutazione del backend o l'approvazione di DA-008.
 
 ## Riferimenti tecnici
 

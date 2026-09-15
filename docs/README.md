@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-IDX-001 |
 | Tipo | Indice degli information item |
-| Versione | 0.18.0 |
+| Versione | 0.19.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -31,6 +31,8 @@ Lo [Standard di progetto](standard-di-progetto.md) è la norma interna principal
 | GS-MET-001 | [Specifica normativa dei metodi analitici](metodi-analitici/README.md) | Contratti matematici, statistici, linguistici e algoritmici verificabili | Letteratura scientifica primaria; ADR-0013 | Bozza controllata |
 | GS-UX-001 | [Specifica dell'esperienza utente](esperienza-utente/README.md) | Paradigma d'indagine, intenzioni, planner, findings, navigazione e validazione human-centred | ISO 9241-210:2019; Apple HIG; ADR-0014 | Bozza controllata |
 | GS-DSG-IDX-001 | [Specifiche di design implementativo](specifiche-di-design/README.md) | Dieci contratti per dominio, dati, lingua, query, analisi, runtime, UI, visualizzazione, validazione e prodotto | GS-DOM-001–GS-PROD-001; ADR-0016 | Bozza controllata |
+| GS-SEC-001 | [Threat model e architettura di sicurezza](sicurezza/README.md) | Asset, trust boundary, input ostili, controlli, rischio residuo e gate | NIST SSDF; Apple Platform Security; ADR-0019 | Bozza controllata |
+| GS-API-001 | [Contratto GlifiKit e GlifiCLI](api/README.md) | Lifecycle, async, progressi, cancellazione, failure, compatibilità e protocollo headless | Swift API Design Guidelines; ADR-0002; ADR-0019 | Bozza controllata |
 | GS-TRC-001 | [Matrice di tracciabilità](tracciabilita.md) | Collega necessità, requisiti, architettura e verifica | ISO/IEC/IEEE 29148:2018 | Bozza controllata |
 | GS-AD-001 | [Descrizione dell'architettura](architettura.md) | Stakeholder, concern, viewpoint, view e decisioni | ISO/IEC/IEEE 42010:2022 | Bozza controllata |
 | GS-GLO-001 | [Glossario](glossario.md) | Vocabolario comune e termini controllati | Supporta tutti gli information item | Bozza controllata |
@@ -60,6 +62,12 @@ Lo [Standard di progetto](standard-di-progetto.md) è la norma interna principal
   duplicare formule GS-MET o regole specifiche dei profili Apple.
 - Le specifiche `GS-DOM-001`–`GS-PROD-001` trasformano quei contratti in design
   implementabile senza duplicarne l'autorità; il loro indice è GS-DSG-IDX-001.
+- GS-SEC-001 governa i confini di fiducia trasversalmente; GS-API-001 governa
+  l'unico contratto applicativo condiviso da app e CLI senza rendere stabili
+  operazioni ancora non implementate.
+- La matrice GS-TRC possiede una rappresentazione machine-readable che distingue
+  `specified`, `implemented`, `verified` e `blocked`; documentare non equivale a
+  promuovere una clausola.
 - Le decisioni architetturali importanti vengono registrate come ADR e non riscritte retroattivamente: se cambiano, un nuovo ADR sostituisce il precedente.
 - I termini definiti nel glossario mantengono lo stesso significato in tutti gli information item.
 

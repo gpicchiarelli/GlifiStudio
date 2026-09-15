@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.14.0 |
+| Versione | 0.15.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -29,14 +29,16 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | MET | GS-MET-001, specifica normativa dei metodi analitici |
 | UX | GS-UX-001, specifica normativa dell'esperienza utente |
 | DSG | GS-DOM-001–GS-PROD-001, specifiche di design implementativo |
+| SEC | GS-SEC-001, threat model e architettura di sicurezza |
+| API | GS-API-001, contratto GlifiKit e GlifiCLI |
 
 ## 4. Interfacce esterne
 
 | ID | Interfaccia | Descrizione | Stato |
 | --- | --- | --- | --- |
 | IE-001 | Interfaccia macOS | Indagini, importazione, esplorazione per oggetti, confronto, evidenze e relazioni con interazioni desktop native | Contratto GS-UX/GS-UI; da prototipare |
-| IE-002 | GlifiKit | Contratto asincrono per dominio, QueryAST, piani, progresso, cancellazione, errori ed export | Contratto GS-DOM/GS-QRY/GS-ANA/GS-RUN; API Swift da stabilizzare |
-| IE-003 | GlifiCLI | Interfaccia headless per batch, piani riproducibili e output strutturato | Semantica GS-QRY/GS-ANA; comandi da implementare |
+| IE-002 | GlifiKit | Contratto asincrono per dominio, QueryAST, piani, progresso, cancellazione, errori ed export | GS-API-001 pre-1.0; solo `status` implementato |
+| IE-003 | GlifiCLI | Interfaccia headless per batch, piani riproducibili e output strutturato | GS-API-001 pre-1.0; solo smoke/status implementato |
 | IE-004 | Filesystem | Package `.glifi`, fonti incorporate/esterne, oggetti e cache | Contratto GS-DAT-001 definito; prototipo richiesto |
 | IE-005 | Framework Apple | Portafoglio Apple-native per documenti, linguistica, calcolo, dati, ricerca di sistema, automazione e lavoro prolungato, secondo GS-APL-* | Da validare per fase |
 | IE-006 | Interfaccia iPadOS | Stesso percorso semantico adattato a touch, puntatore, tastiera, multitasking e finestre ridimensionabili | Contratto GS-UX/GS-UI; da prototipare |
@@ -198,6 +200,13 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-054 | Efficienza prestazionale | QoS e attività di processo **DEVONO** derivare dall'intento; attività lunghe devono essere finite, owned, cancellabili e consentire idle system sleep. | Ispezione priorità, lifecycle dei token e assenza delle opzioni vietate | TV-067 | Approvato; ADR-0018 |
 | RQ-055 | Efficienza prestazionale | Ogni release candidate macOS **DEVE** essere profilata su hardware con Instruments e confrontata in Xcode Organizer quando il campione è sufficiente. | Report con build, hardware, energia, memoria, I/O, launch e hang; regressioni >10% risolte o derogate | TV-068 | Approvato; baseline reale da acquisire |
 | RQ-056 | Protezione | Un futuro export diagnostico **DEVE** essere avviato dalla persona, ispezionabile, limitato e redatto; la 0.1 **NON DEVE** esporlo. | Audit UI, retention, canary e assenza di invio automatico | TV-069 | Approvato; funzione fuori baseline 0.1 |
+| RQ-057 | Protezione | Ogni superficie che elabora input non fidato **DEVE** applicare asset, trust boundary, controlli e rischio residuo GS-SEC-001 aggiornati al comportamento reale. | Threat review G2/G4 e prove THR-001–THR-020 senza minacce P0/P1 non trattate | TV-070 | Baseline definita; prove avversarie da acquisire |
+| RQ-058 | Affidabilità | API, CLI, runtime e UI **DEVONO** usare la tassonomia trasversale delle failure e dichiarare per ogni esito retry e stato che rimane valido. | Contract test su tutte le categorie, nessun parziale marcato completo | TV-071 | Baseline definita; tipi e flussi da implementare |
+| RQ-059 | Affidabilità | Import, indice, Analysis DAG, autosave, migrazione ed export **DEVONO** rispettare il commit point e la matrice di recovery GS-DAT-001. | Kill injection prima/dopo ogni passo con apertura della sola generazione verificata | TV-072 | Baseline definita; prototipo da costruire |
+| RQ-060 | Compatibilità | Ogni superficie GlifiKit/GlifiCLI esposta **DEVE** rispettare lifecycle, Sendable/isolation, progressi, cancellazione, output, exit status e versione GS-API-001. | API surface diff e contract test condivisi fra API/CLI/GUI | TV-073 | Baseline pre-1.0; solo status implementato |
+| RQ-061 | Affidabilità | Ogni export scientifico **DEVE** includere un ExportManifest v1 canonico con corpus, descriptor, algoritmo, parametri, preprocessing, backend, determinismo, software, provenance, file e validazione. | Schema, digest e round-trip verificati; path e fonti non selezionate assenti | TV-074 | Baseline definita; codec da implementare |
+| RQ-062 | Manutenibilità | Ogni clausola implementativa critica **DEVE** essere interrogabile nella matrice requisito → specifica → codice → test → fixture → evidenza → gate con stato non ambiguo. | `make check-compliance` supera schema, riferimenti e regole di promozione | TV-075 | Baseline automatizzata |
+| RQ-063 | Manutenibilità | Una feature **NON DEVE** entrare in coding senza Definition of Ready registrata, incluse failure semantics, UX, verifica, sicurezza e prestazioni quando applicabili. | Review dell'unità di lavoro e riga di conformità iniziale senza `N/A` immotivati | TV-076 | Baseline definita |
 
 ## 7. Vincoli di progetto
 

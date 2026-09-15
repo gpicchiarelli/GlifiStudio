@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AD-001 |
 | Tipo | Architecture description |
-| Versione | 0.14.0 |
+| Versione | 0.15.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -49,13 +49,15 @@ Gli stakeholder sono definiti in GS-VIS-001 e sono ancora da validare.
 | CO-14 | Applicabilità e spiegabilità del piano | ST-01, ST-05 | Decision table del planner e rationale ispezionabile |
 | CO-15 | Integrità epistemica della presentazione | ST-01, ST-05, ST-06 | Finding sostenuti, caveat propagati e confine generativo |
 | CO-16 | Adattabilità, accessibilità e parità semantica | ST-01, ST-02 | Flussi equivalenti macOS/iPadOS, VoiceOver e tastiera |
+| CO-17 | Resistenza ad input ostili e failure containment | ST-01, ST-03, ST-04, ST-06 | Trust boundary GS-SEC, fuzz, kill injection e rischio residuo |
+| CO-18 | Stabilità del contratto API/headless | ST-03, ST-04 | API surface e contract test GS-API fra app e CLI |
 
 ## 3. Catalogo dei viewpoint
 
 | ID | Viewpoint | Stakeholder | Concern | Notazione/model kind |
 | --- | --- | --- | --- | --- |
-| VP-01 | Contesto | ST-01, ST-02, ST-03, ST-06 | CO-02, CO-06, CO-07, CO-09 | Diagramma di contesto testuale; confini e relazioni |
-| VP-02 | Decomposizione logica | ST-03, ST-04, ST-05 | CO-01, CO-05, CO-06 | Livelli, moduli e grafo delle dipendenze |
+| VP-01 | Contesto | ST-01, ST-02, ST-03, ST-06 | CO-02, CO-06, CO-07, CO-09, CO-17 | Diagramma di contesto testuale; confini e relazioni |
+| VP-02 | Decomposizione logica | ST-03, ST-04, ST-05 | CO-01, CO-05, CO-06, CO-18 | Livelli, moduli e grafo delle dipendenze |
 | VP-03 | Dati e lineage | ST-01, ST-03, ST-05, ST-06 | CO-01, CO-02, CO-03, CO-07, CO-08 | Stati derivati, identità, indici e persistenza |
 | VP-04 | Runtime ed elaborazione | ST-02, ST-03, ST-05 | CO-03, CO-04, CO-06 | Pipeline, flussi, concorrenza, cancellazione ed errori |
 | VP-05 | Tecnologia e deployment | ST-03, ST-04, ST-06 | CO-04, CO-05, CO-07 | Processi locali, framework e backend sostituibili |
@@ -85,7 +87,8 @@ Ricercatore / analista
 
 Le fonti documentali sono input non affidabili. Il progetto persistente conserva
 identità, configurazioni e artefatti. La baseline 0.1 non dipende da servizi remoti
-e non trasmette telemetria o diagnostica, secondo ADR-0017.
+e non trasmette telemetria o diagnostica, secondo ADR-0017. GS-SEC-001 governa i
+confini di fiducia dall'ingresso allo staging, parser, commit, UI, log ed export.
 
 ## 5. VA-02 — View di decomposizione logica
 
@@ -94,7 +97,7 @@ e non trasmette telemetria o diagnostica, secondo ADR-0017.
 ```text
 Glifi Studio     applicazioni e presentazione macOS/iPadOS
       ↓
-GlifiKit        API pubblica e modelli di interazione
+GlifiKit        contratto applicativo pre-1.0 secondo GS-API-001
       ↓
 GlifiCore       importazione, testo, corpus, ricerca e analisi
       ↓
@@ -105,6 +108,10 @@ Piattaforma      Foundation, Accelerate, Natural Language, Vision,
 ```
 
 La dipendenza procede dall'esterno verso l'interno. Il grafo deve essere aciclico. Il dominio non dipende dalla GUI; gli algoritmi non dipendono da una persistenza concreta; importer e visualizzazioni non determinano il modello interno.
+
+Le dichiarazioni `public` di GlifiKit sono visibili ai client del repository ma non
+costituiscono ancora promessa ABI o SDK di terze parti. App e CLI attraversano lo
+stesso contratto per request, progressi, cancellazione, failure e output.
 
 ### 5.2 Confini candidati di GlifiCore
 
@@ -137,7 +144,7 @@ autorizzano ancora target Swift separati.
 | Elemento | Collocazione | Stato |
 | --- | --- | --- |
 | Applicazioni native | `Apps/macOS`, `Apps/iPadOS`, `Apps/Shared` | SwiftUI; stato Observation isolato sul Main Actor |
-| API pubblica | `Packages/GlifiCore/Sources/GlifiKit` | Contratto minimo di bootstrap |
+| API applicativa pre-1.0 | `Packages/GlifiCore/Sources/GlifiKit` | Contratto minimo di bootstrap; nessuna ABI binaria promessa |
 | Motore | `Packages/GlifiCore/Sources/GlifiCore` | Nucleo minimo indipendente dalla UI |
 | Accesso headless | `Packages/GlifiCore/Sources/GlifiCLI` | Eseguibile minimo |
 | Verifica | `Packages/GlifiCore/Tests`, `Scripts` | Test e gate locali attivi |
@@ -439,6 +446,8 @@ progressivi preservano focus e contesto.
 | CR-26 | Route, selection e restoration di VA-07 devono usare ID GS-DOM e il contratto GS-UI-001. |
 | CR-27 | Ogni vista scientifica deve derivare da VisualizationSpec GS-VIZ-001 e offrire una rappresentazione accessibile equivalente. |
 | CR-28 | Una capacità può essere pubblicata dal prodotto 0.1 soltanto se inclusa da GS-PROD-001 e validata secondo GS-VAL-001. |
+| CR-29 | Ogni attraversamento di un trust boundary deve applicare classificazione, limiti e controllo GS-SEC-001 prima di produrre stato autorevole o output. |
+| CR-30 | Ogni operazione condivisa da app e CLI deve rispettare lifecycle, outcome, failure e compatibilità GS-API-001 senza accessi laterali allo store. |
 
 ## 12. Decisioni e rationale
 
@@ -453,6 +462,9 @@ progressivi preservano focus e contesto.
 - [ADR-0014 — Esperienza guidata da indagini, intenzioni ed evidenze](adr/0014-esperienza-guidata-da-indagini.md)
 - [ADR-0015 — Baseline Swift 6.4 e modalità linguistica Swift 6](adr/0015-baseline-swift-6-4.md)
 - [ADR-0016 — Specifiche implementative e baseline prodotto 0.1](adr/0016-specifiche-di-design-e-baseline-prodotto.md)
+- [ADR-0017 — Osservabilità locale senza telemetria applicativa](adr/0017-osservabilita-locale-senza-telemetria.md)
+- [ADR-0018 — Runtime cooperativo e sostenibile su macOS](adr/0018-runtime-cooperativo-sostenibile-macos.md)
+- [ADR-0019 — Sicurezza, API e conformità verificabile](adr/0019-sicurezza-api-e-conformita-verificabile.md)
 
 Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il [Registro delle decisioni aperte](decisioni-aperte.md) identifica le questioni che richiedono ADR ulteriori.
 
@@ -469,6 +481,9 @@ Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il
   ancora tipi pubblici, storage, fixture o studi con utenti;
 - soglie di comprensione, profili degli utenti, policy di solidità e formato della
   relazione non sono ancora approvati;
-- threat model e recovery sono integrati nei contratti, ma non esistono ancora
-  prove implementative o deployment firmato;
-- la coerenza dei confini iniziali è verificata, ma manca ancora una regola automatica per il grafo completo delle dipendenze future.
+- threat model, failure semantics e recovery sono specificati, ma non esistono
+  ancora parser, kill test, corpus avversario o deployment firmato;
+- la matrice di conformità copre inizialmente le clausole ad alto rischio; la sua
+  estensione completa avviene con la Definition of Ready di ogni feature;
+- la coerenza dei confini iniziali è verificata, ma manca ancora una regola
+  automatica per il grafo completo delle dipendenze future.

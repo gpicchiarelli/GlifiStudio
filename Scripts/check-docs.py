@@ -155,6 +155,47 @@ DESIGN_INTEGRATION_MARKERS = {
     "docs/standard/22-manutenzione-e-compatibilita.md": ("N-1",),
     "docs/apple/README.md": ("GS-DAT-001", "GS-UI-001"),
 }
+CROSS_CUTTING_SPEC_FILES = {
+    "docs/sicurezza/README.md": (
+        "GS-SEC-001",
+        ("TB-01", "THR-020", "Decompression bomb", "App Sandbox", "ExportManifest"),
+    ),
+    "docs/api/README.md": (
+        "GS-API-001",
+        (
+            "ProjectSession",
+            "OperationOutcome",
+            "invariantViolation",
+            "GlifiCLI",
+            "cliProtocolVersion",
+            "library evolution",
+        ),
+    ),
+}
+CROSS_CUTTING_INTEGRATION_MARKERS = {
+    "docs/README.md": ("GS-SEC-001", "GS-API-001"),
+    "docs/standard-di-progetto.md": ("GS-SEC-001", "GS-API-001"),
+    "docs/requisiti.md": ("RQ-057", "RQ-060", "RQ-063"),
+    "docs/architettura.md": ("CR-29", "CR-30"),
+    "docs/tracciabilita.md": ("TV-070", "TV-073", "check-compliance"),
+    "docs/standard/07-pianificazione-e-gestione-del-lavoro.md": (
+        "Definition of Ready",
+        "failure semantics",
+    ),
+    "docs/standard/14-sicurezza-e-privacy.md": ("GS-SEC-001",),
+    "docs/standard/18-errori-logging-e-osservabilita.md": (
+        "insufficientData",
+        "retainedState",
+    ),
+    "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md": (
+        "Protocollo di commit",
+        "ExportManifest",
+    ),
+    "docs/adr/README.md": ("ADR-0019",),
+    "docs/evidenze/README.md": ("GS-VER-017",),
+    "docs/roadmap.md": ("GS-SEC/GS-API",),
+    "docs/decisioni-aperte.md": ("DA-031",),
+}
 
 
 def metadata(text: str) -> dict[str, str]:
@@ -362,6 +403,39 @@ def validate_design_specifications(errors: list[str]) -> int:
     return len(actual_paths)
 
 
+def validate_cross_cutting_specifications(errors: list[str]) -> int:
+    """Validate security/API contracts and their normative integration."""
+    for relative, (identifier, markers) in CROSS_CUTTING_SPEC_FILES.items():
+        path = PROJECT_DIRECTORY / relative
+        if not path.is_file():
+            errors.append(f"{relative}: specifica trasversale mancante")
+            continue
+        body = path.read_text(encoding="utf-8")
+        fields = metadata(body)
+        if fields.get("Identificatore") != identifier:
+            errors.append(f"{relative}: atteso identificatore {identifier}")
+        if not body.startswith("<!-- SPDX-License-Identifier: BSD-3-Clause -->"):
+            errors.append(f"{relative}: intestazione SPDX mancante")
+        for marker in markers:
+            if marker not in body:
+                errors.append(f"{relative}: copertura trasversale mancante: {marker}")
+
+    for relative, markers in CROSS_CUTTING_INTEGRATION_MARKERS.items():
+        path = PROJECT_DIRECTORY / relative
+        if not path.is_file():
+            errors.append(f"{relative}: integrazione trasversale mancante")
+            continue
+        body = path.read_text(encoding="utf-8")
+        for marker in markers:
+            if marker not in body:
+                errors.append(f"{relative}: integrazione trasversale mancante: {marker}")
+
+    return sum(
+        (PROJECT_DIRECTORY / relative).is_file()
+        for relative in CROSS_CUTTING_SPEC_FILES
+    )
+
+
 def main() -> int:
     """Run all documentation checks."""
     errors: list[str] = []
@@ -397,6 +471,7 @@ def main() -> int:
     method_count = validate_scientific_specification(errors)
     ux_count = validate_ux_specification(errors)
     design_count = validate_design_specifications(errors)
+    cross_cutting_count = validate_cross_cutting_specifications(errors)
 
     if errors:
         print("Documentation validation failed:", file=sys.stderr)
@@ -409,7 +484,8 @@ def main() -> int:
         f"{len(identifiers)} unique identifiers, valid local links, "
         f"{method_count} scientific method specifications, "
         f"{ux_count} UX specifications, "
-        f"{design_count} implementation design specifications"
+        f"{design_count} implementation design specifications, "
+        f"{cross_cutting_count} cross-cutting specifications"
     )
     return 0
 

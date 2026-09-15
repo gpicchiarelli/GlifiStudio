@@ -3,7 +3,7 @@
 | Campo | Valore |
 | --- | --- |
 | Identificatore | GS-ADR-0002 |
-| Versione | 0.3.1 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,7 +25,11 @@ Il prodotto interattivo e il motore computazionale sono componenti distinti:
 Glifi Studio → GlifiKit → GlifiCore
 ```
 
-`Glifi Studio` gestisce presentazione e interazione per macOS e iPadOS. `GlifiKit` espone un contratto pubblico piccolo e stabile. `GlifiCore` implementa importazione, trasformazioni, indicizzazione, ricerca e analisi senza dipendere da SwiftUI, AppKit o UIKit.
+`Glifi Studio` gestisce presentazione e interazione per macOS e iPadOS. `GlifiKit`
+espone un contratto applicativo piccolo, pre-1.0 e progettato per stabilizzarsi
+secondo GS-API-001; la visibilità Swift `public` non promette ancora ABI o SDK
+binario. `GlifiCore` implementa importazione, trasformazioni, indicizzazione,
+ricerca e analisi senza dipendere da SwiftUI, AppKit o UIKit.
 
 La separazione deve essere imposta dalla struttura di target e package e verificata automaticamente.
 
@@ -41,5 +45,6 @@ La terza alternativa è quella proposta perché sostiene riuso headless e contro
 
 - La GUI diventa un client del motore.
 - CLI, test headless e benchmark non duplicano la logica.
-- I modelli pubblici richiedono una progettazione deliberata e compatibile nel tempo.
+- I modelli esposti richiedono progettazione deliberata, contract test e una
+  politica di compatibilità prima della stabilizzazione 1.0.
 - Alcuni tipi di presentazione dovranno essere adattati ai modelli del dominio anziché attraversare direttamente i confini dei moduli.

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001 |
 | Tipo | Indice normativo e standard interno di ingegneria del software |
-| Versione | 0.9.0 |
+| Versione | 0.10.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -77,6 +77,17 @@ La famiglia GS-DSG traduce requisiti, GS-MET e GS-UX in contratti implementabili
 La mappa delle autorità dell'indice impedisce che una specifica ridefinisca formule,
 modello mentale o regole di processo governate da altri documenti.
 
+## Contratti trasversali
+
+| ID | Documento |
+| --- | --- |
+| GS-SEC-001 | [Threat model e architettura di sicurezza](sicurezza/README.md) |
+| GS-API-001 | [Contratto GlifiKit e GlifiCLI](api/README.md) |
+
+GS-SEC governa asset, trust boundary e trattamento degli input non fidati sopra
+ogni sottosistema. GS-API governa il confine presentation-independent e headless;
+non sostituisce i contratti di dominio, dati, analisi o runtime.
+
 ## Qualità e operazioni
 
 | ID | Documento |
@@ -107,4 +118,4 @@ modello mentale o regole di processo governate da altri documenti.
 
 ## Regola di manutenzione
 
-Una modifica deve interessare soltanto i documenti pertinenti e aggiornare nella stessa unità di cambiamento indice, riferimenti, requisiti, ADR ed evidenze coinvolti. Lo spostamento di testo tra documenti non ne modifica da solo il significato normativo.
+Una modifica deve interessare soltanto i documenti pertinenti e aggiornare nella stessa unità di cambiamento indice, riferimenti, requisiti, ADR, matrice di conformità ed evidenze coinvolti. Lo spostamento di testo tra documenti non ne modifica da solo il significato normativo.

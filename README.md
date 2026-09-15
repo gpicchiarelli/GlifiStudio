@@ -54,7 +54,7 @@ Glifi Studio non è un editor generalista con qualche statistica aggiunta e non 
 ## Stato del progetto
 
 > [!IMPORTANT]
-> **Baseline ingegneristica eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS, il package condiviso, il contratto applicativo, la CLI headless, la localizzazione iniziale e i quality gate sono operativi. Le [dieci specifiche di design](docs/specifiche-di-design/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) rendono ora implementabili i confini; importazione, persistenza, indicizzazione e analisi restano da costruire e validare.
+> **Baseline ingegneristica eseguibile — non ancora un prodotto pronto al rilascio.** Le app macOS e iPadOS, il package condiviso, lo status applicativo/CLI, la localizzazione iniziale e i quality gate sono operativi. Le [dieci specifiche di design](docs/specifiche-di-design/README.md), il [threat model](docs/sicurezza/README.md), il [contratto API/CLI](docs/api/README.md) e la [baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md) rendono implementabili i confini; importazione, persistenza, indicizzazione e analisi restano da costruire e validare.
 
 La documentazione è una baseline controllata: requisiti, architettura e decisioni aperte sono tracciati, ma non tutte le scelte di prodotto hanno ancora approvazione definitiva. La presenza di una tecnologia o di un documento non equivale alla disponibilità della relativa funzione.
 
@@ -62,10 +62,10 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | --- | --- |
 | App macOS | Shell SwiftUI nativa, localizzata e accessibile, collegata a `GlifiKit` |
 | App iPadOS | Stessa baseline condivisa, adattata al target iPadOS |
-| `GlifiKit` | Contratto pubblico minimo e indipendente dalla presentazione |
+| `GlifiKit` | Contratto applicativo pre-1.0 indipendente dalla presentazione; nessuna promessa ABI binaria |
 | `GlifiCore` | Motore headless actor-based con configurazione linguistica, policy runtime e diagnostica tipizzata |
-| `GlifiCLI` | Smoke test eseguibile del percorso senza interfaccia grafica |
-| Qualità | Gate riproducibile con Apple Swift 6.4, test/build, controlli Apple/App Store, zero telemetria applicativa e logging centralizzato |
+| `GlifiCLI` | Smoke/status eseguibile; protocollo completo specificato ma non implementato |
+| Qualità | Gate riproducibile con Apple Swift 6.4, test/build, controlli Apple/App Store, zero telemetria e matrice di conformità automatica |
 | Design implementativo | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD definiti come baseline candidata; nessuna funzione è dichiarata implementata per questo solo fatto |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |
 
@@ -81,7 +81,7 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
   QoS e App Nap limitano il lavoro senza alterare la correttezza dei risultati.
 - **Osservabilità senza sorveglianza.** Unified Logging e signpost restano locali e
   tipizzati; la 0.1 non incorpora analytics, crash upload o telemetria remota.
-- **Automazione senza GUI.** Il motore deve restare utilizzabile tramite contratto pubblico e strumenti headless.
+- **Automazione senza GUI.** Il motore deve restare utilizzabile tramite contratto applicativo e strumenti headless.
 - **Semantica scientifica esplicita.** Formula, dominio, precondizioni, determinismo,
   provenienza e verifica indipendente precedono backend e visualizzazione.
 - **Intenzioni prima degli algoritmi.** L'esperienza parte da ciò che la persona
@@ -122,6 +122,10 @@ Il formato candidato è un package `.glifi` v1: fonti incorporate per default,
 metadati relazionali controllati e artefatti immutabili content-addressed. Il
 contratto completo, inclusi SpanMap, recovery e migrazioni, è in
 [GS-DAT-001](docs/specifiche-di-design/02-dati-lineage-e-persistenza.md).
+
+Il manifest è l'unico commit point; la matrice di recovery copre import, indice,
+DAG, autosave, migrazione ed export. Questo è ancora un contratto da provare con
+prototipo e kill injection, non una funzione già disponibile.
 
 ## Avvio rapido
 
@@ -198,6 +202,8 @@ Controlli mirati:
 | `make lint` | Formattazione Swift in modalità strict |
 | `make build-macos` | Build Debug macOS senza firma |
 | `make build-ipados` | Build Debug per simulatore iPadOS senza firma |
+| `make check-compliance` | Verifica requisito → specifica → codice → test → fixture → evidenza → gate |
+| `make check-fixtures` | Ricalcola seed numerici e valida offset UTF-8 e descrittori avversari |
 | `make check-app-store` | Coerenza della baseline App Store |
 | `make verify-app-store` | Preflight di packaging e distribuzione |
 | `make app-store-submission-check` | Gate fail-closed per una submission reale |
@@ -239,6 +245,8 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Specifica normativa dei metodi analitici](docs/metodi-analitici/README.md)
 - [Specifica dell'esperienza utente](docs/esperienza-utente/README.md)
 - [Specifiche di design implementativo](docs/specifiche-di-design/README.md)
+- [Threat model e architettura di sicurezza](docs/sicurezza/README.md)
+- [Contratto GlifiKit e GlifiCLI](docs/api/README.md)
 - [Product baseline 0.1](docs/specifiche-di-design/10-product-baseline-mvp.md)
 - [Architettura](docs/architettura.md)
 - [Matrice di tracciabilità](docs/tracciabilita.md)

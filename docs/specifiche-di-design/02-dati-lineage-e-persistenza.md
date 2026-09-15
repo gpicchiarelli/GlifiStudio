@@ -6,12 +6,12 @@
 | --- | --- |
 | Identificatore | GS-DAT-001 |
 | Tipo | Specifica di design di dati e persistenza |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
 | Approvazione | Baseline proposta; prototipo e benchmark richiesti al gate G2 |
-| Riferimenti | GS-DOM-001; GS-MET-001-01; GS-MET-001-02; ADR-0016 |
+| Riferimenti | GS-DOM-001; GS-MET-001-01; GS-MET-001-02; GS-SEC-001; GS-API-001; ADR-0016; ADR-0019 |
 
 ## Scopo e invarianti
 
@@ -143,20 +143,108 @@ e può avere componenti con span distinti.
 
 ## Commit, autosave e recovery
 
-Ogni mutazione usa una transazione identificata. Le righe della nuova generazione
-sono append-only rispetto a quelle raggiungibili dalla precedente:
+### Stati e autorità
 
-1. scrive nuovi oggetti immutabili in `transactions/<id>` e li verifica;
-2. promuove gli oggetti content-addressed senza sovrascrivere quelli esistenti;
-3. in una transazione SQLite inserisce relazioni, eventi e radici della generazione
-   `N+1`, preservando integralmente le righe raggiungibili da `N`;
-4. sincronizza database e directory, quindi produce il nuovo manifest;
-5. sostituisce atomicamente il solo manifest e rende eliminabile lo staging.
+Sia `Gₙ` la generazione indicata dal manifest autorevole e `Tᵢ` una transazione in
+staging. Gli stati ammessi di `Tᵢ` sono `staging`, `prepared`, `committed` e
+`discardable`; nessun altro stato è inferito da file presenti. Solo il manifest
+radice sostituito con successo rende raggiungibile `Gₙ₊₁`.
 
-Il manifest è il commit point. All'apertura si usa l'ultima generazione interamente
-verificabile; staging incompleti sono ignorati o offerti alla diagnostica. Autosave
-coalesca eventi di dominio ma non interrompe importazioni a metà commit. Un
-checkpoint analitico non è valido finché descriptor, input e checksum non coincidono.
+| Elemento | Autorità | Regola di recovery |
+| --- | --- | --- |
+| fonte incorporata e SourceRevision | Autorevole se raggiungibile da `Gₙ` | Mai ricostruita da testo derivato |
+| manifest, eventi, identità e metadati | Autorevole | Deve verificare schema, generazione e digest radice |
+| Artifact/Findings persistiti | Autorevoli nella revisione che li raggiunge | Non ricalcolati in-place; nuova revisione |
+| indice, cache, thumbnail, preview | Rigenerabile | Eliminabile se mancante, stale o corrotta |
+| checkpoint analitico | Candidato riusabile | Valido solo con descriptor/input/schema/checksum identici |
+| staging e export parziale | Non autorevole | Eliminabile; non viene presentato come risultato |
+
+La presenza nel database o in una directory non conferisce autorità. Le righe e gli
+oggetti non raggiungibili dal manifest corrente sono orfani recuperabili o garbage,
+mai una generazione implicitamente valida.
+
+### Protocollo di commit
+
+Ogni writer acquisisce file coordination e un lease di generazione; verifica che il
+manifest osservato sia ancora `Gₙ` prima del commit. Le righe della nuova generazione
+sono append-only rispetto a quelle raggiungibili da `Gₙ`:
+
+1. crea `transactions/<id>` sul volume destinazione con owner, schema, generazione
+   base e nonce; nessun nome deriva da input non fidato;
+2. scrive nuovi oggetti immutabili, descriptor ed eventi, poi verifica lunghezze,
+   digest, schema e invarianti;
+3. promuove per digest gli oggetti mancanti senza sovrascrivere un oggetto diverso;
+   una collisione di path con byte differenti è corruzione;
+4. in una singola transazione SQLite inserisce relazioni, radici ed un record
+   `prepared` per `Gₙ₊₁`; il commit SQLite rende il candidato durevole ma non
+   autorevole e preserva integralmente `Gₙ`;
+5. forza la durabilità prevista dal profilo SQLite approvato e rende consistenti
+   database/WAL prima di costruire il manifest candidato;
+6. serializza e verifica il manifest candidato, che include generazione base,
+   generazione nuova, digest del record prepared e radici; lo scrive in una
+   directory di sostituzione sullo stesso volume;
+7. ricontrolla lease e `Gₙ`, quindi sostituisce il solo `manifest.json` tramite file
+   coordination e primitiva di sostituzione sicura del sistema;
+8. marca `Gₙ₊₁` committed e `Tᵢ` discardable in manutenzione post-commit idempotente.
+
+Il manifest è il commit point. La sua sostituzione riuscita al punto 7 è l'unico
+evento che cambia la generazione autorevole. Un
+crash prima lascia autorevole `Gₙ`; un crash dopo lascia autorevole `Gₙ₊₁`, anche
+se cleanup o marcatura post-commit non sono avvenuti. Nessuna UI dichiara successo
+prima di aver riaperto o riverificato le radici minime della nuova generazione.
+
+La sostituzione deve avvenire sullo stesso volume. Se filesystem/provider non offre
+le precondizioni osservate dal prototipo, il writer interrompe senza modificare il
+manifest; non degrada a copia non atomica. La strategia SQLite (`WAL` o rollback
+journal, livello `synchronous`, checkpoint e file inclusi nel package) deve essere
+fissata dal prototipo G2 e provata con power-loss/kill injection prima di G4.
+
+### Riconoscimento di un progetto incompleto
+
+L'apertura è fail-closed e segue questo ordine:
+
+1. limita dimensione e decodifica del manifest senza seguire link;
+2. verifica magic, versione, ProjectID, generazione e digest radice;
+3. apre lo store nella modalità minima e verifica schema, foreign key e record della
+   generazione indicata;
+4. verifica presenza, tipo, lunghezza e digest di ogni oggetto autorevole radice;
+5. controlla che nessuna reference esca dal package e che la generazione sia
+   semanticamente completa;
+6. soltanto allora espone la sessione read-write.
+
+Manifest illeggibile, generazione assente, record non prepared/committed, radice
+mancante, digest errato, schema incompatibile o reference illegale producono
+`corruption`/`incompatibleVersion`. Il recovery può aprire l'ultima generazione
+precedente interamente verificabile, read-only, senza riscrivere l'originale. Se non
+esiste una generazione verificabile, il file resta intatto e viene rifiutato.
+
+### Matrice di interruzione
+
+| Operazione | Prima del commit point | Dopo il commit point | Ripresa consentita |
+| --- | --- | --- | --- |
+| import | byte/staging eliminabili; nessuna SourceRevision | nuova revisione completa autorevole | da sorgente o staging solo se digest e scope coincidono |
+| indicizzazione | indice parziale eliminabile | generazione dati valida; indice può risultare stale | ricostruzione dall'input autorevole |
+| Analysis DAG | nodi parziali non sono Artifact | Artifact raggiungibili restano storici e validi | checkpoint verificato per nodo/descriptor |
+| autosave | eventi coalesced non committati possono mancare | tutti gli eventi della generazione sono visibili | nuovo autosave da stato dominio valido |
+| migrazione | copia candidata eliminabile; originale intatto | nuova copia verificata; backup conservato | mai continuare una copia di validità ignota |
+| export | file parziale resta staging e viene eliminato | receipt e manifest corrispondono ai byte finali | nuova destinazione o replace sicuro |
+
+Cancellazione e crash vengono iniettati dopo ogni passo numerato, prima/dopo commit
+SQLite, prima/dopo replace del manifest e durante cleanup. Il test verifica sia
+l'apertura sia l'assenza di generazioni “quasi valide”.
+
+### Autosave, concorrenza e manutenzione
+
+Autosave coalesca eventi di dominio e apre una nuova transazione; non si inserisce
+in un commit già avviato. Un solo writer per package è ammesso nella 0.1. Un lease
+stale non viene rotto finché identità processo, file coordination e generazione non
+dimostrano che non esiste un writer attivo.
+
+Garbage collection opera solo su oggetti non raggiungibili da alcuna generazione o
+backup trattenuto e soltanto dopo una riapertura verificata. Il cleanup è
+interrompibile e non modifica il manifest. Cache e indici dichiarano ProjectID,
+generazione, schema e digest degli input; una divergenza causa eliminazione e
+ricostruzione, non recovery dell'autorità.
 
 ## Schema e compatibilità
 
@@ -187,10 +275,65 @@ rapporto locale privo di contenuto del corpus.
 
 Ogni export è `humanReadable` o `machineReadable`. Il primo privilegia PDF/Markdown;
 il secondo usa UTF-8 CSV/TSV e JSON documentato. Matrici e grafi possono avere
-formati sparsi dichiarati. Ogni export scientifico include o affianca un
-`ExportManifest` con ProjectID pseudonimizzabile, corpus/versioni, descriptor,
-digest, software, data, locale e Caveat. Nessun export contiene fonti complete per
-default se la selezione non lo richiede esplicitamente.
+formati sparsi dichiarati. Nessun export contiene fonti complete per default se la
+selezione non lo richiede esplicitamente.
+
+### `ExportManifest` v1
+
+Ogni export scientifico include `export-manifest.json`, serializzato come I-JSON
+canonico RFC 8785. Campi obbligatori:
+
+| Campo | Contratto |
+| --- | --- |
+| `schema`, `schemaVersion` | `studio.glifi.export-manifest`, intero `1` |
+| `exportID`, `createdAt` | UUID e RFC 3339 UTC per audit; esclusi dall'identità scientifica |
+| `software` | nome, versione prodotto, build e revisione sorgente se disponibile |
+| `platform` | sistema, versione, architettura e toolchain; nessun nome utente/device |
+| `project` | ProjectID pseudonimizzabile, generazione e digest del manifest sorgente |
+| `corpus` | CorpusID, digest canonico, algoritmo digest e SourceRevision digest ordinati |
+| `analysis` | ArtifactID, descriptor completo/digest, algoritmo/versione e parametri canonici |
+| `preprocessing` | sequenza ordinata di trasformazioni con ID, versione, parametri e digest |
+| `backend` | ID/versione, politica numerica, modello/digest e seed quando applicabili |
+| `determinism` | classe D0/D1/P1/N1, tolleranze e fonti di variabilità |
+| `selection` | scope e filtri canonici dell'export, senza path di presentazione |
+| `files` | path relativo generato, media type, schema, byte count e SHA-256 di ogni file |
+| `provenance` | Artifact/input ID, digest del lineage e Caveat applicabili |
+| `validation` | ValidationManifest ID/digest, stato ed evidenze GS-VER applicabili |
+| `presentation` | locale e fuso usati soltanto per formattazione umana |
+
+Il `corpus.digest` è SHA-256 del JSON canonico della lista ordinata per
+SourceRevisionID di coppie `{id, contentDigest}` più la versione del criterio di
+selezione del corpus. Path, ordine di importazione accidentale e nomi visualizzati
+non partecipano. `analysis.descriptorDigest` è calcolato sul descriptor canonico;
+timestamp, durata, OperationID, backend timing e path di output non vi entrano.
+
+Esempio strutturale ridotto, non fixture numerica:
+
+```json
+{
+  "schema": "studio.glifi.export-manifest",
+  "schemaVersion": 1,
+  "exportID": "00000000-0000-0000-0000-000000000000",
+  "createdAt": "2026-09-15T00:00:00Z",
+  "software": {"name": "Glifi Studio", "version": "0.1.0", "build": "1"},
+  "project": {"id": "project:…", "generation": 1, "manifestDigest": "sha256:…"},
+  "corpus": {"id": "corpus:…", "digest": "sha256:…", "digestVersion": 1, "sources": []},
+  "analysis": {"artifactID": "artifact:…", "descriptorDigest": "sha256:…", "algorithm": {"id": "Frequency-v1", "version": 1}, "parameters": {}},
+  "preprocessing": [],
+  "backend": {"id": "swift-reference", "version": "1", "numericPolicy": "binary64"},
+  "determinism": {"class": "D0", "seed": null, "tolerances": null},
+  "selection": {"kind": "artifact", "filters": []},
+  "files": [],
+  "provenance": {"inputs": [], "lineageDigest": "sha256:…", "caveats": []},
+  "validation": {"manifestID": "validation:…", "manifestDigest": "sha256:…", "status": "candidate", "evidence": []},
+  "presentation": {"locale": "it-IT", "timeZone": "Europe/Rome"}
+}
+```
+
+Il manifest e i file vengono scritti nello stesso staging; ogni digest viene
+ricalcolato prima della sostituzione finale. Formula injection CSV, escaping
+Markdown/JSON, selezione e dati sensibili seguono GS-SEC-001. Un export privo di
+manifest valido è incompleto e non riceve `ExportReceipt`.
 
 ## Criteri di conformità
 
@@ -200,6 +343,8 @@ default se la selezione non lo richiede esplicitamente.
 - apertura sicura di oggetti mancanti, corrotti, futuri e riferimenti esterni;
 - identità di risultato tra esecuzione in-memory, streaming e riaperta;
 - nessun blob massivo nel database e nessuna lettura integrale obbligatoria.
+- validazione dello schema ExportManifest, digest di ogni file e assenza di path o
+  contenuto non selezionato;
 
 ## Riferimenti tecnici
 

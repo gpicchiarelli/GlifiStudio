@@ -29,3 +29,7 @@ La divulgazione, l'eventuale advisory e il coordinamento di una release corretti
 ## Ambito prioritario
 
 Sono particolarmente rilevanti parser e importatori, accesso ai file, sandbox ed entitlement, persistenza, gestione di input ostili, fuga di dati attraverso log o diagnostica, supply chain, modelli ML e strumenti esposti a sistemi generativi.
+
+Il modello normativo di asset, confini di fiducia, minacce THR-001–THR-020,
+controlli e verifiche è [GS-SEC-001](docs/sicurezza/README.md). Una segnalazione può
+citare gli ID senza includere nell'issue o nel titolo dettagli sfruttabili.

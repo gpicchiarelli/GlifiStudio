@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-10 |
 | Tipo | Capitolo normativo |
-| Versione | 0.5.0 |
+| Versione | 0.6.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -55,6 +55,15 @@ Un ADR **DEVE** riportare stato, contesto, decisione, alternative, conseguenze, 
 
 Le API pubbliche **DEVONO** essere minime, documentate e orientate al dominio. Tipi interni **NON DEVONO** diventare pubblici per aggirare un confine architetturale. Dipendenze verso framework e servizi sostituibili **DEVONO** attraversare contratti espliciti.
 
+GlifiKit e GlifiCLI seguono [GS-API-001](../api/README.md). Una dichiarazione Swift
+`public` non implica da sola SDK stabile, ABI, library evolution o distribuzione
+separata. Lifecycle, isolation, progressi, cancellazione, failure e compatibilità
+devono essere stabilizzati insieme ai contract test applicabili.
+
+Ogni trust boundary e input non fidato segue
+[GS-SEC-001](../sicurezza/README.md). Il sandbox e un framework di sistema sono
+controlli di difesa in profondità, non prove di validazione o contenimento completo.
+
 I backend Apple sono governati da [ADR-0008](../adr/0008-portafoglio-tecnologico-apple-silicon.md) e dal [profilo tecnologico Apple](../apple/README.md).
 
 La semantica dell'interazione è governata da [GS-UX-001](../esperienza-utente/README.md)
@@ -72,3 +81,7 @@ Il design implementativo è governato da
 package, QueryAST, DAG, runtime, route e VisualizationSpec **NON DEVONO** emergere
 come convenzioni private di una singola feature. I confini di autorità della
 famiglia impediscono duplicazioni con GS-MET e GS-UX.
+
+Ogni implementazione sostanziale deve entrare nella matrice di conformità
+machine-readable al gate Definition of Ready; una clausola senza codice/test/evidenza
+non può essere dichiarata verificata.
