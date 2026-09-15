@@ -21,6 +21,8 @@ Scripts/check-toolchain.sh
 Scripts/check-github-config.py
 Scripts/check-naming.py
 Scripts/check-docs.py
+Scripts/check-compliance.py
+Scripts/check-fixtures.py
 Scripts/check-architecture.sh
 Scripts/check-localization.py
 Scripts/check-apple-baseline.py

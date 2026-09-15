@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ISS-001 |
 | Tipo | Registro delle questioni e decisioni aperte |
-| Versione | 0.17.0 |
+| Versione | 0.18.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -22,8 +22,8 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-005 | GlifiStore | Quali requisiti copre il progetto esistente e con quali costi di integrazione? | Valutazione tecnica e prestazionale | Da assegnare | Aperta |
 | DA-006 | Offset | Qual è il contratto canonico per collegare byte, testo estratto e posizioni UI? | Prototipi Unicode, PDF e OCR | Iniziatore del progetto | Chiusa come contratto: intervalli UTF-8, representation digest e SpanMap; GS-DAT-001, ADR-0016. PDF/OCR da validare |
 | DA-007 | Versionamento | Quali identificatori, digest e formati concreti realizzano versioni, descriptor e Analysis DAG? | Prototipo di serializzazione, invalidazione e migrazione | Iniziatore del progetto | Chiusa come contratto: serializzazione canonica, SHA-256, domain separation e formati versionati; GS-DAT-001, GS-ANA-001, ADR-0016 |
-| DA-008 | Linguistica | Quali annotazioni italiane e quali lingue successive devono raggiungere quali soglie qualitative? | Corpus gold, split, metriche GS-MET-001-18 e valutazione dei backend | Da assegnare | Parzialmente definita: italiano e protocollo approvati; corpus e soglie aperti |
-| DA-009 | PDF/OCR | Quale qualità e quali informazioni spaziali devono essere preservate? | Corpus PDF rappresentativo e metriche OCR | Da assegnare | Aperta |
+| DA-008 | Linguistica | Quali annotazioni italiane e quali lingue successive devono raggiungere quali soglie qualitative? | Corpus gold, split, metriche GS-MET-001-18 e valutazione dei backend | Da assegnare | Parzialmente definita: italiano e 8 casi seed approvati come avvio; corpus gold, annotazioni e soglie aperti |
+| DA-009 | PDF/OCR | Quale qualità e quali informazioni spaziali devono essere preservate? | Corpus PDF rappresentativo e metriche OCR | Da assegnare | Aperta; presenti solo descrittori avversari, nessun corpus PDF/OCR |
 | DA-010 | Query | Qual è la sintassi pubblica per query testuali, linguistiche e sui metadati? | Prototipi API e UX | Iniziatore del progetto | Chiusa come contratto: QueryAST e `glifi-query-v1`; GS-QRY-001, ADR-0016. Usability test richiesti |
 | DA-011 | Benchmark | Quali dataset, soglie, dispositivi e margini promuovono Swift, Accelerate, Core ML o Metal a backend predefinito? | Scenari reali, energia, termica e riproducibilità | Da assegnare | Parzialmente definita: criteri e policy runtime approvati da ADR-0008/ADR-0018; baseline hardware aperta |
 | DA-012 | Distribuzione | App Store, distribuzione diretta o entrambe? | Sandbox, notarizzazione, plugin/modelli e accesso ai file | Iniziatore del progetto | Chiusa: App Store con distribuzione non in elenco, ADR-0011 |
@@ -39,12 +39,13 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-022 | Hosting GitHub | Quali organizzazione o account, piano e URL ospitano il remote privato? | Titolarità, costi, funzioni di protezione, backup e continuità | Iniziatore del progetto | Chiusa: `gpicchiarelli/GlifiStudio`, privato, profilo `solo`; ADR-0012 |
 | DA-023 | Ownership del codice | Quali handle o team sono proprietari dei percorsi sensibili? | Identità GitHub verificate e separazione delle responsabilità | Da assegnare | Aperta; `CODEOWNERS` intenzionalmente non attivo |
 | DA-024 | Accesso all'app non in elenco | Il possesso del link è sufficiente o gli utenti devono anche essere autenticati e autorizzati? | Pubblico previsto, dati trattati e modello di supporto | Iniziatore del progetto | Chiusa per 0.1: il link è sufficiente, nessun account; non è un controllo di accesso; GS-PROD-001, ADR-0016 |
-| DA-025 | Baseline numerica | Quali dataset, implementazioni indipendenti, tipi floating-point e tolleranze approvano ogni variante GS-MET iniziale? | Review scientifica, fixture pubblicabili e confronto cross-backend | Da assegnare | Aperta; classi e criteri definiti da GS-MET-001-03 |
+| DA-025 | Baseline numerica | Quali dataset, implementazioni indipendenti, tipi floating-point e tolleranze approvano ogni variante GS-MET iniziale? | Review scientifica, fixture pubblicabili e confronto cross-backend | Da assegnare | Aperta; 4 casi seed V1 disponibili, dataset/oracoli indipendenti e copertura Must mancanti |
 | DA-026 | Validazione UX | Quali profili utente, compiti, campione e soglie approvano efficacia, efficienza, comprensione e calibrazione? | Ricerca sul campo, protocollo ISO 9241-210 tailored e studi accessibili | Da assegnare | Aperta; dimensioni definite da GS-UX-001-13 |
 | DA-027 | Persistenza dell'indagine | Come serializzare storia ramificata, piani, findings, caveat, selezioni editoriali e stato per-scena? | Prototipi, migrazioni, crash recovery, concorrenza multi-finestra e dimensioni reali | Iniziatore del progetto | Chiusa come semantica: aggregate GS-DOM e package GS-DAT; schema fisico da provare al G2 |
 | DA-028 | Policy del planner | Quali intenzioni, famiglie, budget, regole di ridondanza e stime di costo appartengono al primo planner? | Casi d'uso, corpus, benchmark, decision table e review scientifica | Iniziatore del progetto | Chiusa per 0.1: `planner-mvp-v1` limitato al nucleo GS-PROD e regole GS-ANA; soglie da validare |
 | DA-029 | Solidità dei findings | Quali SupportPolicy e soglie per famiglia consentono strong/moderate/weak/caution/insufficient? | Simulazioni, corpus gold, effect size, stabilità e studi di comprensione | Da assegnare | Aperta; vietato un confidence score universale |
 | DA-030 | Relazione ed export | Quali formati, manifesti di lineage, regole editoriali e livelli generativi sono supportati? | Prototipi interoperabili, accessibilità, round-trip e verifica di attribuzione | Iniziatore del progetto | Chiusa per 0.1: PDF/Markdown umano, CSV/JSON macchina ed ExportManifest; generazione esclusa; GS-DAT/GS-PROD |
+| DA-031 | Stabilità GlifiKit/CLI | GlifiKit è già un SDK binario stabile e quali garanzie offre la CLI? | Client esterni, API surface, contract test, distribuzione e costo library evolution | Iniziatore del progetto | Chiusa per 0.x: contratto source-visible compilato con le app, nessuna ABI/module stability o SDK binario; GS-API-001, ADR-0019 |
 
 ## Prossime decisioni consigliate
 
@@ -52,5 +53,6 @@ Le prime decisioni ancora da affrontare sono DA-001, DA-008, DA-011, DA-015,
 DA-023, DA-025–DA-026 e DA-029. DA-005 e DA-009 richiedono prototipi post-baseline;
 DA-019–DA-021 restano intenzionalmente post-MVP affinché AI generativa,
 sincronizzazione e integrazioni di sistema non diventino dipendenze premature.
-Le chiusure operate da ADR-0016 stabiliscono contratti, non dichiarano superate le
-relative prove di G1/G2.
+Le chiusure operate da ADR-0016 e ADR-0019 stabiliscono contratti, non dichiarano
+superate le relative prove di G1/G2. Una futura distribuzione separata di GlifiKit
+riapre DA-031 mediante una nuova ADR.

@@ -6,12 +6,12 @@
 | --- | --- |
 | Identificatore | GS-DSG-IDX-001 |
 | Tipo | Indice delle specifiche di design |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
 | Approvazione | Baseline proposta; da approvare al gate G1 |
-| Riferimenti | GS-VIS-001; GS-SRS-001; GS-MET-001; GS-UX-001; GS-AD-001; ADR-0016 |
+| Riferimenti | GS-VIS-001; GS-SRS-001; GS-MET-001; GS-UX-001; GS-SEC-001; GS-API-001; GS-AD-001; ADR-0016; ADR-0019 |
 
 ## Scopo
 
@@ -42,6 +42,8 @@ verifiche interessati.
 | GS-UI-001 | Come si naviga e interagisce concretamente su macOS e iPadOS? | Semantica epistemica |
 | GS-VIZ-001 | Come diventano viste interrogabili gli artefatti scientifici? | Calcolo dell'artefatto sorgente |
 | GS-VAL-001 | Come si dimostra la correttezza dell'implementazione? | Approvazione scientifica per autorità |
+| GS-SEC-001 | Quali asset e trust boundary richiedono controlli e prove? | Semantica scientifica e design interno dei sottosistemi |
+| GS-API-001 | Quale contratto condividono app, GlifiKit e CLI? | Formato fisico, formule e layout UI |
 | GS-AD-001 | Quali componenti realizzano e collegano i contratti? | Motivazione di prodotto |
 
 ## Information item
@@ -81,6 +83,8 @@ Un'implementazione è conforme a questa famiglia soltanto quando:
 - persiste esclusivamente attraverso il contratto GS-DAT;
 - produce artefatti GS-MET attraverso pianificazione GS-ANA ed esecuzione GS-RUN;
 - presenta gli stessi oggetti secondo GS-UX, GS-UI e GS-VIZ;
+- attraversa input, log ed export secondo GS-SEC e offre operazioni condivise
+  esclusivamente attraverso GS-API;
 - supera le evidenze richieste da GS-VAL e i criteri di uscita GS-PROD.
 
 Una parte non ancora implementata **DEVE** restare dichiarata come tale. La

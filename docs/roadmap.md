@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-PLAN-001 |
 | Tipo | Piano di validazione e sviluppo |
-| Versione | 0.8.0 |
+| Versione | 0.9.0 |
 | Stato | Proposta |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -24,6 +24,8 @@ Obiettivo: rendere misurabili i vincoli prima di stabilizzare l'architettura.
 
 - validare i modelli hardware supportati per macOS 27 e iPadOS 27;
 - approvare GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD e assegnarne gli owner;
+- approvare GS-SEC/GS-API, eseguire threat review e mantenere la matrice di
+  conformità come gate Definition of Ready;
 - materializzare fixture S/M e corpus gold italiano riproducibili;
 - prototipare package `.glifi`, transazione generazionale e recovery;
 - provare SpanMap su NFC, Markdown e confini di chunk;
@@ -67,8 +69,9 @@ La slice deve includere:
 - matrice documento-termine sparsa, statistiche descrittive e almeno una
   ponderazione completamente versionata;
 - descriptor persistito e reference test indipendente per ogni artefatto;
-- cancellazione, errori strutturati, test e benchmark;
-- accesso tramite una CLI minimale;
+- cancellazione e failure semantics GS-API, test e benchmark;
+- accesso tramite GlifiCLI con status, project/import/plan/analyze/query/export,
+  exit status e output JSON coperti da contract test;
 - modello GS-DOM di indagine, intenzione, profilo e piano spiegabile;
 - fixture che dimostrano `applicable`, `notApplicable`, `unavailable` e
   `insufficientEvidence` senza dipendenza dalla GUI;

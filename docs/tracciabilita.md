@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.19.0 |
+| Versione | 0.20.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,10 +21,10 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, RF-050–RF-056, RF-079–RF-081, CV-006 | VA-01, VA-02, VA-06, VA-07, GS-LNG-001, GS-QRY-001, GS-ANA-001, ADR-0013–ADR-0016 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030, TV-039–TV-041, TV-052–TV-054 | Design implementativo definito; implementazione incompleta |
 | NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RF-077–RF-078, RF-084, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, GS-DAT-001, GS-VIZ-001, ADR-0013, ADR-0016 | TV-003, TV-004, TV-006, TV-027, TV-035, TV-051, TV-058 | Contratto tecnico di lineage definito; implementazione incompleta |
 | NS-003 Elaborare corpus massivi | RF-014, RQ-001, RQ-002, RQ-006, RQ-009, RQ-015, RQ-016, RQ-018, RQ-041, RQ-048, RQ-052–RQ-055, CV-013, CV-016 | VA-03, VA-04, GS-RUN-001, GS-APL-015, ADR-0008, ADR-0016, ADR-0018 | TV-009, TV-010, TV-019, TV-056–TV-057, TV-065–TV-068 | Policy runtime attiva; sorgenti eventi, baseline hardware e soglie da misurare |
-| NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RF-047–RF-048, RF-070–RF-071, RF-075–RF-077, RF-081, RQ-004, RQ-033, RQ-043 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, GS-ANA-001, ADR-0014, ADR-0016 | TV-001, TV-005, TV-037, TV-047, TV-050–TV-051, TV-054, TV-060 | Package e invalidazione specificati; implementazione incompleta |
+| NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RF-047–RF-048, RF-070–RF-071, RF-075–RF-077, RF-081, RQ-004, RQ-033, RQ-043, RQ-059 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, GS-ANA-001, ADR-0014, ADR-0016, ADR-0019 | TV-001, TV-005, TV-037, TV-047, TV-050–TV-051, TV-054, TV-060, TV-072 | Protocollo di recovery specificato; implementazione incompleta |
 | NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Contratto metadata-first definito; implementazione incompleta |
-| NS-006 Usare capacità headless e automatizzabili | RF-023, RF-080, RF-083, CV-003 | VA-01, VA-02, GS-QRY-001, GS-ANA-001, ADR-0002, ADR-0016 | TV-011, TV-053, TV-056 | Contratto comune definito; scaffold preliminare presente |
-| NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RF-076, RF-081–RF-083, RQ-003, RQ-007–RQ-018, RQ-023–RQ-029, RQ-043–RQ-056, CV-014, CV-016 | VA-03–VA-06, GS-DAT-001, GS-ANA-001, GS-VAL-001, GS-APL-014–GS-APL-015, ADR-0006, ADR-0008, ADR-0013, ADR-0016–ADR-0018 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033, TV-051, TV-054–TV-069 | Contratti, policy operative e test unitari definiti; prove reali incomplete |
+| NS-006 Usare capacità headless e automatizzabili | RF-023, RF-080, RF-083, RQ-058, RQ-060, CV-003 | VA-01, VA-02, GS-QRY-001, GS-ANA-001, GS-API-001, ADR-0002, ADR-0016, ADR-0019 | TV-011, TV-053, TV-056, TV-071, TV-073 | Contratto pre-1.0 definito; solo status/smoke implementato |
+| NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RF-076, RF-081–RF-083, RQ-003, RQ-007–RQ-018, RQ-023–RQ-029, RQ-043–RQ-062, CV-014, CV-016 | VA-03–VA-06, GS-DAT-001, GS-ANA-001, GS-VAL-001, GS-SEC-001, GS-API-001, GS-APL-014–GS-APL-015, ADR-0006, ADR-0008, ADR-0013, ADR-0016–ADR-0019 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033, TV-051, TV-054–TV-075 | Contratti e matrice meccanica definiti; prove funzionali/scientifiche reali incomplete |
 | NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RF-083, RF-086, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, RQ-047, RQ-049–RQ-056, CV-001–CV-020 | VA-01, VA-02, VA-04, VA-05, VA-07, GS-UI-001, GS-PROD-001, GS-APL-014–GS-APL-015, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014–ADR-0018 | TV-013, TV-015–TV-025, TV-044, TV-048–TV-049, TV-058, TV-061–TV-069 | Toolchain, privacy operativa e policy risorse definite; prove hardware e flussi incompleti |
 | NS-009 Comprendere metodi e limiti | RF-026–RF-038, RF-042, RF-044–RF-046, RQ-023, RQ-025–RQ-028 | VA-06, ADR-0013, GS-MET-001 | TV-026–TV-032, TV-034–TV-036 | Specifica completa; review scientifica e implementazione mancanti |
 | NS-010 Analizzare metadati e tempo | RF-029, RF-031, RF-032, RF-035, RF-040 | VA-03, VA-06, GS-MET-001-17 | TV-027, TV-029–TV-031 | Contratto definito; implementazione mancante |
@@ -56,6 +56,30 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | GS-VIZ-001 | RF-046, RF-062, RF-084; RQ-028, RQ-037 | VA-06, VA-07 | TV-035, TV-044, TV-058 |
 | GS-VAL-001 | RF-022, RF-041, RF-045; RQ-008, RQ-023–RQ-029, RQ-045 | Tutte | TV-026–TV-036, TV-052–TV-060 |
 | GS-PROD-001 | RF-024–RF-025, RF-086; RQ-020 | VA-01, VA-05, VA-07 | TV-024–TV-025, TV-061 |
+| GS-SEC-001 | RQ-042, RQ-044, RQ-046, RQ-049–RQ-050, RQ-057 | Tutte le superfici non fidate | TV-060, TV-062–TV-063, TV-070 |
+| GS-API-001 | RF-023, RF-080, RF-083; RQ-007, RQ-011, RQ-058, RQ-060 | VA-01, VA-02, VA-04 | TV-011–TV-012, TV-056, TV-071, TV-073 |
+
+## Matrice di conformità implementativa
+
+La fonte machine-readable è
+[`Config/Compliance/specification-matrix.json`](../Config/Compliance/specification-matrix.json).
+Ogni riga collega una clausola a requisito, documento autorevole, codice, test,
+fixture, evidenza e gate. `make check-compliance` verifica ID univoci, requisiti e
+path esistenti e impedisce le promozioni prive delle prove minime.
+
+| Stato | Significato | Riferimenti minimi |
+| --- | --- | --- |
+| `specified` | contratto presente, implementazione non dichiarata | specifica e requisito |
+| `implemented` | codice presente, verifica non ancora acquisita | specifica, requisito e codice |
+| `verified` | prova riproducibile registrata | specifica, requisito, codice, test ed evidenza |
+| `blocked` | lavoro impedito da una lacuna esplicita | specifica, requisito e `blockingReason` |
+
+La matrice iniziale include 21 clausole ad alto rischio e rende visibili, senza
+falsi positivi, le lacune su corpus italiano, baseline numerica, SupportPolicy e
+ranking, studi UX, PDF/OCR e hardware. La domanda “GS-DAT, protocollo di commit: è
+implementato e provato?” ottiene quindi stato, percorsi e blocco dalla stessa riga.
+L'estensione alle restanti clausole avviene prima del coding tramite Definition of
+Ready; l'assenza di una riga per codice nuovo è una non conformità.
 
 ## Evidenze acquisite
 
@@ -73,6 +97,7 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | [GS-VER-014](evidenze/GS-VER-014-baseline-swift-6-4.md) | CV-020; TV-049 e regressione TV-011/TV-013 | Superato localmente | CI remota non avviata per il budget Actions già registrato |
 | [GS-VER-015](evidenze/GS-VER-015-specifiche-di-design.md) | Revisione documentale di TV-050–TV-061 | Superato per struttura e coerenza | Non costituisce implementazione, benchmark o validazione scientifica/UX |
 | [GS-VER-016](evidenze/GS-VER-016-osservabilita-e-sostenibilita-macos.md) | TV-062, TV-064–TV-065; baseline statica TV-063/TV-069 | Superato localmente per policy, test, build e packaging | Profiling event-driven, hardware e Organizer TV-063/TV-066–TV-068 ancora aperti |
+| [GS-VER-017](evidenze/GS-VER-017-sicurezza-api-e-conformita.md) | Revisione documentale TV-070–TV-076 e gate della matrice | Superato localmente per contratti e automazione | Non prova parser, persistenza, API funzionale, corpus, benchmark o studi UX |
 
 ## Catalogo delle verifiche pianificate
 
@@ -147,6 +172,13 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | TV-067 | Audit QoS e attività | Priorità coerenti con intento, token owned e conclusi, idle system sleep consentito |
 | TV-068 | Baseline operativa macOS | Instruments e Organizer per energia, CPU, memoria, I/O, launch e hang con regressioni governate |
 | TV-069 | Audit export diagnostico | Funzione assente in 0.1; una futura versione prova gesto esplicito, preview, limiti, redazione e cleanup |
+| TV-070 | Threat review e prove di sicurezza | Asset/TB/THR GS-SEC allineati; corpus avversario, fuzz, limiti, entitlement e rischio residuo riesaminati |
+| TV-071 | Contract test delle failure | Tutte le categorie preservano retry, retained state, terminale unico e messaggi localizzabili non sensibili |
+| TV-072 | Kill-injection e crash recovery | Import, indice, DAG, autosave, migrazione ed export interrotti a ogni passo espongono solo generazioni verificate |
+| TV-073 | Contract test GlifiKit/GlifiCLI | API surface, Sendable/isolation, progress, cancellazione, exit status, stream JSON e parità fra interfacce |
+| TV-074 | Test ExportManifest v1 | Schema canonico, digest, descriptor, backend, provenance, file e assenza di path/fonti non selezionate |
+| TV-075 | Audit della matrice di conformità | ID, requisiti, path e promozioni di stato validati automaticamente; campione revisionato manualmente |
+| TV-076 | Audit Definition of Ready | Ogni feature in coding possiede outcome, requisiti, dominio/API, failure, UX, verifica, sicurezza e prestazioni applicabili |
 
 ## Lacune note
 
@@ -163,5 +195,9 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
   dispositivi e approvazioni; GS-VER-015 valida soltanto struttura e integrazione.
 - TV-063, TV-066–TV-069 richiedono flussi reali, corpus canary, build di rilascio e
   hardware; la baseline corrente copre soltanto policy, audit statico e test unitari.
+- TV-070–TV-074 e TV-076 sono contratti e verifiche pianificate: la sola validazione
+  documentale/strutturale di GS-VER-017 non prova parser, recovery, API o export.
+- La matrice di conformità è inizialmente campionata sulle clausole ad alto rischio;
+  ogni feature deve aggiungere le proprie righe al gate Definition of Ready.
 - TV-023–TV-025 richiedono una build funzionalmente completa, identità Apple, URL pubblici e attività nei sistemi Apple.
 - La matrice deve essere aggiornata insieme a ogni modifica dei requisiti o dell'architettura.

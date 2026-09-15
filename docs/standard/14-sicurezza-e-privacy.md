@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-14 |
 | Tipo | Capitolo normativo |
-| Versione | 0.6.0 |
+| Versione | 0.7.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -16,6 +16,11 @@
 Il progetto applica le quattro aree del NIST SSDF: preparare l'organizzazione, proteggere il software, produrre software ben protetto e rispondere alle vulnerabilità.
 
 ## 14.2 Modellazione delle minacce
+
+Il modello normativo di asset, confini di fiducia, minacce, controlli e prove è
+[GS-SEC-001](../sicurezza/README.md). La sua revisione è obbligatoria prima di G2,
+prima di G4 e quando cambia un parser, un formato, un entitlement, una dipendenza,
+la rete, un modello o una destinazione dati.
 
 Prima di G2 devono essere modellate almeno le minacce relative a:
 
