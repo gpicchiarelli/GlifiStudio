@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-REP-005 |
 | Tipo | Descrizione della pipeline |
-| Versione | 1.1.0 |
+| Versione | 1.2.0 |
 | Stato | Configurato localmente |
 | Responsabile | Responsabile tecnico, da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -40,6 +40,13 @@ Caching, parallelismo, coverage, benchmark e test UI si introducono quando esist
 artefatti e soglie reali. Ogni cache deve avere chiave deterministica e non contenere
 segreti. Workflow di firma e pubblicazione restano separati e richiedono un ambiente
 protetto. Il packaging senza firma è obbligatorio e non costituisce una release.
+
+## Stato remoto iniziale
+
+Sul primo push GitHub ha creato entrambi i job, ma non ha avviato step perché il
+budget Actions dell'account impedisce ulteriore utilizzo. Questa condizione è un
+blocco infrastrutturale: la CI non è verificata e non deve essere marcata verde o
+sostituita da Xcode precedente. L'evidenza è [GS-VER-010](../evidenze/GS-VER-010-attivazione-github-privato.md).
 
 ## Riferimenti operativi
 

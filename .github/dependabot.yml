@@ -10,6 +10,9 @@ updates:
       time: "06:00"
       timezone: Europe/Rome
     open-pull-requests-limit: 5
+    labels:
+      - type:dependencies
+      - area:ci
     groups:
       github-actions:
         patterns:

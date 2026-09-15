@@ -20,6 +20,11 @@
     "description": "Documentazione controllata o materiale per collaboratori"
   },
   {
+    "name": "type:dependencies",
+    "color": "0366D6",
+    "description": "Aggiornamento controllato di dipendenze o GitHub Actions"
+  },
+  {
     "name": "type:security",
     "color": "B60205",
     "description": "Lavoro di sicurezza autorizzato e non sensibile"

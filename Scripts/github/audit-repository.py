@@ -32,6 +32,21 @@ def api(path: str) -> Any:
     return json.loads(result.stdout)
 
 
+def optional_rulesets(path: str) -> tuple[Any | None, str | None]:
+    """Read rulesets, distinguishing plan unavailability from operational errors."""
+    result = subprocess.run(
+        ["gh", "api", *API_HEADERS, path],
+        check=False,
+        capture_output=True,
+        text=True,
+    )
+    if result.returncode == 0:
+        return json.loads(result.stdout), None
+    if "Upgrade to GitHub Pro" in result.stderr:
+        return None, "ruleset non disponibile sul piano del repository privato"
+    raise RuntimeError(f"Impossibile leggere {path}: {result.stderr.strip()}")
+
+
 def enabled_endpoint(path: str) -> bool:
     """Return whether a no-content feature endpoint reports enabled."""
     result = subprocess.run(
@@ -77,6 +92,7 @@ def main() -> int:
         return 2
 
     errors: list[str] = []
+    warnings: list[str] = []
     settings = json.loads(
         (PROJECT_DIRECTORY / "Config/GitHub/repository-settings.json").read_text(
             encoding="utf-8"
@@ -104,7 +120,6 @@ def main() -> int:
         "allow_squash_merge": settings["merge"]["squash"],
         "allow_merge_commit": settings["merge"]["mergeCommit"],
         "allow_rebase_merge": settings["merge"]["rebase"],
-        "allow_auto_merge": settings["merge"]["autoMerge"],
         "allow_update_branch": settings["merge"]["allowBranchUpdate"],
         "delete_branch_on_merge": settings["merge"]["deleteBranchOnMerge"],
         "archived": False,
@@ -156,26 +171,43 @@ def main() -> int:
     access = api(f"repos/{repository}/actions/permissions/access")
     require_equal(errors, access.get("access_level"), "none", "actions.access_level")
 
-    rulesets = api(f"repos/{repository}/rulesets")
-    matching_rulesets = [
-        ruleset for ruleset in rulesets if ruleset.get("name") == desired_ruleset["name"]
-    ]
-    if len(matching_rulesets) != 1:
-        errors.append("ruleset main assente o duplicato")
+    rulesets, ruleset_warning = optional_rulesets(f"repos/{repository}/rulesets")
+    if ruleset_warning is not None:
+        warnings.append(ruleset_warning)
+        if repository_state.get("allow_auto_merge") is not True:
+            warnings.append("auto-merge non disponibile senza protezione del branch")
     else:
-        actual_ruleset = api(
-            f"repos/{repository}/rulesets/{matching_rulesets[0]['id']}"
+        require_equal(
+            errors,
+            repository_state.get("allow_auto_merge"),
+            True,
+            "repository.allow_auto_merge",
         )
-        if not subset(actual_ruleset, desired_ruleset):
-            errors.append(f"ruleset main non conforme al profilo {profile}")
+        matching_rulesets = [
+            ruleset
+            for ruleset in rulesets
+            if ruleset.get("name") == desired_ruleset["name"]
+        ]
+        if len(matching_rulesets) != 1:
+            errors.append("ruleset main assente o duplicato")
+        else:
+            actual_ruleset = api(
+                f"repos/{repository}/rulesets/{matching_rulesets[0]['id']}"
+            )
+            if not subset(actual_ruleset, desired_ruleset):
+                errors.append(f"ruleset main non conforme al profilo {profile}")
 
     actual_labels = {
         label["name"]: (label["color"].upper(), label.get("description") or "")
         for label in api(f"repos/{repository}/labels?per_page=100")
     }
+    desired_label_names = {label["name"] for label in desired_labels}
     for label in desired_labels:
         expected = (label["color"], label["description"])
         require_equal(errors, actual_labels.get(label["name"]), expected, f"label.{label['name']}")
+    unexpected_labels = sorted(set(actual_labels) - desired_label_names)
+    if unexpected_labels:
+        errors.append(f"etichette non dichiarate: {', '.join(unexpected_labels)}")
 
     if not enabled_endpoint(f"repos/{repository}/vulnerability-alerts"):
         errors.append("Dependabot alerts non abilitati")
@@ -184,10 +216,14 @@ def main() -> int:
 
     security = repository_state.get("security_and_analysis", {})
     secret_scanning = security.get("secret_scanning")
-    if secret_scanning is not None and secret_scanning.get("status") != "enabled":
+    if secret_scanning is None:
+        warnings.append("Secret scanning non disponibile sul piano corrente")
+    elif secret_scanning.get("status") != "enabled":
         errors.append("Secret scanning disponibile ma non abilitato")
     push_protection = security.get("secret_scanning_push_protection")
-    if push_protection is not None and push_protection.get("status") != "enabled":
+    if push_protection is None:
+        warnings.append("push protection non disponibile sul piano corrente")
+    elif push_protection.get("status") != "enabled":
         errors.append("Push protection disponibile ma non abilitata")
 
     if errors:
@@ -196,7 +232,9 @@ def main() -> int:
             print(f"- {error}", file=sys.stderr)
         return 1
 
-    print(f"GitHub remote: {repository} conforme al profilo privato {profile}")
+    print(f"GitHub remote: {repository} conforme al profilo privato disponibile ({profile})")
+    for warning in warnings:
+        print(f"- Non disponibile: {warning}")
     return 0
 
 

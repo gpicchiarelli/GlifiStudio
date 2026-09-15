@@ -14,7 +14,7 @@
     "squash": true,
     "mergeCommit": false,
     "rebase": false,
-    "autoMerge": true,
+    "autoMerge": "required-if-available",
     "allowBranchUpdate": true,
     "deleteBranchOnMerge": true,
     "squashMessage": "pr-title-description"
@@ -30,6 +30,7 @@
     "externalWorkflowAccess": "none"
   },
   "security": {
+    "branchRulesets": "required-if-available",
     "dependencyGraph": "required",
     "dependabotAlerts": "required",
     "automatedSecurityUpdates": "required",

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-REP-003 |
 | Tipo | Checklist di configurazione |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Pronto per applicazione |
 | Responsabile | Amministratore del repository, da confermare |
 | Ultima modifica | 2026-09-15 |
@@ -32,7 +32,12 @@ Dopo il primo push applicare una delle ruleset versionate in `Config/GitHub/rule
 - richieda storia lineare;
 - non dichiarano bypass permanenti.
 
-La firma dei commit va resa obbligatoria appena tutti i contributori dispongono di firma verificata e il flusso di automazione è compatibile. Le funzioni disponibili per repository privati dipendono dal piano GitHub: ogni regola non disponibile deve essere registrata come rischio e coperta, per quanto possibile, da revisione e CI.
+La firma dei commit va resa obbligatoria appena tutti i contributori dispongono di
+firma verificata e il flusso di automazione è compatibile. Le funzioni disponibili
+per repository privati dipendono dal piano GitHub: ogni regola non disponibile deve
+essere registrata come rischio e coperta, per quanto possibile, da revisione e CI.
+`branchRulesets = required-if-available` rende questa degradazione esplicita; il
+profilo versionato resta pronto per l'attivazione appena il piano la consente.
 
 ## Actions
 

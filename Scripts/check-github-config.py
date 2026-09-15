@@ -37,12 +37,14 @@ def validate_repository_settings(settings: dict[str, Any], errors: list[str]) ->
         ("merge", "squash"): True,
         ("merge", "mergeCommit"): False,
         ("merge", "rebase"): False,
+        ("merge", "autoMerge"): "required-if-available",
         ("merge", "deleteBranchOnMerge"): True,
         ("actions", "allowedActions"): "selected",
         ("actions", "shaPinningRequired"): True,
         ("actions", "defaultWorkflowPermissions"): "read",
         ("actions", "canApprovePullRequests"): False,
         ("actions", "externalWorkflowAccess"): "none",
+        ("security", "branchRulesets"): "required-if-available",
     }
     for keys, expected in expected_values.items():
         value: Any = settings

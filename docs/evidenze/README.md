@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.9.0 |
+| Versione | 0.10.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -20,6 +20,7 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-004 — Baseline applicativa Apple](GS-VER-004-baseline-applicativa-apple.md) — Superato
 - [GS-VER-005 — Ridenominazione Glifi Studio](GS-VER-005-ridenominazione-glifi-studio.md) — Superato
 - [GS-VER-006 — Portafoglio tecnologico Apple](GS-VER-006-portafoglio-tecnologico-apple.md) — Superato; strategia e gate documentale
-- [GS-VER-007 — Baseline del repository privato](GS-VER-007-baseline-repository-privato.md) — Superato localmente; attivazione remote pendente
-- [GS-VER-008 — Preparazione del repository GitHub privato](GS-VER-008-preparazione-github-privato.md) — Superato localmente; bootstrap remoto pendente
+- [GS-VER-007 — Baseline del repository privato](GS-VER-007-baseline-repository-privato.md) — Superato localmente; sostituita da GS-VER-010
+- [GS-VER-008 — Preparazione del repository GitHub privato](GS-VER-008-preparazione-github-privato.md) — Superato localmente; sostituita da GS-VER-010
 - [GS-VER-009 — Preflight App Store](GS-VER-009-preflight-app-store.md) — Superato localmente; submission bloccata dai gate reali
+- [GS-VER-010 — Attivazione del repository GitHub privato](GS-VER-010-attivazione-github-privato.md) — Superato con limitazioni del provider

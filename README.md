@@ -21,6 +21,8 @@ Il nome visibile, i nomi tecnici e le eccezioni di provenienza sono definiti in 
 
 ## Repository privato
 
+Remote canonico: [github.com/gpicchiarelli/GlifiStudio](https://github.com/gpicchiarelli/GlifiStudio).
+
 La baseline include governo, contributi, sicurezza, supporto, modelli di issue e pull request, etichette, ruleset per maintainer singolo o team, Dependabot e CI Apple Silicon su Xcode 27. Il quality gate locale e remoto ha un unico ingresso:
 
 ```sh

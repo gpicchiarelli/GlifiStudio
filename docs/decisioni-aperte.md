@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ISS-001 |
 | Tipo | Registro delle questioni e decisioni aperte |
-| Versione | 0.12.0 |
+| Versione | 0.13.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -36,10 +36,13 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-019 | Intelligenza generativa | Quali funzioni assistive usano Foundation Models e con quali policy di modello, contesto, retention e fallback? | Prototipi italiani, valutazione qualità, privacy e disponibilità dispositivi | Da assegnare | Aperta; vincoli generali approvati da ADR-0008 |
 | DA-020 | Sincronizzazione Apple | CloudKit, iCloud e Handoff appartengono al prodotto e con quale modello di conflitto e uso offline? | Identità cross-device, privacy, quote, migrazioni e UX | Da assegnare | Aperta |
 | DA-021 | Integrazione di sistema | Quali entità e azioni esporre a Spotlight, App Intents, Siri e Shortcuts? | Flussi MVP, autorizzazioni, deep link e minimizzazione dati | Da assegnare | Aperta |
-| DA-022 | Hosting GitHub | Quali organizzazione o account, piano e URL ospitano il remote privato? | Titolarità, costi, funzioni di protezione, backup e continuità | Da assegnare | Parzialmente definita: GitHub e configurazione dichiarativa approvati da ADR-0010 |
+| DA-022 | Hosting GitHub | Quali organizzazione o account, piano e URL ospitano il remote privato? | Titolarità, costi, funzioni di protezione, backup e continuità | Iniziatore del progetto | Chiusa: `gpicchiarelli/GlifiStudio`, privato, profilo `solo`; ADR-0012 |
 | DA-023 | Ownership del codice | Quali handle o team sono proprietari dei percorsi sensibili? | Identità GitHub verificate e separazione delle responsabilità | Da assegnare | Aperta; `CODEOWNERS` intenzionalmente non attivo |
 | DA-024 | Accesso all'app non in elenco | Il possesso del link è sufficiente o gli utenti devono anche essere autenticati e autorizzati? | Pubblico previsto, dati trattati e modello di supporto | Da assegnare | Aperta; il link App Store non costituisce controllo degli accessi |
 
 ## Prossime decisioni consigliate
 
-Le prime decisioni da affrontare sono DA-001, DA-002, DA-003, DA-006, DA-007, DA-011, DA-015, DA-022 e DA-023. DA-019–DA-021 seguono la stabilizzazione dei contratti fondamentali: impediscono che AI generativa, sincronizzazione o integrazioni di sistema diventino dipendenze premature.
+Le prime decisioni da affrontare sono DA-001, DA-002, DA-003, DA-006, DA-007,
+DA-011, DA-015 e DA-023. DA-019–DA-021 seguono la stabilizzazione dei contratti
+fondamentali: impediscono che AI generativa, sincronizzazione o integrazioni di
+sistema diventino dipendenze premature.

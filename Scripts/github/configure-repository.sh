@@ -157,18 +157,26 @@ else
 fi
 
 ruleset_name="$(jq -r '.name' "$ruleset_file")"
-existing_ruleset_id="$(gh api "${api_headers[@]}" "repos/$repository/rulesets" \
-    --jq ".[] | select(.name == \"$ruleset_name\") | .id" | head -n 1)"
-
-if [[ -n "$existing_ruleset_id" ]]; then
-    gh api "${api_headers[@]}" --method PUT \
-        "repos/$repository/rulesets/$existing_ruleset_id" \
-        --input "$ruleset_file" \
-        --silent
+ruleset_listing=""
+if ruleset_listing="$(gh api "${api_headers[@]}" "repos/$repository/rulesets" 2>&1)"; then
+    existing_ruleset_id="$(print -r -- "$ruleset_listing" | jq -r \
+        ".[] | select(.name == \"$ruleset_name\") | .id" | head -n 1)"
+    if [[ -n "$existing_ruleset_id" ]]; then
+        gh api "${api_headers[@]}" --method PUT \
+            "repos/$repository/rulesets/$existing_ruleset_id" \
+            --input "$ruleset_file" \
+            --silent
+    else
+        gh api "${api_headers[@]}" --method POST "repos/$repository/rulesets" \
+            --input "$ruleset_file" \
+            --silent
+    fi
+elif [[ "$ruleset_listing" == *"Upgrade to GitHub Pro"* ]]; then
+    print "Ruleset GitHub non disponibile sul piano privato corrente; profilo conservato nel repository."
 else
-    gh api "${api_headers[@]}" --method POST "repos/$repository/rulesets" \
-        --input "$ruleset_file" \
-        --silent
+    print -u2 "Impossibile leggere o configurare le ruleset GitHub."
+    print -u2 -- "$ruleset_listing"
+    exit 1
 fi
 
 while IFS=$'\t' read -r label_name label_color label_description; do
@@ -178,5 +186,12 @@ while IFS=$'\t' read -r label_name label_color label_description; do
         --description "$label_description" \
         --force
 done < <(jq -r '.[] | [.name, .color, .description] | @tsv' "$labels_file")
+
+while IFS= read -r existing_label; do
+    if ! jq -e --arg name "$existing_label" \
+        'any(.[]; .name == $name)' "$labels_file" >/dev/null; then
+        gh label delete "$existing_label" --repo "$repository" --yes
+    fi
+done < <(gh label list --repo "$repository" --limit 100 --json name --jq '.[].name')
 
 "$script_directory/audit-repository.py" "$repository" "$profile"
