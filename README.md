@@ -44,7 +44,9 @@ poter tornare al metodo e al materiale che la sostengono.
 ```text
 acquisizione → estrazione → normalizzazione → segmentazione
             → tokenizzazione → annotazione → indicizzazione
-            → analisi → esplorazione → fonte originale
+            → analisi → evidenze → findings → esplorazione
+                                             ↕
+                                      fonte originale
 ```
 
 Glifi Studio non è un editor generalista con qualche statistica aggiunta e non è una semplice utility per contare parole. Il progetto separa il prodotto interattivo dal motore computazionale, tratta la scalabilità come vincolo architetturale e ammette ottimizzazioni soltanto quando benchmark e profiling ne dimostrano il valore.
@@ -63,7 +65,7 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | `GlifiKit` | Contratto pubblico minimo e indipendente dalla presentazione |
 | `GlifiCore` | Motore headless actor-based con configurazione linguistica esplicita |
 | `GlifiCLI` | Smoke test eseguibile del percorso senza interfaccia grafica |
-| Qualità | Controlli di repository, segreti, toolchain, naming, documentazione scientifica, architettura, localizzazione, baseline Apple e App Store |
+| Qualità | Gate riproducibile con Apple Swift 6.4, Swift 6 language mode, SwiftPM tools 6.4, test, build, documentazione scientifica/UX e controlli Apple/App Store |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |
 
 ## Principi di progetto
@@ -120,6 +122,27 @@ La dipendenza procede dall’esterno verso l’interno: il dominio non dipende d
 - Apple Swift 6.4 o successiva compatibile della serie 6, in Swift 6 language mode;
 - nessuna dipendenza runtime di terze parti nella baseline corrente.
 
+### Baseline Swift
+
+La versione scelta è **Apple Swift 6.4**. Compilatore, modalità linguistica e
+strumenti SwiftPM sono contratti distinti:
+
+| Livello | Baseline |
+| --- | --- |
+| Compilatore | Apple Swift 6.4, fornito da Xcode 27 |
+| Modalità linguistica | Swift 6 |
+| Configurazione Xcode | `SWIFT_VERSION = 6.0` |
+| Manifest del package | `swift-tools-version: 6.4` e `swiftLanguageModes: [.v6]` |
+| Sicurezza del codice concorrente | `SWIFT_STRICT_CONCURRENCY = complete` |
+| Diagnostica | warning Swift e Clang trattati come errori |
+
+`SWIFT_VERSION = 6.0` è intenzionale: seleziona la modalità linguistica Swift 6 e
+non indica l'uso del compilatore 6.0. Una versione successiva della serie 6 entra
+nella baseline soltanto con Xcode 27 e dopo il superamento dell'intero quality gate;
+Swift 7 richiederà una nuova decisione. Il contratto completo è in
+[ADR-0015](docs/adr/0015-baseline-swift-6-4.md) e nella
+[guida dell'ambiente](docs/ambiente-di-sviluppo.md).
+
 ### Workspace Xcode
 
 ```sh
@@ -160,6 +183,7 @@ Controlli mirati:
 
 | Comando | Scopo |
 | --- | --- |
+| `make check-toolchain` | Verifica Xcode 27, Apple Swift 6.4+, language mode, SwiftPM tools e strict concurrency |
 | `make test` | Test dei package Swift |
 | `make lint` | Formattazione Swift in modalità strict |
 | `make build-macos` | Build Debug macOS senza firma |
@@ -174,11 +198,11 @@ Le prove riproducibili vengono registrate nell’[indice delle evidenze](docs/ev
 
 Lo sviluppo riduce prima i rischi che possono invalidare l’architettura:
 
-1. **Decisioni e fattibilità** — streaming, offset Unicode, identità, descriptor/DAG, reference corpus, persistenza, benchmark e qualità linguistica.
-2. **Vertical slice headless** — dal testo UTF-8 a matrice, frequenze e query con metodi versionati e riapertura riproducibile.
-3. **Primo flusso interattivo** — progetti, importazione, metadati, frequenze, concordanze e ritorno alla fonte su macOS e iPadOS.
-4. **Documenti e corpus ricchi** — PDF, OCR tracciato, metadati, sottoinsiemi e prime analisi statistiche validate.
-5. **Analisi avanzata** — CA, clustering, grafi, topic e sintesi classica, servizi linguistici sostituibili, embedding e accelerazioni provate dai benchmark.
+1. **Decisioni e fattibilità** — streaming, offset Unicode, persistenza, corpus di riferimento, tassonomia delle intenzioni, planner e policy di solidità.
+2. **Vertical slice headless** — dal testo UTF-8 a progetto, indagine, profilo della raccolta, piano spiegabile, evidenze e risultati riproducibili.
+3. **Primo flusso interattivo** — domanda iniziale, importazione progressiva, sintesi editoriale, oggetti esplorabili e catena Conclusione → Evidenza → Fonti → Metodo.
+4. **Documenti e corpus ricchi** — PDF, OCR tracciato, metadati, confronto, cronologia ramificata e relazione dell'indagine.
+5. **Analisi avanzata** — metodi multivariati, grafi, topic, servizi linguistici sostituibili e accelerazioni approvate da correttezza e benchmark.
 
 La sequenza, i criteri di uscita e la natura ancora proposta del piano sono definiti nella [roadmap completa](docs/roadmap.md).
 
@@ -207,6 +231,7 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Matrice di tracciabilità](docs/tracciabilita.md)
 - [Standard di progetto](docs/standard-di-progetto.md)
 - [Tecnologie e pratiche Apple](docs/apple/README.md)
+- [Ambiente Xcode e baseline Swift](docs/ambiente-di-sviluppo.md)
 - [Preparazione App Store](docs/app-store/README.md)
 - [Decisioni aperte](docs/decisioni-aperte.md)
 - [Registro ADR](docs/adr/README.md)
