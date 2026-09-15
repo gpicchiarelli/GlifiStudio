@@ -6,12 +6,12 @@
 | --- | --- |
 | Identificatore | GS-RUN-001 |
 | Tipo | Specifica di design del runtime |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
 | Approvazione | Baseline proposta; coefficienti da calibrare con benchmark su dispositivi |
-| Riferimenti | GS-ANA-001; GS-DAT-001; GS-MET-001; ADR-0008; GS-STD-001-17 |
+| Riferimenti | GS-ANA-001; GS-DAT-001; GS-MET-001; GS-APL-015; ADR-0008; ADR-0018; GS-STD-001-17 |
 
 ## Scopo
 
@@ -116,6 +116,12 @@ esplicita; l'eviction non invalida Artifact autorevoli.
 
 ## Memoria, spazio, energia e termica
 
+Ogni admission usa uno snapshot immutabile di Low Power Mode, thermal state,
+memory pressure e attività dell'app. Le variazioni arrivano da notifiche di
+sistema e `DispatchSourceMemoryPressure`, mai da polling. `GlifiRuntimePolicy`
+costituisce il riferimento eseguibile della decision table GS-APL-015; un flusso
+lungo non può entrare nel prodotto prima dell'adattatore macOS event-driven.
+
 In memory warning o pressione critica il runtime, nell'ordine:
 
 1. interrompe nuove admission;
@@ -129,6 +135,11 @@ possibile. Esaurimento disco non sostituisce il manifest di progetto. In stato
 termico serious/critical o Low Power Mode, lavoro non richiesto dall'utente è
 differito e Accelerate/Metal/Core ML sono usati solo se il profilo ne dimostra il
 vantaggio complessivo.
+
+L'app inattiva sospende utility e manutenzione, elimina timer e torna eleggibile
+per App Nap. Eventuali attività `ProcessInfo` sono finite, owned e usano una policy
+che consente idle system sleep; assertion permanenti o latency-critical sono
+vietate.
 
 ## Priorità e responsività
 

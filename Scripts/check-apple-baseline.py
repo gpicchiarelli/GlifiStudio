@@ -35,6 +35,8 @@ def main() -> int:
         "docs/apple/11-calcolo-accelerato-apple-silicon.md",
         "docs/apple/12-persistenza-e-indicizzazione-di-sistema.md",
         "docs/apple/13-integrazione-di-sistema-e-lavoro-prolungato.md",
+        "docs/apple/14-osservabilita-e-telemetria-macos.md",
+        "docs/apple/15-sostenibilita-di-sistema-macos.md",
     )
     profile_documents: list[str] = []
     for relative_path in profile_document_paths:
@@ -60,11 +62,36 @@ def main() -> int:
         "BackgroundTasks",
         "Logger",
         "OSSignposter",
+        "MetricKit",
+        "Xcode Organizer",
+        "Low Power Mode",
+        "App Nap",
+        "DispatchSourceMemoryPressure",
     )
     combined_profile = "\n".join(profile_documents)
     for technology in required_technology_fragments:
         if technology not in combined_profile:
             errors.append(f"Tecnologia non assegnata nel profilo Apple: {technology}")
+
+    required_operational_document_markers = {
+        "docs/adr/README.md": ("ADR-0017", "ADR-0018"),
+        "docs/requisiti.md": ("RQ-049", "RQ-056"),
+        "docs/tracciabilita.md": ("TV-062", "TV-069", "GS-VER-016"),
+        "docs/standard/14-sicurezza-e-privacy.md": ("GS-APL-014",),
+        "docs/standard/18-errori-logging-e-osservabilita.md": ("GlifiDiagnostics",),
+        "docs/specifiche-di-design/06-runtime-e-risorse.md": (
+            "GlifiRuntimePolicy",
+            "DispatchSourceMemoryPressure",
+        ),
+        "docs/evidenze/README.md": ("GS-VER-016",),
+    }
+    for relative_path, markers in required_operational_document_markers.items():
+        body = read(relative_path)
+        for marker in markers:
+            if marker not in body:
+                errors.append(
+                    f"Integrazione della policy operativa mancante in {relative_path}: {marker}"
+                )
 
     project = read("GlifiStudio.xcodeproj/project.pbxproj")
     base_configuration = read("Config/Base.xcconfig")
@@ -79,6 +106,15 @@ def main() -> int:
     model_source = read("Apps/Shared/StudioHomeModel.swift")
     view_source = read("Apps/Shared/StudioHomeView.swift")
     macos_app_source = read("Apps/macOS/GlifiStudioMacApp.swift")
+    diagnostics_source = read(
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiDiagnostics.swift"
+    )
+    operational_policy_source = read(
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiOperationalPolicy.swift"
+    )
+    operational_policy_tests = read(
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiOperationalPolicyTests.swift"
+    )
 
     privacy_path = PROJECT_DIRECTORY / "Apps/Shared/Resources/PrivacyInfo.xcprivacy"
     with privacy_path.open("rb") as privacy_file:
@@ -166,6 +202,125 @@ def main() -> int:
 
     if ".defaultSize(" not in macos_app_source or ".frame(minWidth:" in macos_app_source:
         errors.append("La finestra macOS deve avere una default size senza minimo rigido.")
+
+    required_diagnostics_fragments = (
+        'static let subsystem = "studio.glifi.GlifiStudio"',
+        'category: "lifecycle"',
+        'category: "runtime"',
+        'category: "performance"',
+        "privacy: .public",
+        "OSSignposter",
+        '"ImportSources"',
+        '"ExtractText"',
+        '"Tokenize"',
+        '"BuildIndex"',
+        '"RunQuery"',
+        '"RunInference"',
+    )
+    for fragment in required_diagnostics_fragments:
+        if fragment not in diagnostics_source:
+            errors.append(f"Contratto diagnostico Apple mancante: {fragment}")
+
+    required_policy_fragments = (
+        "allowsRemoteTelemetry = false",
+        "allowsThirdPartyTelemetry = false",
+        "allowsAutomaticDiagnosticExport = false",
+        "allowsCorpusContentInDiagnostics = false",
+        "isLowPowerModeEnabled",
+        "thermalCondition",
+        "memoryPressure",
+        "isApplicationActive",
+        "maximumParallelism",
+        "allowsSpeculativeWork",
+        "shouldCheckpoint",
+    )
+    for fragment in required_policy_fragments:
+        if fragment not in operational_policy_source:
+            errors.append(f"Policy operativa macOS mancante: {fragment}")
+
+    required_policy_test_fragments = (
+        "telemetryPolicyIsLocalAndExplicit",
+        "criticalPressureProtectsTheSystem",
+        "lowPowerModeConstrainsScheduling",
+        "inactiveApplicationSuspendsMaintenance",
+        "nominalProfileCapsParallelism",
+        "completeSystemConditionMatrixIsDeterministicAndBounded",
+        "signpostsPreserveOperationResults",
+    )
+    for fragment in required_policy_test_fragments:
+        if fragment not in operational_policy_tests:
+            errors.append(f"Test della policy operativa mancante: {fragment}")
+
+    swift_sources = sorted(
+        path
+        for directory in (
+            PROJECT_DIRECTORY / "Apps",
+            PROJECT_DIRECTORY / "Packages/GlifiCore/Sources",
+        )
+        for path in directory.rglob("*.swift")
+    )
+    diagnostics_path = (
+        PROJECT_DIRECTORY / "Packages/GlifiCore/Sources/GlifiCore/GlifiDiagnostics.swift"
+    )
+    cli_directory = PROJECT_DIRECTORY / "Packages/GlifiCore/Sources/GlifiCLI"
+    forbidden_telemetry_fragments = (
+        "FirebaseAnalytics",
+        "Sentry",
+        "TelemetryDeck",
+        "PostHog",
+        "Amplitude",
+        "Mixpanel",
+        "Datadog",
+        "NewRelic",
+        "AppCenter",
+        "FullStory",
+        "Smartlook",
+        "UXCam",
+        "import MetricKit",
+        "MetricKit.framework",
+    )
+    forbidden_network_fragments = (
+        "URLSession",
+        "import Network",
+        "Network.framework",
+    )
+
+    for path in swift_sources:
+        body = path.read_text(encoding="utf-8")
+        relative_path = path.relative_to(PROJECT_DIRECTORY)
+
+        if path != diagnostics_path:
+            for fragment in (
+                "import OSLog",
+                "Logger(",
+                "OSSignposter(",
+                "os_log(",
+                "NSLog(",
+            ):
+                if fragment in body:
+                    errors.append(
+                        f"Logging non centralizzato in {relative_path}: {fragment}"
+                    )
+
+        if cli_directory not in path.parents and "print(" in body:
+            errors.append(f"Output non strutturato vietato in {relative_path}: print(")
+
+        for fragment in (*forbidden_telemetry_fragments, *forbidden_network_fragments):
+            if fragment.casefold() in body.casefold():
+                errors.append(f"Capacità operativa non autorizzata in {relative_path}: {fragment}")
+
+        for fragment in (
+            ".idleSystemSleepDisabled",
+            ".idleDisplaySleepDisabled",
+            ".latencyCritical",
+        ):
+            if fragment in body:
+                errors.append(f"Assertion energetica non autorizzata in {relative_path}: {fragment}")
+
+    dependency_surfaces = "\n".join((read("Packages/GlifiCore/Package.swift"), project))
+    for fragment in (*forbidden_telemetry_fragments, *forbidden_network_fragments):
+        if fragment.casefold() in dependency_surfaces.casefold():
+            errors.append(f"Dipendenza operativa non autorizzata: {fragment}")
 
     forbidden_fragments = (
         "NSAllowsArbitraryLoads = YES",

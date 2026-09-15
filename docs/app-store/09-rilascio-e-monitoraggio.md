@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-009 |
 | Tipo | Piano operativo di rilascio |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Pianificato |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -24,7 +24,13 @@ avere una procedura di recupero testata.
 
 ## Monitoraggio
 
-Sorvegliare crash, hang, feedback, recensioni eventualmente presenti, metriche
-privacy-safe approvate e ticket di supporto. Definire turnazione, severità, tempi di
-risposta e criteri di hotfix prima del rilascio. Il link non in elenco deve essere
-trattato come distribuibile, non come segreto revocabile.
+Xcode Organizer è il canale primario per crash, hang, launch, memoria, scritture ed
+energia delle build distribuite, quando Apple dispone di un campione sufficiente.
+La 0.1 non incorpora telemetria, crash upload o subscriber MetricKit: feedback e
+ticket restano canali espliciti e separati. Accesso alle metriche, triage e report
+seguono minimo privilegio e non devono includere contenuto dei corpus.
+
+Definire turnazione, severità, tempi di risposta, soglie di regressione e criteri
+di hotfix prima del rilascio. Il link non in elenco deve essere trattato come
+distribuibile, non come segreto revocabile. La policy completa è
+[GS-APL-014](../apple/14-osservabilita-e-telemetria-macos.md).

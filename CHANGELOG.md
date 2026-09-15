@@ -28,6 +28,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   validazione scientifica e product baseline 0.1.
 - ADR-0016 per formato di progetto, store SQLite di sistema, oggetti SHA-256,
   SpanMap, perimetro locale e nucleo analitico del primo prodotto completo.
+- ADR-0017 e policy macOS per zero telemetria applicativa, Unified Logging
+  centralizzato, signpost tipizzati e Xcode Organizer come canale di campo.
+- ADR-0018 e `GlifiRuntimePolicy` per Low Power Mode, termica, pressione memoria,
+  lifecycle, QoS, App Nap e parallelismo adattivo coperti da test.
 
 ### Modificato
 
@@ -39,6 +43,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   integrazione delle dieci specifiche di design.
 - Manifest SwiftPM elevato a tools 6.4 e controllo toolchain reso vincolante sulla
   versione minima compatibile, sul language mode e sulla strict concurrency.
+- Quality gate Apple esteso per respingere logging libero, output non strutturato,
+  rete, MetricKit e SDK di telemetria non autorizzati.
 
 ### Corretto
 

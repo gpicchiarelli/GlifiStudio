@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-007 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -28,7 +28,9 @@
 - `OSSignposter` **DEVE** delimitare almeno importazione, estrazione, tokenizzazione, indicizzazione, query e inferenza quando tali fasi esistono.
 - Log e signpost **NON DEVONO** contenere testo dei documenti, prompt, path personali o identificatori sensibili per impostazione predefinita.
 - Instruments **DEVE** verificare Time Profiler, Allocations, SwiftUI, I/O, energia e Metal/Core ML quando il flusso usa tali tecnologie.
-- Metriche Organizer e MetricKit disponibili **POSSONO** alimentare la diagnosi aggregata senza introdurre telemetria di terzi; ogni raccolta aggiuntiva richiede la policy privacy.
+- Xcode Organizer **DEVE** essere il canale primario per le metriche aggregate di
+  campo. La 0.1 **NON DEVE** sottoscrivere MetricKit o caricare diagnostica,
+  secondo [GS-APL-014](14-osservabilita-e-telemetria-macos.md).
 - Logger e signpost tecnici **NON DEVONO** diventare la cronologia visibile
   dell'indagine; i due flussi hanno scopo e retention differenti.
 - Le capacità scientifiche **DEVONO** seguire i livelli V0–V6 e i

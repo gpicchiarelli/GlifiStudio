@@ -63,9 +63,9 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | App macOS | Shell SwiftUI nativa, localizzata e accessibile, collegata a `GlifiKit` |
 | App iPadOS | Stessa baseline condivisa, adattata al target iPadOS |
 | `GlifiKit` | Contratto pubblico minimo e indipendente dalla presentazione |
-| `GlifiCore` | Motore headless actor-based con configurazione linguistica esplicita |
+| `GlifiCore` | Motore headless actor-based con configurazione linguistica, policy runtime e diagnostica tipizzata |
 | `GlifiCLI` | Smoke test eseguibile del percorso senza interfaccia grafica |
-| Qualità | Gate riproducibile con Apple Swift 6.4, Swift 6 language mode, SwiftPM tools 6.4, test, build, documentazione scientifica/UX e controlli Apple/App Store |
+| Qualità | Gate riproducibile con Apple Swift 6.4, test/build, controlli Apple/App Store, zero telemetria applicativa e logging centralizzato |
 | Design implementativo | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD definiti come baseline candidata; nessuna funzione è dichiarata implementata per questo solo fatto |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |
 
@@ -77,6 +77,10 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 - **Confini piccoli e sostituibili.** Interfaccia, API, motore, persistenza e backend di calcolo evolvono senza dipendenze inverse.
 - **Prestazioni dimostrate.** CPU, Accelerate, Core ML, Metal e altri percorsi vengono promossi soltanto su misure end-to-end riproducibili.
 - **Esperienza Apple-native.** SwiftUI, Swift Concurrency e i framework di sistema vengono usati secondo disponibilità, accessibilità e comportamento reale sui dispositivi.
+- **Cooperazione con il sistema.** Low Power Mode, termica, memoria, lifecycle,
+  QoS e App Nap limitano il lavoro senza alterare la correttezza dei risultati.
+- **Osservabilità senza sorveglianza.** Unified Logging e signpost restano locali e
+  tipizzati; la 0.1 non incorpora analytics, crash upload o telemetria remota.
 - **Automazione senza GUI.** Il motore deve restare utilizzabile tramite contratto pubblico e strumenti headless.
 - **Semantica scientifica esplicita.** Formula, dominio, precondizioni, determinismo,
   provenienza e verifica indipendente precedono backend e visualizzazione.
@@ -240,6 +244,8 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Matrice di tracciabilità](docs/tracciabilita.md)
 - [Standard di progetto](docs/standard-di-progetto.md)
 - [Tecnologie e pratiche Apple](docs/apple/README.md)
+- [Osservabilità e telemetria macOS](docs/apple/14-osservabilita-e-telemetria-macos.md)
+- [Sostenibilità di sistema macOS](docs/apple/15-sostenibilita-di-sistema-macos.md)
 - [Ambiente Xcode e baseline Swift](docs/ambiente-di-sviluppo.md)
 - [Preparazione App Store](docs/app-store/README.md)
 - [Decisioni aperte](docs/decisioni-aperte.md)

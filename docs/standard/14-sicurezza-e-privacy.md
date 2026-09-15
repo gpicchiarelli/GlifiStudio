@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-14 |
 | Tipo | Capitolo normativo |
-| Versione | 0.5.0 |
+| Versione | 0.6.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -52,6 +52,12 @@ La baseline 0.1 è locale, singolo utente e senza account, rete, sincronizzazion
 telemetria. Nessun contenuto, query, estratto o path del corpus entra in log, crash
 report o bundle diagnostico per default. Questa garanzia **DEVE** essere verificata
 sul binario di rilascio e riallineata a privacy manifest e dichiarazioni App Store.
+
+Non sono ammessi SDK analytics/crash/session replay, identificatori diagnostici
+persistenti, upload automatici o subscriber MetricKit. Le metriche aggregate rese
+disponibili da Apple in Xcode Organizer non autorizzano raccolta aggiuntiva da
+parte dell'app. [GS-APL-014](../apple/14-osservabilita-e-telemetria-macos.md)
+definisce allowlist, gate e condizioni per una futura modifica.
 
 - Fonti, rappresentazioni, Artifact e report sono dati potenzialmente sensibili.
 - Cache e thumbnail seguono la vita del progetto e sono eliminabili senza aprirlo.
