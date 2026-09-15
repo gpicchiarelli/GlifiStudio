@@ -39,6 +39,9 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
   `AnalysisNodeID`/`ArtifactID` SHA-256 tipizzati e decodifica fail-closed.
 - Analysis DAG bounded con deduplica, verifica di cicli/dipendenze/schema, ordine
   topologico, sottografo minimo, invalidazione transitiva e riuso selettivo.
+- Persistenza transazionale di descriptor, DAG e Artifact content-addressed nella
+  generazione `.glifi`, con commit idempotente, verifica fail-closed, invalidazione
+  dei discendenti e fault injection sugli stessi sei checkpoint del manifest.
 - Baseline Xcode 27 per app native macOS e iPadOS.
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.

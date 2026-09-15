@@ -11,6 +11,8 @@ final class GlifiSQLiteProjectStore {
         let recordDigest: String
         let sourceRootDigest: String
         let sourceCount: Int
+        let artifactRootDigest: String
+        let artifactCount: Int
     }
 
     private var database: OpaquePointer?
@@ -31,7 +33,7 @@ final class GlifiSQLiteProjectStore {
             CREATE TABLE project_metadata (
                 singleton INTEGER PRIMARY KEY CHECK (singleton = 1),
                 project_id TEXT NOT NULL,
-                schema_version INTEGER NOT NULL CHECK (schema_version = 1)
+                schema_version INTEGER NOT NULL CHECK (schema_version = 2)
             ) STRICT;
             CREATE TABLE generations (
                 generation INTEGER PRIMARY KEY CHECK (generation >= 0),
@@ -39,7 +41,9 @@ final class GlifiSQLiteProjectStore {
                 state TEXT NOT NULL CHECK (state IN ('prepared', 'committed')),
                 record_digest TEXT NOT NULL,
                 source_root_digest TEXT NOT NULL,
-                source_count INTEGER NOT NULL CHECK (source_count >= 0)
+                source_count INTEGER NOT NULL CHECK (source_count >= 0),
+                artifact_root_digest TEXT NOT NULL,
+                artifact_count INTEGER NOT NULL CHECK (artifact_count >= 0)
             ) STRICT;
             CREATE TABLE source_entries (
                 generation INTEGER NOT NULL,
@@ -52,10 +56,24 @@ final class GlifiSQLiteProjectStore {
                 PRIMARY KEY (generation, source_revision_id),
                 FOREIGN KEY (generation) REFERENCES generations(generation) ON DELETE CASCADE
             ) STRICT;
+            CREATE TABLE artifact_entries (
+                generation INTEGER NOT NULL,
+                node_id TEXT NOT NULL,
+                artifact_id TEXT NOT NULL,
+                descriptor_digest TEXT NOT NULL,
+                descriptor_byte_count INTEGER NOT NULL CHECK (descriptor_byte_count >= 0),
+                descriptor_object_path TEXT NOT NULL,
+                content_digest TEXT NOT NULL,
+                byte_count INTEGER NOT NULL CHECK (byte_count >= 0),
+                object_path TEXT NOT NULL,
+                output_schema_identifier TEXT NOT NULL,
+                PRIMARY KEY (generation, node_id),
+                FOREIGN KEY (generation) REFERENCES generations(generation) ON DELETE CASCADE
+            ) STRICT;
             """
         )
         try store.withStatement(
-            "INSERT INTO project_metadata(singleton, project_id, schema_version) VALUES(1, ?, 1)"
+            "INSERT INTO project_metadata(singleton, project_id, schema_version) VALUES(1, ?, 2)"
         ) { statement in
             try store.bind(projectID.canonicalValue, at: 1, to: statement)
             try store.expectDone(statement)
@@ -78,17 +96,20 @@ final class GlifiSQLiteProjectStore {
 
     func insertInitialGeneration(
         recordDigest: String,
-        sourceRootDigest: String
+        sourceRootDigest: String,
+        artifactRootDigest: String
     ) throws {
         try withStatement(
             """
             INSERT INTO generations(
-                generation, base_generation, state, record_digest, source_root_digest, source_count
-            ) VALUES(0, NULL, 'committed', ?, ?, 0)
+                generation, base_generation, state, record_digest, source_root_digest, source_count,
+                artifact_root_digest, artifact_count
+            ) VALUES(0, NULL, 'committed', ?, ?, 0, ?, 0)
             """
         ) { statement in
             try bind(recordDigest, at: 1, to: statement)
             try bind(sourceRootDigest, at: 2, to: statement)
+            try bind(artifactRootDigest, at: 3, to: statement)
             try expectDone(statement)
         }
     }
@@ -103,7 +124,7 @@ final class GlifiSQLiteProjectStore {
             throw Self.failure("project.store-foreign-key-failed", category: .corruption)
         }
         let storedProjectID = try scalarText(
-            "SELECT project_id FROM project_metadata WHERE singleton = 1 AND schema_version = 1"
+            "SELECT project_id FROM project_metadata WHERE singleton = 1 AND schema_version = 2"
         )
         guard storedProjectID == projectID.canonicalValue else {
             throw Self.failure("project.store-project-mismatch", category: .corruption)
@@ -113,7 +134,8 @@ final class GlifiSQLiteProjectStore {
     func generation(_ generation: Int) throws -> Generation {
         try withStatement(
             """
-            SELECT base_generation, state, record_digest, source_root_digest, source_count
+            SELECT base_generation, state, record_digest, source_root_digest, source_count,
+                   artifact_root_digest, artifact_count
             FROM generations WHERE generation = ?
             """
         ) { statement in
@@ -121,7 +143,8 @@ final class GlifiSQLiteProjectStore {
             guard sqlite3_step(statement) == SQLITE_ROW,
                 let state = text(at: 1, in: statement),
                 let recordDigest = text(at: 2, in: statement),
-                let sourceRootDigest = text(at: 3, in: statement)
+                let sourceRootDigest = text(at: 3, in: statement),
+                let artifactRootDigest = text(at: 5, in: statement)
             else {
                 throw Self.failure("project.generation-missing", category: .corruption)
             }
@@ -133,7 +156,9 @@ final class GlifiSQLiteProjectStore {
                 state: state,
                 recordDigest: recordDigest,
                 sourceRootDigest: sourceRootDigest,
-                sourceCount: Int(sqlite3_column_int64(statement, 4))
+                sourceCount: Int(sqlite3_column_int64(statement, 4)),
+                artifactRootDigest: artifactRootDigest,
+                artifactCount: Int(sqlite3_column_int64(statement, 6))
             )
         }
     }
@@ -179,20 +204,71 @@ final class GlifiSQLiteProjectStore {
         }
     }
 
-    func prepareGeneration(
+    func artifacts(generation: Int) throws -> [GlifiStoredProjectArtifactRecord] {
+        try withStatement(
+            """
+            SELECT artifact_id, node_id, descriptor_digest, descriptor_byte_count,
+                   descriptor_object_path, content_digest, byte_count, object_path,
+                   output_schema_identifier
+            FROM artifact_entries
+            WHERE generation = ?
+            ORDER BY node_id COLLATE BINARY ASC
+            """
+        ) { statement in
+            try bind(generation, at: 1, to: statement)
+            var result: [GlifiStoredProjectArtifactRecord] = []
+            while true {
+                let status = sqlite3_step(statement)
+                if status == SQLITE_DONE { break }
+                guard status == SQLITE_ROW,
+                    let artifactIDText = text(at: 0, in: statement),
+                    let nodeIDText = text(at: 1, in: statement),
+                    let descriptorDigest = text(at: 2, in: statement),
+                    let descriptorObjectPath = text(at: 4, in: statement),
+                    let contentDigest = text(at: 5, in: statement),
+                    let objectPath = text(at: 7, in: statement),
+                    let outputSchemaIdentifier = text(at: 8, in: statement)
+                else {
+                    throw Self.failure("project.invalid-artifact-row", category: .corruption)
+                }
+                do {
+                    result.append(
+                        GlifiStoredProjectArtifactRecord(
+                            artifactID: try ArtifactID(canonicalValue: artifactIDText),
+                            nodeID: try AnalysisNodeID(canonicalValue: nodeIDText),
+                            descriptorDigest: descriptorDigest,
+                            descriptorByteCount: Int(sqlite3_column_int64(statement, 3)),
+                            descriptorObjectPath: descriptorObjectPath,
+                            contentDigest: contentDigest,
+                            byteCount: Int(sqlite3_column_int64(statement, 6)),
+                            objectPath: objectPath,
+                            outputSchemaIdentifier: outputSchemaIdentifier
+                        )
+                    )
+                } catch {
+                    throw Self.failure("project.invalid-artifact-row", category: .corruption)
+                }
+            }
+            return result
+        }
+    }
+
+    func prepareSourceGeneration(
         generation: Int,
         baseGeneration: Int,
         recordDigest: String,
         sourceRootDigest: String,
+        artifactRootDigest: String,
         source: GlifiProjectSourceRecord
     ) throws {
         try transaction {
             try withStatement(
                 """
                 INSERT INTO generations(
-                    generation, base_generation, state, record_digest, source_root_digest, source_count
+                    generation, base_generation, state, record_digest, source_root_digest, source_count,
+                    artifact_root_digest, artifact_count
                 )
-                SELECT ?, ?, 'prepared', ?, ?, source_count + 1
+                SELECT ?, ?, 'prepared', ?, ?, source_count + 1, ?, 0
                 FROM generations
                 WHERE generation = ? AND state IN ('prepared', 'committed')
                 """
@@ -201,7 +277,8 @@ final class GlifiSQLiteProjectStore {
                 try bind(baseGeneration, at: 2, to: statement)
                 try bind(recordDigest, at: 3, to: statement)
                 try bind(sourceRootDigest, at: 4, to: statement)
-                try bind(baseGeneration, at: 5, to: statement)
+                try bind(artifactRootDigest, at: 5, to: statement)
+                try bind(baseGeneration, at: 6, to: statement)
                 try expectDone(statement)
                 guard sqlite3_changes(database) == 1 else {
                     throw Self.failure("project.stale-generation", category: .staleArtifact)
@@ -238,6 +315,81 @@ final class GlifiSQLiteProjectStore {
                 try bind(source.byteCount, at: 6, to: statement)
                 try bind(source.objectPath, at: 7, to: statement)
                 try expectDone(statement)
+            }
+        }
+    }
+
+    func prepareArtifactGeneration(
+        generation: Int,
+        baseGeneration: Int,
+        recordDigest: String,
+        sourceRootDigest: String,
+        artifactRootDigest: String,
+        artifacts: [GlifiStoredProjectArtifactRecord]
+    ) throws {
+        try transaction {
+            try withStatement(
+                """
+                INSERT INTO generations(
+                    generation, base_generation, state, record_digest, source_root_digest, source_count,
+                    artifact_root_digest, artifact_count
+                )
+                SELECT ?, ?, 'prepared', ?, ?, source_count, ?, ?
+                FROM generations
+                WHERE generation = ? AND state IN ('prepared', 'committed')
+                """
+            ) { statement in
+                try bind(generation, at: 1, to: statement)
+                try bind(baseGeneration, at: 2, to: statement)
+                try bind(recordDigest, at: 3, to: statement)
+                try bind(sourceRootDigest, at: 4, to: statement)
+                try bind(artifactRootDigest, at: 5, to: statement)
+                try bind(artifacts.count, at: 6, to: statement)
+                try bind(baseGeneration, at: 7, to: statement)
+                try expectDone(statement)
+                guard sqlite3_changes(database) == 1 else {
+                    throw Self.failure("project.stale-generation", category: .staleArtifact)
+                }
+            }
+            try withStatement(
+                """
+                INSERT INTO source_entries(
+                    generation, source_id, source_revision_id, format,
+                    content_digest, byte_count, object_path
+                )
+                SELECT ?, source_id, source_revision_id, format,
+                       content_digest, byte_count, object_path
+                FROM source_entries WHERE generation = ?
+                """
+            ) { statement in
+                try bind(generation, at: 1, to: statement)
+                try bind(baseGeneration, at: 2, to: statement)
+                try expectDone(statement)
+            }
+            try withStatement(
+                """
+                INSERT INTO artifact_entries(
+                    generation, node_id, artifact_id, descriptor_digest,
+                    descriptor_byte_count, descriptor_object_path, content_digest,
+                    byte_count, object_path, output_schema_identifier
+                ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """
+            ) { statement in
+                for artifact in artifacts {
+                    sqlite3_reset(statement)
+                    sqlite3_clear_bindings(statement)
+                    try bind(generation, at: 1, to: statement)
+                    try bind(artifact.nodeID.canonicalValue, at: 2, to: statement)
+                    try bind(artifact.artifactID.canonicalValue, at: 3, to: statement)
+                    try bind(artifact.descriptorDigest, at: 4, to: statement)
+                    try bind(artifact.descriptorByteCount, at: 5, to: statement)
+                    try bind(artifact.descriptorObjectPath, at: 6, to: statement)
+                    try bind(artifact.contentDigest, at: 7, to: statement)
+                    try bind(artifact.byteCount, at: 8, to: statement)
+                    try bind(artifact.objectPath, at: 9, to: statement)
+                    try bind(artifact.outputSchemaIdentifier, at: 10, to: statement)
+                    try expectDone(statement)
+                }
             }
         }
     }

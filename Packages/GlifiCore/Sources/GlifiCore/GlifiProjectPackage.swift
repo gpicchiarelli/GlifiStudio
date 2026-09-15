@@ -37,6 +37,58 @@ public struct GlifiProjectSourceRecord: Codable, Equatable, Sendable {
     }
 }
 
+/// One immutable analytical result reachable from a project generation.
+public struct GlifiProjectArtifactRecord: Codable, Equatable, Sendable {
+    /// Content identity of the exact output bytes.
+    public let artifactID: ArtifactID
+    /// Semantic producer node and complete descriptor.
+    public let node: GlifiAnalysisNode
+    /// Digest of the canonical descriptor.
+    public let descriptorDigest: String
+    /// Exact descriptor byte count.
+    public let descriptorByteCount: Int
+    /// Generated relative path of the content-addressed descriptor.
+    public let descriptorObjectPath: String
+    /// Digest of the exact output bytes.
+    public let contentDigest: String
+    /// Exact output byte count.
+    public let byteCount: Int
+    /// Generated relative path of the content-addressed output.
+    public let objectPath: String
+
+    init(
+        artifactID: ArtifactID,
+        node: GlifiAnalysisNode,
+        descriptorDigest: String,
+        descriptorByteCount: Int,
+        descriptorObjectPath: String,
+        contentDigest: String,
+        byteCount: Int,
+        objectPath: String
+    ) {
+        self.artifactID = artifactID
+        self.node = node
+        self.descriptorDigest = descriptorDigest
+        self.descriptorByteCount = descriptorByteCount
+        self.descriptorObjectPath = descriptorObjectPath
+        self.contentDigest = contentDigest
+        self.byteCount = byteCount
+        self.objectPath = objectPath
+    }
+
+    var reference: GlifiAnalysisArtifactReference {
+        get throws {
+            try GlifiAnalysisArtifactReference(
+                nodeID: node.id,
+                descriptorDigest: descriptorDigest,
+                artifactDigest: contentDigest,
+                outputSchemaIdentifier: node.descriptor.outputSchemaIdentifier,
+                state: .valid
+            )
+        }
+    }
+}
+
 /// Verified authoritative view of one committed project generation.
 public struct GlifiProjectSnapshot: Equatable, Sendable {
     /// Stable identity of the project aggregate.
@@ -47,18 +99,26 @@ public struct GlifiProjectSnapshot: Equatable, Sendable {
     public let sources: [GlifiProjectSourceRecord]
     /// Digest of the canonical ordered source root.
     public let sourceRootDigest: String
+    /// Ordered analytical artifacts reachable from this generation.
+    public let artifacts: [GlifiProjectArtifactRecord]
+    /// Digest of the canonical ordered analytical-artifact root.
+    public let artifactRootDigest: String
 
     /// Creates an immutable verified snapshot.
     public init(
         projectID: ProjectID,
         generation: Int,
         sources: [GlifiProjectSourceRecord],
-        sourceRootDigest: String
+        sourceRootDigest: String,
+        artifacts: [GlifiProjectArtifactRecord],
+        artifactRootDigest: String
     ) {
         self.projectID = projectID
         self.generation = generation
         self.sources = sources
         self.sourceRootDigest = sourceRootDigest
+        self.artifacts = artifacts
+        self.artifactRootDigest = artifactRootDigest
     }
 }
 
@@ -67,7 +127,7 @@ public struct GlifiProjectManifest: Codable, Equatable, Sendable {
     /// Stable schema identifier.
     public static let schema = "studio.glifi.project-manifest"
     /// Current manifest schema version.
-    public static let schemaVersion = 1
+    public static let schemaVersion = 2
     /// Current package format major.
     public static let formatVersion = 1
 
@@ -91,6 +151,10 @@ public struct GlifiProjectManifest: Codable, Equatable, Sendable {
     public let sourceRootDigest: String
     /// Exact number of source records reachable from the generation.
     public let sourceCount: Int
+    /// Digest of the canonical ordered analytical-artifact root.
+    public let artifactRootDigest: String
+    /// Exact number of analytical artifacts reachable from the generation.
+    public let artifactCount: Int
 
     init(
         projectID: ProjectID,
@@ -98,7 +162,9 @@ public struct GlifiProjectManifest: Codable, Equatable, Sendable {
         baseGeneration: Int?,
         generationRecordDigest: String,
         sourceRootDigest: String,
-        sourceCount: Int
+        sourceCount: Int,
+        artifactRootDigest: String,
+        artifactCount: Int
     ) {
         schema = Self.schema
         schemaVersion = Self.schemaVersion
@@ -110,6 +176,8 @@ public struct GlifiProjectManifest: Codable, Equatable, Sendable {
         self.generationRecordDigest = generationRecordDigest
         self.sourceRootDigest = sourceRootDigest
         self.sourceCount = sourceCount
+        self.artifactRootDigest = artifactRootDigest
+        self.artifactCount = artifactCount
     }
 }
 
@@ -117,6 +185,10 @@ public struct GlifiProjectManifest: Codable, Equatable, Sendable {
 public actor GlifiProjectPackage {
     /// Maximum accepted root-manifest size before decoding.
     public static let maximumManifestByteCount = 1_048_576
+    /// Maximum accepted canonical descriptor size.
+    public static let maximumDescriptorByteCount = 1_048_576
+    /// Maximum accepted output-artifact size for the current local slice.
+    public static let maximumArtifactByteCount = 67_108_864
 
     private let packageURL: URL
     private var currentSnapshot: GlifiProjectSnapshot
@@ -149,16 +221,21 @@ public actor GlifiProjectPackage {
             )
             let sources: [GlifiProjectSourceRecord] = []
             let sourceRootDigest = try GlifiProjectPackageIO.sourceRootDigest(sources)
+            let artifacts: [GlifiProjectArtifactRecord] = []
+            let artifactRootDigest = try GlifiProjectPackageIO.artifactRootDigest(artifacts)
             let recordDigest = try GlifiProjectPackageIO.generationRecordDigest(
                 projectID: projectID,
                 generation: 0,
                 baseGeneration: nil,
                 sourceRootDigest: sourceRootDigest,
-                sourceCount: 0
+                sourceCount: 0,
+                artifactRootDigest: artifactRootDigest,
+                artifactCount: 0
             )
             try database.insertInitialGeneration(
                 recordDigest: recordDigest,
-                sourceRootDigest: sourceRootDigest
+                sourceRootDigest: sourceRootDigest,
+                artifactRootDigest: artifactRootDigest
             )
             let manifest = GlifiProjectManifest(
                 projectID: projectID,
@@ -166,7 +243,9 @@ public actor GlifiProjectPackage {
                 baseGeneration: nil,
                 generationRecordDigest: recordDigest,
                 sourceRootDigest: sourceRootDigest,
-                sourceCount: 0
+                sourceCount: 0,
+                artifactRootDigest: artifactRootDigest,
+                artifactCount: 0
             )
             try GlifiProjectPackageIO.writeManifest(manifest, in: stagingURL)
             _ = try GlifiProjectPackageIO.openVerified(at: stagingURL)
@@ -221,6 +300,36 @@ public actor GlifiProjectPackage {
             in: packageURL
         )
         return try GlifiProjectPackageIO.readValidatedObject(objectURL, source: source)
+    }
+
+    /// Returns the fully verified analysis DAG selected by the current generation.
+    public func analysisGraph() throws -> GlifiAnalysisGraph {
+        try GlifiAnalysisGraph(currentSnapshot.artifacts.map(\.node))
+    }
+
+    /// Reads immutable artifact bytes after checking path, size, digest, and identity again.
+    public func artifactData(for artifactID: ArtifactID) throws -> Data {
+        guard let artifact = currentSnapshot.artifacts.first(where: { $0.artifactID == artifactID })
+        else {
+            throw GlifiFailure(
+                code: "project.artifact-not-found",
+                category: .insufficientData,
+                operation: .persistProject,
+                retryDisposition: .afterCorrection,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.project.artifact-not-found"
+            )
+        }
+        return try GlifiProjectPackageIO.readValidatedArtifact(artifact, in: packageURL)
+    }
+
+    /// Commits one immutable analytical result and its canonical descriptor transactionally.
+    @discardableResult
+    public func storeArtifact(
+        _ data: Data,
+        descriptor: GlifiAnalysisDescriptor
+    ) throws -> GlifiProjectSnapshot {
+        try storeArtifact(data, descriptor: descriptor, interruption: nil)
     }
 
     @discardableResult
@@ -281,6 +390,74 @@ public actor GlifiProjectPackage {
         currentSnapshot = result
         return result
     }
+
+    @discardableResult
+    func storeArtifact(
+        _ data: Data,
+        descriptor: GlifiAnalysisDescriptor,
+        interruption: GlifiProjectCommitInterruption?
+    ) throws -> GlifiProjectSnapshot {
+        guard data.count <= Self.maximumArtifactByteCount else {
+            throw GlifiFailure(
+                code: "project.artifact-too-large",
+                category: .insufficientResources,
+                operation: .persistProject,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.project.artifact-too-large"
+            )
+        }
+        let expectedSnapshot = currentSnapshot
+        var coordinatedError: Error?
+        var result: GlifiProjectSnapshot?
+        var coordinationError: NSError?
+        let coordinator = NSFileCoordinator()
+
+        coordinator.coordinate(
+            writingItemAt: packageURL,
+            options: .forMerging,
+            error: &coordinationError
+        ) { coordinatedURL in
+            do {
+                result = try GlifiProjectPackageIO.commitArtifact(
+                    data,
+                    descriptor: descriptor,
+                    at: coordinatedURL,
+                    expectedSnapshot: expectedSnapshot,
+                    interruption: interruption
+                )
+            } catch {
+                coordinatedError = error
+            }
+        }
+
+        if let coordinationError {
+            throw GlifiFailure(
+                code: "project.coordination-failed",
+                category: .transientIO,
+                operation: .persistProject,
+                retryDisposition: .transientBackoff,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.project.coordination-failed",
+                arguments: ["code": String(coordinationError.code)]
+            )
+        }
+        if let coordinatedError {
+            throw GlifiProjectPackageIO.classify(coordinatedError, operation: .persistProject)
+        }
+        guard let result else {
+            throw GlifiFailure(
+                code: "project.commit-produced-no-result",
+                category: .invariantViolation,
+                operation: .persistProject,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.project.commit-produced-no-result"
+            )
+        }
+        currentSnapshot = result
+        return result
+    }
 }
 
 enum GlifiProjectCommitInterruption: Sendable, CaseIterable {
@@ -290,6 +467,18 @@ enum GlifiProjectCommitInterruption: Sendable, CaseIterable {
     case manifestPrepared
     case manifestReplaced
     case databaseCommitted
+}
+
+struct GlifiStoredProjectArtifactRecord: Equatable, Sendable {
+    let artifactID: ArtifactID
+    let nodeID: AnalysisNodeID
+    let descriptorDigest: String
+    let descriptorByteCount: Int
+    let descriptorObjectPath: String
+    let contentDigest: String
+    let byteCount: Int
+    let objectPath: String
+    let outputSchemaIdentifier: String
 }
 
 private enum GlifiProjectPackageIO {
@@ -329,6 +518,7 @@ private enum GlifiProjectPackageIO {
             "sources/objects/sha256",
             "representations/objects/sha256",
             "artifacts/objects/sha256",
+            "artifacts/descriptors/sha256",
             "history",
             "transactions",
         ] {
@@ -396,7 +586,9 @@ private enum GlifiProjectPackageIO {
                 generation.baseGeneration == manifest.baseGeneration,
                 generation.recordDigest == manifest.generationRecordDigest,
                 generation.sourceRootDigest == manifest.sourceRootDigest,
-                generation.sourceCount == manifest.sourceCount
+                generation.sourceCount == manifest.sourceCount,
+                generation.artifactRootDigest == manifest.artifactRootDigest,
+                generation.artifactCount == manifest.artifactCount
             else {
                 throw corruption("project.generation-mismatch")
             }
@@ -410,11 +602,39 @@ private enum GlifiProjectPackageIO {
             for source in sources {
                 _ = try validatedObjectURL(for: source, in: packageURL)
             }
+            let storedArtifacts = try database.artifacts(generation: manifest.generation)
+            let artifacts = try storedArtifacts.map {
+                try validatedArtifactRecord(for: $0, in: packageURL)
+            }
+            guard artifacts.count == manifest.artifactCount,
+                try artifactRootDigest(artifacts) == manifest.artifactRootDigest
+            else {
+                throw corruption("project.artifact-root-mismatch")
+            }
+            let artifactsMatchCorpus = artifacts.allSatisfy {
+                $0.node.descriptor.corpusVersionDigest == manifest.sourceRootDigest
+            }
+            guard artifactsMatchCorpus else {
+                throw corruption("project.artifact-corpus-mismatch")
+            }
+            do {
+                let graph = try GlifiAnalysisGraph(artifacts.map(\.node))
+                let reusable = try graph.reusableNodeIDs(
+                    from: artifacts.map { try $0.reference }
+                )
+                guard reusable.count == artifacts.count else {
+                    throw corruption("project.artifact-graph-mismatch")
+                }
+            } catch {
+                throw corruption("project.artifact-graph-mismatch")
+            }
             return GlifiProjectSnapshot(
                 projectID: manifest.projectID,
                 generation: manifest.generation,
                 sources: sources,
-                sourceRootDigest: manifest.sourceRootDigest
+                sourceRootDigest: manifest.sourceRootDigest,
+                artifacts: artifacts,
+                artifactRootDigest: manifest.artifactRootDigest
             )
         } catch let failure as GlifiFailure {
             throw failure
@@ -438,7 +658,8 @@ private enum GlifiProjectPackageIO {
         let observedSnapshot = try openVerified(at: packageURL)
         guard observedSnapshot.projectID == expectedSnapshot.projectID,
             observedSnapshot.generation == expectedSnapshot.generation,
-            observedSnapshot.sourceRootDigest == expectedSnapshot.sourceRootDigest
+            observedSnapshot.sourceRootDigest == expectedSnapshot.sourceRootDigest,
+            observedSnapshot.artifactRootDigest == expectedSnapshot.artifactRootDigest
         else {
             throw GlifiFailure(
                 code: "project.stale-generation",
@@ -486,21 +707,29 @@ private enum GlifiProjectPackageIO {
         sources.append(source)
         sources.sort { $0.sourceRevisionID.canonicalValue < $1.sourceRevisionID.canonicalValue }
         let sourceRootDigest = try sourceRootDigest(sources)
+        // A changed corpus invalidates every currently selected analytical artifact.
+        // Historical generations remain intact; selective invalidation is performed by
+        // artifact replacement when the corpus itself has not changed.
+        let artifacts: [GlifiProjectArtifactRecord] = []
+        let artifactRootDigest = try artifactRootDigest(artifacts)
         let targetGeneration = observedSnapshot.generation + 1
         let recordDigest = try generationRecordDigest(
             projectID: observedSnapshot.projectID,
             generation: targetGeneration,
             baseGeneration: observedSnapshot.generation,
             sourceRootDigest: sourceRootDigest,
-            sourceCount: sources.count
+            sourceCount: sources.count,
+            artifactRootDigest: artifactRootDigest,
+            artifactCount: artifacts.count
         )
         let database = try GlifiSQLiteProjectStore.open(at: databaseURL(in: packageURL))
         try database.discardGenerations(after: observedSnapshot.generation)
-        try database.prepareGeneration(
+        try database.prepareSourceGeneration(
             generation: targetGeneration,
             baseGeneration: observedSnapshot.generation,
             recordDigest: recordDigest,
             sourceRootDigest: sourceRootDigest,
+            artifactRootDigest: artifactRootDigest,
             source: source
         )
         try interruptIfRequested(.databasePrepared, interruption)
@@ -511,7 +740,9 @@ private enum GlifiProjectPackageIO {
             baseGeneration: observedSnapshot.generation,
             generationRecordDigest: recordDigest,
             sourceRootDigest: sourceRootDigest,
-            sourceCount: sources.count
+            sourceCount: sources.count,
+            artifactRootDigest: artifactRootDigest,
+            artifactCount: artifacts.count
         )
         let candidateURL = transactionURL.appending(path: "manifest.json")
         try durableWrite(try GlifiCanonicalJSON.encode(manifest), to: candidateURL)
@@ -526,6 +757,203 @@ private enum GlifiProjectPackageIO {
         _ = try fileManager.replaceItemAt(rootManifestURL, withItemAt: candidateURL)
         try interruptIfRequested(.manifestReplaced, interruption)
 
+        try database.markCommitted(generation: targetGeneration)
+        try interruptIfRequested(.databaseCommitted, interruption)
+
+        try? fileManager.removeItem(at: transactionURL)
+        return try openVerified(at: packageURL)
+    }
+
+    static func commitArtifact(
+        _ data: Data,
+        descriptor: GlifiAnalysisDescriptor,
+        at packageURL: URL,
+        expectedSnapshot: GlifiProjectSnapshot,
+        interruption: GlifiProjectCommitInterruption?
+    ) throws -> GlifiProjectSnapshot {
+        let writerLease = try GlifiProjectWriterLease.acquire(in: packageURL)
+        defer { writerLease.release() }
+        let observedSnapshot = try openVerified(at: packageURL)
+        guard observedSnapshot.projectID == expectedSnapshot.projectID,
+            observedSnapshot.generation == expectedSnapshot.generation,
+            observedSnapshot.sourceRootDigest == expectedSnapshot.sourceRootDigest,
+            observedSnapshot.artifactRootDigest == expectedSnapshot.artifactRootDigest
+        else {
+            throw GlifiFailure(
+                code: "project.stale-generation",
+                category: .staleArtifact,
+                operation: .persistProject,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.project.stale-generation"
+            )
+        }
+        guard descriptor.corpusVersionDigest == observedSnapshot.sourceRootDigest else {
+            throw GlifiFailure(
+                code: "project.artifact-corpus-mismatch",
+                category: .staleArtifact,
+                operation: .persistProject,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.project.artifact-corpus-mismatch"
+            )
+        }
+
+        let node = try GlifiAnalysisNode(descriptor: descriptor)
+        let descriptorData = try GlifiCanonicalJSON.encode(descriptor)
+        guard descriptorData.count <= GlifiProjectPackage.maximumDescriptorByteCount else {
+            throw GlifiFailure(
+                code: "project.descriptor-too-large",
+                category: .insufficientResources,
+                operation: .persistProject,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.project.descriptor-too-large"
+            )
+        }
+        let descriptorDigest = digest(descriptorData)
+        guard descriptorDigest == (try descriptor.canonicalDigest()) else {
+            throw GlifiFailure(
+                code: "project.descriptor-canonicalization-mismatch",
+                category: .invariantViolation,
+                operation: .persistProject,
+                retryDisposition: .never,
+                retainedState: .validityUnknown,
+                messageKey: "failure.project.descriptor-canonicalization-mismatch"
+            )
+        }
+        let contentDigest = digest(data)
+        let artifact = GlifiProjectArtifactRecord(
+            artifactID: try ArtifactID(digest: contentDigest),
+            node: node,
+            descriptorDigest: descriptorDigest,
+            descriptorByteCount: descriptorData.count,
+            descriptorObjectPath: try descriptorObjectPath(for: descriptorDigest),
+            contentDigest: contentDigest,
+            byteCount: data.count,
+            objectPath: try artifactObjectPath(for: contentDigest)
+        )
+        if observedSnapshot.artifacts.contains(artifact) {
+            return observedSnapshot
+        }
+
+        var artifacts = observedSnapshot.artifacts
+        if artifacts.contains(where: { $0.node.id == node.id }) {
+            let graph = try GlifiAnalysisGraph(artifacts.map(\.node))
+            let invalidated = Set(try graph.invalidatedNodeIDs(changing: [node.id]))
+            artifacts.removeAll { invalidated.contains($0.node.id) }
+        }
+        artifacts.append(artifact)
+        artifacts.sort { $0.node.id.canonicalValue < $1.node.id.canonicalValue }
+        guard artifacts.count <= GlifiAnalysisGraphLimits.standard.maximumNodeCount else {
+            throw GlifiFailure(
+                code: "project.artifact-limit-exceeded",
+                category: .insufficientResources,
+                operation: .persistProject,
+                retryDisposition: .afterCorrection,
+                retainedState: .unchanged,
+                messageKey: "failure.project.artifact-limit-exceeded"
+            )
+        }
+        let candidateGraph = try GlifiAnalysisGraph(artifacts.map(\.node))
+        let reusable = try candidateGraph.reusableNodeIDs(
+            from: artifacts.map { try $0.reference }
+        )
+        guard reusable.count == artifacts.count else {
+            throw GlifiFailure(
+                code: "project.artifact-dependency-mismatch",
+                category: .staleArtifact,
+                operation: .persistProject,
+                retryDisposition: .newRequest,
+                retainedState: .lastCommittedGeneration,
+                messageKey: "failure.project.artifact-dependency-mismatch"
+            )
+        }
+
+        let transactionID = UUID().uuidString.lowercased()
+        let transactionURL = packageURL.appending(
+            path: "transactions/\(transactionID)",
+            directoryHint: .isDirectory
+        )
+        try fileManager.createDirectory(at: transactionURL, withIntermediateDirectories: false)
+        let targetGeneration = observedSnapshot.generation + 1
+        let transactionState = TransactionState(
+            transactionID: transactionID,
+            baseGeneration: observedSnapshot.generation,
+            targetGeneration: targetGeneration,
+            state: "staging"
+        )
+        try durableWrite(
+            try GlifiCanonicalJSON.encode(transactionState),
+            to: transactionURL.appending(path: "transaction.json")
+        )
+        try interruptIfRequested(.staged, interruption)
+
+        let stagedDescriptorURL = transactionURL.appending(path: "descriptor-object")
+        try durableWrite(descriptorData, to: stagedDescriptorURL)
+        try promoteArtifactObject(
+            stagedDescriptorURL,
+            relativePath: artifact.descriptorObjectPath,
+            expectedDigest: artifact.descriptorDigest,
+            expectedByteCount: artifact.descriptorByteCount,
+            maximumByteCount: GlifiProjectPackage.maximumDescriptorByteCount,
+            in: packageURL
+        )
+        let stagedArtifactURL = transactionURL.appending(path: "artifact-object")
+        try durableWrite(data, to: stagedArtifactURL)
+        try promoteArtifactObject(
+            stagedArtifactURL,
+            relativePath: artifact.objectPath,
+            expectedDigest: artifact.contentDigest,
+            expectedByteCount: artifact.byteCount,
+            maximumByteCount: GlifiProjectPackage.maximumArtifactByteCount,
+            in: packageURL
+        )
+        try interruptIfRequested(.objectPromoted, interruption)
+
+        let artifactRootDigest = try artifactRootDigest(artifacts)
+        let recordDigest = try generationRecordDigest(
+            projectID: observedSnapshot.projectID,
+            generation: targetGeneration,
+            baseGeneration: observedSnapshot.generation,
+            sourceRootDigest: observedSnapshot.sourceRootDigest,
+            sourceCount: observedSnapshot.sources.count,
+            artifactRootDigest: artifactRootDigest,
+            artifactCount: artifacts.count
+        )
+        let database = try GlifiSQLiteProjectStore.open(at: databaseURL(in: packageURL))
+        try database.discardGenerations(after: observedSnapshot.generation)
+        try database.prepareArtifactGeneration(
+            generation: targetGeneration,
+            baseGeneration: observedSnapshot.generation,
+            recordDigest: recordDigest,
+            sourceRootDigest: observedSnapshot.sourceRootDigest,
+            artifactRootDigest: artifactRootDigest,
+            artifacts: artifacts.map(storedRecord)
+        )
+        try interruptIfRequested(.databasePrepared, interruption)
+
+        let manifest = GlifiProjectManifest(
+            projectID: observedSnapshot.projectID,
+            generation: targetGeneration,
+            baseGeneration: observedSnapshot.generation,
+            generationRecordDigest: recordDigest,
+            sourceRootDigest: observedSnapshot.sourceRootDigest,
+            sourceCount: observedSnapshot.sources.count,
+            artifactRootDigest: artifactRootDigest,
+            artifactCount: artifacts.count
+        )
+        let candidateURL = transactionURL.appending(path: "manifest.json")
+        try durableWrite(try GlifiCanonicalJSON.encode(manifest), to: candidateURL)
+        let decodedCandidate = try JSONDecoder().decode(
+            GlifiProjectManifest.self,
+            from: Data(contentsOf: candidateURL)
+        )
+        try validate(decodedCandidate)
+        try interruptIfRequested(.manifestPrepared, interruption)
+
+        _ = try fileManager.replaceItemAt(manifestURL(in: packageURL), withItemAt: candidateURL)
+        try interruptIfRequested(.manifestReplaced, interruption)
         try database.markCommitted(generation: targetGeneration)
         try interruptIfRequested(.databaseCommitted, interruption)
 
@@ -559,6 +987,99 @@ private enum GlifiProjectPackageIO {
         return objectURL
     }
 
+    static func validatedArtifactRecord(
+        for stored: GlifiStoredProjectArtifactRecord,
+        in packageURL: URL
+    ) throws -> GlifiProjectArtifactRecord {
+        let expectedDescriptorPath = try descriptorObjectPath(for: stored.descriptorDigest)
+        guard stored.descriptorObjectPath == expectedDescriptorPath,
+            stored.descriptorByteCount >= 0,
+            stored.descriptorByteCount <= GlifiProjectPackage.maximumDescriptorByteCount,
+            stored.outputSchemaIdentifier.utf8.count <= 1_024
+        else {
+            throw corruption("project.illegal-descriptor-reference")
+        }
+        let descriptorURL = try containedObjectURL(
+            relativePath: stored.descriptorObjectPath,
+            in: packageURL
+        )
+        let observation = try readFile(
+            descriptorURL,
+            maximumByteCount: stored.descriptorByteCount,
+            retainBytes: true
+        )
+        guard observation.digest == stored.descriptorDigest,
+            observation.byteCount == stored.descriptorByteCount,
+            let descriptorData = observation.data
+        else {
+            throw corruption("project.descriptor-digest-mismatch")
+        }
+        let descriptor: GlifiAnalysisDescriptor
+        do {
+            descriptor = try JSONDecoder().decode(
+                GlifiAnalysisDescriptor.self,
+                from: descriptorData
+            )
+        } catch {
+            throw corruption("project.descriptor-invalid")
+        }
+        guard try descriptor.nodeID() == stored.nodeID,
+            try descriptor.canonicalDigest() == stored.descriptorDigest,
+            descriptor.outputSchemaIdentifier == stored.outputSchemaIdentifier,
+            stored.artifactID.digest == stored.contentDigest
+        else {
+            throw corruption("project.artifact-metadata-mismatch")
+        }
+        let record = GlifiProjectArtifactRecord(
+            artifactID: stored.artifactID,
+            node: try GlifiAnalysisNode(descriptor: descriptor),
+            descriptorDigest: stored.descriptorDigest,
+            descriptorByteCount: stored.descriptorByteCount,
+            descriptorObjectPath: stored.descriptorObjectPath,
+            contentDigest: stored.contentDigest,
+            byteCount: stored.byteCount,
+            objectPath: stored.objectPath
+        )
+        _ = try validatedArtifactObjectURL(for: record, in: packageURL)
+        return record
+    }
+
+    private static func validatedArtifactObjectURL(
+        for artifact: GlifiProjectArtifactRecord,
+        in packageURL: URL
+    ) throws -> URL {
+        guard artifact.objectPath == (try artifactObjectPath(for: artifact.contentDigest)),
+            artifact.artifactID.digest == artifact.contentDigest,
+            artifact.byteCount >= 0,
+            artifact.byteCount <= GlifiProjectPackage.maximumArtifactByteCount
+        else {
+            throw corruption("project.illegal-artifact-reference")
+        }
+        let objectURL = try containedObjectURL(relativePath: artifact.objectPath, in: packageURL)
+        let observation = try digestFile(objectURL, maximumByteCount: artifact.byteCount)
+        guard observation.byteCount == artifact.byteCount,
+            observation.digest == artifact.contentDigest
+        else {
+            throw corruption("project.artifact-digest-mismatch")
+        }
+        return objectURL
+    }
+
+    private static func containedObjectURL(relativePath: String, in packageURL: URL) throws -> URL {
+        guard relativePath.utf8.count <= 256,
+            !relativePath.hasPrefix("/"),
+            !relativePath.split(separator: "/").contains("..")
+        else {
+            throw corruption("project.illegal-object-reference")
+        }
+        let objectURL = packageURL.appending(path: relativePath)
+        let standardizedRoot = packageURL.standardizedFileURL.path + "/"
+        guard objectURL.standardizedFileURL.path.hasPrefix(standardizedRoot) else {
+            throw corruption("project.object-path-escape")
+        }
+        return objectURL
+    }
+
     static func readValidatedObject(
         _ objectURL: URL,
         source: GlifiProjectSourceRecord
@@ -577,9 +1098,35 @@ private enum GlifiProjectPackageIO {
         return data
     }
 
+    static func readValidatedArtifact(
+        _ artifact: GlifiProjectArtifactRecord,
+        in packageURL: URL
+    ) throws -> Data {
+        let objectURL = try validatedArtifactObjectURL(for: artifact, in: packageURL)
+        let observation = try readFile(
+            objectURL,
+            maximumByteCount: artifact.byteCount,
+            retainBytes: true
+        )
+        guard observation.byteCount == artifact.byteCount,
+            observation.digest == artifact.contentDigest,
+            let data = observation.data
+        else {
+            throw corruption("project.artifact-digest-mismatch")
+        }
+        return data
+    }
+
     static func sourceRootDigest(_ sources: [GlifiProjectSourceRecord]) throws -> String {
         let ordered = sources.sorted {
             $0.sourceRevisionID.canonicalValue < $1.sourceRevisionID.canonicalValue
+        }
+        return digest(try GlifiCanonicalJSON.encode(ordered))
+    }
+
+    static func artifactRootDigest(_ artifacts: [GlifiProjectArtifactRecord]) throws -> String {
+        let ordered = artifacts.sorted {
+            $0.node.id.canonicalValue < $1.node.id.canonicalValue
         }
         return digest(try GlifiCanonicalJSON.encode(ordered))
     }
@@ -589,7 +1136,9 @@ private enum GlifiProjectPackageIO {
         generation: Int,
         baseGeneration: Int?,
         sourceRootDigest: String,
-        sourceCount: Int
+        sourceCount: Int,
+        artifactRootDigest: String,
+        artifactCount: Int
     ) throws -> String {
         try digest(
             GlifiCanonicalJSON.encode(
@@ -598,7 +1147,9 @@ private enum GlifiProjectPackageIO {
                     generation: generation,
                     baseGeneration: baseGeneration,
                     sourceRootDigest: sourceRootDigest,
-                    sourceCount: sourceCount
+                    sourceCount: sourceCount,
+                    artifactRootDigest: artifactRootDigest,
+                    artifactCount: artifactCount
                 )
             )
         )
@@ -653,10 +1204,12 @@ private enum GlifiProjectPackageIO {
         }
         guard manifest.generation >= 0,
             manifest.sourceCount >= 0,
+            manifest.artifactCount >= 0,
             (manifest.generation == 0) == (manifest.baseGeneration == nil),
             manifest.baseGeneration.map({ $0 >= 0 && $0 < manifest.generation }) ?? true,
             isSHA256Digest(manifest.generationRecordDigest),
-            isSHA256Digest(manifest.sourceRootDigest)
+            isSHA256Digest(manifest.sourceRootDigest),
+            isSHA256Digest(manifest.artifactRootDigest)
         else {
             throw corruption("project.manifest-invariant-violation")
         }
@@ -668,6 +1221,22 @@ private enum GlifiProjectPackageIO {
         }
         let hex = String(contentDigest.dropFirst("sha256:".count))
         return "sources/objects/sha256/\(hex.prefix(2))/\(hex)"
+    }
+
+    private static func artifactObjectPath(for contentDigest: String) throws -> String {
+        guard isSHA256Digest(contentDigest) else {
+            throw corruption("project.invalid-artifact-digest")
+        }
+        let hex = String(contentDigest.dropFirst("sha256:".count))
+        return "artifacts/objects/sha256/\(hex.prefix(2))/\(hex)"
+    }
+
+    private static func descriptorObjectPath(for descriptorDigest: String) throws -> String {
+        guard isSHA256Digest(descriptorDigest) else {
+            throw corruption("project.invalid-descriptor-digest")
+        }
+        let hex = String(descriptorDigest.dropFirst("sha256:".count))
+        return "artifacts/descriptors/sha256/\(hex.prefix(2))/\(hex).json"
     }
 
     private static func promoteObject(
@@ -687,6 +1256,54 @@ private enum GlifiProjectPackageIO {
         }
         try fileManager.moveItem(at: stagedURL, to: objectURL)
         _ = try validatedObjectURL(for: source, in: packageURL)
+    }
+
+    private static func promoteArtifactObject(
+        _ stagedURL: URL,
+        relativePath: String,
+        expectedDigest: String,
+        expectedByteCount: Int,
+        maximumByteCount: Int,
+        in packageURL: URL
+    ) throws {
+        let objectURL = try containedObjectURL(relativePath: relativePath, in: packageURL)
+        try fileManager.createDirectory(
+            at: objectURL.deletingLastPathComponent(),
+            withIntermediateDirectories: true
+        )
+        if fileManager.fileExists(atPath: objectURL.path) {
+            let observation = try digestFile(objectURL, maximumByteCount: maximumByteCount)
+            guard observation.digest == expectedDigest,
+                observation.byteCount == expectedByteCount
+            else {
+                throw corruption("project.artifact-object-collision")
+            }
+            try fileManager.removeItem(at: stagedURL)
+            return
+        }
+        try fileManager.moveItem(at: stagedURL, to: objectURL)
+        let observation = try digestFile(objectURL, maximumByteCount: maximumByteCount)
+        guard observation.digest == expectedDigest,
+            observation.byteCount == expectedByteCount
+        else {
+            throw corruption("project.artifact-object-promotion-failed")
+        }
+    }
+
+    private static func storedRecord(
+        _ artifact: GlifiProjectArtifactRecord
+    ) -> GlifiStoredProjectArtifactRecord {
+        GlifiStoredProjectArtifactRecord(
+            artifactID: artifact.artifactID,
+            nodeID: artifact.node.id,
+            descriptorDigest: artifact.descriptorDigest,
+            descriptorByteCount: artifact.descriptorByteCount,
+            descriptorObjectPath: artifact.descriptorObjectPath,
+            contentDigest: artifact.contentDigest,
+            byteCount: artifact.byteCount,
+            objectPath: artifact.objectPath,
+            outputSchemaIdentifier: artifact.node.descriptor.outputSchemaIdentifier
+        )
     }
 
     private static func durableWrite(_ data: Data, to url: URL) throws {
@@ -825,6 +1442,8 @@ private struct GenerationRecordDigestInput: Codable {
     let baseGeneration: Int?
     let sourceRootDigest: String
     let sourceCount: Int
+    let artifactRootDigest: String
+    let artifactCount: Int
 }
 
 private struct TransactionState: Codable {

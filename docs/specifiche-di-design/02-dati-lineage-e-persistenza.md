@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-DAT-001 |
 | Tipo | Specifica di design di dati e persistenza |
-| Versione | 1.4.0 |
+| Versione | 1.5.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -40,6 +40,7 @@ Project.glifi/
 ├── sources/objects/sha256/aa/<digest>
 ├── representations/objects/sha256/aa/<digest>
 ├── artifacts/objects/sha256/aa/<digest>
+├── artifacts/descriptors/sha256/aa/<digest>.json
 ├── history/events-<generation>.jsonl
 └── transactions/<transaction-id>/
 ```
@@ -371,18 +372,30 @@ limite prima della decodifica, conserva i byte immutati e calcola SHA-256 tramit
 CryptoKit. File non regolari, link simbolici, input malformati e superamento del
 limite producono failure tipizzate senza path o contenuto nei messaggi macchina.
 
-La slice è intenzionalmente bounded a 64 MiB e in-memory durante ingestion e
-profilazione. Il prototipo G2 crea e riapre package `.glifi` v1, incorpora gli
+La slice è intenzionalmente bounded a 64 MiB per singola fonte e per singolo
+Artifact durante ingestion e commit. Il prototipo G2 crea e riapre package
+`.glifi` v1, incorpora gli
 originali come oggetti SHA-256, usa SQLite di sistema per generazioni append-only e
 adotta la sostituzione del solo manifest radice come commit point. Riapertura,
 corruzione dei byte, writer stale e sei checkpoint di interruzione sono coperti da
 test; GlifiKit e GlifiCLI attraversano lo stesso percorso.
 
+Il manifest schema 2 e lo store schema 2 aggiungono una radice Artifact alla stessa
+generazione. Payload e descriptor canonici sono oggetti distinti content-addressed;
+la riapertura verifica path, limiti, digest, ArtifactID, AnalysisNodeID, schema,
+dipendenze e riusabilità dell'intera catena prima di esporre il DAG. Il commit è
+idempotente per lo stesso nodo/risultato; una sostituzione invalida i discendenti
+esatti. L'import di una nuova SourceRevision applica temporaneamente una policy
+conservativa e invalida tutti gli Artifact della proiezione corrente, mantenendoli
+raggiungibili soltanto dalle generazioni storiche.
+
 Non sono ancora soddisfatti streaming di corpus, recovery read-only verso una
 generazione precedente, terminazione reale/power-loss, migrazione N-1, autosave,
-indice, DAG o SpanMap. Markdown non viene presentato come analizzabile finché
-estrazione strutturale e mappa verso la fonte non sono implementate. Il dettaglio
-osservato e il rischio residuo del VFS SQLite Apple sono registrati in GS-VER-019.
+indice e persistenza separata degli SpanMap. La persistenza Artifact/DAG non è
+ancora collegata automaticamente alle operazioni di analisi di GlifiEngine e la
+policy d'invalidazione su reimport diventerà selettiva solo con una mappa autorevole
+SourceRevision→AnalysisNode. I dettagli osservati e i rischi residui sono registrati
+in GS-VER-019 e GS-VER-025.
 
 ## Riferimenti tecnici
 

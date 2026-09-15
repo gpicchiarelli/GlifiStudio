@@ -190,7 +190,7 @@ contenuto, query, path o nomi file.
 | importa | sessione, sorgenti, policy | SourceRevision e rapporto | TXT/Markdown bounded implementati e verificati; streaming e document model completo aperti |
 | profila raccolta | revisioni TXT/Markdown della generazione e limiti | conteggi, distribuzioni e matrice sparsa con digest | Slice `corpus-profile-it-v1` implementata e verificata; metadati, duplicazioni e problemi di qualità del CollectionProfile completo restano aperti |
 | pianifica | Investigation, intent, capability | ExecutionPlan spiegabile | Specificata; non implementata |
-| analizza | generazione corrente e budget bounded nella slice | profilo corpus effimero versionato | Slice descrittiva implementata; AnalysisDescriptor/DAG/Artifact persistiti, tempo, Evidence e Findings non implementati |
+| analizza | generazione corrente e budget bounded nella slice | profilo corpus effimero versionato | Slice descrittiva implementata; deposito AnalysisDescriptor/DAG/Artifact disponibile nel Core ma non ancora collegato automaticamente; tempo, Evidence e Findings non implementati |
 | confronta keyness | due insiemi espliciti e disgiunti di SourceRevisionID | famiglia G-test/effect/BH con popolazioni e digest | `keyness-gtest-ha-bh-v1` bounded implementata e verificata; risultato ancora effimero |
 | interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT/Markdown con `sourceRanges` implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
 | esporta | selezione, formato, destinazione | ExportReceipt + manifest | Specificata; non implementata |
@@ -223,8 +223,8 @@ degli scope selezionati, righe KWIC e troncatura. `analyze` restituisce identit�
 dei metodi, digest del corpus, conteggi, diversità, termini, n-grammi e matrice
 sparsa della generazione. `keyness` richiede revisioni target/riferimento separate
 da virgola e restituisce popolazioni, identità G-test/p-value/effect/BH,
-diagnostica, valori completi e digest. `plan`, AnalysisDescriptor/DAG persistiti,
-file QueryAST, streaming ed `export` restano fail-closed. L'invocazione senza
+diagnostica, valori completi e digest. `plan`, comandi per il deposito
+AnalysisDescriptor/DAG, file QueryAST, streaming ed `export` restano fail-closed. L'invocazione senza
 argomenti resta alias temporaneo dello smoke test e stampa `GlifiCore pronto`;
 prima del protocollo CLI 1.0 deve diventare `help` o essere rimossa con nota di
 migrazione.

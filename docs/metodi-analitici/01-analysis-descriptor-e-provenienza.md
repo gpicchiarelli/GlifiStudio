@@ -6,7 +6,7 @@
 | --- | --- |
 | Identificatore | GS-MET-001-01 |
 | Tipo | Specifica normativa dei metodi analitici |
-| Versione | 1.2.0 |
+| Versione | 1.3.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -105,6 +105,7 @@ Unicode sono canonicalizzati, le chiavi collidenti dopo NFC falliscono e il JSON
 usa chiavi ordinate. Il digest completo e `AnalysisNodeID` SHA-256 usano domain
 separation; decodifica, versione e identità sono rivalidate fail-closed.
 
-Il profilo costituisce la fondazione logica: non rende ancora persistenti
-descriptor e Artifact nel package `.glifi` e non implementa lineage a livello di
-cella o valore.
+Il profilo è persistito nel package `.glifi` insieme al payload Artifact e alla
+radice DAG della generazione. La riapertura ne rivalida digest, identità, schema e
+catena delle dipendenze. Non implementa ancora lineage a livello di cella o valore
+né il commit automatico dei risultati prodotti dalle analisi esistenti.

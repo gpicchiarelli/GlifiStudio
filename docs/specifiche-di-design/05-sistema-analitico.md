@@ -172,6 +172,13 @@ deduplica, validazione aciclica e di schema, ordine topologico, sottografo minim
 invalidazione transitiva esatta e riuso condizionato dell'intera catena di
 Artifact. Il grafo resta bounded a 10.000 nodi e 50.000 archi.
 
+Il package `.glifi` persiste ora nodo, descriptor e payload degli Artifact come
+oggetti SHA-256 immutabili, li lega alla radice della generazione e ricostruisce il
+DAG soltanto dopo una validazione fail-closed. Commit identici sono idempotenti;
+la sostituzione di un output mantiene i rami indipendenti e rimuove dalla nuova
+generazione soltanto il nodo sostituito e i suoi discendenti. Le generazioni
+precedenti restano immutate.
+
 La prima slice eseguibile acquisisce una generazione verificata, ordina le
 `SourceRevisionID` canonicamente e calcola in memoria entro limiti espliciti:
 
@@ -198,11 +205,11 @@ attesi. Popolazioni, identità dei metodi, soglie, policy numerica, tolleranza,
 ordinamento e digest sono parte del risultato. Il limite sul numero di ipotesi è
 applicato prima di costruire le righe finali.
 
-Queste slice sono risultati effimeri di riferimento: non implementano ancora
-segmenti documentali, spill fuori memoria, persistenza transazionale e
-deduplica fisica di DAG/Artifact, analisi temporale,
-Evidence/Finding/Caveat o planner. Non possono quindi essere promosse a conformità
-completa GS-ANA-001 né al percorso Must 0.1.
+I risultati di `analyzeCorpus` e `compareKeyness` restano ancora effimeri: il
+deposito Artifact è disponibile nel Core ma non è invocato automaticamente da
+queste operazioni. Mancano inoltre segmenti documentali, spill fuori memoria,
+analisi temporale, Evidence/Finding/Caveat e planner. Le slice non possono quindi
+essere promosse a conformità completa GS-ANA-001 né al percorso Must 0.1.
 
 ## Conformità
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.15.0 |
+| Versione | 0.16.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -131,7 +131,7 @@ restano requisiti di evoluzione finché una successiva baseline non le classific
 | RF-078 | Ogni trasformazione che modifica lunghezza o ordine del testo **DEVE** produrre SpanMap composabili con classi exact, contributive, synthetic o derivational. | NS-002, NS-019; GS-DAT-001 | Must 0.1 | TV-051 | Baseline definita |
 | RF-079 | La pipeline italiana **DEVE** applicare il profilo `it-token-v1`, preservando superficie, componenti e versioni delle annotazioni secondo GS-LNG-001. | NS-001, NS-013; GS-LNG-001 | Must 0.1 | TV-052 | Token/componenti seed verificati; annotazioni avanzate aperte |
 | RF-080 | GUI, GlifiKit e GlifiCLI **DEVONO** compilare ed eseguire la stessa rappresentazione QueryAST canonica e produrre lo stesso ordinamento. | NS-001, NS-006; GS-QRY-001 | Must 0.1 | TV-053 | Baseline definita |
-| RF-081 | Il sistema **DEVE** identificare ogni nodo analitico dal descrittore canonico, deduplicare equivalenti e invalidare transitivamente soltanto i discendenti. | NS-004, NS-007; GS-ANA-001 | Must 0.1 | TV-054 | Semantica AnalysisDescriptor/DAG in-memory verificata; commit package e invalidazione da reimport aperti |
+| RF-081 | Il sistema **DEVE** identificare ogni nodo analitico dal descrittore canonico, deduplicare equivalenti e invalidare transitivamente soltanto i discendenti. | NS-004, NS-007; GS-ANA-001 | Must 0.1 | TV-054 | Descriptor/DAG e commit Artifact verificati; invalidazione selettiva da reimport aperta |
 | RF-082 | Findings, ranking editoriale e spiegazioni **DEVONO** derivare da regole deterministiche versionate, senza confidence score universale. | NS-017, NS-018, NS-021; GS-ANA-001 | Must 0.1 | TV-055 | Baseline definita |
 | RF-083 | Ogni operazione lunga **DEVE** esporre lo stesso piano, progresso, cancellazione, stato terminale ed errore tipizzato attraverso GUI, GlifiKit e GlifiCLI. | NS-006, NS-008; GS-ANA-001, GS-RUN-001 | Must 0.1 | TV-056 | Baseline definita |
 | RF-084 | Ogni vista scientifica **DEVE** derivare da VisualizationSpec e offrire selezione, lineage, alternativa tabellare accessibile ed export con provenance. | NS-002, NS-019, NS-022; GS-VIZ-001 | Must per viste 0.1 | TV-058 | Baseline definita |
@@ -202,7 +202,7 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-056 | Protezione | Un futuro export diagnostico **DEVE** essere avviato dalla persona, ispezionabile, limitato e redatto; la 0.1 **NON DEVE** esporlo. | Audit UI, retention, canary e assenza di invio automatico | TV-069 | Approvato; funzione fuori baseline 0.1 |
 | RQ-057 | Protezione | Ogni superficie che elabora input non fidato **DEVE** applicare asset, trust boundary, controlli e rischio residuo GS-SEC-001 aggiornati al comportamento reale. | Threat review G2/G4 e prove THR-001–THR-020 senza minacce P0/P1 non trattate | TV-070 | Baseline definita; prove avversarie da acquisire |
 | RQ-058 | Affidabilità | API, CLI, runtime e UI **DEVONO** usare la tassonomia trasversale delle failure e dichiarare per ogni esito retry e stato che rimane valido. | Contract test su tutte le categorie, nessun parziale marcato completo | TV-071 | Baseline definita; tipi e flussi da implementare |
-| RQ-059 | Affidabilità | Import, indice, Analysis DAG, autosave, migrazione ed export **DEVONO** rispettare il commit point e la matrice di recovery GS-DAT-001. | Kill injection prima/dopo ogni passo con apertura della sola generazione verificata | TV-072 | Import prototipato; indice, DAG, autosave, migrazione ed export aperti |
+| RQ-059 | Affidabilità | Import, indice, Analysis DAG, autosave, migrazione ed export **DEVONO** rispettare il commit point e la matrice di recovery GS-DAT-001. | Kill injection prima/dopo ogni passo con apertura della sola generazione verificata | TV-072 | Import e DAG/Artifact prototipati con fault injection in-process; indice, autosave, migrazione, export e kill reale aperti |
 | RQ-060 | Compatibilità | Ogni superficie GlifiKit/GlifiCLI esposta **DEVE** rispettare lifecycle, Sendable/isolation, progressi, cancellazione, output, exit status e versione GS-API-001. | API surface diff e contract test condivisi fra API/CLI/GUI | TV-073 | Status, profilo, progetto/import, query/sourceRanges, analisi descrittiva e keyness verificati; progressi e parità GUI analitica aperti |
 | RQ-061 | Affidabilità | Ogni export scientifico **DEVE** includere un ExportManifest v1 canonico con corpus, descriptor, algoritmo, parametri, preprocessing, backend, determinismo, software, provenance, file e validazione. | Schema, digest e round-trip verificati; path e fonti non selezionate assenti | TV-074 | Baseline definita; codec da implementare |
 | RQ-062 | Manutenibilità | Ogni clausola implementativa critica **DEVE** essere interrogabile nella matrice requisito → specifica → codice → test → fixture → evidenza → gate con stato non ambiguo. | `make check-compliance` supera schema, riferimenti e regole di promozione | TV-075 | Baseline automatizzata |

@@ -53,10 +53,11 @@
 
 ## Limiti
 
-La slice è logica e in memoria. Non prova ancora commit del grafo nel package,
-deduplica fisica degli oggetti, invalidazione dopo reimport, checkpoint, recovery,
-scheduler concorrente, backpressure, garbage collection o Artifact prodotti dalle
-analisi esistenti. I test sintetici non sostituiscono fuzzing e benchmark massivi.
+Questa evidenza resta limitata alla slice logica e in memoria; la successiva
+GS-VER-025 prova commit del grafo nel package, deduplica fisica, invalidazione e
+checkpoint. Restano aperti recovery completa, scheduler concorrente, backpressure,
+garbage collection e Artifact prodotti automaticamente dalle analisi esistenti. I
+test sintetici non sostituiscono fuzzing e benchmark massivi.
 
 ## Esito
 

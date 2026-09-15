@@ -688,6 +688,26 @@
       "gate": "G2",
       "status": "verified",
       "blockingReason": null
+    },
+    {
+      "id": "CMP-039",
+      "clause": "GS-DAT-001 § Persistenza transazionale Analysis DAG e Artifact",
+      "specification": "docs/specifiche-di-design/02-dati-lineage-e-persistenza.md",
+      "requirements": ["RF-011", "RF-075", "RF-081", "RQ-043", "RQ-059"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiProjectPackage.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiSQLiteProjectStore.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiAnalysisGraph.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisGraphTests.swift"
+      ],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-025-persistenza-artifact-dag.md"],
+      "gate": "G2",
+      "status": "verified",
+      "blockingReason": null
     }
   ]
 }
