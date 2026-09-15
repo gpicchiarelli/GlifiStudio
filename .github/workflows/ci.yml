@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: Verifica
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verify
+    runs-on: xcode-27
+    timeout-minutes: 45
+    steps:
+      - name: Acquisizione sorgenti
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - name: Quality gate completo
+        run: ./Scripts/verify.sh
