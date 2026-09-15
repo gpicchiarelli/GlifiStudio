@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-006 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -27,6 +27,8 @@
 - Il planner **DEVE** considerare costo, memoria, energia e stato termico senza
   cambiare silenziosamente il significato del piano; rinvii e fallback sono
   spiegabili.
+- Su macOS, admission e parallelismo **DEVONO** applicare la decision table
+  [GS-APL-015](15-sostenibilita-di-sistema-macos.md), preservando App Nap e idle.
 
 Gli strumenti di riferimento sono Instruments, Organizer e i checker di Xcode. La strategia dei backend è definita in [Calcolo accelerato su Apple silicon](11-calcolo-accelerato-apple-silicon.md). Riferimento: [Testing and performance](https://developer.apple.com/documentation/technologyoverviews/testing-and-performance).
 

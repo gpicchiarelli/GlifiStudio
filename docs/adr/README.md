@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ADR-IDX-001 |
 | Tipo | Registro delle decisioni architetturali |
-| Versione | 0.17.0 |
+| Versione | 0.19.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -37,6 +37,8 @@ Gli ADR documentano le scelte architetturali importanti, il contesto in cui sono
 - [ADR-0014 — Esperienza guidata da indagini, intenzioni ed evidenze](0014-esperienza-guidata-da-indagini.md) — Accettato
 - [ADR-0015 — Baseline Swift 6.4 e modalità linguistica Swift 6](0015-baseline-swift-6-4.md) — Accettato
 - [ADR-0016 — Specifiche implementative e baseline prodotto 0.1](0016-specifiche-di-design-e-baseline-prodotto.md) — Accettato
+- [ADR-0017 — Osservabilità locale senza telemetria applicativa](0017-osservabilita-locale-senza-telemetria.md) — Accettato
+- [ADR-0018 — Runtime cooperativo e sostenibile su macOS](0018-runtime-cooperativo-sostenibile-macos.md) — Accettato
 
 ## Modello per i nuovi ADR
 

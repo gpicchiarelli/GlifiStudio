@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.13.0 |
+| Versione | 0.14.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -190,6 +190,14 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-046 | Protezione | La baseline 0.1 **NON DEVE** usare rete o telemetria e **NON DEVE** includere contenuto, query o path del corpus nei log e nei bundle diagnostici. | Audit statico/dinamico e ispezione della diagnostica | TV-060 | Baseline definita |
 | RQ-047 | Capacità di interazione | Route, selezione, restoration, multiwindow e confronto **DEVONO** usare identità di dominio e restare equivalenti tra modalità di input accessibili. | Contract test e UI test GS-UI su macOS/iPadOS | TV-058 | Baseline definita |
 | RQ-048 | Efficienza prestazionale | Le capacità Must **DEVONO** essere misurate sulle classi S/M applicabili e rifiutare in sicurezza L/XL non sostenibili, conservando gli stessi invarianti. | Report GS-RUN con memoria, I/O, energia, termica e cancellazione | TV-057 | Baseline definita; soglie temporali da approvare |
+| RQ-049 | Protezione | La 0.1 **NON DEVE** incorporare telemetria applicativa, SDK analytics/crash/session replay, identificatori diagnostici persistenti o upload automatici. | Audit di sorgenti, dipendenze, binario, endpoint, manifest e dichiarazioni | TV-062 | Approvato; ADR-0017 |
+| RQ-050 | Protezione | Il codice prodotto **DEVE** usare soltanto la facciata tipizzata `GlifiDiagnostics`; contenuto, query, prompt, estratti, path, URL e nomi file **NON DEVONO** entrare in log o signpost. | Allowlist statica, corpus canary e ispezione Console/Instruments | TV-063 | Approvato; ADR-0017 |
+| RQ-051 | Efficienza prestazionale | Le fasi costose approvate **DEVONO** usare signpost statici e correlabili, senza cambiare risultato, errori od ownership dell'operazione. | Test wrapper e trace Instruments con coppie begin/end bilanciate | TV-064 | Approvato; ADR-0017 |
+| RQ-052 | Efficienza prestazionale | Il runtime macOS **DEVE** trasformare Low Power Mode, stato termico, pressione memoria e attività dell'app in un profilo deterministico di admission, parallelismo e checkpoint. | Decision table completa per condizioni e intenti | TV-065 | Approvato; ADR-0018 |
+| RQ-053 | Efficienza prestazionale | L'app macOS inattiva **DEVE** tornare a idle senza polling, timer ripetuti, lavoro speculativo o impedimenti ad App Nap. | Energy Log/Activity Monitor senza task, timer o assertion applicativi residui entro 60 secondi | TV-066 | Approvato; ADR-0018 |
+| RQ-054 | Efficienza prestazionale | QoS e attività di processo **DEVONO** derivare dall'intento; attività lunghe devono essere finite, owned, cancellabili e consentire idle system sleep. | Ispezione priorità, lifecycle dei token e assenza delle opzioni vietate | TV-067 | Approvato; ADR-0018 |
+| RQ-055 | Efficienza prestazionale | Ogni release candidate macOS **DEVE** essere profilata su hardware con Instruments e confrontata in Xcode Organizer quando il campione è sufficiente. | Report con build, hardware, energia, memoria, I/O, launch e hang; regressioni >10% risolte o derogate | TV-068 | Approvato; baseline reale da acquisire |
+| RQ-056 | Protezione | Un futuro export diagnostico **DEVE** essere avviato dalla persona, ispezionabile, limitato e redatto; la 0.1 **NON DEVE** esporlo. | Audit UI, retention, canary e assenza di invio automatico | TV-069 | Approvato; funzione fuori baseline 0.1 |
 
 ## 7. Vincoli di progetto
 

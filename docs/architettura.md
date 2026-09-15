@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AD-001 |
 | Tipo | Architecture description |
-| Versione | 0.13.0 |
+| Versione | 0.14.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -83,7 +83,9 @@ Ricercatore / analista
      Framework e servizi delle piattaforme Apple
 ```
 
-Le fonti documentali sono input non affidabili. Il progetto persistente conserva identità, configurazioni e artefatti. Non è attualmente prevista una dipendenza necessaria da servizi remoti; questa assenza non costituisce ancora una policy di sicurezza approvata.
+Le fonti documentali sono input non affidabili. Il progetto persistente conserva
+identità, configurazioni e artefatti. La baseline 0.1 non dipende da servizi remoti
+e non trasmette telemetria o diagnostica, secondo ADR-0017.
 
 ## 5. VA-02 — View di decomposizione logica
 
@@ -247,6 +249,13 @@ AsyncSequence, `ResourceBudget v1`, pressione memoria/termica e classi benchmark
 S/M/L/XL. I coefficienti sono baseline conservativa e richiedono calibrazione, ma
 il rifiuto sicuro e l'equivalenza dei risultati sono invarianti immediati.
 
+`GlifiRuntimePolicy` è il policy engine puro del runtime: combina intento,
+Low Power Mode, thermal state, memory pressure e attività dell'app in admission,
+parallelismo e checkpoint deterministici. L'adattatore macOS event-driven diventa
+obbligatorio prima del primo flusso lungo. `GlifiDiagnostics` è l'unico confine di
+Unified Logging/signpost; non attraversa dati del corpus e non costituisce
+telemetria remota.
+
 ### 7.3 Percorsi di calcolo
 
 Il percorso Swift/CPU costituisce la baseline corretta e testabile. La promozione segue la scala definita da ADR-0008: Accelerate per primitive numeriche e vettoriali, Core ML per modelli con selezione di CPU/GPU/Neural Engine e Metal/MPS per carichi massivamente paralleli. Ogni backend mantiene fallback, osservabilità, cancellazione e confronto sulla stessa semantica.
@@ -300,7 +309,9 @@ Entrambe le app includono un privacy manifest condiviso. Il target macOS applica
 | Core Spotlight | Ricerca di entità utente nel sistema | Non sostituisce l'indice analitico |
 | App Intents e Core Transferable | Automazione, Siri/Shortcuts e scambio tipizzato | Contratti di dominio e permessi stabili |
 | BackgroundTasks | Lavoro prolungato e differibile su iPadOS | Progress, checkpoint, scadenza e capability minima |
-| Logger, OSSignposter e Instruments | Diagnosi e misura | Privacy dei dati e categorie stabili |
+| Logger, OSSignposter e Instruments | Diagnosi locale e misura | Facciata tipizzata, allowlist, nessun dato del corpus o upload |
+| ProcessInfo, DispatchSourceMemoryPressure e App Nap | Profilo energetico e pressione risorse macOS | Notifiche event-driven, idle, QoS per intento e rifiuto sicuro |
+| Xcode Organizer e MetricKit | Diagnostica delle build distribuite | Organizer primario; nessun subscriber MetricKit nella 0.1 |
 | CloudKit/iCloud e Handoff | Sincronizzazione e continuità | Non adottati prima di DA-017 e della policy privacy |
 
 Il [profilo Apple](apple/README.md) assegna stato, gate e riferimenti a ciascuna tecnologia.

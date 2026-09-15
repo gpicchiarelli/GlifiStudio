@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ISS-001 |
 | Tipo | Registro delle questioni e decisioni aperte |
-| Versione | 0.16.0 |
+| Versione | 0.17.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,9 +25,9 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-008 | Linguistica | Quali annotazioni italiane e quali lingue successive devono raggiungere quali soglie qualitative? | Corpus gold, split, metriche GS-MET-001-18 e valutazione dei backend | Da assegnare | Parzialmente definita: italiano e protocollo approvati; corpus e soglie aperti |
 | DA-009 | PDF/OCR | Quale qualità e quali informazioni spaziali devono essere preservate? | Corpus PDF rappresentativo e metriche OCR | Da assegnare | Aperta |
 | DA-010 | Query | Qual è la sintassi pubblica per query testuali, linguistiche e sui metadati? | Prototipi API e UX | Iniziatore del progetto | Chiusa come contratto: QueryAST e `glifi-query-v1`; GS-QRY-001, ADR-0016. Usability test richiesti |
-| DA-011 | Benchmark | Quali dataset, soglie, dispositivi e margini promuovono Swift, Accelerate, Core ML o Metal a backend predefinito? | Scenari reali, energia, termica e riproducibilità | Da assegnare | Parzialmente definita: criteri approvati da ADR-0008 |
+| DA-011 | Benchmark | Quali dataset, soglie, dispositivi e margini promuovono Swift, Accelerate, Core ML o Metal a backend predefinito? | Scenari reali, energia, termica e riproducibilità | Da assegnare | Parzialmente definita: criteri e policy runtime approvati da ADR-0008/ADR-0018; baseline hardware aperta |
 | DA-012 | Distribuzione | App Store, distribuzione diretta o entrambe? | Sandbox, notarizzazione, plugin/modelli e accesso ai file | Iniziatore del progetto | Chiusa: App Store con distribuzione non in elenco, ADR-0011 |
-| DA-013 | Privacy | Quali garanzie esplicite offrire su elaborazione locale, telemetria e dati sensibili? | Posizionamento prodotto e minacce | Iniziatore del progetto | Chiusa per 0.1: locale, senza account/rete/sync/telemetria, log redatti; GS-PROD-001, ADR-0016 |
+| DA-013 | Privacy | Quali garanzie esplicite offrire su elaborazione locale, telemetria e dati sensibili? | Posizionamento prodotto e minacce | Iniziatore del progetto | Chiusa per 0.1: locale, nessuna telemetria applicativa, logging tipizzato, Organizer primario e nessun subscriber MetricKit; GS-PROD-001, ADR-0016/ADR-0017 |
 | DA-014 | Nome | Il nome Glifi Studio è utilizzabile e registrabile? | Ricerca legale e marchi | Da assegnare | Aperta |
 | DA-015 | Governo documentale | Chi approva formalmente le baseline? | Nomina dei ruoli e autorità del progetto | Da assegnare | Parzialmente definita: flusso e responsabilità provvisorie approvati da ADR-0009 |
 | DA-016 | Contributi e copyright | Come vengono attestati i diritti sui contributi e chi può autorizzare un futuro cambio di licenza? | Titolarità, modello contributivo, eventuale CLA o DCO | Da assegnare | Aperta |

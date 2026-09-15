@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-28 |
 | Tipo | Capitolo normativo |
-| Versione | 1.7.0 |
+| Versione | 1.8.0 |
 | Stato | Attivo |
 | Responsabile | Amministratore del repository, provvisorio |
 | Ultima modifica | 2026-09-15 |
@@ -22,9 +22,10 @@
 | Design implementativo | Dieci specifiche GS-DOM–GS-PROD e ADR-0016 definite; baseline 0.1 delimitata | Approvare G1 e costruire i vertical prototype nell'ordine DOM/DAT/ANA/UI/RUN |
 | Tracciabilità | Strutturata | Collegare ogni vertical slice a implementazione ed evidenze |
 | Controllo versione | Primo commit pubblicato su `main` nel remote privato canonico | Applicare protezioni server-side quando disponibili |
-| Codice e test | Baseline eseguibile macOS/iPadOS e package condiviso | Evolvere per vertical slice guidate dai requisiti |
+| Codice e test | Baseline eseguibile macOS/iPadOS, package condiviso, facciata diagnostica e policy runtime coperte da test | Evolvere per vertical slice guidate dai requisiti |
 | Toolchain Swift | Apple Swift 6.4, Swift 6 language mode, SwiftPM tools 6.4 e strict concurrency verificati | Rivalutare solo con una toolchain Xcode 27 compatibile o nuova ADR |
-| Sicurezza e privacy | Threat model minimo, modello locale 0.1 e policy repository presenti | Assegnare responsabile ed eseguire fuzz, audit binario e controlli server-side |
+| Sicurezza e privacy | Threat model minimo, zero telemetria applicativa, logging tipizzato e policy repository presenti | Assegnare responsabile ed eseguire fuzz, audit binario/canary e controlli server-side |
+| Sostenibilità macOS | Decision table Low Power Mode/termica/memoria/lifecycle implementata nel core | Collegare l'adattatore event-driven e acquisire baseline Instruments col primo flusso lungo |
 | GitHub | Remote privato, impostazioni, 20 etichette, Dependabot e audit attivi | Abilitare piano per ruleset, Secret Scanning e push protection |
 | CI | Workflow Xcode 27 pubblicati; job non avviati per budget Actions | Abilitare budget e ottenere entrambi i check verdi |
 | Coverage e benchmark | Regole definite, soglie non ancora approvate | Introdurre con le prime funzioni e hot path reali |

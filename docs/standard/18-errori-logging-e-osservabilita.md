@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-18 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -44,6 +44,14 @@ errori; `resourceLimited` è uno stato controllato GS-RUN-001.
 - La baseline 0.1 **NON DEVE** trasmettere log o metriche. Un bundle diagnostico
   esportato volontariamente **DEVE** mostrare l'inventario, applicare redazione e
   consentire ispezione prima della condivisione.
+- `GlifiDiagnostics` **DEVE** essere l'unica facciata autorizzata sopra Unified
+  Logging; app e librerie **NON DEVONO** creare logger, signposter o messaggi liberi.
+- Eventi, categorie e nomi signpost **DEVONO** essere allowlist tipizzate. Valori
+  ammessi dichiarano privacy; contenuto, query, prompt, estratti, path, URL e nomi
+  file sono omessi, non semplicemente redatti.
+- Xcode Organizer **DEVE** essere il primo canale per metriche aggregate di campo.
+  La 0.1 **NON DEVE** sottoscrivere MetricKit o conservare payload diagnostici.
+- Il contratto macOS completo è [GS-APL-014](../apple/14-osservabilita-e-telemetria-macos.md).
 
 ## 18.3 Recupero
 

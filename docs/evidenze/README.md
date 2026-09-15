@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.15.0 |
+| Versione | 0.16.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -29,3 +29,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-013 — Revisione dell'esperienza utente](GS-VER-013-revisione-esperienza-utente.md) — Superato localmente; prototipi e studi da eseguire
 - [GS-VER-014 — Baseline Swift 6.4](GS-VER-014-baseline-swift-6-4.md) — Superato localmente
 - [GS-VER-015 — Specifiche di design implementativo](GS-VER-015-specifiche-di-design.md) — Superato localmente; CI remota in GS-WVR-002
+- [GS-VER-016 — Osservabilità e sostenibilità macOS](GS-VER-016-osservabilita-e-sostenibilita-macos.md) — Superato localmente con prove hardware aperte

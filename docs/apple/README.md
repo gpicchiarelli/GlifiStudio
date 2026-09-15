@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-IDX-001 |
 | Tipo | Indice delle pratiche Apple |
-| Versione | 1.4.0 |
+| Versione | 1.6.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -52,6 +52,8 @@ La strategia distingue:
 | GS-APL-011 | [Calcolo accelerato su Apple silicon](11-calcolo-accelerato-apple-silicon.md) | Strategia CPU/Accelerate/GPU/Neural Engine approvata |
 | GS-APL-012 | [Persistenza e indicizzazione di sistema](12-persistenza-e-indicizzazione-di-sistema.md) | SQLite/formati Foundation adottati; Spotlight post-MVP |
 | GS-APL-013 | [Integrazione di sistema e lavoro prolungato](13-integrazione-di-sistema-e-lavoro-prolungato.md) | App Intents, trasferimento e background pianificati |
+| GS-APL-014 | [Osservabilità e telemetria macOS](14-osservabilita-e-telemetria-macos.md) | Policy e facciata attive; nessuna telemetria applicativa |
+| GS-APL-015 | [Sostenibilità di sistema macOS](15-sostenibilita-di-sistema-macos.md) | Policy runtime attiva; adattatore eventi richiesto col primo lavoro lungo |
 
 ## Mappa sintetica delle tecnologie
 
@@ -74,7 +76,8 @@ La strategia distingue:
 | Sicurezza | App Sandbox, Hardened Runtime, Privacy Manifest, Keychain, CryptoKit | Minimo privilegio; estensione per requisito |
 | Protezione hardware | Secure Enclave e LocalAuthentication tramite API supportate | Condizionale a chiavi o blocco locale del progetto |
 | Rete | URLSession e Network | Disabilitata finché importazione remota o servizi approvati non la richiedono |
-| Qualità | Swift Testing, XCTest/XCUITest, Instruments, Logger, OSSignposter, Organizer | Gate attivo e crescita con i flussi |
+| Qualità | Swift Testing, XCTest/XCUITest, Instruments, Logger, OSSignposter, Xcode Organizer | Gate attivo; eventi tipizzati e nessuna telemetria remota |
+| Sostenibilità macOS | Low Power Mode, thermal state, DispatchSourceMemoryPressure, App Nap, QoS | Policy deterministica attiva; sorgenti event-driven col primo flusso lungo |
 | Sincronizzazione | CloudKit/iCloud, Handoff | Non adottata finché identità, privacy e conflitti non sono decisi |
 
 Mac Catalyst, ML Compute deprecato, polling perpetuo e dipendenze necessarie da servizi remoti non fanno parte della baseline.
@@ -83,4 +86,6 @@ StoreKit, AVFoundation, Speech, ARKit/RealityKit, MapKit, HealthKit, HomeKit e a
 
 Le decisioni sono registrate in [ADR-0006](../adr/0006-baseline-applicativa-apple.md),
 [ADR-0008](../adr/0008-portafoglio-tecnologico-apple-silicon.md) e
-[ADR-0016](../adr/0016-specifiche-di-design-e-baseline-prodotto.md).
+[ADR-0016](../adr/0016-specifiche-di-design-e-baseline-prodotto.md),
+[ADR-0017](../adr/0017-osservabilita-locale-senza-telemetria.md) e
+[ADR-0018](../adr/0018-runtime-cooperativo-sostenibile-macos.md).
