@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ADR-IDX-001 |
 | Tipo | Registro delle decisioni architetturali |
-| Versione | 0.13.0 |
+| Versione | 0.14.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -33,6 +33,7 @@ Gli ADR documentano le scelte architetturali importanti, il contesto in cui sono
 - [ADR-0010 — GitHub come hosting privato e configurazione dichiarativa](0010-github-hosting-privato-e-configurazione-dichiarativa.md) — Accettato
 - [ADR-0011 — Distribuzione App Store non in elenco](0011-distribuzione-app-store-unlisted.md) — Accettato
 - [ADR-0012 — Repository GitHub privato operativo](0012-repository-github-privato-operativo.md) — Accettato
+- [ADR-0013 — Semantica analitica backend-neutral e Analysis DAG](0013-semantica-analitica-e-analysis-dag.md) — Accettato
 
 ## Modello per i nuovi ADR
 

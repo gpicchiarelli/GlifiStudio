@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-11 |
 | Tipo | Capitolo normativo |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -16,6 +16,7 @@
 - La fonte originale **NON DEVE** essere modificata implicitamente.
 - Ogni artefatto derivato **DEVE** identificare input, trasformazione, versione e parametri.
 - Un risultato **DEVE** poter essere ricondotto al corpus e alla fonte applicabili.
+- Ogni cella, punto, arco o aggregazione **DEVE** offrire lineage risolvibile quando GS-MET-001 lo richiede.
 - Testo digitale e testo OCR **DEVONO** essere distinguibili.
 
 ## 11.2 Identità
@@ -51,6 +52,16 @@ Ogni formato proprietario persistente **DEVE** essere:
 
 Cache ricostruibili e dati autorevoli **DEVONO** essere distinguibili. Una cache corrotta **DOVREBBE** poter essere eliminata e ricostruita senza perdere fonti o configurazioni.
 
+Matrici e grafi massivi **DEVONO** poter usare rappresentazioni sparse, a blocchi o
+persistite senza cambiare identità di righe, colonne, nodi o archi. Zero implicito,
+valore mancante e valore non definito **NON DEVONO** essere confusi.
+
 ## 11.6 Migrazioni
 
 Ogni modifica incompatibile al formato **DEVE** fornire migrazione, lettura compatibile o rifiuto esplicito e sicuro. Le migrazioni **DEVONO** essere idempotenti dove possibile, testate su fixture versionate e non distruttive prima della verifica del risultato.
+
+## 11.7 Analysis DAG
+
+Descrittori e dipendenze **DEVONO** essere serializzati canonicamente. Una modifica
+invalida transitivamente i soli discendenti semantici; artefatti indipendenti restano
+riutilizzabili. Cicli, versioni sconosciute e digest incoerenti sono errori.

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-25 |
 | Tipo | Capitolo normativo |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -27,6 +27,9 @@ Una modifica è completa soltanto quando tutti i punti applicabili sono soddisfa
 - dipendenze e automazioni nuove motivate, inventariate e fissate in modo riproducibile;
 - log e artefatti esaminati per dati sensibili;
 - quality gate verdi o deroghe valide;
-- evidenza di verifica archiviata.
+- evidenza di verifica archiviata;
+- variante scientifica, descriptor, determinismo e casi degeneri specificati quando applicabili;
+- reference test indipendente e invarianti matematiche superati per ogni metodo modificato;
+- lineage e invalidazione del DAG verificati per ogni nuovo artefatto analitico.
 
 Una modifica non è completa se il solo modo di integrarla richiede bypass, credenziali personali, stato locale non versionato o un controllo disabilitato.

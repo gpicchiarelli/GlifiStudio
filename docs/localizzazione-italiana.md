@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-I18N-001 |
 | Tipo | Specifica della configurazione linguistica analitica |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -26,7 +26,10 @@ La baseline analitica iniziale di Glifi Studio è calibrata per la lingua italia
 - Tokenizzazione, normalizzazione e segmentazione **NON DEVONO** assumere che ogni testo sia italiano.
 - Lingua e versione del backend linguistico **DEVONO** essere registrate negli artefatti derivati.
 - Il riconoscimento automatico della lingua, quando introdotto, **NON DEVE** sovrascrivere una scelta esplicita dell'utente.
-- Qualità, corpora di riferimento e soglie per lemmi, parti del discorso ed entità restano da approvare tramite DA-008.
+- Qualità, corpora di riferimento e soglie per token, frasi, lemmi, parti del
+  discorso, feature morfologiche ed entità seguono
+  [GS-MET-001-18](metodi-analitici/18-valutazione-servizi-linguistici.md) e restano
+  da approvare tramite DA-008.
 
 ## Estensione futura
 
@@ -34,4 +37,7 @@ Nuove lingue analitiche devono usare contratti sostituibili di GlifiCore e fixtu
 
 ## Verifica
 
-La baseline richiede un test del default `it`/`it_IT` e, quando saranno disponibili le prime funzioni linguistiche, fixture italiane con corpora, metriche e soglie approvate.
+La baseline richiede un test del default `it`/`it_IT` e, quando saranno disponibili
+le prime funzioni linguistiche, corpus gold italiani versionati con precision,
+recall, F1, accuracy e metriche specifiche del compito. La sola presenza di Natural
+Language non costituisce una verifica.

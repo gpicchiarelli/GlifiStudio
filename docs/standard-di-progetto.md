@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001 |
 | Tipo | Indice normativo e standard interno di ingegneria del software |
-| Versione | 0.6.0 |
+| Versione | 0.7.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -46,6 +46,16 @@ Finché lo stato è `Proposto`, lo standard costituisce una baseline normativa c
 | GS-STD-001-13 | [13. Dipendenze e supply chain](standard/13-dipendenze-e-supply-chain.md) |
 | GS-STD-001-14 | [14. Sicurezza e privacy](standard/14-sicurezza-e-privacy.md) |
 | GS-STD-001-15 | [15. Interfaccia, accessibilità e localizzazione](standard/15-interfaccia-accessibilita-e-localizzazione.md) |
+
+## Fondazione scientifica
+
+| ID | Documento |
+| --- | --- |
+| GS-MET-001 | [Specifica normativa dei metodi analitici](metodi-analitici/README.md) |
+
+GS-MET-001 è normativa per semantica matematica, statistica, linguistica e
+algoritmica. I capitoli dello standard disciplinano il processo con cui tali metodi
+sono progettati, implementati e verificati.
 
 ## Qualità e operazioni
 

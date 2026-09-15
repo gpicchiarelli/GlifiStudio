@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-010 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -30,6 +30,9 @@ Glifi Studio distingue analisi deterministica, modelli statistici specializzati 
 - Capacità, lingue, token, lemma e categorie **DEVONO** essere misurati su corpus italiani versionati.
 - Range e offset Foundation **DEVONO** essere convertiti nel modello canonico senza perdere il collegamento alla fonte.
 - Una differenza dovuta a versione del sistema operativo o revisione del modello **DEVE** essere registrabile nei metadati dell'artefatto.
+- Valutazione, split, metriche e deriva **DEVONO** seguire
+  [GS-MET-001-18](../metodi-analitici/18-valutazione-servizi-linguistici.md); la
+  disponibilità dell'API **NON È** evidenza di qualità linguistica.
 
 ## Core ML e Neural Engine
 
@@ -49,6 +52,10 @@ Glifi Studio distingue analisi deterministica, modelli statistici specializzati 
 - Il limite di contesto **DEVE** essere gestito con chunking e retrieval; un intero corpus non deve essere inserito in una sessione.
 - Tool calling **DEVE** esporre operazioni minime, senza effetti collaterali impliciti e con autorizzazione separata per le modifiche.
 - Private Cloud Compute o provider server **NON DEVONO** essere abilitati senza requisito, valutazione privacy, rete autorizzata, disclosure e ADR dedicato.
+
+Il riassunto estrattivo deterministico e i percorsi LSA/NMF/LDA sono governati da
+GS-MET-001-19 e GS-MET-001-15. Foundation Models non li sostituisce e produce una
+categoria epistemica distinta.
 
 ## Riferimenti Apple
 

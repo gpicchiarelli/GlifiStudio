@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-10 |
 | Tipo | Capitolo normativo |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -38,9 +38,17 @@ Un ADR **DEVE** riportare stato, contesto, decisione, alternative, conseguenze, 
 - L'ottimizzazione **DEVE** seguire una baseline corretta e una misura riproducibile.
 - Ogni dipendenza da acceleratori o modelli di sistema **DEVE** avere rilevamento delle capacità e fallback esplicito.
 - Risultati probabilistici o generativi **NON DEVONO** sostituire implicitamente fonti o risultati deterministici.
+- Ogni artefatto analitico persistibile **DEVE** avere un descrittore conforme a GS-MET-001-01.
+- Le dipendenze analitiche **DEVONO** formare un DAG con invalidazione transitiva selettiva.
+- La semantica di un metodo **NON DEVE** dipendere dalla GUI, dallo storage o dal backend Apple scelto.
 
 ## 10.4 API e confini
 
 Le API pubbliche **DEVONO** essere minime, documentate e orientate al dominio. Tipi interni **NON DEVONO** diventare pubblici per aggirare un confine architetturale. Dipendenze verso framework e servizi sostituibili **DEVONO** attraversare contratti espliciti.
 
 I backend Apple sono governati da [ADR-0008](../adr/0008-portafoglio-tecnologico-apple-silicon.md) e dal [profilo tecnologico Apple](../apple/README.md).
+
+La fondazione scientifica è governata da [GS-MET-001](../metodi-analitici/README.md)
+e [ADR-0013](../adr/0013-semantica-analitica-e-analysis-dag.md). `GlifiMath` è un
+confine concettuale; la sua eventuale separazione in target richiede evidenza sulle
+dipendenze e non può modificare i contratti matematici.

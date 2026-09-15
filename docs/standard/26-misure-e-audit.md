@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-26 |
 | Tipo | Capitolo normativo |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -20,6 +20,10 @@ Il responsabile qualità **DEVE** poter produrre almeno:
 - difetti per severità e tempo di risoluzione;
 - dipendenze obsolete o vulnerabili;
 - documenti senza responsabile, revisione o tracciabilità;
-- compatibilità delle versioni persistenti supportate.
+- compatibilità delle versioni persistenti supportate;
+- varianti GS-MET implementate con reference suite e classe di determinismo;
+- artefatti persistibili con descriptor completo e lineage campionato risolvibile;
+- famiglie inferenziali con correzione multipla ed effect size applicabile;
+- servizi linguistici supportati con corpus, soglie e deriva per versione.
 
 Le metriche **NON DEVONO** essere usate isolatamente come misura di produttività individuale.

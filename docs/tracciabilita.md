@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.14.0 |
+| Versione | 0.15.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -18,14 +18,20 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 
 | Necessità | Requisiti derivati | View/decisioni architetturali | Verifica pianificata | Stato |
 | --- | --- | --- | --- | --- |
-| NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-022, RF-025, CV-006 | VA-01, VA-02, ADR-0002, ADR-0004 | TV-001, TV-002, TV-007, TV-008, TV-014 | Italiano approvato; capacità analitiche incomplete |
-| NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RQ-003 | VA-03, VA-04 | TV-003, TV-006 | Incompleta |
+| NS-001 Analizzare documenti e corpus | RF-001–RF-004, RF-015–RF-030, RF-034–RF-035, CV-006 | VA-01, VA-02, VA-06, ADR-0002, ADR-0004, ADR-0013 | TV-001, TV-002, TV-007, TV-008, TV-014, TV-026, TV-029–TV-030 | Semantica specificata; implementazione analitica incompleta |
+| NS-002 Verificare risultati sulla fonte | RF-005, RF-009, RF-014, RF-029, RF-039, RF-043, RF-046, RQ-003, RQ-023, RQ-028 | VA-03, VA-06, ADR-0013 | TV-003, TV-004, TV-006, TV-027, TV-035 | Contratto di lineage definito; implementazione incompleta |
 | NS-003 Elaborare corpus massivi | RF-014, RQ-001, RQ-002, RQ-006, RQ-009, RQ-015, RQ-016, RQ-018, CV-013, CV-016 | VA-03, VA-04, ADR-0008 | TV-009, TV-010, TV-019 | Strategia acceleratori approvata; soglie aperte |
 | NS-004 Riprendere il lavoro senza ricalcolo inutile | RF-001, RF-011, RQ-004 | VA-03, ADR da definire | TV-001, TV-005 | Incompleta |
-| NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021 | VA-02, VA-03 | TV-007, TV-008 | Incompleta |
+| NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Contratto metadata-first definito; implementazione incompleta |
 | NS-006 Usare capacità headless e automatizzabili | RF-023, CV-003 | VA-01, VA-02, ADR-0002 | TV-011 | Scaffold e test preliminare presenti |
-| NS-007 Ottenere risultati corretti e riproducibili | RF-022, RQ-003, RQ-007–RQ-011, RQ-013–RQ-018, CV-014, CV-016 | VA-03, VA-04, VA-05, ADR-0006, ADR-0008 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020 | Baseline Apple e policy AI attive; verifiche di dominio incomplete |
+| NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RQ-003, RQ-007–RQ-011, RQ-013–RQ-018, RQ-023–RQ-029, CV-014, CV-016 | VA-03–VA-06, ADR-0006, ADR-0008, ADR-0013 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033 | Contratti scientifici definiti; reference suite e soglie incomplete |
 | NS-008 Lavorare in app native macOS e iPadOS | RF-024, RQ-012, RQ-019–RQ-022, CV-001–CV-005, CV-007–CV-019 | VA-01, VA-02, VA-05, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011 | TV-013, TV-015–TV-025 | Build e packaging baseline; prodotto e submission incompleti |
+| NS-009 Comprendere metodi e limiti | RF-026–RF-038, RF-042, RF-044–RF-046, RQ-023, RQ-025–RQ-028 | VA-06, ADR-0013, GS-MET-001 | TV-026–TV-032, TV-034–TV-036 | Specifica completa; review scientifica e implementazione mancanti |
+| NS-010 Analizzare metadati e tempo | RF-029, RF-031, RF-032, RF-035, RF-040 | VA-03, VA-06, GS-MET-001-17 | TV-027, TV-029–TV-031 | Contratto definito; implementazione mancante |
+| NS-011 Esplorare strutture multivariate e reti | RF-029, RF-033, RF-036–RF-039, RF-046 | VA-06, GS-MET-001-06, GS-MET-001-10, GS-MET-001-13–16, GS-MET-001-22 | TV-030, TV-032, TV-035 | Contratto definito; implementazione mancante |
+| NS-012 Eseguire content analysis manuale | RF-043, RF-044, RQ-023, RQ-028 | VA-03, VA-06, GS-MET-001-20 | TV-027, TV-034 | Perimetro confermato; flusso MVP da decidere |
+| NS-013 Valutare la qualità linguistica | RF-010, RF-041, RQ-027, RQ-029 | VA-02, VA-05, VA-06, ADR-0004, GS-MET-001-18 | TV-014, TV-026, TV-033 | Protocollo definito; corpus e soglie aperti |
+| NS-014 Sintesi e topic classici riproducibili | RF-038, RF-042, RQ-025, RQ-028, CV-014 | VA-06, ADR-0008, ADR-0013, GS-MET-001-15, GS-MET-001-19 | TV-028, TV-032, TV-036 | Architettura definita; algoritmi MVP da scegliere |
 
 ## Evidenze acquisite
 
@@ -38,6 +44,7 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | [GS-VER-005](evidenze/GS-VER-005-ridenominazione-glifi-studio.md) | Regressione TV-013, TV-015 e TV-016 dopo ADR-0007 | Superato | Non copre disponibilità legale del nome, firma o sistemi esterni |
 | [GS-VER-006](evidenze/GS-VER-006-portafoglio-tecnologico-apple.md) | Strategia ADR-0008 e predisposizione TV-019–TV-021 | Superato | Non sostituisce benchmark e prove funzionali su dispositivi reali |
 | [GS-VER-009](evidenze/GS-VER-009-preflight-app-store.md) | TV-022; baseline di TV-023 e TV-025 | Superato localmente | Packaging senza firma; submission, account Apple, prodotto e dispositivi esclusi |
+| [GS-VER-012](evidenze/GS-VER-012-revisione-fondazione-scientifica.md) | Revisione documentale di TV-026–TV-036 | Superato per struttura e coerenza | Non costituisce validazione delle future implementazioni né peer review scientifica esterna |
 
 ## Catalogo delle verifiche pianificate
 
@@ -68,6 +75,17 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | TV-023 | Audit dichiarazioni | Comportamento, SDK, dati, Required Reason API, privacy manifest, label e policy confrontati sulla stessa build |
 | TV-024 | Validazione di prodotto | Flussi `Must`, accessibilità, dispositivi, prestazioni, TestFlight e modello di accesso soddisfano i criteri approvati |
 | TV-025 | Validazione di submission | Record, firma, metadati, supporto, App Review e richiesta `unlisted` accettati nei sistemi Apple |
+| TV-026 | Review di conformità scientifica | Ogni metodo pubblico soddisfa il contratto minimo GS-MET-001 e possiede un oracolo indipendente |
+| TV-027 | Test di descriptor e DAG | Round-trip, identità semantica, lineage, cicli, invalidazione transitiva e riuso selettivo |
+| TV-028 | Test di riproducibilità | D0/D1/P1 ripetuti tra processi, scheduling e backend entro tolleranze e invarianti |
+| TV-029 | Reference test testuale-statistico | Conteggi, diversità, distribuzioni, weighting, associazioni e dispersione su fixture note |
+| TV-030 | Test matrici massive | Equivalenza in-memory/streaming/sparsa, spill su disco e lineage delle celle |
+| TV-031 | Test inferenziale | Keyness, contingenza, test, intervalli, effect size e correzioni multiple contro riferimenti |
+| TV-032 | Test multivariato | CA, similarità, clustering, SVD/PCA/LSA/NMF e grafi contro invarianti e riferimenti |
+| TV-033 | Valutazione linguistica | Corpus gold per lingua/servizio con precision, recall, F1, accuracy, offset e deriva |
+| TV-034 | Test di content analysis | Versionamento codebook, lineage delle codifiche, Cohen's kappa e Krippendorff's alpha |
+| TV-035 | Test di visualizzazione e navigazione | Mapping dati-segni, accessibilità e round-trip bidirezionale tra vista e fonte |
+| TV-036 | Test di sintesi e topic | Budget, tie-break, source lineage, seed e distinzione estrattivo/generativo |
 
 ## Lacune note
 
@@ -75,5 +93,7 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 - Esiste soltanto lo scaffold implementativo; le evidenze funzionali di dominio non sono ancora disponibili.
 - TV-009, TV-010 e TV-019 richiedono dataset, soglie e hardware di riferimento.
 - TV-020 e TV-021 richiedono funzioni di prodotto e contratti persistenti ancora da implementare.
+- TV-026–TV-036 richiedono implementazioni, corpus gold, reference suite e
+  tolleranze approvate; la presente revisione valida soltanto la documentazione.
 - TV-023–TV-025 richiedono una build funzionalmente completa, identità Apple, URL pubblici e attività nei sistemi Apple.
 - La matrice deve essere aggiornata insieme a ogni modifica dei requisiti o dell'architettura.

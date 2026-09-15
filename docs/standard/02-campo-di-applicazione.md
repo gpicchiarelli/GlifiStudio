@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-02 |
 | Tipo | Capitolo normativo |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -18,6 +18,8 @@ Lo standard si applica a:
 - codice sorgente, test, benchmark e strumenti di build;
 - formati di progetto, indici, cache e migrazioni;
 - documentazione, modelli, dataset di prova e risultati di verifica;
+- metodi matematici, statistici, linguistici, algoritmici e relative visualizzazioni;
+- descrittori, DAG, seed, tolleranze e artefatti analitici persistiti;
 - dipendenze, pipeline di integrazione e artefatti di rilascio;
 - contributi umani o generati con strumenti automatici.
 

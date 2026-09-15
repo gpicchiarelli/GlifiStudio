@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-28 |
 | Tipo | Capitolo normativo |
-| Versione | 1.3.0 |
+| Versione | 1.4.0 |
 | Stato | Attivo |
 | Responsabile | Amministratore del repository, provvisorio |
 | Ultima modifica | 2026-09-15 |
@@ -17,6 +17,7 @@
 | Documentazione controllata | Strutturata e verificata automaticamente | Approvare gli information item sostanziali |
 | Requisiti | Baseline candidata | Assegnare priorità, metriche e validazione stakeholder |
 | Architettura | Baseline candidata con ADR | Chiudere decisioni critiche e accettare ADR-0002 |
+| Fondazione scientifica | GS-MET-001 e ADR-0013 definiti; nessun metodo di dominio ancora implementato | Revisionare formule, scegliere subset MVP, corpus gold e tolleranze |
 | Tracciabilità | Strutturata | Collegare ogni vertical slice a implementazione ed evidenze |
 | Controllo versione | Primo commit pubblicato su `main` nel remote privato canonico | Applicare protezioni server-side quando disponibili |
 | Codice e test | Baseline eseguibile macOS/iPadOS e package condiviso | Evolvere per vertical slice guidate dai requisiti |

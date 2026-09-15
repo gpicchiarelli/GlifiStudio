@@ -30,7 +30,10 @@
 
 ![Laboratorio di analisi testuale di Glifi Studio](docs/assets/glifistudio-hero.png)
 
-Glifi Studio è un ambiente professionale nativo per macOS e iPadOS dedicato all’acquisizione, all’organizzazione e all’analisi quantitativa e qualitativa di documenti, corpus e grandi collezioni testuali.
+Glifi Studio è un ambiente computazionale professionale Apple-native per
+acquisizione, organizzazione, interrogazione, corpus analysis, linguistica
+computazionale, text mining, content analysis e studio quantitativo, qualitativo,
+statistico e semantico di documenti e grandi collezioni testuali su macOS e iPadOS.
 
 L’unità di lavoro è un **progetto persistente**, non un singolo file. Fonti, metadati, trasformazioni, indici, parametri e risultati restano collegati in una catena di provenienza ispezionabile: ogni risultato deve poter tornare al documento e al passaggio che lo hanno prodotto.
 
@@ -56,7 +59,7 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 | `GlifiKit` | Contratto pubblico minimo e indipendente dalla presentazione |
 | `GlifiCore` | Motore headless actor-based con configurazione linguistica esplicita |
 | `GlifiCLI` | Smoke test eseguibile del percorso senza interfaccia grafica |
-| Qualità | Controlli di repository, segreti, toolchain, naming, documentazione, architettura, localizzazione, baseline Apple e App Store |
+| Qualità | Controlli di repository, segreti, toolchain, naming, documentazione scientifica, architettura, localizzazione, baseline Apple e App Store |
 | Distribuzione | Preparazione controllata per App Store non in elenco; firma, dispositivi, materiali e approvazioni reali restano fail-closed |
 
 ## Principi di progetto
@@ -68,6 +71,8 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 - **Prestazioni dimostrate.** CPU, Accelerate, Core ML, Metal e altri percorsi vengono promossi soltanto su misure end-to-end riproducibili.
 - **Esperienza Apple-native.** SwiftUI, Swift Concurrency e i framework di sistema vengono usati secondo disponibilità, accessibilità e comportamento reale sui dispositivi.
 - **Automazione senza GUI.** Il motore deve restare utilizzabile tramite contratto pubblico e strumenti headless.
+- **Semantica scientifica esplicita.** Formula, dominio, precondizioni, determinismo,
+  provenienza e verifica indipendente precedono backend e visualizzazione.
 
 ## Architettura
 
@@ -161,11 +166,11 @@ Le prove riproducibili vengono registrate nell’[indice delle evidenze](docs/ev
 
 Lo sviluppo riduce prima i rischi che possono invalidare l’architettura:
 
-1. **Decisioni e fattibilità** — streaming, offset Unicode, identità, persistenza, benchmark e qualità linguistica.
-2. **Vertical slice headless** — dal testo UTF-8 a vocabolario, indice, frequenze e query, con riapertura riproducibile.
+1. **Decisioni e fattibilità** — streaming, offset Unicode, identità, descriptor/DAG, reference corpus, persistenza, benchmark e qualità linguistica.
+2. **Vertical slice headless** — dal testo UTF-8 a matrice, frequenze e query con metodi versionati e riapertura riproducibile.
 3. **Primo flusso interattivo** — progetti, importazione, metadati, frequenze, concordanze e ritorno alla fonte su macOS e iPadOS.
 4. **Documenti e corpus ricchi** — PDF, OCR tracciato, metadati, sottoinsiemi e prime analisi statistiche validate.
-5. **Analisi avanzata** — servizi linguistici sostituibili, similarità, embedding e accelerazioni provate dai benchmark.
+5. **Analisi avanzata** — CA, clustering, grafi, topic e sintesi classica, servizi linguistici sostituibili, embedding e accelerazioni provate dai benchmark.
 
 La sequenza, i criteri di uscita e la natura ancora proposta del piano sono definiti nella [roadmap completa](docs/roadmap.md).
 
@@ -188,6 +193,7 @@ La sequenza, i criteri di uscita e la natura ancora proposta del piano sono defi
 - [Indice della documentazione](docs/README.md)
 - [Visione e principi](docs/visione-e-principi.md)
 - [Specifica dei requisiti](docs/requisiti.md)
+- [Specifica normativa dei metodi analitici](docs/metodi-analitici/README.md)
 - [Architettura](docs/architettura.md)
 - [Matrice di tracciabilità](docs/tracciabilita.md)
 - [Standard di progetto](docs/standard-di-progetto.md)

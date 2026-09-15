@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-PLAN-001 |
 | Tipo | Piano di validazione e sviluppo |
-| Versione | 0.5.0 |
+| Versione | 0.6.0 |
 | Stato | Proposta |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -25,6 +25,10 @@ Obiettivo: rendere misurabili i vincoli prima di stabilizzare l'architettura.
 - confrontare alternative per metadati, file binari e posting list;
 - definire identità, versioni degli artefatti e regole di invalidazione;
 - misurare Natural Language sui casi e sulle lingue prioritarie.
+- revisionare GS-MET-001 con competenze statistiche e linguistiche;
+- selezionare il sottoinsieme MVP, dataset gold, reference implementation,
+  precisione e tolleranze per ogni variante iniziale;
+- prototipare `AnalysisDescriptor`, serializzazione canonica e invalidazione su DAG;
 - definire una matrice hardware basata su capacità, memoria e stato termico;
 - confrontare Swift/CPU, Accelerate, Core ML e Metal sui primi kernel candidati;
 - verificare disponibilità, qualità italiana, limite di contesto e fallback di Foundation Models;
@@ -48,6 +52,9 @@ La slice deve includere:
 - collegamento token-sorgente;
 - progetto persistente minimo e riapertura;
 - query di frequenza e occorrenza;
+- matrice documento-termine sparsa, statistiche descrittive e almeno una
+  ponderazione completamente versionata;
+- descriptor persistito e reference test indipendente per ogni artefatto;
 - cancellazione, errori strutturati, test e benchmark;
 - accesso tramite una CLI minimale.
 - Logger e OSSignposter sulle fasi della pipeline e sui confini di I/O.
@@ -64,6 +71,7 @@ Obiettivo: offrire un percorso utente completo nelle applicazioni native macOS e
 - interfaccia adattiva per mouse, trackpad, tastiera, touch e puntatore;
 - elenco documenti e metadati essenziali;
 - frequenze, ricerca e concordanze KWIC;
+- diversità e dispersione lessicale con parametri visibili;
 - navigazione dal risultato al testo sorgente;
 - diagnosi comprensibili senza perdere il dettaglio tecnico nel motore.
 - prima AppEntity e App Intent di sola lettura quando identità e deep link sono stabili.
@@ -79,14 +87,18 @@ Obiettivo: estendere acquisizione e analisi preservando la stessa pipeline.
 - PDFKit, Vision e Image I/O con confronto su dispositivi reali;
 - metadati personalizzati e corpus logici;
 - filtri, confronti, n-grammi e co-occorrenze;
-- prime analisi statistiche validate.
+- keyness, tabelle di contingenza e prime analisi statistiche con effect size e
+  multiple testing;
+- primo flusso di codebook e codifica manuale se incluso da DA-002.
 
 ## 5. Fase 4 — Analisi avanzata
 
 Obiettivo: aggiungere capacità specialistiche dopo la stabilizzazione dei dati fondamentali.
 
-- servizi linguistici e modelli sostituibili;
-- indici specializzati e similarità;
+- servizi linguistici sostituibili valutati su corpus gold;
+- indici specializzati, similarità, clustering e reti;
+- Correspondence Analysis, PCA/LSA e topic analysis classica versionata;
+- riassunto estrattivo deterministico separato dalla generazione;
 - embedding e inferenza locale;
 - analisi multivariate;
 - eventuali percorsi Accelerate e Metal dimostrati dai benchmark.

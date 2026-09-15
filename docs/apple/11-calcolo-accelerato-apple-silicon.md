@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-APL-011 |
 | Tipo | Standard applicativo Apple |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Approvato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
@@ -24,6 +24,11 @@ Glifi Studio deve usare l'unità di calcolo più adatta al carico reale: core CP
 | 3 | Metal e Metal Performance Shaders | Kernel massivamente paralleli e pipeline GPU con beneficio end-to-end dimostrato |
 
 ## Regole di selezione
+
+La formula e le precondizioni sono definite da
+[GS-MET-001](../metodi-analitici/README.md): Accelerate, BNNS, Core ML e Metal/MPS
+sono backend e **NON DEVONO** cambiare semantica, zero impliciti, tie-break o classe
+di risultato.
 
 - Ogni backend accelerato **DEVE** condividere fixture, semantica e tolleranze con l'implementazione di riferimento.
 - Accelerate **DEVE** essere valutato prima di scrivere kernel Metal equivalenti già coperti dalle sue primitive.

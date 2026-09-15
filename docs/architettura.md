@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AD-001 |
 | Tipo | Architecture description |
-| Versione | 0.9.0 |
+| Versione | 0.10.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -39,6 +39,9 @@ Gli stakeholder sono definiti in GS-VIS-001 e sono ancora da validare.
 | CO-07 | Integrità e privacy dei dati | ST-01, ST-06 | Modello delle minacce e policy ancora da definire |
 | CO-08 | Riproducibilità | ST-01, ST-05, ST-06 | Versioni e parametri associati a ogni artefatto |
 | CO-09 | Usabilità del flusso analitico | ST-01, ST-02 | Validazione del flusso interattivo ancora da pianificare |
+| CO-10 | Semantica scientifica e limiti interpretativi | ST-01, ST-05 | Conformità a GS-MET-001 e reference test indipendenti |
+| CO-11 | Determinismo e stabilità numerica cross-backend | ST-01, ST-03, ST-05 | Classi D0/D1/P1/N1, tolleranze e prove comparative |
+| CO-12 | Spiegabilità delle dipendenze analitiche | ST-01, ST-04, ST-06 | AnalysisDescriptor e DAG risolvibili fino alle fonti |
 
 ## 3. Catalogo dei viewpoint
 
@@ -49,8 +52,9 @@ Gli stakeholder sono definiti in GS-VIS-001 e sono ancora da validare.
 | VP-03 | Dati e lineage | ST-01, ST-03, ST-05, ST-06 | CO-01, CO-02, CO-03, CO-07, CO-08 | Stati derivati, identità, indici e persistenza |
 | VP-04 | Runtime ed elaborazione | ST-02, ST-03, ST-05 | CO-03, CO-04, CO-06 | Pipeline, flussi, concorrenza, cancellazione ed errori |
 | VP-05 | Tecnologia e deployment | ST-03, ST-04, ST-06 | CO-04, CO-05, CO-07 | Processi locali, framework e backend sostituibili |
+| VP-06 | Semantica analitica | ST-01, ST-03, ST-05, ST-06 | CO-01, CO-02, CO-08, CO-10–CO-12 | Contratti matematici, descrittori e grafo di derivazione |
 
-Ogni view successiva è governata dal viewpoint con lo stesso numero. La correttezza tra view è specificata nella sezione 9.
+Ogni view successiva è governata dal viewpoint con lo stesso numero. La correttezza tra view è specificata nella sezione 10.
 
 ## 4. VA-01 — View di contesto
 
@@ -104,8 +108,9 @@ I nomi descrivono responsabilità e non sono ancora target o package approvati.
 | `GlifiLinguistics` | Tokenizzazione, lingua, lemmi, POS ed entità | RF-009, RF-010, RF-015 |
 | `GlifiIndex` | Vocabolari, posting list e indici specializzati | RF-014 |
 | `GlifiSearch` | Query, filtri, concordanze e navigazione | RF-015–RF-018 |
-| `GlifiStatistics` | Primitive numeriche e validazione statistica | RF-022, RQ-008 |
-| `GlifiAnalysis` | Frequenze, n-grammi e co-occorrenze | RF-019–RF-021 |
+| `GlifiMath` | Fondazione concettuale backend-neutral: statistica, algebra lineare, matrici sparse, distanze, grafi, ottimizzazione e PRNG | RF-022, RF-029–RF-045, RQ-008, RQ-025–RQ-027 |
+| `GlifiStatistics` | Test, stime, intervalli, multiple testing ed effect size sopra `GlifiMath` | RF-031, RF-032, RF-044, RF-045 |
+| `GlifiAnalysis` | Rappresentazioni e metodi definiti da GS-MET-001 | RF-019–RF-046 |
 | `GlifiPersistence` | Contratti e implementazioni di memorizzazione | RF-001, RF-011, RQ-003, RQ-010 |
 | `GlifiCompute` | Scheduling e backend CPU/GPU | RQ-001, RQ-002, RQ-009, RQ-011 |
 
@@ -163,6 +168,19 @@ Le posting list possono essere compresse e lette selettivamente. Delta encoding,
 La persistenza non determina il dominio. Implementazioni differenti possono essere usate per metadati transazionali, posting list, matrici, cache e fonti. Un eventuale formato binario Glifi è un protocollo indipendente dall'ABI Swift e deve rispettare RQ-010.
 
 Le scelte concrete di persistenza, incorporazione delle fonti e invalidazione sono ancora aperte.
+
+### 6.5 Descrittori e grafo delle analisi
+
+Ogni artefatto persistibile usa il contratto concettuale `AnalysisDescriptor` di
+GS-MET-001-01. La pipeline S0–S6 produce gli ingressi del successivo Analysis DAG:
+ogni nodo identifica tipo, versione logica, parametri e dipendenze. L'invalidazione è
+transitiva rispetto ai soli archi effettivi e il pianificatore riusa nodi ancora
+validi.
+
+Identità del descrittore e cache key sono indipendenti dalla GUI. Backend,
+precisione, tolleranza e seed fanno parte della provenienza quando possono cambiare
+il risultato. Il DAG deve spiegare sia perché un risultato esiste sia quale modifica
+lo rende non più valido.
 
 ## 7. VA-04 — View runtime ed elaborazione
 
@@ -234,7 +252,30 @@ La matrice supportata deve descrivere capacità, memoria e comportamento osserva
 
 Un acceleratore non disponibile o non conveniente non deve impedire il completamento dei flussi fondamentali.
 
-## 9. Corrispondenze e invarianti tra le view
+## 9. VA-06 — View della semantica analitica
+
+La [specifica GS-MET-001](metodi-analitici/README.md) governa significato e verifica
+dei metodi. La view distingue:
+
+```text
+dati osservati → rappresentazione → trasformazione → modello/inferenza
+      │                 │                  │
+      └──── lineage ────┴──── AnalysisDescriptor ───→ artefatto
+                                               │
+                                               └→ visualizzazioni sostituibili
+```
+
+`GlifiMath` è una fondazione concettuale e non impone oggi un target Swift distinto.
+Accelerate, BNNS, Core ML e Metal/MPS implementano primitive compatibili dietro
+contratti; non definiscono formule, precondizioni o interpretazione. Un percorso di
+riferimento indipendente resta disponibile per la validazione.
+
+Le matrici unità-termine e di co-occorrenza, le tabelle di contingenza e i grafi sono
+artefatti fondamentali riusabili. Ponderazioni, keyness, CA, clustering, fattori,
+topic e reti sono nodi derivati. Un output generativo appartiene a una classe
+epistemica distinta e non può diventare un dato analitico autoritativo.
+
+## 10. Corrispondenze e invarianti tra le view
 
 | ID | Regola di corrispondenza |
 | --- | --- |
@@ -246,8 +287,12 @@ Un acceleratore non disponibile o non conveniente non deve impedire il completam
 | CR-06 | Ogni percorso accelerato in VA-04 deve essere confrontabile con una baseline corretta sullo stesso dataset. |
 | CR-07 | Ogni dipendenza da una capacità hardware o Apple Intelligence deve avere rilevamento a runtime e comportamento di fallback. |
 | CR-08 | Un output probabilistico o generativo non può sostituire silenziosamente un dato osservato o un risultato analitico deterministico. |
+| CR-09 | Ogni nodo analitico di VA-06 deve avere un `AnalysisDescriptor` e dipendenze coerenti con VA-03. |
+| CR-10 | Ogni metodo di VA-06 deve essere eseguibile in GlifiCore o headless senza dipendere dalla sua visualizzazione in VA-01. |
+| CR-11 | Backend differenti in VA-04/VA-05 devono rispettare la stessa versione logica e la politica D0/D1/P1/N1 di VA-06. |
+| CR-12 | Ogni selezione visuale deve risolvere il lineage di VA-03 quando GS-MET-001 dichiara la navigazione semanticamente possibile. |
 
-## 10. Decisioni e rationale
+## 11. Decisioni e rationale
 
 - [ADR-0001 — Piattaforme native iniziali: macOS e iPadOS](adr/0001-piattaforme-native-macos-ipados.md)
 - [ADR-0002 — Separazione tra prodotto e motore](adr/0002-separazione-prodotto-motore.md)
@@ -256,14 +301,18 @@ Un acceleratore non disponibile o non conveniente non deve impedire il completam
 - [ADR-0005 — Interfaccia internazionalizzabile](adr/0005-interfaccia-internazionalizzabile.md)
 - [ADR-0006 — Baseline applicativa Apple](adr/0006-baseline-applicativa-apple.md)
 - [ADR-0008 — Portafoglio tecnologico Apple e strategia Apple silicon](adr/0008-portafoglio-tecnologico-apple-silicon.md)
+- [ADR-0013 — Semantica analitica backend-neutral e Analysis DAG](adr/0013-semantica-analitica-e-analysis-dag.md)
 
 Le altre scelte descritte sono baseline candidate oppure ipotesi da validare. Il [Registro delle decisioni aperte](decisioni-aperte.md) identifica le questioni che richiedono ADR ulteriori.
 
-## 11. Lacune della descrizione
+## 12. Lacune della descrizione
 
 - stakeholder e concern non sono ancora validati;
 - mancano soglie quantitative e scenari di qualità;
 - i confini dei package non sono approvati;
-- non sono definite persistenza, formato progetto, offset e invalidazione;
+- non sono definite persistenza, formato progetto e offset; il contratto
+  d'invalidazione è definito, ma manca la scelta dello storage;
+- le soglie numeriche, i corpus gold e il sottoinsieme MVP dei metodi non sono
+  ancora approvati;
 - non esistono ancora view di sicurezza, deployment dettagliato o recovery;
 - la coerenza dei confini iniziali è verificata, ma manca ancora una regola automatica per il grafo completo delle dipendenze future.

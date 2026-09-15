@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-20 |
 | Tipo | Capitolo normativo |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -34,6 +34,11 @@ Un controllo fallito **DEVE** bloccare l'integrazione salvo deroga valida. Disab
 ## 20.3 Gate condizionali
 
 Coverage diventa obbligatorio quando esiste una soglia approvata. Benchmark e confronto con baseline diventano obbligatori quando cambia un hot path, un backend o l'uso delle risorse. Test UI/accessibilità, migrazione, robustezza, firma e notarizzazione diventano obbligatori quando la modifica introduce il relativo rischio o quando il gate di ciclo di vita li richiede.
+
+Reference test, property test e riproducibilità diventano obbligatori quando viene
+aggiunta o modificata una variante GS-MET. Una modifica della formula o dei valori
+predefiniti **DEVE** fallire finché versione logica, fixture, requisiti e
+tracciabilità non sono aggiornati.
 
 L'assenza di un gate condizionale **DEVE** essere esplicita nello stato di adozione; non può essere rappresentata come controllo superato.
 

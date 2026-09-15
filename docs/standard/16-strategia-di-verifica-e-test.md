@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-16 |
 | Tipo | Capitolo normativo |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -20,6 +20,8 @@
 | Integration test | Confini tra importer, pipeline, persistenza, ricerca e framework |
 | System test | Flussi completi su progetti e corpus di riferimento |
 | Numerical reference test | Confronto con risultati scientifici approvati |
+| Scientific property test | Invarianti matematiche, simmetrie, range e casi degeneri |
+| Reproducibility test | Ripetizione D0/D1/P1 su processi, scheduling e backend applicabili |
 | Migration test | Lettura e trasformazione di ogni versione supportata |
 | Robustness/fuzz test | Parser, formati binari, query e input ostili |
 | UI/accessibility test | Flussi critici, tastiera e semantica accessibile |
@@ -34,6 +36,9 @@
 - Fixture e dataset di riferimento **DEVONO** essere versionati, descritti e legalmente utilizzabili.
 - Test disabilitati o quarantinati **DEVONO** avere responsabile, motivazione e scadenza.
 - La sola percentuale di coverage **NON DEVE** essere usata come prova di correttezza.
+- La concordanza fra due implementazioni che condividono lo stesso difetto **NON
+  DEVE** essere l'unico oracolo: servono proprietà, calcolo indipendente o dataset
+  pubblicato.
 
 ## 16.3 Copertura minima sostanziale
 
@@ -46,6 +51,9 @@ Devono essere coperti almeno:
 - confini Unicode e dei chunk;
 - compatibilità dei formati persistenti;
 - invarianti numeriche e tolleranze;
+- formule, precondizioni, casi nulli e classi D0/D1/P1/N1 di GS-MET-001;
+- p-value, effect size, multiple testing e intervalli conservati separatamente;
+- equivalenze strutturali di cluster, fattori e sottospazi;
 - input corrotti per ogni parser controllato dal progetto.
 
 Le app **DEVONO** applicare anche il profilo Apple per [test e diagnostica](../apple/07-test-e-diagnostica.md).

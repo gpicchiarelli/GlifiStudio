@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-17 |
 | Tipo | Capitolo normativo |
-| Versione | 0.3.0 |
+| Versione | 0.4.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -42,5 +42,10 @@ CPU e GPU **DEVONO** essere confrontate end-to-end sullo stesso dataset. Un kern
 Swift/CPU, Accelerate, Core ML e Metal applicabili **DEVONO** essere confrontati sulla stessa semantica. Il benchmark **DEVE** registrare capacità rilevate a runtime e non usare il nome commerciale del chip come unica descrizione dell'ambiente.
 
 Un backend predefinito **DEVE** mantenere un fallback verificato e non può essere promosso se l'errore numerico supera la tolleranza, se degrada sensibilmente energia o stato termico, oppure se rende l'interfaccia non responsiva.
+
+Il confronto **DEVE** usare lo stesso `AnalysisDescriptor`, salvo il campo backend e
+gli elementi della politica numerica dichiaratamente dipendenti dal backend. Tempo
+di conversione, trasferimento, materializzazione, warm-up e ricostruzione del
+lineage fanno parte della misura end-to-end.
 
 Le misure applicative **DEVONO** applicare il profilo Apple per [prestazioni ed energia](../apple/06-prestazioni-ed-energia.md).

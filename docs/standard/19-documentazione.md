@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-19 |
 | Tipo | Capitolo normativo |
-| Versione | 0.1.0 |
+| Versione | 0.2.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -23,10 +23,17 @@ La documentazione **DEVE** rispettare [GS-DMP-001](../piano-documentazione.md). 
 - Diagrammi testuali **DEVONO** avere una descrizione comprensibile anche senza resa grafica.
 - Contenuti generati **DEVONO** dichiarare origine e modalità di rigenerazione.
 
-## 19.3 Documentazione API
+## 19.3 Specifiche scientifiche
+
+I metodi **DEVONO** rispettare GS-MET-001 e avere un argomento autonomo per
+documento. Formula, variante, casi nulli, smoothing, logaritmi, determinismo e
+tolleranze **NON DEVONO** essere lasciati a convenzioni implicite o alla sola
+citazione bibliografica.
+
+## 19.4 Documentazione API
 
 Le API pubbliche **DEVONO** essere documentate con DocC. La documentazione deve descrivere contratto, parametri, risultato, errori, precondizioni, effetti collaterali, thread-safety e complessità quando non ovvi.
 
-## 19.4 Aggiornamento con il codice
+## 19.5 Aggiornamento con il codice
 
 Una modifica **NON È** completa se rende inesatti requisiti, architettura, ADR, esempi, guide o note di migrazione. Codice e documentazione applicabile **DEVONO** essere aggiornati nella stessa unità di cambiamento.

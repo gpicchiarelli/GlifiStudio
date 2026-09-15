@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-12 |
 | Tipo | Capitolo normativo |
-| Versione | 0.2.0 |
+| Versione | 0.3.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -65,3 +65,15 @@ Il codice Swift **DEVE** essere formattato mediante `swift format` con configura
 - Interoperabilità con buffer Accelerate, Metal o Core ML **DEVE** rendere esplicite ownership, durata, stride, alignment, precisione e copie.
 - Availability check e feature detection **DEVONO** precedere l'uso di API o capacità non universali nella matrice supportata.
 - Conditional compilation **DEVE** confinare differenze reali di piattaforma e non duplicare regole di dominio.
+
+## 12.8 Implementazioni scientifiche
+
+- Un tipo o protocollo pubblico **DEVE** riferirsi alla variante GS-MET applicabile.
+- Valori predefiniti capaci di cambiare il risultato **DEVONO** essere risolti nel
+  descrittore, non nascosti nell'implementazione.
+- Precisione, conversioni, ordine delle riduzioni, `NaN`, infinito, overflow e
+  underflow **DEVONO** seguire la politica numerica del metodo.
+- Un backend Accelerate, BNNS, Core ML o Metal/MPS **NON DEVE** ridefinire formula,
+  zero implicito, tie-break o caso degenere.
+- PRNG, seed e derivazione dei sottoseed **DEVONO** essere iniettati e testabili;
+  casualità globale implicita è vietata nei risultati riproducibili.

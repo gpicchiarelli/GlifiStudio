@@ -12,11 +12,15 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 - Package condiviso `GlifiCore`, libreria `GlifiKit` e smoke test headless `GlifiCLI`.
 - Standard di progetto, documentazione controllata e portafoglio tecnologico Apple.
 - Governo del repository privato, modelli di collaborazione, CI e controlli locali.
+- Specifica normativa GS-MET con 22 contratti matematici, statistici, linguistici e algoritmici.
+- `AnalysisDescriptor`, Analysis DAG, classi di determinismo e fondazione concettuale `GlifiMath` tramite ADR-0013.
+- Requisiti e verifiche tracciate per metodi analitici, content analysis e visualizzazioni scientifiche.
 
 ### Modificato
 
 - Configurazione Dependabot con etichette controllate e aggiornamenti GitHub Actions raggruppati.
 - `actions/checkout` aggiornato dalla versione 5.1.0 alla 7.0.1 con SHA immutabile.
+- Quality gate documentale esteso a indicizzazione, copertura e integrazione delle specifiche GS-MET.
 
 ### Corretto
 

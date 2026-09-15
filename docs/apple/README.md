@@ -4,13 +4,17 @@
 | --- | --- |
 | Identificatore | GS-APL-IDX-001 |
 | Tipo | Indice delle pratiche Apple |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-15 |
 | Approvazione | Decisione esplicita dell'iniziatore del progetto |
 
 Questo indice applica le indicazioni Apple pertinenti alle app Glifi Studio per macOS 27 e iPadOS 27. Il progetto sfrutta i componenti hardware e i servizi di sistema che producono un beneficio verificabile, senza aggiungere preventivamente capability, permessi o dipendenze.
+
+La [specifica dei metodi analitici](../metodi-analitici/README.md) definisce la
+semantica scientifica. I framework Apple sono backend o strumenti di presentazione:
+non sostituiscono formule, precondizioni, provenance o reference test.
 
 La strategia distingue:
 
@@ -48,6 +52,7 @@ La strategia distingue:
 | Documenti | Uniform Type Identifiers, PDFKit, Vision, VisionKit, Image I/O, Core Image, Quick Look | Assegnate alle fasi di importazione e OCR |
 | Linguistica | Natural Language | Primo backend da validare sull'italiano |
 | Calcolo CPU | Accelerate: vDSP, vForce, BLAS/LAPACK, BNNS, vImage | Prima accelerazione da valutare |
+| Fondazione scientifica | Swift numerico, Accelerate/BLAS/LAPACK, sparse storage e PRNG controllato | Semantica GS-MET backend-neutral; `GlifiMath` concettuale |
 | GPU | Metal, Metal Performance Shaders | Solo con vantaggio end-to-end misurato |
 | Machine learning | Core ML su CPU, GPU e Neural Engine | Per modelli specializzati e versionati |
 | Generative AI | Foundation Models e Core AI | Assistiva, condizionale, con fallback |

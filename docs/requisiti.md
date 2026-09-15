@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-SRS-001 |
 | Tipo | Software requirements specification |
-| Versione | 0.8.0 |
+| Versione | 0.9.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -26,6 +26,7 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | A1 | `appunti-1.txt`, documento di progetto e specifica architetturale incompleta |
 | A2 | `appunti 2.txt`, documento fondativo di ingegneria del software incompleto |
 | VIS | GS-VIS-001, visione e necessità degli stakeholder |
+| MET | GS-MET-001, specifica normativa dei metodi analitici |
 
 ## 4. Interfacce esterne
 
@@ -69,6 +70,27 @@ Il sistema di interesse comprende le applicazioni Glifi Studio per macOS e iPadO
 | RF-023 | Le capacità fondamentali di GlifiCore **DEVONO** essere eseguibili senza inizializzare SwiftUI, AppKit o UIKit. | NS-006; A1, A2; ADR-0001 | Da assegnare | TV-011 | Baseline candidata |
 | RF-024 | Il sistema **DEVE** fornire applicazioni native operative su macOS e iPadOS per il perimetro `Must` del rilascio. | NS-008; ADR-0001 | Must | TV-013 | Approvato |
 | RF-025 | Il sistema **DEVE** offrire la configurazione linguistica italiana nel perimetro `Must` del primo rilascio. | NS-001; ADR-0004 | Must | TV-014 | Approvato |
+| RF-026 | Il sistema **DEVE** produrre conteggi e statistiche descrittive di documenti, caratteri, segmenti, frasi, token e type secondo GS-MET-001-04. | NS-001, NS-009; MET | Da assegnare | TV-029 | Baseline candidata |
+| RF-027 | Il sistema **DEVE** calcolare diversità lessicale soltanto mediante varianti e finestre definite in GS-MET-001-04. | NS-001, NS-009; MET | Da assegnare | TV-029 | Baseline candidata |
+| RF-028 | Il sistema **DEVE** distinguere osservazioni, modelli, fitting e bontà dell'adattamento nelle analisi di frequenza, vocabulary growth, Zipf e Heaps. | NS-009; MET | Da assegnare | TV-029 | Baseline candidata |
+| RF-029 | Il sistema **DEVE** rappresentare conteggi e trasformazioni mediante matrici unità-termine sparse con identità e lineage di righe, colonne e celle. | NS-002, NS-003, NS-010, NS-011; MET | Da assegnare | TV-030 | Baseline candidata |
+| RF-030 | Il sistema **DEVE** offrire le ponderazioni TF, TF-IDF e BM25 soltanto con formule, smoothing e normalizzazioni versionati. | NS-001, NS-009; MET | Da assegnare | TV-029 | Baseline candidata |
+| RF-031 | Il sistema **DEVE** confrontare gruppi mediante keyness conservando popolazioni, frequenze, test, effect size e correzione per confronti multipli. | NS-005, NS-009, NS-010; MET | Da assegnare | TV-031 | Baseline candidata |
+| RF-032 | Il sistema **DEVE** rappresentare tabelle di contingenza con osservate, attese, residui, test di indipendenza ed effect size applicabili. | NS-009, NS-010; MET | Da assegnare | TV-031 | Baseline candidata |
+| RF-033 | Il sistema **DEVE** produrre Correspondence Analysis con masse, profili, inerzie, coordinate, contributi e qualità della rappresentazione secondo GS-MET-001-10. | NS-009, NS-011; MET | Da assegnare | TV-032 | Baseline candidata |
+| RF-034 | Il sistema **DEVE** distinguere co-occorrenze, collocazioni e reti mediante contesto e misura di associazione espliciti. | NS-001, NS-009, NS-011; MET | Da assegnare | TV-029, TV-032 | Baseline candidata |
+| RF-035 | Il sistema **DEVE** descrivere la distribuzione interna dei termini mediante document frequency, range e misure di dispersione versionate. | NS-001, NS-009, NS-010; MET | Da assegnare | TV-029 | Baseline candidata |
+| RF-036 | Il sistema **DEVE** offrire similarità e distanze distinguendo insiemi, vettori e distribuzioni e applicandone le precondizioni matematiche. | NS-009, NS-011; MET | Da assegnare | TV-032 | Baseline candidata |
+| RF-037 | Il sistema **DEVE** produrre cluster soltanto registrando rappresentazione, metrica, algoritmo, parametri, inizializzazione e seed applicabile. | NS-009, NS-011; MET | Da assegnare | TV-032 | Baseline candidata |
+| RF-038 | Il sistema **DEVE** supportare un percorso di riduzione dimensionale e topic analysis classico basato almeno su SVD/LSA e predisposto per PCA, NMF e LDA versionati. | NS-011, NS-014; MET | Da assegnare | TV-032, TV-036 | Baseline candidata |
+| RF-039 | Il sistema **DEVE** rappresentare reti lessicali come grafi tipizzati con nodi, archi, pesi, direzione, soglie e lineage. | NS-002, NS-011; MET | Da assegnare | TV-032, TV-035 | Baseline candidata |
+| RF-040 | Il sistema **DEVE** usare metadati tipizzati e campi temporali come dimensioni di raggruppamento e analisi con mancanti e discretizzazione espliciti. | NS-005, NS-010; MET | Da assegnare | TV-027, TV-029 | Baseline candidata |
+| RF-041 | Il sistema **DEVE** valutare i servizi linguistici sostituibili mediante corpus gold e metriche appropriate alla lingua e al compito. | NS-007, NS-013; MET | Da assegnare | TV-033 | Baseline candidata |
+| RF-042 | Il sistema **DEVE** consentire riassunti estrattivi riproducibili distinti dagli output generativi non autoritativi. | NS-009, NS-014; MET | Da assegnare | TV-036 | Baseline candidata |
+| RF-043 | Il sistema **DEVE** rappresentare codebook, categorie, codifiche di segmenti, annotazioni e memo con identità, versione, autore e lineage. | NS-002, NS-012; MET | Da assegnare | TV-034 | Baseline candidata |
+| RF-044 | Il sistema **DEVE** confrontare codificatori mediante una variante dichiarata di Cohen's kappa o Krippendorff's alpha quando ne ricorrono le condizioni. | NS-009, NS-012; MET | Da assegnare | TV-034 | Baseline candidata |
+| RF-045 | Il sistema **DEVE** offrire test e intervalli della fondazione statistica soltanto con ipotesi, disegno, precondizioni e metodo di selezione dichiarati. | NS-007, NS-009; MET | Da assegnare | TV-031 | Baseline candidata |
+| RF-046 | Il sistema **DEVE** rappresentare le visualizzazioni scientifiche come viste di artefatti analitici indipendenti dalla GUI. | NS-002, NS-009, NS-011; MET | Da assegnare | TV-035 | Baseline candidata |
 
 ## 6. Requisiti di qualità
 
@@ -98,6 +120,13 @@ Le caratteristiche sono classificate secondo il modello ISO/IEC 25010:2023. Le s
 | RQ-020 | Adeguatezza funzionale | Una build candidata App Store **DEVE** offrire valore autonomo, flussi `Must` completi e contenuti finali, senza placeholder o schermate puramente dimostrative. | Audit di funzionalità minima, metadati coerenti e nessun blocco P0/P1 | TV-024, TV-025 | Incompleto: prodotto ancora scaffold |
 | RQ-021 | Protezione | Comportamento reale, privacy manifest, dichiarazioni App Store e privacy policy **DEVONO** descrivere lo stesso trattamento di dati, SDK e Required Reason API. | Inventario riesaminato sulla build candidata senza difformità | TV-023 | Baseline candidata |
 | RQ-022 | Protezione | Se il pubblico è ristretto, l'app **DEVE** applicare autenticazione e autorizzazione indipendenti dal possesso del link App Store non in elenco. | Accesso negato a soggetto non autorizzato anche con link valido | TV-024 | Incompleto: DA-024 aperta |
+| RQ-023 | Affidabilità | Ogni artefatto analitico persistibile **DEVE** avere un `AnalysisDescriptor` completo secondo GS-MET-001-01. | Round-trip e completezza semantica su tutti i tipi di artefatto | TV-027 | Baseline candidata |
+| RQ-024 | Manutenibilità | Le dipendenze analitiche **DEVONO** formare un DAG con invalidazione transitiva limitata ai discendenti effettivi. | Suite su grafi ramificati senza riuso scorretto o ricalcolo estraneo | TV-027 | Baseline candidata |
+| RQ-025 | Affidabilità | Ogni algoritmo **DEVE** dichiarare e rispettare una classe di determinismo, una politica numerica e il seed applicabile. | Ripetizioni e backend conformi a GS-MET-001-03 | TV-028 | Baseline candidata |
+| RQ-026 | Adeguatezza funzionale | Ogni famiglia di test multipli **DEVE** conservare p-value grezzi e una correzione approvata senza ridefinire la famiglia a posteriori. | Fixture Bonferroni/BH e audit del descrittore | TV-031 | Baseline candidata |
+| RQ-027 | Adeguatezza funzionale | Ogni metodo scientifico **DEVE** essere validabile contro proprietà, dataset o implementazioni indipendenti. | Reference suite versionata per ogni variante resa disponibile | TV-026, TV-029–TV-036 | Baseline candidata |
+| RQ-028 | Affidabilità | Ogni valore analitico **DEVE** distinguere dato osservato, trasformato, stimato, inferito, annotato o generativo. | Classificazione preservata in persistenza, API, export e UI | TV-027, TV-035 | Baseline candidata |
+| RQ-029 | Adeguatezza funzionale | Un backend linguistico **NON DEVE** essere promosso come supportato per una lingua senza soglie approvate e risultati su corpus di riferimento. | Report per lingua, servizio, dominio e versione | TV-033 | Incompleto: DA-008 aperta |
 
 ## 7. Vincoli di progetto
 
@@ -143,11 +172,11 @@ I metodi e le evidenze pianificate sono definiti nella [Matrice di tracciabilit�
 - codifiche e formati strutturati supportati;
 - lingue successive all'italiano e soglie di qualità linguistica;
 - modello canonico degli offset;
-- regole di versionamento e invalidazione;
+- serializzazione, digest, persistenza e migrazione concrete per descriptor e Analysis DAG;
 - sintassi e semantica delle query;
-- metodi statistici iniziali e relative tolleranze;
-- corpus, hardware e soglie prestazionali.
-- funzioni assistive che possono usare Foundation Models e relativa policy di modello, contesto e retention.
+- sottoinsieme di metodi analitici per l'MVP, dataset di riferimento e tolleranze numeriche;
+- corpus, hardware e soglie prestazionali;
+- funzioni assistive che possono usare Foundation Models e relativa policy di modello, contesto e retention;
 - modello di accesso per il pubblico della distribuzione non in elenco.
 
 Questi temi sono registrati in [Decisioni aperte](decisioni-aperte.md).

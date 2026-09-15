@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VIS-001 |
 | Tipo | Visione, contesto e stakeholder needs |
-| Versione | 0.4.0 |
+| Versione | 0.5.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -13,13 +13,20 @@
 
 ## Visione
 
-Glifi Studio è un ambiente computazionale professionale, nativo per macOS e iPadOS, destinato allo studio quantitativo e qualitativo di documenti, corpus e grandi collezioni testuali.
+Glifi Studio è un ambiente computazionale professionale Apple-native per
+acquisizione, organizzazione, interrogazione, analisi quantitativa e qualitativa,
+corpus analysis, linguistica computazionale, text mining, content analysis e studio
+statistico e semantico di documenti e grandi collezioni testuali su macOS e iPadOS.
 
 Il sistema accompagna l'utente lungo l'intera catena di lavoro:
 
 > acquisizione → estrazione → normalizzazione → segmentazione → tokenizzazione → annotazione → indicizzazione → analisi → esplorazione dei risultati
 
-Non è un editor arricchito con alcune funzioni statistiche e non è una semplice utility per contare parole. È un motore di elaborazione documentale dotato di un'interfaccia interattiva e di strumenti per rendere l'analisi verificabile e riproducibile.
+Non è un editor arricchito con alcune funzioni statistiche, una semplice utility per
+contare parole o un insieme eterogeneo di strumenti. È un sistema scientificamente
+fondato nel quale dati, trasformazioni, algoritmi e risultati hanno semantica
+esplicita, provenienza verificabile, comportamento riproducibile e implementazioni
+validabili indipendentemente dalla GUI e dal backend computazionale.
 
 ## Ambiti d'uso
 
@@ -56,6 +63,12 @@ Gli stakeholder devono essere validati prima dell'approvazione della baseline.
 | NS-006 | Automatizzare elaborazioni e usare il motore senza interfaccia grafica. | Appunti 1 e 2 | Baseline candidata |
 | NS-007 | Ottenere risultati corretti, riproducibili e misurabili. | Appunti 1 e 2 | Baseline candidata |
 | NS-008 | Usare un'esperienza nativa e performante su macOS e iPadOS. | Appunti 1 e 2; decisione del 2026-09-15 | Approvata |
+| NS-009 | Comprendere esattamente significato, ipotesi, parametri, incertezza e limiti di ogni risultato analitico. | Direzione scientifica del 2026-09-15 | Approvata |
+| NS-010 | Usare metadati e tempo come dimensioni native per raggruppare, confrontare e spiegare corpus e sottocorpus. | Direzione scientifica del 2026-09-15 | Approvata |
+| NS-011 | Esplorare relazioni lessicali e strutture multivariate mediante matrici, distanze, fattori, cluster e reti senza perdere il collegamento alle fonti. | Direzione scientifica del 2026-09-15 | Approvata |
+| NS-012 | Eseguire content analysis manuale e qualitativa con codebook, annotazioni e affidabilità fra codificatori tracciabili. | Direzione scientifica del 2026-09-15 | Approvata |
+| NS-013 | Conoscere la qualità osservata dei servizi linguistici sulla lingua e sul dominio applicabili. | Direzione scientifica del 2026-09-15 | Approvata |
+| NS-014 | Disporre di percorsi classici riproducibili per sintesi e topic analysis distinti dall'intelligenza generativa. | Direzione scientifica del 2026-09-15 | Approvata |
 
 La derivazione di queste necessità verso i requisiti software è registrata nella [Matrice di tracciabilità](tracciabilita.md).
 
@@ -80,6 +93,18 @@ La correttezza semantica, documentale e numerica ha priorità. Ogni rappresentaz
 ### Provenienza e riproducibilità
 
 La provenienza è parte del dato. Ogni risultato deve poter essere ricondotto alla versione del corpus, alla sorgente, alle trasformazioni e ai parametri che lo hanno prodotto.
+
+### Semantica scientifica
+
+Ogni metodo deve dichiarare variante matematica, dominio, precondizioni, casi
+degeneri, classe di determinismo e criteri di verifica. Osservazione, modello,
+fitting, inferenza, effect size e generazione sono categorie distinte.
+
+### Metadata-first
+
+I metadati sono variabili analitiche tipizzate, non semplici etichette di filtro.
+Possono determinare selezioni, raggruppamenti, confronti, assi e viste temporali
+soltanto preservandone semantica, provenienza e valori mancanti.
 
 ### Scalabilità
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-DMP-001 |
 | Tipo | Documentation management plan |
-| Versione | 0.10.0 |
+| Versione | 0.11.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -50,6 +50,7 @@ Il formato Markdown è un mezzo di registrazione e non modifica gli obblighi inf
 | Identità di progetto | `GS-ID-*` | Nome canonico, identificatori tecnici, regole d'uso ed eccezioni di provenienza |
 | Visione e stakeholder needs | `GS-VIS-*` | Contesto, obiettivi, stakeholder, necessità, confini, assunzioni |
 | Specifica requisiti software | `GS-SRS-*` | Contesto, interfacce, vincoli, requisiti e attributi di verifica |
+| Specifica dei metodi analitici | `GS-MET-*` | Semantica, formule, input/output, precondizioni, determinismo, provenienza e verifica dei metodi scientifici |
 | Matrice di tracciabilità | `GS-TRC-*` | Collegamenti bidirezionali tra fonti, necessità, requisiti, design e verifica |
 | Descrizione architetturale | `GS-AD-*` | Entità, stakeholder, concern, viewpoint, view, corrispondenze e rationale |
 | Glossario | `GS-GLO-*` | Termini, definizioni e abbreviazioni condivise |
@@ -67,6 +68,10 @@ Il formato Markdown è un mezzo di registrazione e non modifica gli obblighi inf
 Ogni documento controllato **DEVE** trattare un solo argomento principale. Le sottosezioni sono ammesse soltanto quando specificano aspetti inseparabili dello stesso argomento. Un documento che acquisisce una seconda responsabilità indipendente **DEVE** essere separato e l'indice applicabile deve essere aggiornato nello stesso cambiamento.
 
 Gli indici non duplicano il contenuto normativo: forniscono identità, stato, ordine di lettura e collegamenti ai documenti che governano.
+
+Una famiglia scientifica **DEVE** mantenere un documento per ciascun argomento
+analitico autonomo. L'indice della famiglia definisce contratto comune, autorità e
+relazioni, ma non duplica le formule dei documenti specialistici.
 
 ## 4. Metadati obbligatori
 
@@ -142,6 +147,13 @@ La descrizione deve identificare:
 
 Ogni decisione significativa viene collegata a un ADR. Ogni viewpoint deve dichiarare stakeholder, concern, notazione e criteri di coerenza.
 
+### 9.1 Regole per le specifiche scientifiche
+
+Ogni metodo analitico deve dichiarare almeno significato, dominio, input, output,
+parametri risolti, precondizioni, formula o procedura versionata, casi degeneri,
+proprietà, determinismo, provenienza e confronto indipendente. Una citazione
+bibliografica supporta il rationale ma non sostituisce la variante eseguibile.
+
 ## 10. Tracciabilità
 
 La tracciabilità minima è:
@@ -164,7 +176,10 @@ Prima dell'approvazione di un documento devono essere verificati:
 - copertura di stakeholder e concern applicabili;
 - verificabilità e tracciabilità dei requisiti;
 - risoluzione o registrazione esplicita delle ambiguità;
-- coerenza con ADR vigenti e altri documenti approvati.
+- coerenza con ADR vigenti e altri documenti approvati;
+- correttezza dimensionale e matematica di formule, casi nulli e precondizioni;
+- distinzione tra dati osservati, trasformazioni, stime, inferenze e generazione;
+- presenza di oracoli, fixture o proprietà verificabili indipendentemente.
 
 ## 12. Gestione delle fonti iniziali
 

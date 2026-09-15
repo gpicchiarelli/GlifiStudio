@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-003 |
 | Tipo | Specifica editoriale App Store |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Bozza controllata |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -19,6 +19,9 @@ lingua primaria e inglese la prima localizzazione secondaria.
 
 La descrizione, le note della versione e i materiali devono concordare con i flussi
 `Must`, le dichiarazioni privacy, l'età e la disponibilità effettiva delle funzioni.
+Claim come “accurato”, “scientifico”, “deterministico” o “supporta l'italiano”
+**DEVONO** riferirsi a varianti GS-MET, corpus, soglie ed evidenze applicabili alla
+build; la disponibilità di un framework Apple non è sufficiente.
 La bozza versionata in `Distribution/AppStore/Metadata` non è approvata finché il
 prodotto è uno scaffold.
 

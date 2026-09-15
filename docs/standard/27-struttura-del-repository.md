@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-STD-001-27 |
 | Tipo | Capitolo normativo |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Proposto |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -30,6 +30,7 @@ GlifiStudio/
 │   ├── adr/                   # decisioni architetturali
 │   ├── apple/                 # profilo tecnologico Apple
 │   ├── evidenze/              # risultati controllati di verifica
+│   ├── metodi-analitici/      # specifiche matematiche e scientifiche
 │   ├── repository/            # governo e configurazione del repository
 │   └── standard/              # un argomento normativo per documento
 ├── GlifiStudio.xcodeproj/     # progetto Xcode condiviso
@@ -54,6 +55,7 @@ GlifiStudio/
 - `Scripts/` fornisce ingressi stabili richiamati da `Makefile` e CI.
 - `.github/` configura il servizio ma non sostituisce regole e script versionati.
 - `docs/` contiene information item controllati; i file root contengono politiche di accesso immediato per collaboratori e piattaforma.
+- `docs/metodi-analitici/` definisce semantica e verifica dei metodi senza dipendere da implementazione o GUI.
 
 ## 27.3 Dati e artefatti
 

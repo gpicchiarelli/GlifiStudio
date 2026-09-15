@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-AS-010 |
 | Tipo | Checklist di autorizzazione al rilascio |
-| Versione | 1.0.0 |
+| Versione | 1.1.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-15 |
@@ -21,6 +21,7 @@ l'approvazione Apple; un solo elemento non verificato impedisce l'invio.
 | Prodotto | Perimetro MVP approvato; flussi `Must` completi; nessun placeholder | Bloccato |
 | Codice | test, analisi, build Release e archivi verdi | Parziale |
 | Qualità | dispositivi, accessibilità, prestazioni, energia, install/upgrade | Bloccato |
+| Scientifico | metodi `Must` versionati, reference test, determinismo, descriptor e lineage approvati | Bloccato |
 | Sicurezza/privacy | inventory, manifest, label e policy coerenti | Parziale |
 | Identità | nome, bundle, team, profili, versione/build registrati | Bloccato |
 | Pagina prodotto | metadati e screenshot reali approvati | Bloccato |
