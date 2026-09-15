@@ -28,4 +28,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-012 — Revisione della fondazione scientifica](GS-VER-012-revisione-fondazione-scientifica.md) — Superato localmente; implementazioni da validare
 - [GS-VER-013 — Revisione dell'esperienza utente](GS-VER-013-revisione-esperienza-utente.md) — Superato localmente; prototipi e studi da eseguire
 - [GS-VER-014 — Baseline Swift 6.4](GS-VER-014-baseline-swift-6-4.md) — Superato localmente
-- [GS-VER-015 — Specifiche di design implementativo](GS-VER-015-specifiche-di-design.md) — Superato localmente; implementazione da validare
+- [GS-VER-015 — Specifiche di design implementativo](GS-VER-015-specifiche-di-design.md) — Superato localmente; CI remota in GS-WVR-002

@@ -33,7 +33,7 @@
 
 ## Risultato osservato
 
-- 168 file documentali e 167 identificatori controllati risultano validi;
+- 169 file documentali e 168 identificatori controllati risultano validi;
 - tutti i collegamenti locali si risolvono;
 - sono indicizzate 22 specifiche GS-MET, 14 GS-UX e 10 GS-DSG;
 - le sequenze RF-001–RF-086, RQ-001–RQ-048 e TV-001–TV-061 sono continue e prive
@@ -43,6 +43,9 @@
   baseline App Store, test Swift e build applicative sono superati;
 - `make verify-app-store` è terminato con esito positivo, inclusi analisi statica e
   archivi macOS/iPadOS senza firma.
+- dopo il push di `6df92ca`, GitHub ha creato i run `34965002983` e `34965002861`
+  ma non ha avviato step o runner perché il budget Actions impedisce ulteriore uso;
+  la deroga temporanea GS-WVR-002 registra rischio, mitigazione e rientro.
 
 ## Limiti
 
@@ -50,6 +53,8 @@ La verifica può provare completezza strutturale e coerenza della baseline, non
 implementazione del dominio, correttezza scientifica, performance, UX su persone,
 dispositivi fisici, firma o approvazione App Store. Le verifiche TV-050–TV-061
 restano pianificate finché non esistono codice, fixture ed evidenze specifiche.
+La CI remota non costituisce evidenza positiva finché GS-WVR-002 non è chiusa con
+entrambi i workflow verdi.
 
 ## Esito
 
