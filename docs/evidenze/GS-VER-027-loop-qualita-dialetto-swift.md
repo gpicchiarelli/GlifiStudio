@@ -37,8 +37,14 @@
   completa, le regole `.swift-format` obbligatorie e i target Make/CI;
 - la CI dichiara `swift-style` early-fail, job `verify` invariato nel nome e cache
   SPM fissata a SHA immutabile;
-- `make verify` non è eseguibile in questo ambiente cloud per assenza di `zsh`,
-  Apple Swift/Xcode 27 e SDK macOS/iPadOS.
+- in questo ambiente sono superati: `check-swift-dialect`, `check-docs`,
+  `check-repository`, `check-github-config`, `check-naming`, `check-secrets`,
+  `check-compliance`, `check-fixtures`, `check-architecture`,
+  `check-localization`, `check-apple-baseline`, `check-app-store-baseline`;
+- `make verify` e `make format`/`lint` non sono eseguibili in questo ambiente
+  cloud per assenza di Apple Swift/Xcode 27 e SDK macOS/iPadOS (`swift`,
+  `xcodebuild`, `xcrun` mancanti). `zsh` è disponibile dopo installazione locale
+  di supporto, ma non sostituisce la toolchain Apple.
 
 ## Limiti
 
