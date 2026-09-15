@@ -5,7 +5,8 @@ set -euo pipefail
 
 script_directory="${0:A:h}"
 project_directory="${script_directory:h}"
-temporary_build_directory="$(mktemp -d "${TMPDIR%/}/GlifiStudioTests.XXXXXX")"
+temporary_root="${TMPDIR:-/tmp}"
+temporary_build_directory="$(mktemp -d "${temporary_root%/}/GlifiStudioTests.XXXXXX")"
 
 cleanup() {
     rm -rf "$temporary_build_directory"
