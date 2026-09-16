@@ -8,6 +8,12 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Richiesta selezione editoriale Kit e commit generation/projectID in UI
+  (GS-VER-077).
+- Richiesta piano/esecuzione Kit (intento, budget, scope, gruppi) in UI
+  (GS-VER-076).
+- Commit indagine (`projectID`/`generation`) e richiesta di creazione in UI
+  (GS-VER-075).
 - Metadati teste Investigation (intento, lingua, Finding/eventi, Artifact) in UI
   (GS-VER-074).
 - Vocabolario matrice e bound opzioni corpus/keyness in UI (GS-VER-073).
