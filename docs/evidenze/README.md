@@ -91,3 +91,7 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-075 — Commit e richiesta creazione indagine in UI](GS-VER-075-commit-richiesta-creazione-indagine-ui.md) — Superato localmente
 - [GS-VER-076 — Richiesta piano ed esecuzione in UI](GS-VER-076-richiesta-piano-esecuzione-ui.md) — Superato localmente
 - [GS-VER-077 — Richiesta selezione editoriale in UI](GS-VER-077-richiesta-selezione-editoriale-ui.md) — Superato localmente
+- [GS-VER-078 — Espressione query e coordinate match in UI](GS-VER-078-espressione-query-coordinate-match-ui.md) — Superato localmente
+- [GS-VER-079 — Ordine n-grammi e byte fonte Evidence in UI](GS-VER-079-ordine-ngram-byte-fonte-evidence-ui.md) — Superato localmente
+- [GS-VER-080 — Catalogo riferimenti Evidence e tipi misura in UI](GS-VER-080-catalogo-riferimenti-evidence-misure-ui.md) — Superato localmente
+- [GS-VER-081 — Chiavi failure e operazione attiva in UI](GS-VER-081-chiavi-failure-operazione-attiva-ui.md) — Superato localmente

@@ -63,6 +63,7 @@ final class StudioHomeModel {
     private(set) var lastInvestigationSelectionRequest: GlifiStudioInvestigationSelectionRequest?
     private(set) var lastPlanRequest: GlifiStudioAnalysisPlanRequest?
     private(set) var queryResult: GlifiStudioProjectQueryResult?
+    private(set) var lastQueryExpression: String?
     private(set) var selectedQueryMatchID: String?
     private(set) var sourceText: GlifiStudioSourceText?
     private(set) var evidenceSourceText: GlifiStudioSourceText?
@@ -142,6 +143,10 @@ final class StudioHomeModel {
 
     var canCancelExecution: Bool {
         activeExecution != nil
+    }
+
+    var activeExecutionOperationID: String? {
+        activeExecution?.operationID
     }
 
     var mustPathHasProject: Bool { snapshot != nil }
@@ -394,6 +399,7 @@ final class StudioHomeModel {
             }
             let result = try await active.query(trimmed)
             queryResult = result
+            lastQueryExpression = trimmed
             selectedQueryMatchID = result.matches.first?.id
             sourceText = nil
             if let match = result.matches.first {
@@ -588,6 +594,7 @@ final class StudioHomeModel {
         lastInvestigationSelectionRequest = nil
         lastPlanRequest = nil
         queryResult = nil
+        lastQueryExpression = nil
         selectedQueryMatchID = nil
         sourceText = nil
         evidenceSourceText = nil

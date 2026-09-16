@@ -589,9 +589,15 @@ struct StudioHomeView: View {
                     if !corpus.ngrams.isEmpty {
                         Section("corpus.analysis.ngrams") {
                             ForEach(corpus.ngrams.prefix(20)) { ngram in
-                                LabeledContent(ngram.values.joined(separator: " ")) {
-                                    Text(ngram.count, format: .number)
-                                        .monospacedDigit()
+                                VStack(alignment: .leading, spacing: 2) {
+                                    LabeledContent(ngram.values.joined(separator: " ")) {
+                                        Text(ngram.count, format: .number)
+                                            .monospacedDigit()
+                                    }
+                                    LabeledContent("corpus.ngram.order") {
+                                        Text(ngram.values.count, format: .number)
+                                            .monospacedDigit()
+                                    }
                                 }
                                 .accessibilityElement(children: .combine)
                             }
@@ -941,6 +947,13 @@ struct StudioHomeView: View {
                 if model.canCancelExecution {
                     Button("action.cancel-execution", role: .cancel) {
                         model.cancelExecution()
+                    }
+                    if let operationID = model.activeExecutionOperationID {
+                        LabeledContent("execution.active-operation-id") {
+                            Text(shortID(operationID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
                     }
                 }
                 Button("action.save-investigation") {
@@ -1664,6 +1677,13 @@ struct StudioHomeView: View {
             }
             if let queryResult = model.queryResult {
                 Section("query.results") {
+                    if let expression = model.lastQueryExpression {
+                        LabeledContent("query.expression") {
+                            Text(expression)
+                                .font(.caption.monospaced())
+                                .textSelection(.enabled)
+                        }
+                    }
                     LabeledContent("query.matches") {
                         Text(queryResult.matches.count, format: .number)
                             .monospacedDigit()
@@ -1695,12 +1715,27 @@ struct StudioHomeView: View {
                             Task { await model.selectQueryMatch(match) }
                         } label: {
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(shortID(match.sourceRevisionID))
-                                    .font(.caption2.monospaced())
-                                    .foregroundStyle(.secondary)
+                                LabeledContent("query.match.id") {
+                                    Text(shortID(match.id))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                                LabeledContent("query.match.source-revision") {
+                                    Text(shortID(match.sourceRevisionID))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
                                 LabeledContent("query.coordinate-space") {
                                     Text(match.coordinateSpace)
                                         .font(.caption2.monospaced())
+                                }
+                                LabeledContent("query.match.start-utf8") {
+                                    Text(match.startUTF8, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("query.match.end-utf8") {
+                                    Text(match.endUTF8, format: .number)
+                                        .monospacedDigit()
                                 }
                                 (
                                     Text(match.leftContext).foregroundStyle(.secondary)
@@ -1708,9 +1743,6 @@ struct StudioHomeView: View {
                                         + Text(match.rightContext).foregroundStyle(.secondary)
                                 )
                                 .textSelection(.enabled)
-                                Text("\(match.startUTF8)–\(match.endUTF8)")
-                                    .font(.caption2.monospaced())
-                                    .foregroundStyle(.tertiary)
                             }
                             .frame(maxWidth: .infinity, alignment: .leading)
                         }
@@ -1763,6 +1795,13 @@ struct StudioHomeView: View {
                             )
                         } description: {
                             Text(LocalizedStringKey(insufficient.messageKey))
+                        }
+                    }
+                    Section("findings.insufficient.meta") {
+                        LabeledContent("findings.insufficient.message-key") {
+                            Text(insufficient.messageKey)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
                         }
                     }
                     Section("findings.insufficient.reasons") {
@@ -1939,6 +1978,41 @@ struct StudioHomeView: View {
                     }
                 }
             }
+            Section("finding.evidence-references") {
+                if finding.evidenceReferences.isEmpty {
+                    Text("finding.evidence.none")
+                        .foregroundStyle(.secondary)
+                } else {
+                    LabeledContent("finding.evidence-references.count") {
+                        Text(finding.evidenceReferences.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    ForEach(
+                        Array(finding.evidenceReferences.enumerated()),
+                        id: \.offset
+                    ) { _, reference in
+                        VStack(alignment: .leading, spacing: 2) {
+                            LabeledContent("finding.evidence-references.id") {
+                                Text(shortID(reference.evidenceID))
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                            LabeledContent("finding.evidence.disposition") {
+                                Text(LocalizedStringKey("evidence.disposition.\(reference.disposition)"))
+                                    .font(.caption)
+                            }
+                            if let reason = reference.reasonIdentifier {
+                                LabeledContent("finding.evidence.disposition-reason") {
+                                    Text(reason)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                }
+            }
             Section("finding.evidence") {
                 if model.evidenceForSelectedFinding.isEmpty {
                     Text("finding.evidence.none")
@@ -2020,10 +2094,24 @@ struct StudioHomeView: View {
                                 }
                             }
                             ForEach(evidence.measures.prefix(8), id: \.identifier) { measure in
-                                LabeledContent(measure.identifier) {
-                                    Text(evidenceMeasureText(measure))
-                                        .font(.caption.monospacedDigit())
+                                VStack(alignment: .leading, spacing: 2) {
+                                    LabeledContent(measure.identifier) {
+                                        Text(evidenceMeasureText(measure))
+                                            .font(.caption.monospacedDigit())
+                                    }
+                                    LabeledContent("finding.evidence.measure-type") {
+                                        Text(measure.value.type)
+                                            .font(.caption2.monospaced())
+                                    }
+                                    if let unit = measure.unitIdentifier, !unit.isEmpty {
+                                        LabeledContent("finding.evidence.measure-unit") {
+                                            Text(unit)
+                                                .font(.caption2.monospaced())
+                                                .textSelection(.enabled)
+                                        }
+                                    }
                                 }
+                                .accessibilityElement(children: .combine)
                             }
                             ForEach(
                                 Array(evidence.sourceReferences.prefix(3).enumerated()),
@@ -2086,13 +2174,28 @@ struct StudioHomeView: View {
             }
             if let sourceText = model.evidenceSourceText {
                 Section("finding.evidence.source") {
-                    Text(shortID(sourceText.sourceRevisionID))
-                        .font(.caption.monospaced())
-                        .foregroundStyle(.secondary)
+                    LabeledContent("finding.evidence.source-revision") {
+                        Text(shortID(sourceText.sourceRevisionID))
+                            .font(.caption.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("finding.evidence.source-bytes") {
+                        Text(sourceText.byteCount, format: .number)
+                            .monospacedDigit()
+                    }
                     highlightedSource(sourceText.text, ranges: model.evidenceSourceRanges)
                         .font(.body.monospaced())
                         .textSelection(.enabled)
                         .accessibilityLabel("finding.evidence.source")
+                    ForEach(
+                        Array(model.evidenceSourceRanges.prefix(6).enumerated()),
+                        id: \.offset
+                    ) { _, range in
+                        LabeledContent("source.bytes") {
+                            Text("\(range.start)–\(range.end)")
+                                .font(.caption2.monospaced())
+                        }
+                    }
                     Button("action.clear-evidence-source", role: .cancel) {
                         model.clearEvidenceSource()
                     }
@@ -2253,6 +2356,11 @@ struct StudioHomeView: View {
                         .font(.caption)
                         .foregroundStyle(.red)
                         .accessibilityLabel(LocalizedStringKey(failure.messageKey))
+                    LabeledContent("failure.message-key") {
+                        Text(failure.messageKey)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     HStack(spacing: 8) {
                         Text(failure.code)
                             .font(.caption2.monospaced())
