@@ -859,6 +859,11 @@ struct StudioHomeView: View {
                     Text(finding.epistemicCategory)
                         .font(.caption.monospaced())
                 }
+                LabeledContent("finding.rule-set") {
+                    Text(finding.ruleSetIdentifier)
+                        .font(.caption2.monospaced())
+                        .textSelection(.enabled)
+                }
             }
             Section("finding.assessment") {
                 LabeledContent("finding.support-class") {

@@ -2262,6 +2262,23 @@
         }
       }
     },
+    "finding.rule-set" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rule set"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insieme di regole"
+          }
+        }
+      }
+    },
     "finding.state" : {
       "extractionState" : "manual",
       "localizations" : {

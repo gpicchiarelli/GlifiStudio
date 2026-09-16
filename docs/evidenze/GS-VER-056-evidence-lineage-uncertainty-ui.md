@@ -23,7 +23,8 @@ classe epistemica, contratti di uncertainty/effect size e Caveat tipizzati.
 1. Dettaglio Evidence: `epistemicCategory`, `analysisNodeID`, `artifactIDs`,
    `uncertaintyIdentifiers`, `effectSizeIdentifiers`.
 2. Caveat Evidence con severità (helper condiviso).
-3. `make quality-static` sul tip.
+3. Finding: `ruleSetIdentifier` nel dettaglio proposizione.
+4. `make quality-static` sul tip.
 
 ## Risultato
 
