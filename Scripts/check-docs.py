@@ -198,11 +198,55 @@ CROSS_CUTTING_INTEGRATION_MARKERS = {
     "docs/decisioni-aperte.md": ("DA-031",),
 }
 
+DOR_DIRECTORY = DOCS_DIRECTORY / "pianificazione"
+DOR_REQUIRED_MARKERS = (
+    "Definition of Ready",
+    "outcome e confini",
+    "failure semantics",
+    "tracciabilità",
+    "**Ready",
+)
+PR_TEMPLATE_PATH = PROJECT_DIRECTORY / ".github/PULL_REQUEST_TEMPLATE.md"
+
 
 def metadata(text: str) -> dict[str, str]:
     """Return metadata fields found in a Markdown table."""
     return {key.strip(): value.strip() for key, value in FIELD_PATTERN.findall(text)}
 
+
+def validate_definition_of_ready(errors: list[str]) -> int:
+    """Require at least one Ready DoR sheet and a PR template DoR section."""
+    if not DOR_DIRECTORY.is_dir():
+        errors.append("docs/pianificazione: directory Definition of Ready mancante")
+        return 0
+    sheets = sorted(DOR_DIRECTORY.glob("dor-*.md"))
+    if not sheets:
+        errors.append("docs/pianificazione: nessuna scheda dor-*.md")
+        return 0
+    ready_count = 0
+    for path in sheets:
+        body = path.read_text(encoding="utf-8")
+        relative = path.relative_to(PROJECT_DIRECTORY)
+        fields = metadata(body)
+        stato = fields.get("Stato", "")
+        if not stato.startswith("Ready"):
+            errors.append(f"{relative}: Stato DoR deve essere Ready o Ready con rischio accettato")
+        else:
+            ready_count += 1
+        for marker in DOR_REQUIRED_MARKERS:
+            if marker not in body:
+                errors.append(f"{relative}: marker DoR mancante: {marker}")
+    if ready_count < 1:
+        errors.append("docs/pianificazione: serve almeno una scheda Ready")
+    if not PR_TEMPLATE_PATH.is_file():
+        errors.append(".github/PULL_REQUEST_TEMPLATE.md mancante")
+    else:
+        template = PR_TEMPLATE_PATH.read_text(encoding="utf-8")
+        if "Definition of Ready" not in template or "Stato DoR" not in template:
+            errors.append(
+                ".github/PULL_REQUEST_TEMPLATE.md: sezione Definition of Ready mancante"
+            )
+    return len(sheets)
 
 def local_link_target(source: Path, raw_target: str) -> Path | None:
     """Resolve a local Markdown link, or return None for external/anchor links."""
@@ -473,6 +517,7 @@ def main() -> int:
     ux_count = validate_ux_specification(errors)
     design_count = validate_design_specifications(errors)
     cross_cutting_count = validate_cross_cutting_specifications(errors)
+    dor_count = validate_definition_of_ready(errors)
 
     if errors:
         print("Documentation validation failed:", file=sys.stderr)
@@ -486,7 +531,8 @@ def main() -> int:
         f"{method_count} scientific method specifications, "
         f"{ux_count} UX specifications, "
         f"{design_count} implementation design specifications, "
-        f"{cross_cutting_count} cross-cutting specifications"
+        f"{cross_cutting_count} cross-cutting specifications, "
+        f"{dor_count} Definition of Ready sheets"
     )
     return 0
 

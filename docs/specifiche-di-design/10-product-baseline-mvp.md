@@ -127,7 +127,7 @@ Il rilascio è candidato solo se:
 | --- | --- | --- |
 | G1 Baseline | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD approvati; owner e rischi assegnati | **Chiuso (leggero)**: Must congelati, ADR-0002 accettato, owner minimi sull'iniziatore; decisioni non bloccanti parcheggiate |
 | G2 Architettura | Vertical slice `.glifi` TXT → query/KWIC → fonte; prototipi persistence/runtime validati | **Chiuso (headless)**: evidenze GS-VER-018…033; UI nativa aperta |
-| G3 Feature complete | Tutti i Must integrati, nessun placeholder nei flussi, migrazioni e export attivi | **Candidato funzionale**: UI Must DocumentGroup + Kit (GS-VER-035…052); audit dispositivo e studi UX aperti |
+| G3 Feature complete | Tutti i Must integrati, nessun placeholder nei flussi, migrazioni e export attivi | **Candidato funzionale**: UI Must DocumentGroup + Kit (GS-VER-035…053); audit dispositivo e studi UX aperti |
 | G4 Release candidate | Suite completa, dispositivi, accessibilità, performance, sicurezza e TestFlight superati | Aperto |
 | G5 Release | Firma/record definitivi, review accettata, richiesta unlisted approvata e runbook operativo | Aperto |
 

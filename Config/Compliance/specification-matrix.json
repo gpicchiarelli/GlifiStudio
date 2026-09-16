@@ -296,12 +296,15 @@
       "clause": "GS-STD-001-07 § Definition of Ready",
       "specification": "docs/standard/07-pianificazione-e-gestione-del-lavoro.md",
       "requirements": ["RQ-063"],
-      "code": [],
-      "tests": [],
-      "fixtures": [],
-      "evidence": [],
+      "code": ["Scripts/check-docs.py"],
+      "tests": ["Scripts/check-docs.py"],
+      "fixtures": ["docs/pianificazione/dor-percorso-produttivita-0-1.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-053-definition-of-ready-operativa.md"
+      ],
       "gate": "G1",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {
