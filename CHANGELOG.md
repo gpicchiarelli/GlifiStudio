@@ -8,6 +8,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Checklist candidatura G3 funzionale e limiti ambiente (GS-VER-057).
 - Lineage Evidence, uncertainty/effect size e Caveat tipizzati in UI
   (GS-VER-056).
 - Dettaglio `insufficientEvidence` e methodIdentifiers Evidence in UI

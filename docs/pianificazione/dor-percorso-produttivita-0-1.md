@@ -45,5 +45,6 @@ perimetro funzionale G3 candidato.
 
 - Roadmap Fase 2: `docs/roadmap.md`
 - Baseline prodotto: `docs/specifiche-di-design/10-product-baseline-mvp.md`
+- Checklist candidatura G3: `docs/evidenze/GS-VER-057-checklist-candidatura-g3.md`
 - Matrice: `Config/Compliance/specification-matrix.json`
 - PR di riferimento: percorso produttivo 0.1
