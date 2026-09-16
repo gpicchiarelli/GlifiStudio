@@ -226,7 +226,9 @@
       "code": [
         "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
         "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
-        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift",
+        "Apps/Shared/StudioHomeModel.swift",
+        "Apps/Shared/StudioHomeView.swift"
       ],
       "tests": [
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiQueryEvaluatorTests.swift",
@@ -245,7 +247,12 @@
         "docs/evidenze/GS-VER-028-esecuzione-piano-progressi.md",
         "docs/evidenze/GS-VER-032-export-scientifico.md",
         "docs/evidenze/GS-VER-035-ui-must-vertical-slice.md",
-        "docs/evidenze/GS-VER-040-documentgroup-uttype.md"
+        "docs/evidenze/GS-VER-040-documentgroup-uttype.md",
+        "docs/evidenze/GS-VER-043-analisi-corpus-ui-e-planner-manifest.md",
+        "docs/evidenze/GS-VER-044-keyness-ui-diretto.md",
+        "docs/evidenze/GS-VER-045-ranking-diversity-ui.md",
+        "docs/evidenze/GS-VER-046-must-progress-ngrams-a11y.md",
+        "docs/evidenze/GS-VER-047-evidence-measures-artifact-ui.md"
       ],
       "gate": "G2",
       "status": "implemented",

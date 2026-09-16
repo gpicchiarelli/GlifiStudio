@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Misure Evidence tipizzate, Artifact keyness e aggiornamento CMP-012 alle
+  superfici UI Must (GS-VER-047).
 - Progresso percorso Must in Overview, n-grammi/Artifact corpus, revisione
   report in export e a11y strutturale delle nuove azioni (GS-VER-046).
 - Trasparenza UI di ranking Findings, policy di supporto e diversità lessicale

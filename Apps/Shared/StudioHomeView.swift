@@ -445,6 +445,11 @@ struct StudioHomeView: View {
                         Text(keyness.terms.count, format: .number)
                             .monospacedDigit()
                     }
+                    LabeledContent("keyness.artifact") {
+                        Text(shortID(keyness.artifactID))
+                            .font(.caption.monospaced())
+                            .textSelection(.enabled)
+                    }
                 }
                 Section("keyness.top-terms") {
                     ForEach(keyness.terms.prefix(20)) { term in
@@ -770,13 +775,28 @@ struct StudioHomeView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(model.evidenceForSelectedFinding, id: \.id) { evidence in
-                        VStack(alignment: .leading, spacing: 4) {
+                        VStack(alignment: .leading, spacing: 6) {
                             Text(evidence.kindIdentifier)
                                 .font(.caption.monospaced())
                             Text(shortID(evidence.id))
                                 .font(.caption2.monospaced())
                                 .foregroundStyle(.secondary)
                                 .textSelection(.enabled)
+                            LabeledContent("finding.evidence.validity") {
+                                Text(evidence.validity)
+                                    .font(.caption.monospaced())
+                            }
+                            ForEach(evidence.measures.prefix(8), id: \.identifier) { measure in
+                                LabeledContent(measure.identifier) {
+                                    Text(evidenceMeasureText(measure))
+                                        .font(.caption.monospacedDigit())
+                                }
+                            }
+                            if evidence.hasLowExpectedCountCaveat {
+                                Text("caveat.keyness.low-expected-count")
+                                    .font(.footnote)
+                                    .foregroundStyle(.orange)
+                            }
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -990,11 +1010,39 @@ struct StudioHomeView: View {
         }
         return String(value.prefix(12)) + "…" + String(value.suffix(8))
     }
+
+    private func evidenceMeasureText(_ measure: GlifiStudioEvidenceMeasure) -> String {
+        let value = measure.value
+        let rendered: String
+        switch value.type {
+        case "integer":
+            rendered = value.integerValue.map(String.init) ?? "—"
+        case "decimal":
+            rendered = value.decimalValue.map { String(format: "%.4g", $0) } ?? "—"
+        case "boolean":
+            rendered = value.booleanValue.map { $0 ? "true" : "false" } ?? "—"
+        case "text":
+            rendered = value.textValue ?? "—"
+        default:
+            rendered = "—"
+        }
+        if let unit = measure.unitIdentifier, !unit.isEmpty {
+            return "\(rendered) \(unit)"
+        }
+        return rendered
+    }
 }
 
 private extension GlifiStudioFinding {
     var supportClassLabel: String {
         assessment.supportClass
+    }
+}
+
+private extension GlifiStudioEvidence {
+    var hasLowExpectedCountCaveat: Bool {
+        caveats.contains { $0.identifier == "caveat.keyness.low-expected-count" }
+            || caveats.contains { $0.identifier.contains("low-expected") }
     }
 }
 

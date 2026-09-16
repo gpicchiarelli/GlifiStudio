@@ -630,6 +630,23 @@
         }
       }
     },
+    "keyness.artifact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact"
+          }
+        }
+      }
+    },
     "keyness.direction" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1697,6 +1714,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nessuna evidenza collegata."
+          }
+        }
+      }
+    },
+    "finding.evidence.validity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Validity"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Validità"
           }
         }
       }
