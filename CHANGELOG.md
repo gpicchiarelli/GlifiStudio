@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Progresso esecuzione (`revision`/nodo), argomenti failure e Finding
+  selezionati dell'indagine in UI (GS-VER-071).
 - Popolazioni keyness, diagnostica e frequenze relative in UI (GS-VER-070).
 - Matrice sparsa Kit, unità di carattere e identificatori MSTTR/MATTR in UI
   (GS-VER-069).
