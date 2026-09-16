@@ -41,7 +41,7 @@ enum StudioIntentOption: String, CaseIterable, Identifiable, Sendable {
 final class StudioHomeModel {
     private(set) var engineState: EnginePresentationState = .checking
     private(set) var busyState: StudioBusyState = .idle
-    private(set) var failureMessageKey: String?
+    private(set) var lastFailure: GlifiStudioFailure?
     private(set) var projectURL: URL?
     private(set) var snapshot: GlifiStudioProjectSnapshot?
     private(set) var lastProfile: GlifiStudioTextProfile?
@@ -87,6 +87,10 @@ final class StudioHomeModel {
             return true
         }
         return false
+    }
+
+    var failureMessageKey: String? {
+        lastFailure?.messageKey
     }
 
     var findings: [GlifiStudioFinding] {
@@ -195,7 +199,7 @@ final class StudioHomeModel {
 
     func reopenLastProject() async {
         guard let lastProjectBookmark else {
-            failureMessageKey = "failure.project.none-open"
+            lastFailure = presentationFailure(messageKey: "failure.project.none-open")
             return
         }
         var isStale = false
@@ -208,7 +212,7 @@ final class StudioHomeModel {
             )
             await openProject(at: url)
         } catch {
-            failureMessageKey = "failure.project.invalid-package"
+            lastFailure = presentationFailure(messageKey: "failure.project.invalid-package")
         }
     }
 
@@ -463,7 +467,7 @@ final class StudioHomeModel {
     }
 
     func reportOpenFailure() {
-        failureMessageKey = "failure.project.invalid-package"
+        lastFailure = presentationFailure(messageKey: "failure.project.invalid-package")
     }
 
     func selectFinding(id: String) {
@@ -558,7 +562,7 @@ final class StudioHomeModel {
         editorialSelectedFindingIDs = []
         importProgressCompleted = 0
         importProgressTotal = 0
-        failureMessageKey = nil
+        lastFailure = nil
     }
 
     private func rememberProject(_ url: URL) {
@@ -578,14 +582,14 @@ final class StudioHomeModel {
 
     private func run(messageKey: String, operation: () async throws -> Void) async {
         busyState = .working(messageKey: messageKey)
-        failureMessageKey = nil
+        lastFailure = nil
         defer { busyState = .idle }
         do {
             try await operation()
         } catch let failure as GlifiStudioFailure {
-            failureMessageKey = failure.messageKey
+            lastFailure = failure
         } catch {
-            failureMessageKey = "failure.internal.unexpected"
+            lastFailure = presentationFailure(messageKey: "failure.internal.unexpected")
         }
     }
 

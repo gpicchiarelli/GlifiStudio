@@ -630,6 +630,23 @@
         }
       }
     },
+    "failure.detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Failure detail"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dettaglio del fallimento"
+          }
+        }
+      }
+    },
     "failure.operation.cancelled" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -868,6 +885,40 @@
         }
       }
     },
+    "metric.bytes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "UTF-8 bytes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byte UTF-8"
+          }
+        }
+      }
+    },
+    "metric.surface-tokens" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Surface tokens"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token di superficie"
+          }
+        }
+      }
+    },
     "metric.characters" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -949,6 +1000,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Profilo della raccolta"
+          }
+        }
+      }
+    },
+    "profile.content-digest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content digest"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digest del contenuto"
           }
         }
       }
@@ -3809,6 +3877,23 @@
         }
       }
     },
+    "project.id" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Project ID"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID progetto"
+          }
+        }
+      }
+    },
     "project.identity" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4179,6 +4264,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Revisioni fonte"
+          }
+        }
+      }
+    },
+    "sources.source-id" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source ID"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID fonte"
+          }
+        }
+      }
+    },
+    "sources.content-digest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Content digest"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digest del contenuto"
+          }
+        }
+      }
+    },
+    "sources.bytes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bytes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byte"
           }
         }
       }

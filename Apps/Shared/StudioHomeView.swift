@@ -245,6 +245,11 @@ struct StudioHomeView: View {
                     }
                 }
                 if let snapshot = model.snapshot {
+                    LabeledContent("project.id") {
+                        Text(shortID(snapshot.projectID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("project.generation") {
                         Text(snapshot.generation, format: .number)
                             .monospacedDigit()
@@ -323,8 +328,15 @@ struct StudioHomeView: View {
                         if let name = model.lastImportedFileName {
                             Text(name).foregroundStyle(.secondary)
                         }
+                        LabeledContent("profile.content-digest") {
+                            Text(shortID(lastProfile.contentDigest))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        metricRow("metric.bytes", value: lastProfile.utf8ByteCount)
                         metricRow("metric.characters", value: lastProfile.characterCount)
                         metricRow("metric.sentences", value: lastProfile.sentenceCount)
+                        metricRow("metric.surface-tokens", value: lastProfile.surfaceTokenCount)
                         metricRow("metric.tokens", value: lastProfile.lexicalTokenCount)
                         metricRow("metric.types", value: lastProfile.typeCount)
                     }
@@ -389,12 +401,26 @@ struct StudioHomeView: View {
                     Section("sources.revisions") {
                         ForEach(snapshot.sources) { source in
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(source.sourceRevisionID)
+                                Text(shortID(source.sourceRevisionID))
                                     .font(.caption.monospaced())
                                     .textSelection(.enabled)
+                                LabeledContent("sources.source-id") {
+                                    Text(shortID(source.sourceID))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
                                 Text(source.format == .markdown ? "format.markdown" : "format.plain-text")
                                     .font(.caption)
                                     .foregroundStyle(.secondary)
+                                LabeledContent("sources.content-digest") {
+                                    Text(shortID(source.contentDigest))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                                LabeledContent("sources.bytes") {
+                                    Text(source.byteCount, format: .number)
+                                        .monospacedDigit()
+                                }
                             }
                             .accessibilityElement(children: .combine)
                         }
@@ -1499,11 +1525,31 @@ struct StudioHomeView: View {
                         .accessibilityLabel("import.progress.count")
                 }
             }
-            if let failureMessageKey = model.failureMessageKey {
-                Label(LocalizedStringKey(failureMessageKey), systemImage: "exclamationmark.triangle")
-                    .font(.caption)
-                    .foregroundStyle(.red)
-                    .accessibilityLabel(LocalizedStringKey(failureMessageKey))
+            if let failure = model.lastFailure {
+                VStack(alignment: .leading, spacing: 2) {
+                    Label(LocalizedStringKey(failure.messageKey), systemImage: "exclamationmark.triangle")
+                        .font(.caption)
+                        .foregroundStyle(.red)
+                        .accessibilityLabel(LocalizedStringKey(failure.messageKey))
+                    HStack(spacing: 8) {
+                        Text(failure.code)
+                            .font(.caption2.monospaced())
+                        Text(failure.category)
+                            .font(.caption2.monospaced())
+                        Text(failure.operation)
+                            .font(.caption2.monospaced())
+                    }
+                    .foregroundStyle(.secondary)
+                    .accessibilityElement(children: .combine)
+                    .accessibilityLabel("failure.detail")
+                    HStack(spacing: 8) {
+                        Text(failure.retryDisposition)
+                            .font(.caption2.monospaced())
+                        Text(failure.retainedState)
+                            .font(.caption2.monospaced())
+                    }
+                    .foregroundStyle(.tertiary)
+                }
             }
             Spacer()
         }
