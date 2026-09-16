@@ -958,12 +958,52 @@ struct StudioHomeView: View {
                             VStack(alignment: .leading, spacing: 4) {
                                 Text(head.question)
                                     .lineLimit(2)
-                                Text(shortID(head.headEventID))
-                                    .font(.caption2.monospaced())
-                                    .foregroundStyle(.secondary)
+                                LabeledContent("investigation.heads.id") {
+                                    Text(shortID(head.id))
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("investigation.heads.head-event") {
+                                    Text(shortID(head.headEventID))
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("investigation.heads.intent") {
+                                    Text(head.intent)
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("investigation.heads.language") {
+                                    Text(head.languageCode)
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("investigation.heads.selected-findings") {
+                                    Text(head.selectedFindingIDs.count, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("investigation.heads.available-findings") {
+                                    Text(head.availableFindingIDs.count, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("investigation.heads.events") {
+                                    Text(head.eventIDs.count, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("investigation.heads.plan-artifact") {
+                                    Text(shortID(head.planArtifactID))
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("investigation.heads.interpretation-artifact") {
+                                    Text(shortID(head.interpretationArtifactID))
+                                        .font(.caption2.monospaced())
+                                }
                             }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
+                        .buttonStyle(.plain)
                         .accessibilityLabel("investigation.heads")
+                        .accessibilityAddTraits(
+                            model.investigation?.headEventID == head.headEventID
+                                ? AccessibilityTraits.isSelected
+                                : AccessibilityTraits()
+                        )
                     }
                     Button("action.refresh-heads") {
                         Task { await model.refreshInvestigationHeads() }
