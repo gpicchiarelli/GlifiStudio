@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Progresso percorso Must in Overview, n-grammi/Artifact corpus, revisione
+  report in export e a11y strutturale delle nuove azioni (GS-VER-046).
 - Trasparenza UI di ranking Findings, policy di supporto e diversità lessicale
   del corpus (GS-VER-045).
 - Confronto keyness diretto in UI Must per `compare.objects` (GS-VER-044).

@@ -121,6 +121,13 @@ final class StudioHomeModel {
         activeExecution != nil
     }
 
+    var mustPathHasProject: Bool { snapshot != nil }
+    var mustPathHasSources: Bool { (snapshot?.sourceCount ?? 0) > 0 }
+    var mustPathHasPlanOrCorpus: Bool { planResult != nil || lastCorpusAnalysis != nil }
+    var mustPathHasFindings: Bool { !findings.isEmpty || insufficientEvidence != nil }
+    var mustPathHasInvestigation: Bool { investigation != nil }
+    var mustPathHasExport: Bool { exportReceipt != nil }
+
     func prepare() async {
         let status = await service.status()
         guard !Task.isCancelled else {

@@ -307,6 +307,23 @@
         }
       }
     },
+    "corpus.analysis.artifact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact"
+          }
+        }
+      }
+    },
     "corpus.analysis.generation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -320,6 +337,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Generazione"
+          }
+        }
+      }
+    },
+    "corpus.analysis.ngrams" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N-grams"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "N-grammi"
           }
         }
       }
@@ -1225,6 +1259,23 @@
         }
       }
     },
+    "export.report-revision" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Report revision"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisione del report"
+          }
+        }
+      }
+    },
     "export.receipt" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1850,6 +1901,125 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Obiettivo"
+          }
+        }
+      }
+    },
+    "home.must-progress.analysis" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan or corpus analysis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piano o analisi del corpus"
+          }
+        }
+      }
+    },
+    "home.must-progress.export" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scientific export"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export scientifico"
+          }
+        }
+      }
+    },
+    "home.must-progress.findings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Findings or insufficient evidence"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Findings o evidenza insufficiente"
+          }
+        }
+      }
+    },
+    "home.must-progress.investigation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved investigation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indagine salvata"
+          }
+        }
+      }
+    },
+    "home.must-progress.project" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Project open"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progetto aperto"
+          }
+        }
+      }
+    },
+    "home.must-progress.sources" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sources imported"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonti importate"
+          }
+        }
+      }
+    },
+    "home.must-progress.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Must path progress"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avanzamento del percorso Must"
           }
         }
       }

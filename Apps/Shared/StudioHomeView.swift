@@ -158,6 +158,23 @@ struct StudioHomeView: View {
                     .font(.body)
                     .foregroundStyle(.secondary)
 
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("home.must-progress.title")
+                        .font(.headline)
+                        .accessibilityAddTraits(.isHeader)
+                    mustProgressRow("home.must-progress.project", done: model.mustPathHasProject)
+                    mustProgressRow("home.must-progress.sources", done: model.mustPathHasSources)
+                    mustProgressRow("home.must-progress.analysis", done: model.mustPathHasPlanOrCorpus)
+                    mustProgressRow("home.must-progress.findings", done: model.mustPathHasFindings)
+                    mustProgressRow(
+                        "home.must-progress.investigation",
+                        done: model.mustPathHasInvestigation
+                    )
+                    mustProgressRow("home.must-progress.export", done: model.mustPathHasExport)
+                }
+                .accessibilityElement(children: .contain)
+                .accessibilityLabel("home.must-progress.title")
+
                 HStack(spacing: 12) {
                     Button("action.new-project", systemImage: "folder.badge.plus") {
                         selection = .project
@@ -275,6 +292,7 @@ struct StudioHomeView: View {
                         Task { await model.analyzeCorpusNow() }
                     }
                     .disabled(model.isBusy || (model.snapshot?.sources.isEmpty ?? true))
+                    .accessibilityLabel("action.analyze-corpus")
                     Text("import.allowed-formats")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
@@ -310,6 +328,11 @@ struct StudioHomeView: View {
                             Text(corpus.generation, format: .number)
                                 .monospacedDigit()
                         }
+                        LabeledContent("corpus.analysis.artifact") {
+                            Text(shortID(corpus.artifactID))
+                                .font(.caption.monospaced())
+                                .textSelection(.enabled)
+                        }
                     }
                     Section("corpus.diversity.title") {
                         optionalRatioRow("corpus.diversity.ttr", value: corpus.diversity.ttr)
@@ -327,6 +350,17 @@ struct StudioHomeView: View {
                                     .monospacedDigit()
                             }
                             .accessibilityElement(children: .combine)
+                        }
+                    }
+                    if !corpus.ngrams.isEmpty {
+                        Section("corpus.analysis.ngrams") {
+                            ForEach(corpus.ngrams.prefix(20)) { ngram in
+                                LabeledContent(ngram.values.joined(separator: " ")) {
+                                    Text(ngram.count, format: .number)
+                                        .monospacedDigit()
+                                }
+                                .accessibilityElement(children: .combine)
+                            }
                         }
                     }
                 }
@@ -393,6 +427,7 @@ struct StudioHomeView: View {
                             || model.selectedTargetRevisionIDs.isEmpty
                             || model.selectedReferenceRevisionIDs.isEmpty
                     )
+                    .accessibilityLabel("action.compare-keyness")
                 }
             }
 
@@ -820,6 +855,11 @@ struct StudioHomeView: View {
                         Text(shortID(receipt.manifestDigest))
                             .font(.caption.monospaced())
                     }
+                    LabeledContent("export.report-revision") {
+                        Text(shortID(receipt.reportRevisionID))
+                            .font(.caption.monospaced())
+                            .textSelection(.enabled)
+                    }
                 }
             }
             if let preview = model.exportPreviewMarkdown {
@@ -883,6 +923,17 @@ struct StudioHomeView: View {
                 .monospacedDigit()
         }
         .accessibilityElement(children: .combine)
+    }
+
+    private func mustProgressRow(_ title: LocalizedStringKey, done: Bool) -> some View {
+        Label {
+            Text(title)
+        } icon: {
+            Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                .foregroundStyle(done ? Color.accentColor : .secondary)
+        }
+        .accessibilityLabel(title)
+        .accessibilityValue(Text(done ? "common.yes" : "common.no"))
     }
 
     @ViewBuilder

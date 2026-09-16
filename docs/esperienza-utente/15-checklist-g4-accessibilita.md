@@ -12,7 +12,7 @@
 | Ultima modifica | 2026-09-16 |
 | Approvazione | Checklist operativa per G4; prove su dispositivo ancora aperte |
 | Documento padre | [GS-UX-001](README.md) |
-| Riferimenti | GS-UX-001-13; GS-PROD-001 G4; GS-VER-037 |
+| Riferimenti | GS-UX-001-13; GS-PROD-001 G4; GS-VER-037; GS-VER-046 |
 
 ## Strutturale (completato nel codice Must)
 
@@ -21,6 +21,8 @@
 - [x] Elementi metriche/KWIC combinati per VoiceOver
 - [x] Cataloghi `it`/`en` senza stringhe hardcoded di prodotto
 - [x] Preview Dynamic Type e RTL presenti
+- [x] Progresso percorso Must in Overview con `accessibilityValue`
+- [x] Azioni `analyze-corpus` e `compare-keyness` etichettate
 
 ## Su dispositivo (obbligatorio per chiudere G4)
 

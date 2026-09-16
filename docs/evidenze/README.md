@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.43.0 |
+| Versione | 0.44.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -59,3 +59,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-043 — Analisi corpus in UI e ValidationManifest planner](GS-VER-043-analisi-corpus-ui-e-planner-manifest.md) — Superato localmente
 - [GS-VER-044 — Confronto keyness diretto in UI Must](GS-VER-044-keyness-ui-diretto.md) — Superato localmente
 - [GS-VER-045 — Trasparenza ranking Findings e diversità corpus in UI](GS-VER-045-ranking-diversity-ui.md) — Superato localmente
+- [GS-VER-046 — Progresso percorso Must, n-grammi e lineage export in UI](GS-VER-046-must-progress-ngrams-a11y.md) — Superato localmente
