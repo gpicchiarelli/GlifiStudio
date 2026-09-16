@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- ValidationManifest `interpretation-mvp-v1` e catalogo a sei manifest Must
+  (GS-VER-048).
 - Misure Evidence tipizzate, Artifact keyness e aggiornamento CMP-012 alle
   superfici UI Must (GS-VER-047).
 - Progresso percorso Must in Overview, n-grammi/Artifact corpus, revisione

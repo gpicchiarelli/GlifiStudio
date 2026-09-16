@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.45.0 |
+| Versione | 0.46.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -61,3 +61,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-045 — Trasparenza ranking Findings e diversità corpus in UI](GS-VER-045-ranking-diversity-ui.md) — Superato localmente
 - [GS-VER-046 — Progresso percorso Must, n-grammi e lineage export in UI](GS-VER-046-must-progress-ngrams-a11y.md) — Superato localmente
 - [GS-VER-047 — Misure Evidence e lineage Artifact in UI Must](GS-VER-047-evidence-measures-artifact-ui.md) — Superato localmente
+- [GS-VER-048 — ValidationManifest interpretazione MVP](GS-VER-048-validation-interpretation-mvp.md) — Superato localmente

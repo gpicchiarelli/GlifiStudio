@@ -367,7 +367,8 @@
       "fixtures": [],
       "evidence": [
         "docs/evidenze/GS-VER-030-evidence-finding-caveat.md",
-        "docs/evidenze/GS-VER-045-ranking-diversity-ui.md"
+        "docs/evidenze/GS-VER-045-ranking-diversity-ui.md",
+        "docs/evidenze/GS-VER-048-validation-interpretation-mvp.md"
       ],
       "gate": "G2",
       "status": "blocked",
