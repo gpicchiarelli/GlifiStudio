@@ -92,13 +92,13 @@ struct StudioHomeView: View {
         .fileImporter(
             isPresented: $isSourceImporterPresented,
             allowedContentTypes: [.plainText, .markdown],
-            allowsMultipleSelection: false
+            allowsMultipleSelection: true
         ) { result in
-            guard case let .success(urls) = result, let url = urls.first else {
+            guard case let .success(urls) = result, !urls.isEmpty else {
                 return
             }
             selection = .sources
-            Task { await model.importSource(at: url) }
+            Task { await model.importSources(at: urls) }
         }
         .fileImporter(
             isPresented: $isProjectImporterPresented,
@@ -350,10 +350,38 @@ struct StudioHomeView: View {
                     Task { await model.executePlan() }
                 }
                 .disabled(model.isBusy || model.snapshot == nil)
+                if model.canCancelExecution {
+                    Button("action.cancel-execution", role: .cancel) {
+                        model.cancelExecution()
+                    }
+                }
                 Button("action.save-investigation") {
                     Task { await model.createInvestigationFromExecution() }
                 }
                 .disabled(model.isBusy || model.executionResult == nil)
+            }
+
+            if !model.investigationHeads.isEmpty {
+                Section("investigation.heads") {
+                    ForEach(model.investigationHeads, id: \.headEventID) { head in
+                        Button {
+                            model.selectInvestigationHead(head)
+                        } label: {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(head.question)
+                                    .lineLimit(2)
+                                Text(shortID(head.headEventID))
+                                    .font(.caption2.monospaced())
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .accessibilityLabel("investigation.heads")
+                    }
+                    Button("action.refresh-heads") {
+                        Task { await model.refreshInvestigationHeads() }
+                    }
+                    .disabled(model.isBusy)
+                }
             }
 
             if let plan = model.planResult {
@@ -434,22 +462,50 @@ struct StudioHomeView: View {
                             .foregroundStyle(.secondary)
                     }
                     ForEach(queryResult.matches) { match in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(shortID(match.sourceRevisionID))
-                                .font(.caption2.monospaced())
-                                .foregroundStyle(.secondary)
-                            (
-                                Text(match.leftContext).foregroundStyle(.secondary)
-                                    + Text(match.match).bold()
-                                    + Text(match.rightContext).foregroundStyle(.secondary)
-                            )
-                            .textSelection(.enabled)
-                            Text("\(match.startUTF8)–\(match.endUTF8)")
-                                .font(.caption2.monospaced())
-                                .foregroundStyle(.tertiary)
+                        Button {
+                            Task { await model.selectQueryMatch(match) }
+                        } label: {
+                            VStack(alignment: .leading, spacing: 4) {
+                                Text(shortID(match.sourceRevisionID))
+                                    .font(.caption2.monospaced())
+                                    .foregroundStyle(.secondary)
+                                (
+                                    Text(match.leftContext).foregroundStyle(.secondary)
+                                        + Text(match.match).bold()
+                                        + Text(match.rightContext).foregroundStyle(.secondary)
+                                )
+                                .textSelection(.enabled)
+                                Text("\(match.startUTF8)–\(match.endUTF8)")
+                                    .font(.caption2.monospaced())
+                                    .foregroundStyle(.tertiary)
+                            }
+                            .frame(maxWidth: .infinity, alignment: .leading)
                         }
+                        .buttonStyle(.plain)
                         .accessibilityElement(children: .combine)
                         .accessibilityLabel("query.match.accessibility")
+                        .accessibilityAddTraits(
+                            model.selectedQueryMatchID == match.id
+                                ? AccessibilityTraits.isSelected
+                                : AccessibilityTraits()
+                        )
+                    }
+                }
+            }
+            if let sourceText = model.sourceText, let match = model.selectedQueryMatch {
+                Section("query.source") {
+                    Text(shortID(sourceText.sourceRevisionID))
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                    highlightedSource(sourceText.text, ranges: match.sourceRanges)
+                        .font(.body.monospaced())
+                        .textSelection(.enabled)
+                        .accessibilityLabel("query.source")
+                    ForEach(Array(match.sourceRanges.enumerated()), id: \.offset) { _, range in
+                        LabeledContent("source.bytes") {
+                            Text("\(range.start)–\(range.end)")
+                                .font(.caption2.monospaced())
+                        }
                     }
                 }
             }
@@ -644,6 +700,40 @@ struct StudioHomeView: View {
                 .monospacedDigit()
         }
         .accessibilityElement(children: .combine)
+    }
+
+    @ViewBuilder
+    private func highlightedSource(_ text: String, ranges: [GlifiStudioUTF8Range]) -> some View {
+        let attributed = attributedSource(text, ranges: ranges)
+        Text(attributed)
+    }
+
+    private func attributedSource(_ text: String, ranges: [GlifiStudioUTF8Range]) -> AttributedString {
+        var attributed = AttributedString(text)
+        let utf8 = text.utf8
+        for range in ranges {
+            guard
+                let utf8Start = utf8.index(
+                    utf8.startIndex,
+                    offsetBy: range.start,
+                    limitedBy: utf8.endIndex
+                ),
+                let utf8End = utf8.index(
+                    utf8.startIndex,
+                    offsetBy: range.end,
+                    limitedBy: utf8.endIndex
+                ),
+                let start = String.Index(utf8Start, within: text),
+                let end = String.Index(utf8End, within: text),
+                let lower = AttributedString.Index(start, within: attributed),
+                let upper = AttributedString.Index(end, within: attributed)
+            else {
+                continue
+            }
+            attributed[lower..<upper].backgroundColor = .yellow.opacity(0.35)
+            attributed[lower..<upper].font = .body.monospaced().bold()
+        }
+        return attributed
     }
 
     private func shortID(_ value: String) -> String {

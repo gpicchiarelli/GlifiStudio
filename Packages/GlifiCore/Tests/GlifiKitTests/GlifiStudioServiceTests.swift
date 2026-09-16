@@ -108,6 +108,17 @@ func serviceProjectSessionRoundTrip() async throws {
     #expect(query.matches[0].sourceRanges[0].start == 4)
     #expect(query.matches[0].sourceRanges[0].end == 9)
 
+    let sourceText = try await session.sourceText(
+        sourceRevisionID: query.matches[0].sourceRevisionID
+    )
+    #expect(sourceText.text == "Una fonte italiana affidabile.")
+    #expect(sourceText.byteCount == Data("Una fonte italiana affidabile.".utf8).count)
+    let highlight = query.matches[0].sourceRanges[0]
+    let utf8 = Array(sourceText.text.utf8)
+    #expect(
+        String(decoding: utf8[highlight.start..<highlight.end], as: UTF8.self) == "fonte"
+    )
+
     let analysis = try await session.analyzeCorpus()
     #expect(analysis.projectID == result.project.projectID)
     #expect(analysis.sourceGeneration == 1)

@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Salto KWIC→fonte via `sourceText` Kit, teste di indagine multiple, cancellazione
+  esecuzione e import multiplo nella UI Must (GS-VER-039).
 - Selezione editoriale dei findings e riapertura dell'ultimo progetto `.glifi` nella
   UI Must condivisa; deroga GS-WVR-004 / evidenza GS-VER-038 per CI bloccata dal
   budget Actions sulla PR #7.

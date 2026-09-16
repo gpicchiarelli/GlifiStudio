@@ -50,7 +50,10 @@ final class StudioHomeModel {
     private(set) var executionResult: GlifiStudioAnalysisExecutionResult?
     private(set) var executionProgress: GlifiStudioOperationProgress?
     private(set) var investigation: GlifiStudioInvestigation?
+    private(set) var investigationHeads: [GlifiStudioInvestigation] = []
     private(set) var queryResult: GlifiStudioProjectQueryResult?
+    private(set) var selectedQueryMatchID: String?
+    private(set) var sourceText: GlifiStudioSourceText?
     private(set) var exportReceipt: GlifiStudioExportReceipt?
     private(set) var selectedFindingID: String?
     private(set) var editorialSelectedFindingIDs: Set<String> = []
@@ -101,6 +104,18 @@ final class StudioHomeModel {
         return (executionResult?.interpretation.evidence ?? []).filter { ids.contains($0.id) }
     }
 
+    var selectedQueryMatch: GlifiStudioQueryMatch? {
+        guard let selectedQueryMatchID else {
+            return queryResult?.matches.first
+        }
+        return queryResult?.matches.first { $0.id == selectedQueryMatchID }
+            ?? queryResult?.matches.first
+    }
+
+    var canCancelExecution: Bool {
+        activeExecution != nil
+    }
+
     func prepare() async {
         let status = await service.status()
         guard !Task.isCancelled else {
@@ -147,6 +162,7 @@ final class StudioHomeModel {
             snapshot = try await opened.snapshot()
             clearAnalysisState()
             let heads = try await opened.investigationHeads()
+            investigationHeads = heads
             investigation = heads.first
             if let investigation {
                 editorialSelectedFindingIDs = Set(investigation.selectedFindingIDs)
@@ -174,21 +190,30 @@ final class StudioHomeModel {
     }
 
     func importSource(at url: URL) async {
+        await importSources(at: [url])
+    }
+
+    func importSources(at urls: [URL]) async {
         await run(messageKey: "progress.importing") {
             let active = try requireSession()
-            let accessGranted = url.startAccessingSecurityScopedResource()
-            defer {
-                if accessGranted {
-                    url.stopAccessingSecurityScopedResource()
+            var lastResult: GlifiStudioProjectImportResult?
+            for url in urls {
+                let accessGranted = url.startAccessingSecurityScopedResource()
+                defer {
+                    if accessGranted {
+                        url.stopAccessingSecurityScopedResource()
+                    }
                 }
+                let format: GlifiStudioTextFormat =
+                    ["md", "markdown"].contains(url.pathExtension.lowercased())
+                    ? .markdown : .plainText
+                lastResult = try await active.importText(at: url, format: format)
+                lastImportedFileName = url.lastPathComponent
             }
-            let format: GlifiStudioTextFormat =
-                ["md", "markdown"].contains(url.pathExtension.lowercased())
-                ? .markdown : .plainText
-            let result = try await active.importText(at: url, format: format)
-            snapshot = result.project
-            lastProfile = result.profile
-            lastImportedFileName = url.lastPathComponent
+            if let lastResult {
+                snapshot = lastResult.project
+                lastProfile = lastResult.profile
+            }
         }
     }
 
@@ -228,6 +253,13 @@ final class StudioHomeModel {
         }
     }
 
+    func cancelExecution() {
+        activeExecution?.cancel()
+        activeExecution = nil
+        executionProgress = nil
+        busyState = .idle
+    }
+
     func createInvestigationFromExecution() async {
         await run(messageKey: "progress.investigating") {
             let active = try requireSession()
@@ -247,7 +279,30 @@ final class StudioHomeModel {
             let result = try await active.createInvestigation(request)
             investigation = result.investigation
             editorialSelectedFindingIDs = Set(result.investigation.selectedFindingIDs)
+            investigationHeads = try await active.investigationHeads()
             snapshot = try await active.snapshot()
+        }
+    }
+
+    func selectInvestigationHead(_ head: GlifiStudioInvestigation) {
+        investigation = head
+        editorialSelectedFindingIDs = Set(head.selectedFindingIDs)
+    }
+
+    func refreshInvestigationHeads() async {
+        await run(messageKey: "progress.investigating") {
+            let active = try requireSession()
+            investigationHeads = try await active.investigationHeads()
+            if let current = investigation {
+                investigation =
+                    investigationHeads.first { $0.headEventID == current.headEventID }
+                    ?? investigationHeads.first
+            } else {
+                investigation = investigationHeads.first
+            }
+            if let investigation {
+                editorialSelectedFindingIDs = Set(investigation.selectedFindingIDs)
+            }
         }
     }
 
@@ -266,6 +321,7 @@ final class StudioHomeModel {
             let result = try await active.reviseInvestigationSelection(request)
             self.investigation = result.investigation
             editorialSelectedFindingIDs = Set(result.investigation.selectedFindingIDs)
+            investigationHeads = try await active.investigationHeads()
             snapshot = try await active.snapshot()
         }
     }
@@ -277,7 +333,21 @@ final class StudioHomeModel {
             guard !trimmed.isEmpty else {
                 throw presentationFailure(messageKey: "failure.query.empty")
             }
-            queryResult = try await active.query(trimmed)
+            let result = try await active.query(trimmed)
+            queryResult = result
+            selectedQueryMatchID = result.matches.first?.id
+            sourceText = nil
+            if let match = result.matches.first {
+                sourceText = try await active.sourceText(sourceRevisionID: match.sourceRevisionID)
+            }
+        }
+    }
+
+    func selectQueryMatch(_ match: GlifiStudioQueryMatch) async {
+        selectedQueryMatchID = match.id
+        await run(messageKey: "progress.loading-source") {
+            let active = try requireSession()
+            sourceText = try await active.sourceText(sourceRevisionID: match.sourceRevisionID)
         }
     }
 
@@ -362,7 +432,10 @@ final class StudioHomeModel {
         executionResult = nil
         executionProgress = nil
         investigation = nil
+        investigationHeads = []
         queryResult = nil
+        selectedQueryMatchID = nil
+        sourceText = nil
         exportReceipt = nil
         selectedFindingID = nil
         selectedTargetRevisionIDs = []

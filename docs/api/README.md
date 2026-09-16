@@ -203,6 +203,7 @@ contenuto, query, path o nomi file.
 | analizza | generazione corrente e budget bounded nella slice | profilo corpus, AnalysisNodeID e ArtifactID persistiti | Slice descrittiva implementata con riuso dopo riapertura; l'interpretazione è prodotta dall'esecutore del piano, analisi temporale aperta |
 | confronta keyness | due insiemi espliciti e disgiunti di SourceRevisionID | profili dipendenza e famiglia G-test/effect/BH persistiti | `keyness-gtest-ha-bh-v1` bounded implementata con riuso dopo riapertura; Fisher e intervalli di confidenza aperti |
 | interroga | testo `glifi-query-v1`, generazione di sessione e limiti | digest QueryAST e KWIC con SourceRevision/offset | Slice bounded TXT/Markdown con `sourceRanges` implementata e verificata; indice, metadati, annotazioni, cursor e streaming aperti |
+| carica testo fonte | SourceRevisionID della generazione corrente | testo UTF-8 esatto della revisione incorporata | Implementata in GlifiKit per salto UI KWIC→fonte; non espone path interni |
 | esporta | selezione, formato, destinazione | ExportReceipt + manifest | PDF/A-2u, Markdown, CSV e JSON implementati e verificati |
 
 Le operazioni non implementate non devono essere simulate con placeholder né

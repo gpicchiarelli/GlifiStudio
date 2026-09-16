@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.36.0 |
+| Versione | 0.37.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -52,3 +52,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-036 — ValidationManifest del nucleo analitico Must](GS-VER-036-validation-manifest-nucleo.md) — Superato localmente per gold token V0 e manifest V0–V4 candidate
 - [GS-VER-037 — Hardening recovery, a11y strutturale e candidatura G4](GS-VER-037-hardening-g4-parziale.md) — Superato parzialmente; VoiceOver/dispositivi/TestFlight aperti
 - [GS-VER-038 — Compensazione locale PR #7 con budget Actions esaurito](GS-VER-038-pr7-budget-actions.md) — Superato localmente; CI remota bloccata da GS-WVR-004
+- [GS-VER-039 — Salto KWIC→fonte e teste di indagine in UI](GS-VER-039-kwic-fonte-teste-indagine.md) — Superato localmente per Kit/UI; verify Xcode aperto
