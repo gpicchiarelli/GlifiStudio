@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Catalogo capability, scope, dipendenze e backend del piano in UI
+  (GS-VER-064).
 - Stato terminale, progresso dettagliato e nodi di analisi dell'esecuzione in UI
   (GS-VER-063).
 - Digest QueryAST, generazione e fonti corrispondenti in UI query

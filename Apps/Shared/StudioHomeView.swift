@@ -555,14 +555,32 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    LabeledContent("plan.analysis-node") {
+                        Text(shortID(plan.analysisNodeID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("plan.planner") {
                         Text(plan.plan.plannerIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("plan.capability-catalog") {
+                        Text(plan.plan.capabilityCatalogIdentifier)
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
                     LabeledContent("plan.intent") {
                         Text(plan.plan.intent)
                             .font(.caption.monospaced())
+                    }
+                    LabeledContent("plan.generation") {
+                        Text(plan.generation, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("plan.source-generation") {
+                        Text(plan.sourceGeneration, format: .number)
+                            .monospacedDigit()
                     }
                     LabeledContent("plan.work-units") {
                         Text(plan.plan.totalEstimatedWorkUnits, format: .number)
@@ -572,6 +590,20 @@ struct StudioHomeView: View {
                         Text(plan.plan.maximumEstimatedWorkUnits, format: .number)
                             .monospacedDigit()
                     }
+                }
+                Section("plan.scope") {
+                    revisionIDList(
+                        titleKey: "plan.scope.resolved",
+                        ids: plan.plan.resolvedScopeSourceRevisionIDs
+                    )
+                    revisionIDList(
+                        titleKey: "plan.scope.target",
+                        ids: plan.plan.targetSourceRevisionIDs
+                    )
+                    revisionIDList(
+                        titleKey: "plan.scope.reference",
+                        ids: plan.plan.referenceSourceRevisionIDs
+                    )
                 }
                 Section("plan.collection-profile") {
                     let profile = plan.plan.collectionProfile
@@ -587,6 +619,11 @@ struct StudioHomeView: View {
                         Text(profile.configuredLanguageCode)
                             .font(.caption.monospaced())
                     }
+                    LabeledContent("plan.observation-class") {
+                        Text(profile.observationClassIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("plan.profile-id") {
                         Text(profile.profileIdentifier)
                             .font(.caption2.monospaced())
@@ -597,11 +634,22 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    revisionIDList(
+                        titleKey: "plan.profile.revisions",
+                        ids: profile.sourceRevisionIDs
+                    )
                     ForEach(profile.formatCounts, id: \.formatIdentifier) { formatCount in
-                        LabeledContent(formatCount.formatIdentifier) {
-                            Text(formatCount.sourceCount, format: .number)
-                                .monospacedDigit()
+                        VStack(alignment: .leading, spacing: 2) {
+                            LabeledContent(formatCount.formatIdentifier) {
+                                Text(formatCount.sourceCount, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("plan.format.bytes") {
+                                Text(formatCount.byteCount, format: .number)
+                                    .monospacedDigit()
+                            }
                         }
+                        .accessibilityElement(children: .combine)
                     }
                 }
                 Section("plan.steps") {
@@ -610,6 +658,11 @@ struct StudioHomeView: View {
                             LabeledContent("\(step.order + 1). \(step.capabilityIdentifier)") {
                                 Text(step.operation)
                                     .font(.caption.monospaced())
+                            }
+                            LabeledContent("plan.step.id") {
+                                Text(step.identifier)
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
                             }
                             LabeledContent("plan.step.role") {
                                 Text(step.role)
@@ -623,6 +676,29 @@ struct StudioHomeView: View {
                                 .font(.caption2.monospaced())
                                 .foregroundStyle(.secondary)
                                 .textSelection(.enabled)
+                            if !step.dependencyStepIdentifiers.isEmpty {
+                                ForEach(
+                                    step.dependencyStepIdentifiers.prefix(6),
+                                    id: \.self
+                                ) { dependency in
+                                    LabeledContent("plan.step.dependency") {
+                                        Text(dependency)
+                                            .font(.caption2.monospaced())
+                                            .textSelection(.enabled)
+                                    }
+                                }
+                            }
+                            revisionIDList(
+                                titleKey: "plan.step.sources",
+                                ids: step.sourceRevisionIDs
+                            )
+                            ForEach(step.caveatIdentifiers.prefix(4), id: \.self) { caveat in
+                                LabeledContent("plan.step.caveat") {
+                                    Text(caveat)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
                         }
                         .accessibilityElement(children: .combine)
                     }
@@ -643,10 +719,31 @@ struct StudioHomeView: View {
                                         .monospacedDigit()
                                 }
                             }
+                            if let backend = decision.selectedBackendIdentifier {
+                                LabeledContent("plan.decision.backend") {
+                                    Text(backend)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
+                            ForEach(decision.fallbackIdentifiers.prefix(4), id: \.self) { fallback in
+                                LabeledContent("plan.decision.fallback") {
+                                    Text(fallback)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
                             ForEach(decision.reasonIdentifiers.prefix(4), id: \.self) { reason in
                                 Text(reason)
                                     .font(.caption2.monospaced())
                                     .foregroundStyle(.secondary)
+                            }
+                            ForEach(decision.caveatIdentifiers.prefix(4), id: \.self) { caveat in
+                                LabeledContent("plan.decision.caveat") {
+                                    Text(caveat)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
                             }
                         }
                         .accessibilityElement(children: .combine)
@@ -1512,6 +1609,33 @@ struct StudioHomeView: View {
             return value
         }
         return String(value.prefix(12)) + "…" + String(value.suffix(8))
+    }
+
+    @ViewBuilder
+    private func revisionIDList(titleKey: LocalizedStringKey, ids: [String]) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(titleKey)
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            if ids.isEmpty {
+                Text("common.unavailable")
+                    .font(.caption2)
+                    .foregroundStyle(.tertiary)
+            } else {
+                ForEach(Array(ids.prefix(8).enumerated()), id: \.offset) { _, revisionID in
+                    Text(shortID(revisionID))
+                        .font(.caption2.monospaced())
+                        .textSelection(.enabled)
+                }
+                if ids.count > 8 {
+                    Text("+\(ids.count - 8)")
+                        .font(.caption2.monospaced())
+                        .foregroundStyle(.secondary)
+                }
+            }
+        }
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel(titleKey)
     }
 
     private func caveatRow(_ caveat: GlifiStudioCaveat) -> some View {

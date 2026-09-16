@@ -77,3 +77,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-061 — CollectionPlanningProfile e decisioni piano in UI](GS-VER-061-collection-profile-piano-ui.md) — Superato localmente
 - [GS-VER-062 — Digest e generazione query in UI](GS-VER-062-query-digest-generazione-ui.md) — Superato localmente
 - [GS-VER-063 — Stato terminale e progresso esecuzione in UI](GS-VER-063-esecuzione-terminale-progresso-ui.md) — Superato localmente
+- [GS-VER-064 — Catalogo, scope e dipendenze del piano in UI](GS-VER-064-catalogo-scope-dipendenze-piano-ui.md) — Superato localmente
