@@ -848,9 +848,42 @@ struct StudioHomeView: View {
         Form {
             Section("finding.proposition") {
                 Text(LocalizedStringKey(finding.messageKey))
+                LabeledContent("finding.id") {
+                    Text(shortID(finding.id))
+                        .font(.caption2.monospaced())
+                        .textSelection(.enabled)
+                }
                 LabeledContent("finding.family") {
                     Text(finding.familyIdentifier)
                         .font(.caption.monospaced())
+                }
+                LabeledContent("finding.type") {
+                    Text(finding.typeIdentifier)
+                        .font(.caption.monospaced())
+                }
+                LabeledContent("finding.subject") {
+                    Text(finding.subjectIdentifier)
+                        .font(.caption.monospaced())
+                        .textSelection(.enabled)
+                }
+                LabeledContent("finding.predicate") {
+                    Text(finding.predicateIdentifier)
+                        .font(.caption.monospaced())
+                }
+                LabeledContent("finding.object") {
+                    Text(finding.objectIdentifier)
+                        .font(.caption.monospaced())
+                        .textSelection(.enabled)
+                }
+                LabeledContent("finding.scope") {
+                    Text(finding.scopeIdentifier)
+                        .font(.caption.monospaced())
+                }
+                if let direction = finding.directionIdentifier {
+                    LabeledContent("finding.direction") {
+                        Text(direction)
+                            .font(.caption.monospaced())
+                    }
                 }
                 LabeledContent("finding.state") {
                     Text(finding.state)
@@ -863,6 +896,16 @@ struct StudioHomeView: View {
                     Text(finding.ruleSetIdentifier)
                         .font(.caption2.monospaced())
                         .textSelection(.enabled)
+                }
+                ForEach(
+                    finding.messageArguments.keys.sorted(),
+                    id: \.self
+                ) { key in
+                    LabeledContent(key) {
+                        Text(finding.messageArguments[key] ?? "")
+                            .font(.caption.monospaced())
+                            .textSelection(.enabled)
+                    }
                 }
             }
             Section("finding.assessment") {
@@ -1100,6 +1143,14 @@ struct StudioHomeView: View {
             Section("export.description") {
                 Text("export.help")
                     .foregroundStyle(.secondary)
+                Text("export.formats.help")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
+                ForEach(["json", "markdown", "csv", "pdf"], id: \.self) { format in
+                    Label(format, systemImage: "doc")
+                        .font(.caption.monospaced())
+                        .accessibilityLabel(Text("export.format.\(format)"))
+                }
                 Button("action.export") {
                     isExportFolderPresented = true
                 }
