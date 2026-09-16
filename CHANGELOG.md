@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Artifact di esecuzione, metadati interpretazione e dimensioni assessment in UI
+  (GS-VER-050).
 - Salto Evidence→fonte in UI Must e ValidationManifest
   `investigation-history-v1` (GS-VER-049).
 - ValidationManifest `interpretation-mvp-v1` e catalogo a sei manifest Must

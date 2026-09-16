@@ -572,6 +572,64 @@ struct StudioHomeView: View {
                 }
             }
 
+            if let execution = model.executionResult {
+                Section("execution.artifacts") {
+                    LabeledContent("execution.interpretation-artifact") {
+                        Text(shortID(execution.interpretationArtifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    ForEach(execution.artifacts, id: \.artifactID) { artifact in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(artifact.operation)
+                                .font(.caption.monospaced())
+                            LabeledContent("execution.artifact.role") {
+                                Text(artifact.role)
+                                    .font(.caption2.monospaced())
+                            }
+                            Text(shortID(artifact.artifactID))
+                                .font(.caption2.monospaced())
+                                .foregroundStyle(.secondary)
+                                .textSelection(.enabled)
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                }
+                Section("execution.interpretation") {
+                    let interpretation = execution.interpretation
+                    LabeledContent("execution.rule-catalog") {
+                        Text(interpretation.ruleCatalogIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("execution.ranking-policy") {
+                        Text(interpretation.rankingIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("execution.findings-count") {
+                        Text(interpretation.findings.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("execution.evidence-count") {
+                        Text(interpretation.evidence.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    if !interpretation.suppressionSummaries.isEmpty {
+                        ForEach(
+                            Array(interpretation.suppressionSummaries.enumerated()),
+                            id: \.offset
+                        ) { _, suppression in
+                            LabeledContent(suppression.reasonIdentifier) {
+                                Text(suppression.count, format: .number)
+                                    .monospacedDigit()
+                            }
+                            .accessibilityElement(children: .combine)
+                        }
+                    }
+                }
+            }
+
             if let investigation = model.investigation {
                 Section("investigation.saved") {
                     LabeledContent("investigation.id") {
@@ -771,6 +829,18 @@ struct StudioHomeView: View {
                     Text(rationale)
                         .font(.caption2.monospaced())
                         .foregroundStyle(.secondary)
+                }
+                ForEach(finding.assessment.dimensions, id: \.identifier) { dimension in
+                    VStack(alignment: .leading, spacing: 2) {
+                        LabeledContent(dimension.identifier) {
+                            Text(evidenceValueText(dimension.value))
+                                .font(.caption.monospacedDigit())
+                        }
+                        Text(dimension.outcomeIdentifier)
+                            .font(.caption2.monospaced())
+                            .foregroundStyle(.secondary)
+                    }
+                    .accessibilityElement(children: .combine)
                 }
             }
             Section("finding.caveats") {
@@ -1069,24 +1139,26 @@ struct StudioHomeView: View {
     }
 
     private func evidenceMeasureText(_ measure: GlifiStudioEvidenceMeasure) -> String {
-        let value = measure.value
-        let rendered: String
-        switch value.type {
-        case "integer":
-            rendered = value.integerValue.map(String.init) ?? "—"
-        case "decimal":
-            rendered = value.decimalValue.map { String(format: "%.4g", $0) } ?? "—"
-        case "boolean":
-            rendered = value.booleanValue.map { $0 ? "true" : "false" } ?? "—"
-        case "text":
-            rendered = value.textValue ?? "—"
-        default:
-            rendered = "—"
-        }
+        let rendered = evidenceValueText(measure.value)
         if let unit = measure.unitIdentifier, !unit.isEmpty {
             return "\(rendered) \(unit)"
         }
         return rendered
+    }
+
+    private func evidenceValueText(_ value: GlifiStudioEvidenceValue) -> String {
+        switch value.type {
+        case "integer":
+            return value.integerValue.map(String.init) ?? "—"
+        case "decimal":
+            return value.decimalValue.map { String(format: "%.4g", $0) } ?? "—"
+        case "boolean":
+            return value.booleanValue.map { $0 ? "true" : "false" } ?? "—"
+        case "text":
+            return value.textValue ?? "—"
+        default:
+            return "—"
+        }
     }
 }
 

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.47.0 |
+| Versione | 0.48.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -63,3 +63,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-047 — Misure Evidence e lineage Artifact in UI Must](GS-VER-047-evidence-measures-artifact-ui.md) — Superato localmente
 - [GS-VER-048 — ValidationManifest interpretazione MVP](GS-VER-048-validation-interpretation-mvp.md) — Superato localmente
 - [GS-VER-049 — Salto Evidence→fonte e ValidationManifest Investigation](GS-VER-049-evidence-fonte-e-investigation-manifest.md) — Superato localmente
+- [GS-VER-050 — Artifact di esecuzione e dimensioni assessment in UI](GS-VER-050-execution-artifacts-assessment-ui.md) — Superato localmente
