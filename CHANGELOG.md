@@ -8,6 +8,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Metadati teste Investigation (intento, lingua, Finding/eventi, Artifact) in UI
+  (GS-VER-074).
+- Vocabolario matrice e bound opzioni corpus/keyness in UI (GS-VER-073).
+- Identità `projectID` su piano, corpus ed esecuzione in UI (GS-VER-072).
 - Progresso esecuzione (`revision`/nodo), argomenti failure e Finding
   selezionati dell'indagine in UI (GS-VER-071).
 - Popolazioni keyness, diagnostica e frequenze relative in UI (GS-VER-070).

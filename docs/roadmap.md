@@ -9,7 +9,7 @@
 | Versione | 1.0.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
-| Ultima modifica | 2026-09-16 |
+| Ultima modifica | 2026-09-17 |
 | Approvazione | Allineata a GS-PROD-001 e allo stato G1/G2 del percorso produttivo 0.1 |
 | Riferimento | ISO/IEC/IEEE 15289:2019, profilo tailored |
 
@@ -20,7 +20,7 @@ Questa roadmap è subordinata alla baseline
 rischi di `.glifi`, SpanMap, QueryAST, Analysis DAG, runtime bounded e navigazione;
 le capacità post-MVP non entrano accidentalmente nelle prime fasi.
 
-Stato osservato al 2026-09-16: **Fase 0/G1 formale leggera chiusa**; **Fase 1/G2
+Stato osservato al 2026-09-17: **Fase 0/G1 formale leggera chiusa**; **Fase 1/G2
 headless sostanzialmente realizzata** (evidenze GS-VER-018…033); **Fase 2** è il
 focus produttivo (UI Must sul Kit esistente).
 
@@ -52,7 +52,7 @@ indice inverted streaming e UI nativa.
 
 Obiettivo: offrire un percorso utente completo nelle applicazioni native macOS e iPadOS.
 
-Stato 2026-09-16: **candidato funzionale G3** (GS-VER-035…071). Restano aperti
+Stato 2026-09-17: **candidato funzionale G3** (GS-VER-035…074). Restano aperti
 audit dispositivo, studi UX e gate G4/G5.
 
 - creazione e apertura di un progetto `.glifi`;
