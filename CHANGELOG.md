@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- ValidationManifest `glifi-query-v1`, progresso import multiplo e anteprima
+  Markdown dell'export (GS-VER-041).
 - DocumentGroup SwiftUI per `.glifi` con UTType `studio.glifi.project`, Info.plist
   document types e bookmark app-scope (GS-VER-040).
 - Salto KWIC→fonte via `sourceText` Kit, teste di indagine multiple, cancellazione

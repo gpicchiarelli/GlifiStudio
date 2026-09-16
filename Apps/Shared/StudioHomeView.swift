@@ -665,6 +665,15 @@ struct StudioHomeView: View {
                     }
                 }
             }
+            if let preview = model.exportPreviewMarkdown {
+                Section("export.preview") {
+                    Text(preview)
+                        .font(.body.monospaced())
+                        .textSelection(.enabled)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .accessibilityLabel("export.preview")
+                }
+            }
         }
         .formStyle(.grouped)
         .navigationTitle("sidebar.export")
@@ -678,6 +687,11 @@ struct StudioHomeView: View {
                     .controlSize(.small)
                 Text(LocalizedStringKey(messageKey))
                     .font(.caption)
+                if model.importProgressTotal > 0 {
+                    Text("\(model.importProgressCompleted)/\(model.importProgressTotal)")
+                        .font(.caption.monospacedDigit())
+                        .accessibilityLabel("import.progress.count")
+                }
             }
             if let failureMessageKey = model.failureMessageKey {
                 Label(LocalizedStringKey(failureMessageKey), systemImage: "exclamationmark.triangle")

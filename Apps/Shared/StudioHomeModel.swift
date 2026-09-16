@@ -46,6 +46,8 @@ final class StudioHomeModel {
     private(set) var snapshot: GlifiStudioProjectSnapshot?
     private(set) var lastProfile: GlifiStudioTextProfile?
     private(set) var lastImportedFileName: String?
+    private(set) var importProgressCompleted: Int = 0
+    private(set) var importProgressTotal: Int = 0
     private(set) var planResult: GlifiStudioAnalysisPlanResult?
     private(set) var executionResult: GlifiStudioAnalysisExecutionResult?
     private(set) var executionProgress: GlifiStudioOperationProgress?
@@ -55,6 +57,7 @@ final class StudioHomeModel {
     private(set) var selectedQueryMatchID: String?
     private(set) var sourceText: GlifiStudioSourceText?
     private(set) var exportReceipt: GlifiStudioExportReceipt?
+    private(set) var exportPreviewMarkdown: String?
     private(set) var selectedFindingID: String?
     private(set) var editorialSelectedFindingIDs: Set<String> = []
     private(set) var lastProjectBookmark: Data?
@@ -200,6 +203,8 @@ final class StudioHomeModel {
     func importSources(at urls: [URL]) async {
         await run(messageKey: "progress.importing") {
             let active = try requireSession()
+            importProgressTotal = urls.count
+            importProgressCompleted = 0
             var lastResult: GlifiStudioProjectImportResult?
             for url in urls {
                 let accessGranted = url.startAccessingSecurityScopedResource()
@@ -213,11 +218,14 @@ final class StudioHomeModel {
                     ? .markdown : .plainText
                 lastResult = try await active.importText(at: url, format: format)
                 lastImportedFileName = url.lastPathComponent
+                importProgressCompleted += 1
             }
             if let lastResult {
                 snapshot = lastResult.project
                 lastProfile = lastResult.profile
             }
+            importProgressTotal = 0
+            importProgressCompleted = 0
         }
     }
 
@@ -376,6 +384,14 @@ final class StudioHomeModel {
                 to: destinationDirectory
             )
             snapshot = try await active.snapshot()
+            let markdownURL = destinationDirectory.appending(path: "report.md")
+            if let data = try? Data(contentsOf: markdownURL),
+                let text = String(data: data, encoding: .utf8)
+            {
+                exportPreviewMarkdown = text
+            } else {
+                exportPreviewMarkdown = nil
+            }
         }
     }
 
@@ -462,10 +478,13 @@ final class StudioHomeModel {
         selectedQueryMatchID = nil
         sourceText = nil
         exportReceipt = nil
+        exportPreviewMarkdown = nil
         selectedFindingID = nil
         selectedTargetRevisionIDs = []
         selectedReferenceRevisionIDs = []
         editorialSelectedFindingIDs = []
+        importProgressCompleted = 0
+        importProgressTotal = 0
         failureMessageKey = nil
     }
 

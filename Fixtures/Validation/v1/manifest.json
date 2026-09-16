@@ -13,6 +13,11 @@
       "id": "validation-keyness-gtest-ha-bh-v1",
       "path": "Fixtures/Validation/v1/keyness-gtest-ha-bh-v1.json",
       "status": "candidate"
+    },
+    {
+      "id": "validation-glifi-query-v1",
+      "path": "Fixtures/Validation/v1/glifi-query-v1.json",
+      "status": "candidate"
     }
   ]
 }

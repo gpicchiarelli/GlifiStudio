@@ -554,12 +554,15 @@ def validate_validation_catalog(manifest: dict[str, Any], errors: list[str]) -> 
     if manifest.get("license") != "BSD-3-Clause":
         errors.append("catalogo ValidationManifest: licenza mancante")
     entries = manifest.get("manifests", [])
-    if not isinstance(entries, list) or len(entries) < 2:
-        errors.append("catalogo ValidationManifest: servono almeno corpus-profile e keyness")
+    if not isinstance(entries, list) or len(entries) < 3:
+        errors.append(
+            "catalogo ValidationManifest: servono corpus-profile, keyness e query"
+        )
         return 0
     required_ids = {
         "validation-corpus-profile-it-v1",
         "validation-keyness-gtest-ha-bh-v1",
+        "validation-glifi-query-v1",
     }
     seen: set[str] = set()
     for entry in entries:
