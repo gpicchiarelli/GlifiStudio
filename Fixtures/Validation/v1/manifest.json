@@ -18,6 +18,11 @@
       "id": "validation-glifi-query-v1",
       "path": "Fixtures/Validation/v1/glifi-query-v1.json",
       "status": "candidate"
+    },
+    {
+      "id": "validation-scientific-export-v1",
+      "path": "Fixtures/Validation/v1/scientific-export-v1.json",
+      "status": "candidate"
     }
   ]
 }

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.39.0 |
+| Versione | 0.40.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -55,3 +55,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-039 — Salto KWIC→fonte e teste di indagine in UI](GS-VER-039-kwic-fonte-teste-indagine.md) — Superato localmente per Kit/UI; verify Xcode aperto
 - [GS-VER-040 — DocumentGroup e UTType studio.glifi.project](GS-VER-040-documentgroup-uttype.md) — Superato localmente per wiring document-based; conflict/provider aperti
 - [GS-VER-041 — ValidationManifest query, progress import e preview export](GS-VER-041-query-manifest-e-preview-export.md) — Superato localmente
+- [GS-VER-042 — Export ValidationManifest, storia indagine e piano localizzato](GS-VER-042-export-manifest-storia-piano.md) — Superato localmente; G3 candidato funzionale

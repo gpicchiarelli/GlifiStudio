@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- ValidationManifest export, storia eventi indagine in UI, stati piano
+  localizzati e CMP-012 `implemented` (GS-VER-042); G3 candidato funzionale.
 - ValidationManifest `glifi-query-v1`, progresso import multiplo e anteprima
   Markdown dell'export (GS-VER-041).
 - DocumentGroup SwiftUI per `.glifi` con UTType `studio.glifi.project`, Info.plist

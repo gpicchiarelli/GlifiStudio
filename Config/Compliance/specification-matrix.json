@@ -243,11 +243,13 @@
         "docs/evidenze/GS-VER-022-profilo-corpus-riproducibile.md",
         "docs/evidenze/GS-VER-027-planner-mvp-deterministico.md",
         "docs/evidenze/GS-VER-028-esecuzione-piano-progressi.md",
-        "docs/evidenze/GS-VER-032-export-scientifico.md"
+        "docs/evidenze/GS-VER-032-export-scientifico.md",
+        "docs/evidenze/GS-VER-035-ui-must-vertical-slice.md",
+        "docs/evidenze/GS-VER-040-documentgroup-uttype.md"
       ],
       "gate": "G2",
-      "status": "blocked",
-      "blockingReason": "Status, progetto/import, query, planner, esecuzione, analisi, Investigation ed export PDF/Markdown/CSV/JSON sono operativi; indice, streaming generale, progresso intra-nodo e parità GUI restano da implementare."
+      "status": "implemented",
+      "blockingReason": null
     },
     {
       "id": "CMP-013",

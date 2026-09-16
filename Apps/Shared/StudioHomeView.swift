@@ -399,10 +399,14 @@ struct StudioHomeView: View {
             if let plan = model.planResult {
                 Section("plan.title") {
                     LabeledContent("plan.status") {
-                        Text(plan.plan.status)
+                        Text(LocalizedStringKey("plan.status.\(plan.plan.status)"))
                     }
                     LabeledContent("plan.sources") {
                         Text(plan.plan.collectionProfile.sourceCount, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("plan.work-units") {
+                        Text(plan.plan.totalEstimatedWorkUnits, format: .number)
                             .monospacedDigit()
                     }
                     ForEach(Array(plan.plan.steps.enumerated()), id: \.element.identifier) { _, step in
@@ -413,8 +417,15 @@ struct StudioHomeView: View {
                     }
                     ForEach(Array(plan.plan.decisions.enumerated()), id: \.offset) { _, decision in
                         LabeledContent(decision.capabilityIdentifier) {
-                            Text(decision.applicability)
+                            Text(LocalizedStringKey("plan.applicability.\(decision.applicability)"))
                                 .font(.caption)
+                        }
+                    }
+                    if !plan.plan.unresolvedReasonIdentifiers.isEmpty {
+                        ForEach(plan.plan.unresolvedReasonIdentifiers, id: \.self) { reason in
+                            Text(reason)
+                                .font(.caption2.monospaced())
+                                .foregroundStyle(.secondary)
                         }
                     }
                 }
@@ -444,6 +455,20 @@ struct StudioHomeView: View {
                             .font(.caption.monospaced())
                     }
                     Text(investigation.question)
+                }
+                Section("investigation.history") {
+                    ForEach(Array(investigation.eventIDs.enumerated()), id: \.offset) { index, eventID in
+                        LabeledContent("\(index + 1)") {
+                            Text(shortID(eventID))
+                                .font(.caption.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                    LabeledContent("investigation.selected-findings") {
+                        Text(investigation.selectedFindingIDs.count, format: .number)
+                            .monospacedDigit()
+                    }
                 }
             }
         }
