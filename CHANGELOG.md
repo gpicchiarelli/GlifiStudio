@@ -8,6 +8,13 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Chiave `messageKey` failure/insufficient e `operationID` esecuzione attiva
+  in UI (GS-VER-081).
+- Catalogo `evidenceReferences` Finding e tipizzazione misure Evidence in UI
+  (GS-VER-080).
+- Ordine n-grammi corpus e byte/range fonte Evidence in UI (GS-VER-079).
+- Espressione Query conservata e coordinate match UTF-8 etichettate in UI
+  (GS-VER-078).
 - Richiesta selezione editoriale Kit e commit generation/projectID in UI
   (GS-VER-077).
 - Richiesta piano/esecuzione Kit (intento, budget, scope, gruppi) in UI

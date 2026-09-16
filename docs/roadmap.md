@@ -52,7 +52,7 @@ indice inverted streaming e UI nativa.
 
 Obiettivo: offrire un percorso utente completo nelle applicazioni native macOS e iPadOS.
 
-Stato 2026-09-17: **candidato funzionale G3** (GS-VER-035…077). Restano aperti
+Stato 2026-09-17: **candidato funzionale G3** (GS-VER-035…081). Restano aperti
 audit dispositivo, studi UX e gate G4/G5.
 
 - creazione e apertura di un progetto `.glifi`;

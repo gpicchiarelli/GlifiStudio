@@ -18,7 +18,7 @@
 | Requisiti | Baseline candidata | Assegnare priorità, metriche e validazione stakeholder |
 | Architettura | Separazione prodotto/motore accettata (ADR-0002) | Mantenere il gate `check-architecture` e la superficie Kit |
 | Fondazione scientifica | GS-MET-001 e ADR-0013 definiti; nucleo Must con ValidationManifest V0–V4 | Mantenere oracoli; review scientifica esterna e dataset ranking aperti |
-| Esperienza utente | GS-UX-001 e UI Must su GlifiKit (G3 candidato, GS-VER-035…077) | VoiceOver dispositivo, studi UX e soglie G4 |
+| Esperienza utente | GS-UX-001 e UI Must su GlifiKit (G3 candidato, GS-VER-035…081) | VoiceOver dispositivo, studi UX e soglie G4 |
 | Design implementativo | Dieci specifiche GS-DOM–GS-PROD; G1 leggero chiuso; G2 headless chiuso | Chiudere G4/G5 su dispositivi e distribuzione |
 | Tracciabilità | Matrice machine-readable; DoR operativa (GS-DOR-001, CMP-014) | Aggiungere scheda DoR a ogni nuova vertical slice |
 | Controllo versione | Primo commit pubblicato su `main` nel remote privato canonico | Applicare protezioni server-side quando disponibili |
