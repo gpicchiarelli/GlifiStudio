@@ -934,6 +934,20 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    LabeledContent("execution.interpretation.intent") {
+                        Text(interpretation.intent)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("execution.interpretation.plan-artifact") {
+                        Text(shortID(interpretation.planArtifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("execution.interpretation.plan-node") {
+                        Text(shortID(interpretation.planAnalysisNodeID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("execution.findings-count") {
                         Text(interpretation.findings.count, format: .number)
                             .monospacedDigit()
@@ -941,6 +955,18 @@ struct StudioHomeView: View {
                     LabeledContent("execution.evidence-count") {
                         Text(interpretation.evidence.count, format: .number)
                             .monospacedDigit()
+                    }
+                    if !interpretation.sourceArtifactIDs.isEmpty {
+                        ForEach(
+                            interpretation.sourceArtifactIDs.prefix(6),
+                            id: \.self
+                        ) { artifactID in
+                            LabeledContent("execution.interpretation.source-artifact") {
+                                Text(shortID(artifactID))
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                        }
                     }
                     if !interpretation.suppressionSummaries.isEmpty {
                         ForEach(
@@ -971,6 +997,10 @@ struct StudioHomeView: View {
                         Text(investigation.intent)
                             .font(.caption.monospaced())
                     }
+                    LabeledContent("investigation.language") {
+                        Text(investigation.languageCode)
+                            .font(.caption.monospaced())
+                    }
                     LabeledContent("investigation.plan-artifact") {
                         Text(shortID(investigation.planArtifactID))
                             .font(.caption2.monospaced())
@@ -995,6 +1025,20 @@ struct StudioHomeView: View {
                     LabeledContent("investigation.selected-findings") {
                         Text(investigation.selectedFindingIDs.count, format: .number)
                             .monospacedDigit()
+                    }
+                    LabeledContent("investigation.available-findings") {
+                        Text(investigation.availableFindingIDs.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    ForEach(
+                        investigation.availableFindingIDs.prefix(8),
+                        id: \.self
+                    ) { findingID in
+                        LabeledContent("investigation.available-finding") {
+                            Text(shortID(findingID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
                     }
                 }
             }
@@ -1025,6 +1069,11 @@ struct StudioHomeView: View {
                         Text(queryResult.matchedSourceCount, format: .number)
                             .monospacedDigit()
                     }
+                    LabeledContent("query.project-id") {
+                        Text(shortID(queryResult.projectID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("query.generation") {
                         Text(queryResult.generation, format: .number)
                             .monospacedDigit()
@@ -1046,6 +1095,10 @@ struct StudioHomeView: View {
                                 Text(shortID(match.sourceRevisionID))
                                     .font(.caption2.monospaced())
                                     .foregroundStyle(.secondary)
+                                LabeledContent("query.coordinate-space") {
+                                    Text(match.coordinateSpace)
+                                        .font(.caption2.monospaced())
+                                }
                                 (
                                     Text(match.leftContext).foregroundStyle(.secondary)
                                         + Text(match.match).bold()
@@ -1074,6 +1127,10 @@ struct StudioHomeView: View {
                     Text(shortID(sourceText.sourceRevisionID))
                         .font(.caption.monospaced())
                         .foregroundStyle(.secondary)
+                    LabeledContent("query.source.bytes") {
+                        Text(sourceText.byteCount, format: .number)
+                            .monospacedDigit()
+                    }
                     highlightedSource(sourceText.text, ranges: match.sourceRanges)
                         .font(.body.monospaced())
                         .textSelection(.enabled)
@@ -1109,6 +1166,20 @@ struct StudioHomeView: View {
                         ForEach(insufficient.reasonIdentifiers, id: \.self) { reason in
                             Text(reason)
                                 .font(.caption.monospaced())
+                        }
+                    }
+                    if !insufficient.messageArguments.isEmpty {
+                        Section("findings.insufficient.arguments") {
+                            ForEach(
+                                insufficient.messageArguments.keys.sorted(),
+                                id: \.self
+                            ) { key in
+                                LabeledContent(key) {
+                                    Text(insufficient.messageArguments[key] ?? "")
+                                        .font(.caption.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
                         }
                     }
                     if !insufficient.caveats.isEmpty {
@@ -1284,6 +1355,13 @@ struct StudioHomeView: View {
                                         .font(.caption)
                                 }
                             }
+                            if let reason = model.evidenceDispositionReason(for: evidence.id) {
+                                LabeledContent("finding.evidence.disposition-reason") {
+                                    Text(reason)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
                             LabeledContent("finding.evidence.validity") {
                                 Text(evidence.validity)
                                     .font(.caption.monospaced())
@@ -1294,6 +1372,11 @@ struct StudioHomeView: View {
                             }
                             LabeledContent("finding.evidence.analysis-node") {
                                 Text(shortID(evidence.analysisNodeID))
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                            LabeledContent("finding.evidence.descriptor-digest") {
+                                Text(shortID(evidence.descriptorDigest))
                                     .font(.caption2.monospaced())
                                     .textSelection(.enabled)
                             }
@@ -1351,6 +1434,10 @@ struct StudioHomeView: View {
                                     }
                                     LabeledContent("finding.evidence.source-role") {
                                         Text(reference.roleIdentifier)
+                                            .font(.caption2.monospaced())
+                                    }
+                                    LabeledContent("finding.evidence.source-representation") {
+                                        Text(reference.representationIdentifier)
                                             .font(.caption2.monospaced())
                                     }
                                     LabeledContent("finding.evidence.source-region") {

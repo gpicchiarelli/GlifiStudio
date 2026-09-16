@@ -1378,6 +1378,74 @@
         }
       }
     },
+    "execution.interpretation.intent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interpretation intent"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intento dell'interpretazione"
+          }
+        }
+      }
+    },
+    "execution.interpretation.plan-artifact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan artifact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact del piano"
+          }
+        }
+      }
+    },
+    "execution.interpretation.plan-node" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan analysis node"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nodo di analisi del piano"
+          }
+        }
+      }
+    },
+    "execution.interpretation.source-artifact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source artifact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact sorgente"
+          }
+        }
+      }
+    },
     "execution.findings-count" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2755,6 +2823,57 @@
         }
       }
     },
+    "finding.evidence.disposition-reason" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposition reason"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motivo della disposizione"
+          }
+        }
+      }
+    },
+    "finding.evidence.descriptor-digest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descriptor digest"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digest del descrittore"
+          }
+        }
+      }
+    },
+    "finding.evidence.source-representation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source representation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rappresentazione della fonte"
+          }
+        }
+      }
+    },
     "finding.evidence.source" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -3108,6 +3227,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Motivi"
+          }
+        }
+      }
+    },
+    "findings.insufficient.arguments" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Message arguments"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Argomenti del messaggio"
           }
         }
       }
@@ -3996,6 +4132,57 @@
         }
       }
     },
+    "query.project-id" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Project ID"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ID progetto"
+          }
+        }
+      }
+    },
+    "query.coordinate-space" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Coordinate space"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Spazio delle coordinate"
+          }
+        }
+      }
+    },
+    "query.source.bytes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source bytes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Byte della fonte"
+          }
+        }
+      }
+    },
     "query.generation" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -4604,6 +4791,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Findings selezionati"
+          }
+        }
+      }
+    },
+    "investigation.language" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Language"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lingua"
+          }
+        }
+      }
+    },
+    "investigation.available-findings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available findings"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Findings disponibili"
+          }
+        }
+      }
+    },
+    "investigation.available-finding" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Available finding"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finding disponibile"
           }
         }
       }

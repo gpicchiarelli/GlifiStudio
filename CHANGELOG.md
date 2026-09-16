@@ -8,6 +8,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Coordinate query, lineage Evidence e metadati indagine in UI (GS-VER-066).
 - Provenienza fonti (digest/byte/ID) e fallimenti strutturati in UI
   (GS-VER-065).
 - Catalogo capability, scope, dipendenze e backend del piano in UI

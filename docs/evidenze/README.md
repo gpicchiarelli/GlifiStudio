@@ -79,3 +79,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-063 — Stato terminale e progresso esecuzione in UI](GS-VER-063-esecuzione-terminale-progresso-ui.md) — Superato localmente
 - [GS-VER-064 — Catalogo, scope e dipendenze del piano in UI](GS-VER-064-catalogo-scope-dipendenze-piano-ui.md) — Superato localmente
 - [GS-VER-065 — Provenienza fonti e fallimenti strutturati in UI](GS-VER-065-provenienza-fonti-fallimenti-ui.md) — Superato localmente
+- [GS-VER-066 — Coordinate query, lineage Evidence e indagine in UI](GS-VER-066-coordinate-query-evidence-indagine-ui.md) — Superato localmente

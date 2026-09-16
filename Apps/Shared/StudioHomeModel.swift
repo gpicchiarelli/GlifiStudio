@@ -120,6 +120,10 @@ final class StudioHomeModel {
         selectedFinding?.evidenceReferences.first { $0.evidenceID == evidenceID }?.disposition
     }
 
+    func evidenceDispositionReason(for evidenceID: String) -> String? {
+        selectedFinding?.evidenceReferences.first { $0.evidenceID == evidenceID }?.reasonIdentifier
+    }
+
     var selectedQueryMatch: GlifiStudioQueryMatch? {
         guard let selectedQueryMatchID else {
             return queryResult?.matches.first
