@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Trasparenza UI di ranking Findings, policy di supporto e diversità lessicale
+  del corpus (GS-VER-045).
 - Confronto keyness diretto in UI Must per `compare.objects` (GS-VER-044).
 - Analisi corpus diretta in UI Must, ValidationManifest `planner-mvp-v1` e
   catalogo a cinque manifest Must (GS-VER-043).

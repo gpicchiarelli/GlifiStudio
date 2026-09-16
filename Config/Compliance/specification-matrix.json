@@ -358,7 +358,10 @@
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisExecutionTests.swift"
       ],
       "fixtures": [],
-      "evidence": ["docs/evidenze/GS-VER-030-evidence-finding-caveat.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-030-evidence-finding-caveat.md",
+        "docs/evidenze/GS-VER-045-ranking-diversity-ui.md"
+      ],
       "gate": "G2",
       "status": "blocked",
       "blockingReason": "Le policy descrittiva/keyness e il ranking strutturale sono implementati; dataset di ranking, validazione empirica, conflitti e famiglie restanti non sono ancora definiti o misurati."

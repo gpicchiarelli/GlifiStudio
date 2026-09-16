@@ -311,6 +311,15 @@ struct StudioHomeView: View {
                                 .monospacedDigit()
                         }
                     }
+                    Section("corpus.diversity.title") {
+                        optionalRatioRow("corpus.diversity.ttr", value: corpus.diversity.ttr)
+                        optionalRatioRow("corpus.diversity.msttr", value: corpus.diversity.msttr)
+                        optionalRatioRow("corpus.diversity.mattr", value: corpus.diversity.mattr)
+                        LabeledContent("corpus.diversity.window") {
+                            Text(corpus.diversity.windowSize, format: .number)
+                                .monospacedDigit()
+                        }
+                    }
                     Section("corpus.analysis.top-terms") {
                         ForEach(corpus.terms.prefix(20)) { term in
                             LabeledContent(term.term) {
@@ -689,6 +698,26 @@ struct StudioHomeView: View {
                 LabeledContent("finding.state") {
                     Text(finding.state)
                 }
+                LabeledContent("finding.epistemic") {
+                    Text(finding.epistemicCategory)
+                        .font(.caption.monospaced())
+                }
+            }
+            Section("finding.assessment") {
+                LabeledContent("finding.support-class") {
+                    Text(finding.assessment.supportClass)
+                        .font(.caption.monospaced())
+                }
+                LabeledContent("finding.support-policy") {
+                    Text(finding.assessment.policyIdentifier)
+                        .font(.caption2.monospaced())
+                        .textSelection(.enabled)
+                }
+                ForEach(finding.assessment.rationaleIdentifiers, id: \.self) { rationale in
+                    Text(rationale)
+                        .font(.caption2.monospaced())
+                        .foregroundStyle(.secondary)
+                }
             }
             Section("finding.caveats") {
                 if finding.caveats.isEmpty {
@@ -718,7 +747,31 @@ struct StudioHomeView: View {
                     }
                 }
             }
-            Section("finding.lineage") {
+            Section("finding.ranking") {
+                LabeledContent("finding.ranking.policy") {
+                    Text(finding.rankFactors.rankingIdentifier)
+                        .font(.caption2.monospaced())
+                        .textSelection(.enabled)
+                }
+                LabeledContent("finding.ranking.intent-relevance") {
+                    Text(finding.rankFactors.intentRelevance, format: .number)
+                        .monospacedDigit()
+                }
+                LabeledContent("finding.support-class") {
+                    Text(finding.rankFactors.supportClass)
+                        .font(.caption.monospaced())
+                }
+                optionalRatioRow("finding.ranking.effect", value: finding.rankFactors.effectMagnitude)
+                optionalRatioRow("finding.ranking.coverage", value: finding.rankFactors.coverage)
+                optionalRatioRow("finding.ranking.stability", value: finding.rankFactors.stability)
+                optionalRatioRow("finding.ranking.novelty", value: finding.rankFactors.novelty)
+                LabeledContent("finding.ranking.non-redundancy") {
+                    Text(
+                        finding.rankFactors.nonRedundancy,
+                        format: .number.precision(.fractionLength(3))
+                    )
+                    .monospacedDigit()
+                }
                 LabeledContent("finding.has-lineage") {
                     Text(finding.rankFactors.hasCompleteLineage ? "common.yes" : "common.no")
                 }
@@ -828,6 +881,20 @@ struct StudioHomeView: View {
         LabeledContent(title) {
             Text(value, format: .number)
                 .monospacedDigit()
+        }
+        .accessibilityElement(children: .combine)
+    }
+
+    @ViewBuilder
+    private func optionalRatioRow(_ title: LocalizedStringKey, value: Double?) -> some View {
+        LabeledContent(title) {
+            if let value {
+                Text(value, format: .number.precision(.fractionLength(3)))
+                    .monospacedDigit()
+            } else {
+                Text("common.unavailable")
+                    .foregroundStyle(.secondary)
+            }
         }
         .accessibilityElement(children: .combine)
     }
