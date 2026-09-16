@@ -8,6 +8,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Confini App→Kit→Core e CMP-001 `implemented` (GS-VER-052).
 - ValidationManifest `analysis-execution-v1`, catalogo a otto manifest Must e
   CMP-010 `implemented` (GS-VER-051).
 - Artifact di esecuzione, metadati interpretazione e dimensioni assessment in UI

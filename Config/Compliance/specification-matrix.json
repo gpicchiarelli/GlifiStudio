@@ -17,12 +17,19 @@
       "clause": "GS-SEC-001 § 5 Confini di fiducia",
       "specification": "docs/sicurezza/README.md",
       "requirements": ["RQ-057"],
-      "code": [],
-      "tests": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Apps/Shared/StudioHomeModel.swift"
+      ],
+      "tests": ["Scripts/check-architecture.sh"],
       "fixtures": [],
-      "evidence": [],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-052-confini-fiducia-cmp001.md"
+      ],
       "gate": "G2",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {
