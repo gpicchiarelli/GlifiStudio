@@ -60,8 +60,8 @@ La documentazione è una baseline controllata: requisiti, architettura e decisio
 
 | Superficie | Baseline attuale |
 | --- | --- |
-| App macOS | `NavigationSplitView` nativa con percorso Must su GlifiKit (progetto `.glifi`, import, indagine, findings, export) |
-| App iPadOS | Stesso flusso Shared, adattivo per navigazione e file importer di sistema |
+| App macOS | `DocumentGroup` nativo su package `.glifi` + percorso Must GlifiKit |
+| App iPadOS | Stesso `DocumentGroup` Shared, adattivo per navigazione e importer di sistema |
 | `GlifiKit` | `ProjectSession` actor-isolated con progetto/import, query, planner, analisi persistenti, Investigation ed export scientifico; espone interpretazione, progresso e receipt senza tipi interni |
 | `GlifiCore` | Motore actor-based con import strict, `md-extract-v1`/SpanMap, package `.glifi`/SQLite generazionale, tokenizer italiano, `QueryAST`/KWIC, planner/esecutore, AnalysisDescriptor/DAG/Artifact, Evidence/Finding/Caveat, ReportRevision ed ExportManifest content-addressed |
 | `GlifiCLI` | Status, create/info/validate/import, query, piano/esecuzione, Investigation create/select/list, analyze, keyness ed export PDF/Markdown/CSV/JSON testuali/JSON v1 |

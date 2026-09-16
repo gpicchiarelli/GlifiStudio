@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- DocumentGroup SwiftUI per `.glifi` con UTType `studio.glifi.project`, Info.plist
+  document types e bookmark app-scope (GS-VER-040).
 - Salto KWIC→fonte via `sourceText` Kit, teste di indagine multiple, cancellazione
   esecuzione e import multiplo nella UI Must (GS-VER-039).
 - Selezione editoriale dei findings e riapertura dell'ultimo progetto `.glifi` nella

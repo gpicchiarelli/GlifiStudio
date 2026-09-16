@@ -133,16 +133,20 @@ final class StudioHomeModel {
             try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
             let sanitized = Self.sanitizeFileName(projectNameDraft)
             let url = root.appending(path: "\(sanitized).glifi", directoryHint: .isDirectory)
-            if FileManager.default.fileExists(atPath: url.path) {
-                try FileManager.default.removeItem(at: url)
+            try await initializePackage(at: url, replaceExisting: true)
+        }
+    }
+
+    func attachDocument(at url: URL?, needsPackageInitialization: Bool) async {
+        guard let url else {
+            return
+        }
+        if needsPackageInitialization {
+            await run(messageKey: "progress.creating-project") {
+                try await initializePackage(at: url, replaceExisting: true)
             }
-            await closeSession()
-            let created = try await service.createProject(at: url)
-            session = created
-            projectURL = url
-            rememberProject(url)
-            snapshot = try await created.snapshot()
-            clearAnalysisState()
+        } else if projectURL != url {
+            await openProject(at: url)
         }
     }
 
@@ -416,6 +420,27 @@ final class StudioHomeModel {
             targetSourceRevisionIDs: Array(selectedTargetRevisionIDs).sorted(),
             referenceSourceRevisionIDs: Array(selectedReferenceRevisionIDs).sorted()
         )
+    }
+
+    private func initializePackage(at url: URL, replaceExisting: Bool) async throws {
+        if replaceExisting, FileManager.default.fileExists(atPath: url.path) {
+            let manifest = url.appending(path: "manifest.json")
+            let isEmptyPackage =
+                (try? FileManager.default.contentsOfDirectory(atPath: url.path))?.isEmpty == true
+            let isIncomplete = !FileManager.default.fileExists(atPath: manifest.path)
+            if isEmptyPackage || isIncomplete {
+                try FileManager.default.removeItem(at: url)
+            } else if replaceExisting {
+                try FileManager.default.removeItem(at: url)
+            }
+        }
+        await closeSession()
+        let created = try await service.createProject(at: url)
+        session = created
+        projectURL = url
+        rememberProject(url)
+        snapshot = try await created.snapshot()
+        clearAnalysisState()
     }
 
     private func requireSession() throws -> GlifiStudioProjectSession {

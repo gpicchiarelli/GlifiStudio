@@ -21,6 +21,8 @@
 		B1000000000000000000000C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = A1000000000000000000000F /* PrivacyInfo.xcprivacy */; };
 		B1000000000000000000000D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* Assets.xcassets */; };
 		B1000000000000000000000E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000011 /* Assets.xcassets */; };
+		B1000000000000000000000F /* GlifiStudioDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* GlifiStudioDocument.swift */; };
+		B10000000000000000000010 /* GlifiStudioDocument.swift in Sources */ = {isa = PBXBuildFile; fileRef = A10000000000000000000012 /* GlifiStudioDocument.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +43,8 @@
 		A1000000000000000000000F /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		A10000000000000000000010 /* GlifiStudio-macOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "GlifiStudio-macOS.entitlements"; sourceTree = "<group>"; };
 		A10000000000000000000011 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A10000000000000000000012 /* GlifiStudioDocument.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlifiStudioDocument.swift; sourceTree = "<group>"; };
+		A10000000000000000000013 /* GlifiStudio-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GlifiStudio-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -87,6 +91,7 @@
 			children = (
 				A10000000000000000000001 /* StudioHomeView.swift */,
 				A1000000000000000000000E /* StudioHomeModel.swift */,
+				A10000000000000000000012 /* GlifiStudioDocument.swift */,
 				C10000000000000000000008 /* Resources */,
 			);
 			path = Shared;
@@ -119,6 +124,7 @@
 				A1000000000000000000000B /* iPadOS-Debug.xcconfig */,
 				A1000000000000000000000C /* iPadOS-Release.xcconfig */,
 				A10000000000000000000010 /* GlifiStudio-macOS.entitlements */,
+				A10000000000000000000013 /* GlifiStudio-Info.plist */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -266,6 +272,7 @@
 			files = (
 				B10000000000000000000001 /* StudioHomeView.swift in Sources */,
 				B10000000000000000000009 /* StudioHomeModel.swift in Sources */,
+				B1000000000000000000000F /* GlifiStudioDocument.swift in Sources */,
 				B10000000000000000000002 /* GlifiStudioMacApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -276,6 +283,7 @@
 			files = (
 				B10000000000000000000003 /* StudioHomeView.swift in Sources */,
 				B1000000000000000000000A /* StudioHomeModel.swift in Sources */,
+				B10000000000000000000010 /* GlifiStudioDocument.swift in Sources */,
 				B10000000000000000000004 /* GlifiStudioPadApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

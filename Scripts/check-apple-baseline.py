@@ -137,6 +137,7 @@ def main() -> int:
     expected_entitlements = {
         "com.apple.security.app-sandbox": True,
         "com.apple.security.files.user-selected.read-write": True,
+        "com.apple.security.files.bookmarks.app-scope": True,
     }
     if entitlements != expected_entitlements:
         errors.append("Gli entitlement macOS devono rispettare il minimo privilegio approvato.")

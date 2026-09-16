@@ -42,11 +42,19 @@ private enum StudioSection: String, CaseIterable, Identifiable {
 }
 
 struct StudioHomeView: View {
+    var documentURL: URL?
+    var needsPackageInitialization: Bool
+
     @State private var model = StudioHomeModel()
     @State private var selection: StudioSection? = .overview
     @State private var isSourceImporterPresented = false
     @State private var isProjectImporterPresented = false
     @State private var isExportFolderPresented = false
+
+    init(documentURL: URL? = nil, needsPackageInitialization: Bool = false) {
+        self.documentURL = documentURL
+        self.needsPackageInitialization = needsPackageInitialization
+    }
 
     var body: some View {
         NavigationSplitView {
@@ -128,8 +136,12 @@ struct StudioHomeView: View {
         .safeAreaInset(edge: .bottom) {
             statusBar
         }
-        .task {
+        .task(id: documentURL?.path) {
             await model.prepare()
+            await model.attachDocument(
+                at: documentURL,
+                needsPackageInitialization: needsPackageInitialization
+            )
         }
     }
 
@@ -764,4 +776,11 @@ private extension GlifiStudioFinding {
 #Preview("Right to left") {
     StudioHomeView()
         .environment(\.layoutDirection, .rightToLeft)
+}
+
+#Preview("Document") {
+    StudioHomeView(
+        documentURL: URL(filePath: "/tmp/Anteprima.glifi"),
+        needsPackageInitialization: true
+    )
 }

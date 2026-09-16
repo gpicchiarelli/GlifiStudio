@@ -5,9 +5,12 @@ import SwiftUI
 @main
 struct GlifiStudioMacApp: App {
     var body: some Scene {
-        WindowGroup {
-            StudioHomeView()
+        DocumentGroup(newDocument: GlifiStudioDocument.init) { file in
+            StudioHomeView(
+                documentURL: file.fileURL,
+                needsPackageInitialization: file.document.needsPackageInitialization
+            )
         }
-        .defaultSize(width: 1000, height: 700)
+        .defaultSize(width: 1100, height: 740)
     }
 }

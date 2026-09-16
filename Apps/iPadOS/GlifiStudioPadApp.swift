@@ -5,8 +5,11 @@ import SwiftUI
 @main
 struct GlifiStudioPadApp: App {
     var body: some Scene {
-        WindowGroup {
-            StudioHomeView()
+        DocumentGroup(newDocument: GlifiStudioDocument.init) { file in
+            StudioHomeView(
+                documentURL: file.fileURL,
+                needsPackageInitialization: file.document.needsPackageInitialization
+            )
         }
     }
 }
