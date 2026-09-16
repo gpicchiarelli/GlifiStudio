@@ -26,11 +26,11 @@ cosa è chiuso in codice/documentazione e cosa resta bloccato da ambiente.
 - [x] Salto KWIC→fonte e Evidence→fonte
 - [x] Trasparenza ranking, SupportPolicy, lineage Evidence e proposizione tipizzata
 - [x] Trasparenza piano/esecuzione/query/fonti/export e metadati scientifici
-      corpus/keyness (GS-VER-060…073)
+      corpus/keyness (GS-VER-060…074)
 - [x] ValidationManifest V0–V4 × 8 capability Must
 - [x] DoR operativa (GS-DOR-001) e CMP-001/010/012/014 implemented
 - [x] `make quality-static` verde sul tip
-- [x] Checklist candidatura aggiornata a GS-VER-073
+- [x] Checklist candidatura aggiornata a GS-VER-074
 
 ## Aperto (non G3 funzionale)
 
