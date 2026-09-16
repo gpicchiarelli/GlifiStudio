@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Matrice sparsa Kit, unità di carattere e identificatori MSTTR/MATTR in UI
+  (GS-VER-069).
 - Richiesta export scientifica e progresso Query nel percorso Must
   (GS-VER-068).
 - Metadati scientifici corpus e keyness (digest, contratti, frequenze) in UI

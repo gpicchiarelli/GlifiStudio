@@ -432,13 +432,82 @@ struct StudioHomeView: View {
                                 .font(.caption2.monospaced())
                                 .textSelection(.enabled)
                         }
+                        LabeledContent("corpus.analysis.character-unit") {
+                            Text(corpus.characterUnitIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        revisionIDList(
+                            titleKey: "corpus.analysis.source-revisions",
+                            ids: corpus.sourceRevisionIDs
+                        )
+                    }
+                    Section("corpus.analysis.matrix") {
                         LabeledContent("corpus.analysis.matrix-unit") {
                             Text(corpus.matrix.unitKind)
                                 .font(.caption2.monospaced())
                         }
+                        LabeledContent("corpus.analysis.matrix-count-id") {
+                            Text(corpus.matrix.countIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-tf-id") {
+                            Text(corpus.matrix.tfIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-idf-id") {
+                            Text(corpus.matrix.idfIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-tfidf-id") {
+                            Text(corpus.matrix.tfidfIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-terms") {
+                            Text(corpus.matrix.terms.count, format: .number)
+                                .monospacedDigit()
+                        }
                         LabeledContent("corpus.analysis.matrix-cells") {
                             Text(corpus.matrix.cells.count, format: .number)
                                 .monospacedDigit()
+                        }
+                        revisionIDList(
+                            titleKey: "corpus.analysis.matrix-rows",
+                            ids: corpus.matrix.rowSourceRevisionIDs
+                        )
+                        ForEach(
+                            Array(corpus.matrix.cells.prefix(8).enumerated()),
+                            id: \.offset
+                        ) { _, cell in
+                            VStack(alignment: .leading, spacing: 2) {
+                                LabeledContent("corpus.analysis.matrix-cell") {
+                                    Text("\(cell.rowIndex),\(cell.columnIndex)")
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("corpus.analysis.matrix-cell-count") {
+                                    Text(cell.count, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("corpus.analysis.matrix-cell-tf") {
+                                    Text(
+                                        cell.tfRaw,
+                                        format: .number.precision(.fractionLength(4))
+                                    )
+                                    .monospacedDigit()
+                                }
+                                LabeledContent("corpus.analysis.matrix-cell-tfidf") {
+                                    Text(
+                                        cell.tfidfSmooth,
+                                        format: .number.precision(.fractionLength(4))
+                                    )
+                                    .monospacedDigit()
+                                }
+                            }
+                            .accessibilityElement(children: .combine)
                         }
                     }
                     Section("corpus.diversity.title") {
@@ -455,6 +524,16 @@ struct StudioHomeView: View {
                         }
                         LabeledContent("corpus.diversity.ttr-id") {
                             Text(corpus.diversity.ttrIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.diversity.msttr-id") {
+                            Text(corpus.diversity.msttrIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.diversity.mattr-id") {
+                            Text(corpus.diversity.mattrIdentifier)
                                 .font(.caption2.monospaced())
                                 .textSelection(.enabled)
                         }
