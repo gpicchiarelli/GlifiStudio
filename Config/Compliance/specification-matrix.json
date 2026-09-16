@@ -194,12 +194,24 @@
       "clause": "GS-API-001 § 6 Operazioni asincrone",
       "specification": "docs/api/README.md",
       "requirements": ["RQ-011", "RQ-060"],
-      "code": [],
-      "tests": [],
-      "fixtures": [],
-      "evidence": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiAnalysisExecutionPresentation.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Apps/Shared/StudioHomeModel.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisExecutionTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"
+      ],
+      "fixtures": ["Fixtures/Validation/v1/analysis-execution-v1.json"],
+      "evidence": [
+        "docs/evidenze/GS-VER-028-esecuzione-piano-progressi.md",
+        "docs/evidenze/GS-VER-050-execution-artifacts-assessment-ui.md",
+        "docs/evidenze/GS-VER-051-execution-manifest-e-cmp010.md"
+      ],
       "gate": "G2",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {

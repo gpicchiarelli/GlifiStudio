@@ -38,6 +38,11 @@
       "id": "validation-investigation-history-v1",
       "path": "Fixtures/Validation/v1/investigation-history-v1.json",
       "status": "candidate"
+    },
+    {
+      "id": "validation-analysis-execution-v1",
+      "path": "Fixtures/Validation/v1/analysis-execution-v1.json",
+      "status": "candidate"
     }
   ]
 }

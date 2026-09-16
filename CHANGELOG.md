@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- ValidationManifest `analysis-execution-v1`, catalogo a otto manifest Must e
+  CMP-010 `implemented` (GS-VER-051).
 - Artifact di esecuzione, metadati interpretazione e dimensioni assessment in UI
   (GS-VER-050).
 - Salto Evidence→fonte in UI Must e ValidationManifest
