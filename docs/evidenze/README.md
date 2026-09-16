@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.52.0 |
+| Versione | 0.53.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -68,3 +68,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-052 — Confini di fiducia e CMP-001](GS-VER-052-confini-fiducia-cmp001.md) — Superato localmente
 - [GS-VER-053 — Definition of Ready operativa](GS-VER-053-definition-of-ready-operativa.md) — Superato localmente
 - [GS-VER-054 — Navigazione percorso Must e severità Caveat](GS-VER-054-must-nav-caveat-severity.md) — Superato localmente
+- [GS-VER-055 — InsufficientEvidence dettagliato e metodi Evidence](GS-VER-055-insufficient-evidence-metodi.md) — Superato localmente

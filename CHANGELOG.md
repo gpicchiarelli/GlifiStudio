@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Dettaglio `insufficientEvidence` e methodIdentifiers Evidence in UI
+  (GS-VER-055).
 - Navigazione Overview→sezioni Must e severità Caveat in UI (GS-VER-054).
 - Definition of Ready operativa (scheda, template PR, check-docs) e CMP-014
   `implemented` (GS-VER-053).

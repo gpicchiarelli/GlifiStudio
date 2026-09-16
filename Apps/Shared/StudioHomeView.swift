@@ -775,11 +775,46 @@ struct StudioHomeView: View {
     private var findings: some View {
         Group {
             if let insufficient = model.insufficientEvidence, model.findings.isEmpty {
-                ContentUnavailableView {
-                    Label("findings.insufficient.title", systemImage: "exclamationmark.bubble")
-                } description: {
-                    Text(LocalizedStringKey(insufficient.messageKey))
+                Form {
+                    Section {
+                        ContentUnavailableView {
+                            Label(
+                                "findings.insufficient.title",
+                                systemImage: "exclamationmark.bubble"
+                            )
+                        } description: {
+                            Text(LocalizedStringKey(insufficient.messageKey))
+                        }
+                    }
+                    Section("findings.insufficient.reasons") {
+                        ForEach(insufficient.reasonIdentifiers, id: \.self) { reason in
+                            Text(reason)
+                                .font(.caption.monospaced())
+                        }
+                    }
+                    if !insufficient.caveats.isEmpty {
+                        Section("finding.caveats") {
+                            ForEach(
+                                Array(insufficient.caveats.enumerated()),
+                                id: \.offset
+                            ) { _, caveat in
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(LocalizedStringKey(caveat.identifier))
+                                    LabeledContent("finding.caveat.severity") {
+                                        Text(
+                                            LocalizedStringKey(
+                                                "caveat.severity.\(caveat.severity)"
+                                            )
+                                        )
+                                        .font(.caption)
+                                    }
+                                }
+                                .accessibilityElement(children: .combine)
+                            }
+                        }
+                    }
                 }
+                .formStyle(.grouped)
             } else if model.findings.isEmpty {
                 ContentUnavailableView {
                     Label("findings.empty.title", systemImage: "list.bullet.rectangle")
@@ -903,6 +938,15 @@ struct StudioHomeView: View {
                             LabeledContent("finding.evidence.validity") {
                                 Text(evidence.validity)
                                     .font(.caption.monospaced())
+                            }
+                            if !evidence.methodIdentifiers.isEmpty {
+                                ForEach(evidence.methodIdentifiers.prefix(6), id: \.self) { method in
+                                    LabeledContent("finding.evidence.method") {
+                                        Text(method)
+                                            .font(.caption2.monospaced())
+                                            .textSelection(.enabled)
+                                    }
+                                }
                             }
                             ForEach(evidence.measures.prefix(8), id: \.identifier) { measure in
                                 LabeledContent(measure.identifier) {

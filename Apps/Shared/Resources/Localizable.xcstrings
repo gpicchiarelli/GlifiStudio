@@ -2058,6 +2058,23 @@
         }
       }
     },
+    "finding.evidence.method" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Method"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Metodo"
+          }
+        }
+      }
+    },
     "finding.evidence.none" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2207,6 +2224,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nessun finding"
+          }
+        }
+      }
+    },
+    "findings.insufficient.reasons" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reasons"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Motivi"
           }
         }
       }
