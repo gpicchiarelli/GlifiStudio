@@ -178,6 +178,11 @@ struct StudioHomeView: View {
                         section: .investigation
                     )
                     mustProgressRow(
+                        "home.must-progress.query",
+                        done: model.mustPathHasQuery,
+                        section: .query
+                    )
+                    mustProgressRow(
                         "home.must-progress.findings",
                         done: model.mustPathHasFindings,
                         section: .findings
@@ -1793,6 +1798,38 @@ struct StudioHomeView: View {
                         Text(shortID(receipt.reportRevisionID))
                             .font(.caption.monospaced())
                             .textSelection(.enabled)
+                    }
+                }
+            }
+            if let request = model.lastExportRequest {
+                Section("export.request") {
+                    LabeledContent("export.request.schema") {
+                        Text(request.schemaIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("export.request.schema-version") {
+                        Text(request.schemaVersion, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("export.request.head-event") {
+                        Text(shortID(request.investigationHeadEventID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("export.request.locale") {
+                        Text(request.presentationLocaleIdentifier)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("export.request.time-zone") {
+                        Text(request.presentationTimeZoneIdentifier)
+                            .font(.caption.monospaced())
+                    }
+                    ForEach(request.formats, id: \.self) { format in
+                        LabeledContent("export.request.format") {
+                            Text(format)
+                                .font(.caption.monospaced())
+                        }
                     }
                 }
             }

@@ -63,6 +63,7 @@ final class StudioHomeModel {
     private(set) var focusedEvidenceID: String?
     private(set) var exportReceipt: GlifiStudioExportReceipt?
     private(set) var exportPreviewMarkdown: String?
+    private(set) var lastExportRequest: GlifiStudioScientificExportRequest?
     private(set) var selectedFindingID: String?
     private(set) var editorialSelectedFindingIDs: Set<String> = []
     private(set) var lastProjectBookmark: Data?
@@ -139,6 +140,7 @@ final class StudioHomeModel {
     var mustPathHasProject: Bool { snapshot != nil }
     var mustPathHasSources: Bool { (snapshot?.sourceCount ?? 0) > 0 }
     var mustPathHasPlanOrCorpus: Bool { planResult != nil || lastCorpusAnalysis != nil }
+    var mustPathHasQuery: Bool { queryResult != nil }
     var mustPathHasFindings: Bool { !findings.isEmpty || insufficientEvidence != nil }
     var mustPathHasInvestigation: Bool { investigation != nil }
     var mustPathHasExport: Bool { exportReceipt != nil }
@@ -263,6 +265,7 @@ final class StudioHomeModel {
             executionProgress = nil
             investigation = nil
             exportReceipt = nil
+            lastExportRequest = nil
             selectedFindingID = nil
         }
     }
@@ -454,6 +457,7 @@ final class StudioHomeModel {
                 investigationHeadEventID: investigation.headEventID,
                 formats: ["json", "markdown", "csv", "pdf"]
             )
+            lastExportRequest = request
             exportReceipt = try await active.exportInvestigation(
                 request,
                 to: destinationDirectory
@@ -558,6 +562,7 @@ final class StudioHomeModel {
         focusedEvidenceID = nil
         exportReceipt = nil
         exportPreviewMarkdown = nil
+        lastExportRequest = nil
         lastCorpusAnalysis = nil
         lastKeyness = nil
         selectedFindingID = nil

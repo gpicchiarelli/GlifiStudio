@@ -81,3 +81,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-065 — Provenienza fonti e fallimenti strutturati in UI](GS-VER-065-provenienza-fonti-fallimenti-ui.md) — Superato localmente
 - [GS-VER-066 — Coordinate query, lineage Evidence e indagine in UI](GS-VER-066-coordinate-query-evidence-indagine-ui.md) — Superato localmente
 - [GS-VER-067 — Metadati scientifici corpus e keyness in UI](GS-VER-067-metadati-scientifici-corpus-keyness-ui.md) — Superato localmente
+- [GS-VER-068 — Richiesta export e progresso query Must in UI](GS-VER-068-export-request-progresso-query-ui.md) — Superato localmente

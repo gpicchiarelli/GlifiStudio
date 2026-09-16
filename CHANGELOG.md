@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Richiesta export scientifica e progresso Query nel percorso Must
+  (GS-VER-068).
 - Metadati scientifici corpus e keyness (digest, contratti, frequenze) in UI
   (GS-VER-067).
 - Coordinate query, lineage Evidence e metadati indagine in UI (GS-VER-066).
