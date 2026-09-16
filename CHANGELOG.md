@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Caveat strutturati (causa/conseguenza/azione) e Artifact piano in UI
+  (GS-VER-060).
 - Proposizione Finding tipizzata e formati export Must in UI (GS-VER-059).
 - Ruolo/regione/range delle SourceReference Evidence in UI (GS-VER-058).
 - Checklist candidatura G3 funzionale e limiti ambiente (GS-VER-057).

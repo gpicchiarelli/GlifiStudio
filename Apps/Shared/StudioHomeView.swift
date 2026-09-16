@@ -550,6 +550,11 @@ struct StudioHomeView: View {
                     LabeledContent("plan.status") {
                         Text(LocalizedStringKey("plan.status.\(plan.plan.status)"))
                     }
+                    LabeledContent("plan.artifact") {
+                        Text(shortID(plan.artifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("plan.sources") {
                         Text(plan.plan.collectionProfile.sourceCount, format: .number)
                             .monospacedDigit()
@@ -1324,6 +1329,32 @@ struct StudioHomeView: View {
             LabeledContent("finding.caveat.severity") {
                 Text(LocalizedStringKey("caveat.severity.\(caveat.severity)"))
                     .font(.caption)
+            }
+            LabeledContent("finding.caveat.scope") {
+                Text(caveat.scope)
+                    .font(.caption.monospaced())
+            }
+            LabeledContent("finding.caveat.cause") {
+                Text(caveat.causeIdentifier)
+                    .font(.caption2.monospaced())
+                    .textSelection(.enabled)
+            }
+            LabeledContent("finding.caveat.consequence") {
+                Text(caveat.consequenceIdentifier)
+                    .font(.caption2.monospaced())
+                    .textSelection(.enabled)
+            }
+            if let action = caveat.actionIdentifier {
+                LabeledContent("finding.caveat.action") {
+                    Text(action)
+                        .font(.caption2.monospaced())
+                        .textSelection(.enabled)
+                }
+            }
+            LabeledContent("finding.caveat.origin") {
+                Text(caveat.originIdentifier)
+                    .font(.caption2.monospaced())
+                    .textSelection(.enabled)
             }
         }
         .accessibilityElement(children: .combine)
