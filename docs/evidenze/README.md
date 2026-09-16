@@ -86,3 +86,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-070 — Popolazioni e frequenze relative keyness in UI](GS-VER-070-keyness-popolazioni-frequenze-relative-ui.md) — Superato localmente
 - [GS-VER-071 — Progresso esecuzione, argomenti failure e selezione indagine](GS-VER-071-progresso-failure-selezione-indagine-ui.md) — Superato localmente
 - [GS-VER-072 — Identità progetto su piano, corpus ed esecuzione](GS-VER-072-project-id-piano-corpus-esecuzione-ui.md) — Superato localmente
+- [GS-VER-073 — Vocabolario matrice e bound opzioni analisi](GS-VER-073-vocabolario-matrice-opzioni-analisi-ui.md) — Superato localmente

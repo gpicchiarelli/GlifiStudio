@@ -46,7 +46,9 @@ final class StudioHomeModel {
     private(set) var snapshot: GlifiStudioProjectSnapshot?
     private(set) var lastProfile: GlifiStudioTextProfile?
     private(set) var lastCorpusAnalysis: GlifiStudioCorpusAnalysisResult?
+    private(set) var lastCorpusOptions: GlifiStudioCorpusAnalysisOptions?
     private(set) var lastKeyness: GlifiStudioKeynessResult?
+    private(set) var lastKeynessOptions: GlifiStudioKeynessOptions?
     private(set) var lastImportedFileName: String?
     private(set) var importProgressCompleted: Int = 0
     private(set) var importProgressTotal: Int = 0
@@ -413,9 +415,11 @@ final class StudioHomeModel {
     func analyzeCorpusNow() async {
         await run(messageKey: "progress.analyzing-corpus") {
             let active = try requireSession()
-            let result = try await active.analyzeCorpus()
+            let options = GlifiStudioCorpusAnalysisOptions.standard
+            let result = try await active.analyzeCorpus(options: options)
             snapshot = try await active.snapshot()
             lastCorpusAnalysis = result
+            lastCorpusOptions = options
             lastProfile = nil
         }
     }
@@ -432,12 +436,18 @@ final class StudioHomeModel {
             guard overlap.isEmpty else {
                 throw presentationFailure(messageKey: "failure.keyness.overlapping-groups")
             }
+            let corpusOptions = GlifiStudioCorpusAnalysisOptions.standard
+            let keynessOptions = GlifiStudioKeynessOptions.standard
             let result = try await active.compareKeyness(
                 targetSourceRevisionIDs: target,
-                referenceSourceRevisionIDs: reference
+                referenceSourceRevisionIDs: reference,
+                corpusOptions: corpusOptions,
+                keynessOptions: keynessOptions
             )
             snapshot = try await active.snapshot()
             lastKeyness = result
+            lastKeynessOptions = keynessOptions
+            lastCorpusOptions = corpusOptions
         }
     }
 
@@ -564,7 +574,9 @@ final class StudioHomeModel {
         exportPreviewMarkdown = nil
         lastExportRequest = nil
         lastCorpusAnalysis = nil
+        lastCorpusOptions = nil
         lastKeyness = nil
+        lastKeynessOptions = nil
         selectedFindingID = nil
         selectedTargetRevisionIDs = []
         selectedReferenceRevisionIDs = []

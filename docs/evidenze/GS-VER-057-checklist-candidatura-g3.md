@@ -11,7 +11,7 @@
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-17 |
 | Approvazione | Evidenza operativa dell'iniziatore del progetto |
-| Riferimenti | GS-PROD-001 G3; GS-DOR-001; GS-VER-035…072 |
+| Riferimenti | GS-PROD-001 G3; GS-DOR-001; GS-VER-035…073 |
 
 ## Ambito
 

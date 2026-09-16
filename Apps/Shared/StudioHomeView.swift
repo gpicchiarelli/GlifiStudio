@@ -476,6 +476,16 @@ struct StudioHomeView: View {
                             Text(corpus.matrix.terms.count, format: .number)
                                 .monospacedDigit()
                         }
+                        ForEach(
+                            Array(corpus.matrix.terms.prefix(16).enumerated()),
+                            id: \.offset
+                        ) { index, term in
+                            LabeledContent("corpus.analysis.matrix-term") {
+                                Text("\(index): \(term)")
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                        }
                         LabeledContent("corpus.analysis.matrix-cells") {
                             Text(corpus.matrix.cells.count, format: .number)
                                 .monospacedDigit()
@@ -584,6 +594,38 @@ struct StudioHomeView: View {
                                         .monospacedDigit()
                                 }
                                 .accessibilityElement(children: .combine)
+                            }
+                        }
+                    }
+                    if let options = model.lastCorpusOptions {
+                        Section("corpus.options.title") {
+                            LabeledContent("corpus.options.diversity-window") {
+                                Text(options.diversityWindowSize, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("corpus.options.ngram-sizes") {
+                                Text(options.ngramSizes.map(String.init).joined(separator: ", "))
+                                    .font(.caption.monospaced())
+                            }
+                            LabeledContent("corpus.options.max-documents") {
+                                Text(options.maximumDocumentCount, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("corpus.options.max-source-bytes") {
+                                Text(options.maximumSourceByteCount, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("corpus.options.max-vocabulary") {
+                                Text(options.maximumVocabularySize, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("corpus.options.max-ngrams") {
+                                Text(options.maximumDistinctNGramCount, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("corpus.options.max-nonzero-cells") {
+                                Text(options.maximumNonZeroCellCount, format: .number)
+                                    .monospacedDigit()
                             }
                         }
                     }
@@ -868,6 +910,21 @@ struct StudioHomeView: View {
                             }
                         }
                         .accessibilityElement(children: .combine)
+                    }
+                }
+                if let options = model.lastKeynessOptions {
+                    Section("keyness.options.title") {
+                        LabeledContent("keyness.options.max-hypotheses") {
+                            Text(options.maximumHypothesisCount, format: .number)
+                                .monospacedDigit()
+                        }
+                        LabeledContent("keyness.options.low-expected-threshold") {
+                            Text(
+                                options.lowExpectedCountThreshold,
+                                format: .number.precision(.fractionLength(2))
+                            )
+                            .monospacedDigit()
+                        }
                     }
                 }
             }
