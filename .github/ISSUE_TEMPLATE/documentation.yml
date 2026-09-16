@@ -1,0 +1,37 @@
+# SPDX-License-Identifier: BSD-3-Clause
+
+name: Documentazione
+description: Segnala un errore, un'ambiguità o una lacuna documentale.
+title: "docs: "
+labels:
+  - type:documentation
+  - status:triage
+body:
+  - type: input
+    id: documento
+    attributes:
+      label: Documento o identificatore
+      description: Percorso, ID controllato o sezione interessata.
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: Problema
+      description: Distingui errore fattuale, incoerenza, ambiguità e contenuto mancante.
+    validations:
+      required: true
+  - type: textarea
+    id: modifica
+    attributes:
+      label: Correzione proposta
+      description: Indica fonti, requisiti o ADR che sostengono la proposta.
+    validations:
+      required: true
+  - type: checkboxes
+    id: controllo
+    attributes:
+      label: Riservatezza
+      options:
+        - label: La segnalazione non include informazioni riservate o dati personali.
+          required: true

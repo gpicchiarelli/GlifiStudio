@@ -1,0 +1,13 @@
+{
+  "schema": "studio.glifi.fixture-catalog",
+  "schemaVersion": 1,
+  "license": "BSD-3-Clause",
+  "updatedAt": "2026-09-15",
+  "collections": [
+    {"id": "it-token-v1-seed", "path": "Fixtures/Linguistics/it-v1/manifest.json", "status": "seed-not-gold"},
+    {"id": "scientific-v1-seed", "path": "Fixtures/Scientific/v1/manifest.json", "status": "seed-v1-only"},
+    {"id": "adversarial-v1-descriptors", "path": "Fixtures/Adversarial/v1/manifest.json", "status": "safe-descriptors-only"},
+    {"id": "query-v1-seed", "path": "Fixtures/Query/v1/manifest.json", "status": "seed-v1-only"},
+    {"id": "markdown-v1-seed", "path": "Fixtures/Markdown/v1/manifest.json", "status": "seed-v1-only"}
+  ]
+}
