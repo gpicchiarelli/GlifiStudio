@@ -1,0 +1,55 @@
+{
+  "schema": "studio.glifi.validation-manifest",
+  "schemaVersion": 1,
+  "id": "validation-keyness-gtest-ha-bh-v1",
+  "capabilityIdentifier": "keyness-gtest-ha-bh-v1",
+  "methodIdentifiers": [
+    "GTest-v1",
+    "ChiSquareSurvival-df1-erfc-v1",
+    "OddsRatio-HA-v1",
+    "LogRatio-HA-v1-base2",
+    "BenjaminiHochberg-v1"
+  ],
+  "status": "candidate",
+  "license": "BSD-3-Clause",
+  "toolchain": {
+    "swiftLanguageMode": "6",
+    "swiftToolsVersion": "6.4",
+    "platforms": ["macOS 27", "iPadOS 27"]
+  },
+  "levels": {
+    "V0": {
+      "status": "pass",
+      "description": "Schema confronto e precondizioni gruppi disgiunti verificate."
+    },
+    "V1": {
+      "status": "pass",
+      "description": "Casi degeneri e conteggi attesi bassi nei test Core."
+    },
+    "V2": {
+      "status": "pass",
+      "description": "Oracolo indipendente su keyness-gtest-ha-bh-v1 in reference-cases."
+    },
+    "V3": {
+      "status": "pass",
+      "description": "Persistenza Artifact e riuso dopo riapertura (GS-VER-023)."
+    },
+    "V4": {
+      "status": "pass",
+      "description": "Fixture scientifiche versionate come golden numerico.",
+      "datasets": ["Fixtures/Scientific/v1/reference-cases.json"]
+    },
+    "V5": {
+      "status": "not-applicable",
+      "description": "Un solo backend nel nucleo 0.1."
+    }
+  },
+  "limits": [
+    "SupportPolicy forte/debole (DA-029) ancora aperta.",
+    "Dataset esterni pubblicati non ancora collegati."
+  ],
+  "evidence": [
+    "docs/evidenze/GS-VER-023-keyness-gtest-bh.md",
+    "docs/evidenze/GS-VER-036-validation-manifest-nucleo.md"
+  ]
+}

@@ -8,6 +8,12 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Percorso produttivo 0.1: G1 leggero (ADR-0002 accettato, roadmap attiva),
+  vertical slice UI Must su GlifiKit (progetto, import, indagine, piano/esecuzione,
+  KWIC, findings, export), corpus gold token V0, ValidationManifest V0–V4 per
+  profilo corpus e keyness, checklist G4 a11y e runbook App Store unlisted.
+- Evidenze GS-VER-034…037 e aggiornamento CMP-016/CMP-017 a `implemented`.
+
 - Loop di qualità locale `make format` / `make lint` / `make quality-static` /
   `make quality` con controllo dialettale `check-swift-dialect`, job CI
   `static-quality` (Ubuntu), `format-check` e `verify` (Xcode 27), più cache SPM

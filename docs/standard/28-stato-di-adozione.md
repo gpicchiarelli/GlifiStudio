@@ -16,7 +16,7 @@
 | Standard interno | Completo, proposto | Assegnare responsabili e approvare la baseline |
 | Documentazione controllata | Strutturata e verificata automaticamente | Approvare gli information item sostanziali |
 | Requisiti | Baseline candidata | Assegnare priorità, metriche e validazione stakeholder |
-| Architettura | Baseline candidata con ADR | Chiudere decisioni critiche e accettare ADR-0002 |
+| Architettura | Separazione prodotto/motore accettata (ADR-0002) | Mantenere il gate `check-architecture` e la superficie Kit |
 | Fondazione scientifica | GS-MET-001 e ADR-0013 definiti; nessun metodo di dominio ancora implementato | Revisionare formule, scegliere subset MVP, corpus gold e tolleranze |
 | Esperienza utente | GS-UX-001 e ADR-0014 definiti; scaffold UI non implementa ancora il paradigma | Prototipare, definire soglie e validare con utenti e tecnologie assistive |
 | Design implementativo | Dieci specifiche GS-DOM–GS-PROD e ADR-0016 definite; baseline 0.1 delimitata | Approvare G1 e costruire i vertical prototype nell'ordine DOM/DAT/ANA/UI/RUN |

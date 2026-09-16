@@ -6,11 +6,11 @@
 | --- | --- |
 | Identificatore | GS-PROD-001 |
 | Tipo | Product baseline e criterio di completezza |
-| Versione | 1.0.0 |
-| Stato | Bozza controllata |
+| Versione | 1.1.0 |
+| Stato | Baseline controllata |
 | Responsabile | Iniziatore del progetto |
-| Ultima modifica | 2026-09-15 |
-| Approvazione | Baseline candidata del prodotto 0.1; approvazione al gate G1 richiesta |
+| Ultima modifica | 2026-09-16 |
+| Approvazione | G1 leggero approvato: Must 0.1 congelati; G2 headless evidenziato; G3 dipende dalla UI Must |
 | Riferimenti | GS-VIS-001; GS-SRS-001; GS-UX-001; GS-MET-001; ADR-0011; ADR-0016 |
 
 ## Obiettivo del prodotto 0.1
@@ -123,13 +123,13 @@ Il rilascio è candidato solo se:
 
 ## Criteri di uscita G1–G5
 
-| Gate | Uscita necessaria per 0.1 |
-| --- | --- |
-| G1 Baseline | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD approvati; owner e rischi assegnati |
-| G2 Architettura | Vertical slice `.glifi` TXT → query/KWIC → fonte; prototipi persistence/runtime validati |
-| G3 Feature complete | Tutti i Must integrati, nessun placeholder nei flussi, migrazioni e export attivi |
-| G4 Release candidate | Suite completa, dispositivi, accessibilità, performance, sicurezza e TestFlight superati |
-| G5 Release | Firma/record definitivi, review accettata, richiesta unlisted approvata e runbook operativo |
+| Gate | Uscita necessaria per 0.1 | Stato 2026-09-16 |
+| --- | --- | --- |
+| G1 Baseline | GS-DOM/DAT/LNG/QRY/ANA/RUN/UI/VIZ/VAL/PROD approvati; owner e rischi assegnati | **Chiuso (leggero)**: Must congelati, ADR-0002 accettato, owner minimi sull'iniziatore; decisioni non bloccanti parcheggiate |
+| G2 Architettura | Vertical slice `.glifi` TXT → query/KWIC → fonte; prototipi persistence/runtime validati | **Chiuso (headless)**: evidenze GS-VER-018…033; UI nativa aperta |
+| G3 Feature complete | Tutti i Must integrati, nessun placeholder nei flussi, migrazioni e export attivi | **In corso**: UI Must sul Kit |
+| G4 Release candidate | Suite completa, dispositivi, accessibilità, performance, sicurezza e TestFlight superati | Aperto |
+| G5 Release | Firma/record definitivi, review accettata, richiesta unlisted approvata e runbook operativo | Aperto |
 
 Un gate non è superato dalla sola presenza del documento. Ogni risultato deve
 puntare a evidenze riproducibili e limiti residui.

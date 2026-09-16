@@ -3,74 +3,362 @@
 import Foundation
 import GlifiKit
 import Observation
+import UniformTypeIdentifiers
+
+extension UTType {
+    /// Package document type for `.glifi` projects (`studio.glifi.project`).
+    static var glifiProject: UTType {
+        UTType(exportedAs: "studio.glifi.project", conformingTo: .package)
+    }
+}
 
 enum EnginePresentationState: Sendable {
     case checking
     case ready
 }
 
-enum TextProfilePresentationState: Sendable {
-    case empty
-    case loading
-    case ready(GlifiStudioTextProfile)
-    case failed(messageKey: String)
+enum StudioBusyState: Sendable, Equatable {
+    case idle
+    case working(messageKey: String)
+}
+
+enum StudioIntentOption: String, CaseIterable, Identifiable, Sendable {
+    case understandCollection = "understand.collection"
+    case discoverContents = "discover.contents"
+    case compareObjects = "compare.objects"
+    case searchSources = "search.sources"
+    case reviewCompletely = "review.completely"
+
+    var id: String { rawValue }
+
+    var titleKey: String {
+        "intent.\(rawValue.replacingOccurrences(of: ".", with: "-"))"
+    }
 }
 
 @MainActor
 @Observable
 final class StudioHomeModel {
     private(set) var engineState: EnginePresentationState = .checking
-    private(set) var profileState: TextProfilePresentationState = .empty
-    private(set) var importedFileName: String?
+    private(set) var busyState: StudioBusyState = .idle
+    private(set) var failureMessageKey: String?
+    private(set) var projectURL: URL?
+    private(set) var snapshot: GlifiStudioProjectSnapshot?
+    private(set) var lastProfile: GlifiStudioTextProfile?
+    private(set) var lastImportedFileName: String?
+    private(set) var planResult: GlifiStudioAnalysisPlanResult?
+    private(set) var executionResult: GlifiStudioAnalysisExecutionResult?
+    private(set) var executionProgress: GlifiStudioOperationProgress?
+    private(set) var investigation: GlifiStudioInvestigation?
+    private(set) var queryResult: GlifiStudioProjectQueryResult?
+    private(set) var exportReceipt: GlifiStudioExportReceipt?
+    private(set) var selectedFindingID: String?
+
+    var projectNameDraft = "Indagine"
+    var questionDraft = "Che cosa contiene questa raccolta?"
+    var selectedIntent: StudioIntentOption = .understandCollection
+    var queryDraft = ""
+    var selectedTargetRevisionIDs: Set<String> = []
+    var selectedReferenceRevisionIDs: Set<String> = []
 
     private let service: GlifiStudioService
+    private var session: GlifiStudioProjectSession?
+    private var activeExecution: GlifiStudioAnalysisExecution?
 
     init(service: GlifiStudioService = GlifiStudioService()) {
         self.service = service
     }
 
+    var isBusy: Bool {
+        if case .working = busyState {
+            return true
+        }
+        return false
+    }
+
+    var findings: [GlifiStudioFinding] {
+        executionResult?.interpretation.findings ?? []
+    }
+
+    var insufficientEvidence: GlifiStudioInsufficientEvidenceOutcome? {
+        executionResult?.interpretation.insufficientEvidence
+    }
+
+    var selectedFinding: GlifiStudioFinding? {
+        guard let selectedFindingID else {
+            return findings.first
+        }
+        return findings.first { $0.id == selectedFindingID } ?? findings.first
+    }
+
+    var evidenceForSelectedFinding: [GlifiStudioEvidence] {
+        guard let finding = selectedFinding else {
+            return []
+        }
+        let ids = Set(finding.evidenceReferences.map(\.evidenceID))
+        return (executionResult?.interpretation.evidence ?? []).filter { ids.contains($0.id) }
+    }
+
     func prepare() async {
         let status = await service.status()
-
         guard !Task.isCancelled else {
             return
         }
-
         switch status {
         case .ready:
             engineState = .ready
         }
     }
 
-    func profileFile(at url: URL) async {
-        profileState = .loading
-        importedFileName = url.lastPathComponent
-        let accessGranted = url.startAccessingSecurityScopedResource()
-        defer {
-            if accessGranted {
-                url.stopAccessingSecurityScopedResource()
+    func createProject() async {
+        await run(messageKey: "progress.creating-project") {
+            let root = try Self.projectsRoot()
+            try FileManager.default.createDirectory(at: root, withIntermediateDirectories: true)
+            let sanitized = Self.sanitizeFileName(projectNameDraft)
+            let url = root.appending(path: "\(sanitized).glifi", directoryHint: .isDirectory)
+            if FileManager.default.fileExists(atPath: url.path) {
+                try FileManager.default.removeItem(at: url)
             }
+            await closeSession()
+            let created = try await service.createProject(at: url)
+            session = created
+            projectURL = url
+            snapshot = try await created.snapshot()
+            clearAnalysisState()
         }
+    }
 
-        do {
+    func openProject(at url: URL) async {
+        await run(messageKey: "progress.opening-project") {
+            let accessGranted = url.startAccessingSecurityScopedResource()
+            defer {
+                if accessGranted {
+                    url.stopAccessingSecurityScopedResource()
+                }
+            }
+            await closeSession()
+            let opened = try await service.openProject(at: url)
+            session = opened
+            projectURL = url
+            snapshot = try await opened.snapshot()
+            clearAnalysisState()
+            let heads = try await opened.investigationHeads()
+            investigation = heads.first
+        }
+    }
+
+    func importSource(at url: URL) async {
+        await run(messageKey: "progress.importing") {
+            let active = try requireSession()
+            let accessGranted = url.startAccessingSecurityScopedResource()
+            defer {
+                if accessGranted {
+                    url.stopAccessingSecurityScopedResource()
+                }
+            }
             let format: GlifiStudioTextFormat =
                 ["md", "markdown"].contains(url.pathExtension.lowercased())
                 ? .markdown : .plainText
-            let profile = try await service.profileText(at: url, format: format)
-            guard !Task.isCancelled else {
-                return
-            }
-            profileState = .ready(profile)
-        } catch let failure as GlifiStudioFailure {
-            guard !Task.isCancelled else {
-                return
-            }
-            profileState = .failed(messageKey: failure.messageKey)
-        } catch {
-            guard !Task.isCancelled else {
-                return
-            }
-            profileState = .failed(messageKey: "failure.internal.unexpected")
+            let result = try await active.importText(at: url, format: format)
+            snapshot = result.project
+            lastProfile = result.profile
+            lastImportedFileName = url.lastPathComponent
         }
+    }
+
+    func planInvestigation() async {
+        await run(messageKey: "progress.planning") {
+            let active = try requireSession()
+            let request = makePlanRequest()
+            let planned = try await active.planAnalysis(request)
+            planResult = planned
+            executionResult = nil
+            executionProgress = nil
+            investigation = nil
+            exportReceipt = nil
+            selectedFindingID = nil
+        }
+    }
+
+    func executePlan() async {
+        await run(messageKey: "progress.executing") {
+            let active = try requireSession()
+            let request = makePlanRequest()
+            let execution = try active.executeAnalysisPlan(request)
+            activeExecution = execution
+            defer { activeExecution = nil }
+            for try await event in execution.events {
+                switch event {
+                case let .progress(progress):
+                    executionProgress = progress
+                case let .completed(result):
+                    executionResult = result
+                    executionProgress = nil
+                    snapshot = try await active.snapshot()
+                    selectedFindingID = result.interpretation.findings.first?.id
+                }
+            }
+        }
+    }
+
+    func createInvestigationFromExecution() async {
+        await run(messageKey: "progress.investigating") {
+            let active = try requireSession()
+            guard let executionResult else {
+                throw presentationFailure(messageKey: "failure.investigation.missing-execution")
+            }
+            let request = GlifiStudioInvestigationCreationRequest(
+                question: questionDraft,
+                languageCode: "it",
+                interpretationArtifactID: executionResult.interpretationArtifactID,
+                selectedFindingIDs: nil
+            )
+            let result = try await active.createInvestigation(request)
+            investigation = result.investigation
+            snapshot = try await active.snapshot()
+        }
+    }
+
+    func runQuery() async {
+        await run(messageKey: "progress.querying") {
+            let active = try requireSession()
+            let trimmed = queryDraft.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard !trimmed.isEmpty else {
+                throw presentationFailure(messageKey: "failure.query.empty")
+            }
+            queryResult = try await active.query(trimmed)
+        }
+    }
+
+    func exportInvestigation(to destinationDirectory: URL) async {
+        await run(messageKey: "progress.exporting") {
+            let active = try requireSession()
+            guard let investigation else {
+                throw presentationFailure(messageKey: "failure.export.missing-investigation")
+            }
+            let accessGranted = destinationDirectory.startAccessingSecurityScopedResource()
+            defer {
+                if accessGranted {
+                    destinationDirectory.stopAccessingSecurityScopedResource()
+                }
+            }
+            let request = GlifiStudioScientificExportRequest(
+                investigationHeadEventID: investigation.headEventID,
+                formats: ["json", "markdown", "csv", "pdf"]
+            )
+            exportReceipt = try await active.exportInvestigation(
+                request,
+                to: destinationDirectory
+            )
+            snapshot = try await active.snapshot()
+        }
+    }
+
+    func reportOpenFailure() {
+        failureMessageKey = "failure.project.invalid-package"
+    }
+
+    func selectFinding(id: String) {
+        selectedFindingID = id
+    }
+
+    func toggleTarget(_ revisionID: String) {
+        if selectedTargetRevisionIDs.contains(revisionID) {
+            selectedTargetRevisionIDs.remove(revisionID)
+        } else {
+            selectedTargetRevisionIDs.insert(revisionID)
+            selectedReferenceRevisionIDs.remove(revisionID)
+        }
+    }
+
+    func toggleReference(_ revisionID: String) {
+        if selectedReferenceRevisionIDs.contains(revisionID) {
+            selectedReferenceRevisionIDs.remove(revisionID)
+        } else {
+            selectedReferenceRevisionIDs.insert(revisionID)
+            selectedTargetRevisionIDs.remove(revisionID)
+        }
+    }
+
+    private func makePlanRequest() -> GlifiStudioAnalysisPlanRequest {
+        GlifiStudioAnalysisPlanRequest(
+            intent: selectedIntent.rawValue,
+            scopeSourceRevisionIDs: [],
+            targetSourceRevisionIDs: Array(selectedTargetRevisionIDs).sorted(),
+            referenceSourceRevisionIDs: Array(selectedReferenceRevisionIDs).sorted()
+        )
+    }
+
+    private func requireSession() throws -> GlifiStudioProjectSession {
+        guard let session else {
+            throw presentationFailure(messageKey: "failure.project.none-open")
+        }
+        return session
+    }
+
+    private func clearAnalysisState() {
+        lastProfile = nil
+        lastImportedFileName = nil
+        planResult = nil
+        executionResult = nil
+        executionProgress = nil
+        investigation = nil
+        queryResult = nil
+        exportReceipt = nil
+        selectedFindingID = nil
+        selectedTargetRevisionIDs = []
+        selectedReferenceRevisionIDs = []
+        failureMessageKey = nil
+    }
+
+    private func closeSession() async {
+        activeExecution?.cancel()
+        activeExecution = nil
+        await session?.close()
+        session = nil
+    }
+
+    private func run(messageKey: String, operation: () async throws -> Void) async {
+        busyState = .working(messageKey: messageKey)
+        failureMessageKey = nil
+        defer { busyState = .idle }
+        do {
+            try await operation()
+        } catch let failure as GlifiStudioFailure {
+            failureMessageKey = failure.messageKey
+        } catch {
+            failureMessageKey = "failure.internal.unexpected"
+        }
+    }
+
+    private func presentationFailure(messageKey: String) -> GlifiStudioFailure {
+        GlifiStudioFailure(
+            code: "ui.\(messageKey)",
+            category: "invalidInput",
+            operation: "present",
+            retryDisposition: "afterCorrection",
+            retainedState: "lastCommittedGeneration",
+            messageKey: messageKey
+        )
+    }
+
+    private static func projectsRoot() throws -> URL {
+        let base = try FileManager.default.url(
+            for: .documentDirectory,
+            in: .userDomainMask,
+            appropriateFor: nil,
+            create: true
+        )
+        return base.appending(path: "Glifi Studio", directoryHint: .isDirectory)
+    }
+
+    private static func sanitizeFileName(_ raw: String) -> String {
+        let trimmed = raw.trimmingCharacters(in: .whitespacesAndNewlines)
+        let allowed = CharacterSet.alphanumerics.union(CharacterSet(charactersIn: "-_ "))
+        let filtered = String(trimmed.unicodeScalars.map { allowed.contains($0) ? Character($0) : "-" })
+        let collapsed = filtered
+            .split(whereSeparator: { $0 == "-" || $0 == " " })
+            .joined(separator: "-")
+        return collapsed.isEmpty ? "Progetto" : String(collapsed.prefix(64))
     }
 }

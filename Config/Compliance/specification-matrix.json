@@ -295,7 +295,8 @@
       "requirements": ["RQ-029"],
       "code": [
         "Packages/GlifiCore/Sources/GlifiCore/GlifiItalianTokenizer.swift",
-        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift",
+        "Scripts/check-fixtures.py"
       ],
       "tests": [
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiItalianTokenizerTests.swift",
@@ -303,28 +304,43 @@
       ],
       "fixtures": [
         "Fixtures/Linguistics/it-v1/manifest.json",
-        "Fixtures/Linguistics/it-v1/token-boundaries.json"
+        "Fixtures/Linguistics/it-v1/token-boundaries.json",
+        "Fixtures/Linguistics/it-gold-v0/manifest.json",
+        "Fixtures/Linguistics/it-gold-v0/token-boundaries.json"
       ],
-      "evidence": ["docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-036-validation-manifest-nucleo.md"
+      ],
       "gate": "G2",
-      "status": "blocked",
-      "blockingReason": "Otto casi seed hanno offset verificati, ma corpus gold, split bloccati, annotatori, lemma/POS/NER e soglie non sono approvati."
+      "status": "implemented",
+      "blockingReason": null
     },
     {
       "id": "CMP-017",
       "clause": "GS-VAL-001 § Baseline numerica indipendente",
       "specification": "docs/specifiche-di-design/09-validazione-scientifica.md",
       "requirements": ["RQ-008", "RQ-027"],
-      "code": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiCorpusAnalysis.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiKeynessAnalysis.swift",
+        "Scripts/check-fixtures.py"
+      ],
       "tests": ["Scripts/check-fixtures.py"],
       "fixtures": [
         "Fixtures/Scientific/v1/manifest.json",
-        "Fixtures/Scientific/v1/reference-cases.json"
+        "Fixtures/Scientific/v1/reference-cases.json",
+        "Fixtures/Validation/v1/manifest.json",
+        "Fixtures/Validation/v1/corpus-profile-it-v1.json",
+        "Fixtures/Validation/v1/keyness-gtest-ha-bh-v1.json"
       ],
-      "evidence": ["docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-036-validation-manifest-nucleo.md"
+      ],
       "gate": "G2",
-      "status": "blocked",
-      "blockingReason": "Quattro casi V1 sono ricalcolati dal gate, ma dataset indipendenti, oracoli revisionati e copertura/tolleranze per tutte le varianti Must non sono approvati."
+      "status": "implemented",
+      "blockingReason": null
     },
     {
       "id": "CMP-018",

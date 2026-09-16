@@ -497,6 +497,105 @@ def validate_markdown(manifest: dict[str, Any], errors: list[str]) -> int:
     return len(matches)
 
 
+def validate_gold_linguistic(manifest: dict[str, Any], errors: list[str]) -> int:
+    """Validate the Italian gold-v0 token corpus (subset with reviewed splits)."""
+    if manifest.get("schema") != "studio.glifi.linguistic-fixture-manifest":
+        errors.append("manifest gold linguistico: schema non valido")
+        return 0
+    if manifest.get("reviewStatus") != "gold-v0-token":
+        errors.append("manifest gold linguistico: reviewStatus atteso gold-v0-token")
+    if manifest.get("tokenContract") != "it-token-v1":
+        errors.append("manifest gold linguistico: tokenContract non valido")
+    if manifest.get("license") != "BSD-3-Clause" or not manifest.get("provenance"):
+        errors.append("manifest gold linguistico: licenza/provenienza mancante")
+    split = manifest.get("split")
+    if not isinstance(split, dict):
+        errors.append("manifest gold linguistico: split mancante")
+        split = {}
+    validation_ids = set(split.get("validation", []) or [])
+    test_ids = set(split.get("test", []) or [])
+    if not validation_ids or not test_ids:
+        errors.append("manifest gold linguistico: split validation/test obbligatori")
+    if validation_ids & test_ids:
+        errors.append("manifest gold linguistico: overlap fra validation e test")
+    data = load_json(str(manifest.get("cases", "")), errors)
+    if data.get("coordinateSpace") != "sourceUTF8" or data.get("intervalConvention") != "half-open":
+        errors.append("fixture gold: coordinate space o convenzione non valida")
+    cases = data.get("cases", [])
+    if not isinstance(cases, list) or len(cases) < 4:
+        errors.append("fixture gold: servono almeno quattro casi revisionati")
+        return 0
+    case_ids: set[str] = set()
+    for case in cases:
+        case_id = case.get("id", "<senza-id>")
+        case_ids.add(case_id)
+        text = case.get("text")
+        if not isinstance(text, str):
+            errors.append(f"gold/{case_id}: text non valido")
+            continue
+        raw = text.encode("utf-8")
+        if case.get("utf8Length") != len(raw):
+            errors.append(f"gold/{case_id}: utf8Length non coerente")
+        for index, token in enumerate(case.get("tokens", [])):
+            validate_interval(raw, token, f"gold/{case_id}/token/{index}", errors)
+        for index, sentence in enumerate(case.get("sentences", [])):
+            validate_interval(raw, sentence, f"gold/{case_id}/sentence/{index}", errors)
+    missing_split = (validation_ids | test_ids) - case_ids
+    if missing_split:
+        errors.append(f"fixture gold: id di split assenti {sorted(missing_split)}")
+    return len(cases)
+
+
+def validate_validation_catalog(manifest: dict[str, Any], errors: list[str]) -> int:
+    """Validate ValidationManifest catalog and V0–V4 coverage for Must capabilities."""
+    if manifest.get("schema") != "studio.glifi.validation-catalog":
+        errors.append("catalogo ValidationManifest: schema non valido")
+        return 0
+    if manifest.get("license") != "BSD-3-Clause":
+        errors.append("catalogo ValidationManifest: licenza mancante")
+    entries = manifest.get("manifests", [])
+    if not isinstance(entries, list) or len(entries) < 2:
+        errors.append("catalogo ValidationManifest: servono almeno corpus-profile e keyness")
+        return 0
+    required_ids = {
+        "validation-corpus-profile-it-v1",
+        "validation-keyness-gtest-ha-bh-v1",
+    }
+    seen: set[str] = set()
+    for entry in entries:
+        if not isinstance(entry, dict):
+            errors.append("catalogo ValidationManifest: voce non oggetto")
+            continue
+        path = str(entry.get("path", ""))
+        body = load_json(path, errors)
+        manifest_id = body.get("id")
+        if body.get("schema") != "studio.glifi.validation-manifest":
+            errors.append(f"ValidationManifest non valido: {path}")
+            continue
+        if not isinstance(manifest_id, str):
+            errors.append(f"ValidationManifest senza id: {path}")
+            continue
+        seen.add(manifest_id)
+        levels = body.get("levels", {})
+        for level in ("V0", "V1", "V2", "V3", "V4"):
+            level_body = levels.get(level)
+            if not isinstance(level_body, dict) or level_body.get("status") not in {
+                "pass",
+                "fail",
+                "pending",
+                "not-applicable",
+            }:
+                errors.append(f"{manifest_id}: livello {level} mancante o non valido")
+            elif level != "V5" and level_body.get("status") != "pass":
+                errors.append(f"{manifest_id}: livello {level} deve essere pass per il nucleo Must")
+        if body.get("status") not in {"experimental", "candidate", "supported", "suspended"}:
+            errors.append(f"{manifest_id}: status capability non valido")
+    missing = required_ids - seen
+    if missing:
+        errors.append(f"ValidationManifest mancanti: {sorted(missing)}")
+    return len(seen)
+
+
 def main() -> int:
     """Run every fixture validation."""
     errors: list[str] = []
@@ -517,7 +616,9 @@ def main() -> int:
         if isinstance(item, dict)
     }
     linguistic_count = validate_linguistic(manifests.get("it-token-v1-seed", {}), errors)
+    gold_count = validate_gold_linguistic(manifests.get("it-token-gold-v0", {}), errors)
     scientific_count = validate_scientific(manifests.get("scientific-v1-seed", {}), errors)
+    validation_count = validate_validation_catalog(manifests.get("validation-v1", {}), errors)
     adversarial_count = validate_adversarial(
         manifests.get("adversarial-v1-descriptors", {}), errors
     )
@@ -531,7 +632,8 @@ def main() -> int:
         return 1
     print(
         "Fixtures: "
-        f"Italian={linguistic_count}, numerical={scientific_count}, "
+        f"Italian={linguistic_count}, gold-v0={gold_count}, numerical={scientific_count}, "
+        f"validation-manifests={validation_count}, "
         f"adversarial-descriptors={adversarial_count}, query={query_count}; "
         f"markdown-spans={markdown_count}; seed status preserved"
     )

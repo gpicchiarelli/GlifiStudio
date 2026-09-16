@@ -1,0 +1,18 @@
+{
+  "schema": "studio.glifi.validation-catalog",
+  "schemaVersion": 1,
+  "license": "BSD-3-Clause",
+  "updatedAt": "2026-09-16",
+  "manifests": [
+    {
+      "id": "validation-corpus-profile-it-v1",
+      "path": "Fixtures/Validation/v1/corpus-profile-it-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-keyness-gtest-ha-bh-v1",
+      "path": "Fixtures/Validation/v1/keyness-gtest-ha-bh-v1.json",
+      "status": "candidate"
+    }
+  ]
+}

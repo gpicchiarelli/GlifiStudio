@@ -1,21 +1,30 @@
+<!-- SPDX-License-Identifier: BSD-3-Clause -->
+
 # ADR-0002 — Separazione tra prodotto e motore
 
 | Campo | Valore |
 | --- | --- |
 | Identificatore | GS-ADR-0002 |
-| Versione | 0.4.0 |
-| Stato | Proposto |
-| Responsabile | Da assegnare |
-| Ultima modifica | 2026-09-15 |
-| Decisore | Da assegnare |
+| Versione | 1.0.0 |
+| Stato | Accettato |
+| Responsabile | Iniziatore del progetto |
+| Ultima modifica | 2026-09-16 |
+| Decisore | Iniziatore del progetto |
 | Data proposta | 2026-09-15 |
-| Approvazione | Non ancora approvato |
-| Fonte | Baseline candidata dagli appunti iniziali |
+| Data decisione | 2026-09-16 |
+| Approvazione | Decisione esplicita dell'iniziatore del progetto |
+| Fonte | Baseline candidata dagli appunti iniziali; struttura SPM e gate architetturale |
 | Sostituisce | Nessuno |
 
 ## Contesto
 
-Le stesse capacità computazionali devono servire l'app interattiva, test automatici, benchmark, elaborazioni batch e una possibile CLI. Incorporare la logica scientifica nella GUI renderebbe difficile verificarla, riutilizzarla ed evolverla.
+Le stesse capacità computazionali devono servire l'app interattiva, test automatici,
+benchmark, elaborazioni batch e la CLI. Incorporare la logica scientifica nella GUI
+renderebbe difficile verificarla, riutilizzarla ed evolverla.
+
+La struttura del repository realizza già tre target distinti (`Glifi Studio` →
+`GlifiKit` → `GlifiCore`) con product SPM separati e un controllo automatico che
+impedisce alle app di importare `GlifiCore` direttamente.
 
 ## Decisione
 
@@ -31,7 +40,8 @@ secondo GS-API-001; la visibilità Swift `public` non promette ancora ABI o SDK
 binario. `GlifiCore` implementa importazione, trasformazioni, indicizzazione,
 ricerca e analisi senza dipendere da SwiftUI, AppKit o UIKit.
 
-La separazione deve essere imposta dalla struttura di target e package e verificata automaticamente.
+La separazione è imposta dalla struttura di target e package e verificata
+automaticamente da `Scripts/check-architecture.sh`.
 
 ## Alternative considerate
 
@@ -39,12 +49,14 @@ La separazione deve essere imposta dalla struttura di target e package e verific
 - motore separato senza livello API stabile;
 - separazione a tre livelli Glifi Studio, GlifiKit e GlifiCore.
 
-La terza alternativa è quella proposta perché sostiene riuso headless e controllo delle dipendenze. L'approvazione formale richiede un decisore nominato.
+La terza alternativa è adottata perché sostiene riuso headless e controllo delle
+dipendenze.
 
 ## Conseguenze
 
-- La GUI diventa un client del motore.
-- CLI, test headless e benchmark non duplicano la logica.
-- I modelli esposti richiedono progettazione deliberata, contract test e una
-  politica di compatibilità prima della stabilizzazione 1.0.
-- Alcuni tipi di presentazione dovranno essere adattati ai modelli del dominio anziché attraversare direttamente i confini dei moduli.
+- La GUI è un client del motore e non duplica logica analitica.
+- CLI, test headless e benchmark condividono GlifiCore/GlifiKit.
+- I modelli esposti richiedono contract test e una politica di compatibilità
+  prima della stabilizzazione 1.0.
+- Alcuni tipi di presentazione sono adattati ai modelli del dominio al confine
+  GlifiKit senza attraversare direttamente i confini interni di GlifiCore.

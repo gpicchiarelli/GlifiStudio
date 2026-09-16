@@ -4,10 +4,10 @@
 | --- | --- |
 | Identificatore | GS-ISS-001 |
 | Tipo | Registro delle questioni e decisioni aperte |
-| Versione | 0.18.0 |
+| Versione | 0.19.0 |
 | Stato | Attivo |
-| Responsabile | Da assegnare |
-| Ultima modifica | 2026-09-15 |
+| Responsabile | Iniziatore del progetto |
+| Ultima modifica | 2026-09-16 |
 | Approvazione | Non applicabile; registro operativo |
 | Riferimento | ISO/IEC/IEEE 15289:2019, profilo tailored |
 
@@ -16,7 +16,7 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | ID | Tema | Domanda | Evidenza necessaria | Responsabile | Stato |
 | --- | --- | --- | --- | --- | --- |
 | DA-001 | Matrice piattaforme | Quali classi di capacità, memoria e dispositivi con macOS 27 e iPadOS 27 sono supportate? | Benchmark CPU/GPU/Neural Engine, bacino utenti e costo della matrice di test | Da assegnare | Parzialmente definita: strategia runtime approvata da ADR-0008 |
-| DA-002 | MVP | Quali formati, metodi GS-MET e capacità qualitative appartengono al primo rilascio utilizzabile? | Casi d'uso prioritari, dipendenze analitiche e capacità del team | Iniziatore del progetto | Chiusa: GS-PROD-001 e ADR-0016; approvazione gate G1 ancora richiesta |
+| DA-002 | MVP | Quali formati, metodi GS-MET e capacità qualitative appartengono al primo rilascio utilizzabile? | Casi d'uso prioritari, dipendenze analitiche e capacità del team | Iniziatore del progetto | Chiusa: GS-PROD-001 e ADR-0016; G1 leggero registrato 2026-09-16 |
 | DA-003 | Progetto | Il progetto incorpora le fonti, le referenzia o supporta entrambe le modalità? | Portabilità, sicurezza, duplicazione e gestione file mancanti | Iniziatore del progetto | Chiusa: incorporate per default, riferimento esterno esplicito; GS-DAT-001, ADR-0016 |
 | DA-004 | Persistenza | Quale combinazione usare per metadati, posting list, matrici e cache? | Prototipi e benchmark | Iniziatore del progetto | Chiusa come direzione: SQLite di sistema, oggetti versionati e cache esterna; GS-DAT-001, ADR-0016. Layout fisico da prototipare |
 | DA-005 | GlifiStore | Quali requisiti copre il progetto esistente e con quali costi di integrazione? | Valutazione tecnica e prestazionale | Da assegnare | Aperta |
@@ -49,10 +49,11 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 
 ## Prossime decisioni consigliate
 
-Le prime decisioni ancora da affrontare sono DA-001, DA-008, DA-011, DA-015,
-DA-023, DA-025–DA-026 e DA-029. DA-005 e DA-009 richiedono prototipi post-baseline;
-DA-019–DA-021 restano intenzionalmente post-MVP affinché AI generativa,
-sincronizzazione e integrazioni di sistema non diventino dipendenze premature.
-Le chiusure operate da ADR-0016 e ADR-0019 stabiliscono contratti, non dichiarano
-superate le relative prove di G1/G2. Una futura distribuzione separata di GlifiKit
-riapre DA-031 mediante una nuova ADR.
+Per il percorso produttivo 0.1 (UI Must + validazione), le decisioni ancora
+bloccanti da affrontare sono **DA-008**, **DA-025** e **DA-029**. DA-001, DA-011,
+DA-015, DA-023 e DA-026 restano **parcheggiati** finché non bloccano G3: non
+interrompono la vertical slice UI sul Kit.
+
+DA-005 e DA-009 richiedono prototipi post-baseline; DA-019–DA-021 restano
+intenzionalmente post-MVP. Una futura distribuzione separata di GlifiKit riapre
+DA-031 mediante una nuova ADR.

@@ -55,64 +55,154 @@
     "caveat.collection.diversity-window-unavailable" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The collection is too short to compute every diversity measure." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "La raccolta è troppo breve per calcolare tutte le misure di diversità." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The collection is too short to compute every diversity measure."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La raccolta è troppo breve per calcolare tutte le misure di diversità."
+          }
+        }
       }
     },
     "caveat.insufficient-evidence" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The available data do not support a positive conclusion." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "I dati disponibili non sostengono una conclusione positiva." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The available data do not support a positive conclusion."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I dati disponibili non sostengono una conclusione positiva."
+          }
+        }
       }
     },
     "caveat.keyness.low-expected-count" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Some expected counts are low; interpret this result with caution." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Alcuni conteggi attesi sono bassi; interpreta il risultato con cautela." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Some expected counts are low; interpret this result with caution."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Alcuni conteggi attesi sono bassi; interpreta il risultato con cautela."
+          }
+        }
       }
     },
     "caveat.ranking.novelty-not-assessed" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Novelty was not assessed because editorial history is not available yet." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "La novità non è stata valutata perché la storia editoriale non è ancora disponibile." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Novelty was not assessed because editorial history is not available yet."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La novità non è stata valutata perché la storia editoriale non è ancora disponibile."
+          }
+        }
       }
     },
     "caveat.ranking.stability-not-measured" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Stability has not been measured." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "La stabilità non è stata misurata." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stability has not been measured."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La stabilità non è stata misurata."
+          }
+        }
       }
     },
     "finding.collection-profile.summary" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The collection has {documents} documents, {tokens} lexical tokens, and {types} distinct forms." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "La raccolta contiene {documents} documenti, {tokens} token lessicali e {types} forme distinte." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The collection has {documents} documents, {tokens} lexical tokens, and {types} distinct forms."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "La raccolta contiene {documents} documenti, {tokens} token lessicali e {types} forme distinte."
+          }
+        }
       }
     },
     "finding.insufficient-evidence" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The available evidence is insufficient to support a conclusion." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Le evidenze disponibili non sono sufficienti per sostenere una conclusione." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The available evidence is insufficient to support a conclusion."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Le evidenze disponibili non sono sufficienti per sostenere una conclusione."
+          }
+        }
       }
     },
     "finding.keyness.reference" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The term {term} characterizes the reference group more strongly." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Il termine {term} caratterizza maggiormente il gruppo di riferimento." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The term {term} characterizes the reference group more strongly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il termine {term} caratterizza maggiormente il gruppo di riferimento."
+          }
+        }
       }
     },
     "finding.keyness.target" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "The term {term} characterizes the target group more strongly." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Il termine {term} caratterizza maggiormente il gruppo obiettivo." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "The term {term} characterizes the target group more strongly."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Il termine {term} caratterizza maggiormente il gruppo obiettivo."
+          }
+        }
       }
     },
     "engine.status.accessibility-label" : {
@@ -356,71 +446,1616 @@
     "metric.characters" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Characters" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Caratteri" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Characters"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caratteri"
+          }
+        }
       }
     },
     "metric.sentences" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sentences" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Frasi" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sentences"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Frasi"
+          }
+        }
       }
     },
     "metric.tokens" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Lexical tokens" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Token lessicali" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lexical tokens"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token lessicali"
+          }
+        }
       }
     },
     "metric.types" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Distinct forms" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Forme distinte" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distinct forms"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forme distinte"
+          }
+        }
       }
     },
     "profile.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Collection profile" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Profilo della raccolta" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Collection profile"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profilo della raccolta"
+          }
+        }
       }
     },
     "profile.top-terms" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Most frequent forms" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Forme più frequenti" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Most frequent forms"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forme più frequenti"
+          }
+        }
       }
     },
     "sidebar.overview" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Overview" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Panoramica" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Overview"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Panoramica"
+          }
+        }
       }
     },
     "sidebar.sources" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Sources" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Fonti" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sources"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonti"
+          }
+        }
       }
     },
     "sources.empty.description" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "Import a UTF-8 plain-text file to obtain a reproducible first profile." } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Importa un file di testo semplice UTF-8 per ottenere un primo profilo riproducibile." } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Import a UTF-8 plain-text file to obtain a reproducible first profile."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importa un file di testo semplice UTF-8 per ottenere un primo profilo riproducibile."
+          }
+        }
       }
     },
     "sources.empty.title" : {
       "extractionState" : "manual",
       "localizations" : {
-        "en" : { "stringUnit" : { "state" : "translated", "value" : "No sources yet" } },
-        "it" : { "stringUnit" : { "state" : "translated", "value" : "Nessuna fonte" } }
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No sources yet"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna fonte"
+          }
+        }
+      }
+    },
+    "action.execute" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute plan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui piano"
+          }
+        }
+      }
+    },
+    "action.export" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export report"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta relazione"
+          }
+        }
+      }
+    },
+    "action.new-project" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "New project"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nuovo progetto"
+          }
+        }
+      }
+    },
+    "action.open-project" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open project"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri progetto"
+          }
+        }
+      }
+    },
+    "action.plan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prepare plan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Prepara piano"
+          }
+        }
+      }
+    },
+    "action.save-investigation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save investigation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva indagine"
+          }
+        }
+      }
+    },
+    "action.search" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cerca"
+          }
+        }
+      }
+    },
+    "common.no" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No"
+          }
+        }
+      }
+    },
+    "common.yes" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Yes"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sì"
+          }
+        }
+      }
+    },
+    "execution.progress" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progress"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avanzamento"
+          }
+        }
+      }
+    },
+    "export.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esportazione"
+          }
+        }
+      }
+    },
+    "export.files" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generated files"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "File generati"
+          }
+        }
+      }
+    },
+    "export.help" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export the investigation head to PDF, Markdown, CSV, and JSON with a provenance manifest."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta la testa dell’indagine in PDF, Markdown, CSV e JSON con manifesto di provenance."
+          }
+        }
+      }
+    },
+    "export.id" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export identifier"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identificativo export"
+          }
+        }
+      }
+    },
+    "export.manifest" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Manifest digest"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Digest manifesto"
+          }
+        }
+      }
+    },
+    "export.receipt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Receipt"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricevuta"
+          }
+        }
+      }
+    },
+    "failure.export.missing-investigation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Save an investigation before exporting."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salva un’indagine prima di esportare."
+          }
+        }
+      }
+    },
+    "failure.investigation.missing-execution" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute a plan before saving the investigation."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui un piano prima di salvare l’indagine."
+          }
+        }
+      }
+    },
+    "failure.project.invalid-package" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select a valid .glifi package."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona un package .glifi valido."
+          }
+        }
+      }
+    },
+    "failure.project.none-open" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open or create a .glifi project."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri o crea un progetto .glifi."
+          }
+        }
+      }
+    },
+    "failure.query.empty" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Enter a non-empty query."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Inserisci una query non vuota."
+          }
+        }
+      }
+    },
+    "finding.caveats" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caveats"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Caveat"
+          }
+        }
+      }
+    },
+    "finding.caveats.none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No caveats."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun caveat."
+          }
+        }
+      }
+    },
+    "finding.detail" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Finding detail"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dettaglio finding"
+          }
+        }
+      }
+    },
+    "finding.evidence" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evidence"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evidenze"
+          }
+        }
+      }
+    },
+    "finding.evidence.none" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No linked evidence."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessuna evidenza collegata."
+          }
+        }
+      }
+    },
+    "finding.family" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Family"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Famiglia"
+          }
+        }
+      }
+    },
+    "finding.has-lineage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Complete lineage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lineage completo"
+          }
+        }
+      }
+    },
+    "finding.lineage" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lineage"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Lineage"
+          }
+        }
+      }
+    },
+    "finding.proposition" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposition"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Proposizione"
+          }
+        }
+      }
+    },
+    "finding.state" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "State"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stato"
+          }
+        }
+      }
+    },
+    "findings.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Execute a plan to obtain verifiable findings."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esegui un piano per ottenere findings verificabili."
+          }
+        }
+      }
+    },
+    "findings.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No findings"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun finding"
+          }
+        }
+      }
+    },
+    "findings.insufficient.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Insufficient evidence"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evidenza insufficiente"
+          }
+        }
+      }
+    },
+    "format.markdown" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Markdown"
+          }
+        }
+      }
+    },
+    "format.plain-text" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plain text"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Testo semplice"
+          }
+        }
+      }
+    },
+    "group.reference" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reference"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Riferimento"
+          }
+        }
+      }
+    },
+    "group.target" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Obiettivo"
+          }
+        }
+      }
+    },
+    "home.must-path" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create a project, import texts, ask a question, verify evidence, and export a reproducible report."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea un progetto, importa testi, formula una domanda, verifica le evidenze ed esporta una relazione riproducibile."
+          }
+        }
+      }
+    },
+    "intent.compare-objects" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare objects"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confrontare oggetti"
+          }
+        }
+      }
+    },
+    "intent.discover-contents" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Discover contents"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Scoprire i contenuti"
+          }
+        }
+      }
+    },
+    "intent.review-completely" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Review completely"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rivedere completamente"
+          }
+        }
+      }
+    },
+    "intent.search-sources" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search sources"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cercare nelle fonti"
+          }
+        }
+      }
+    },
+    "intent.understand-collection" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Understand the collection"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comprendere la raccolta"
+          }
+        }
+      }
+    },
+    "investigation.compare-groups" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparison groups"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gruppi di confronto"
+          }
+        }
+      }
+    },
+    "investigation.head" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Head event"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evento testa"
+          }
+        }
+      }
+    },
+    "investigation.id" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Investigation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indagine"
+          }
+        }
+      }
+    },
+    "investigation.intent" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intent"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intenzione"
+          }
+        }
+      }
+    },
+    "investigation.question" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Question"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Domanda"
+          }
+        }
+      }
+    },
+    "investigation.question-prompt" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "What do you want to study?"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Che cosa vuoi studiare?"
+          }
+        }
+      }
+    },
+    "investigation.saved" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saved investigation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indagine salvata"
+          }
+        }
+      }
+    },
+    "plan.sources" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sources in profile"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonti nel profilo"
+          }
+        }
+      }
+    },
+    "plan.status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan status"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Stato del piano"
+          }
+        }
+      }
+    },
+    "plan.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analysis plan"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Piano analitico"
+          }
+        }
+      }
+    },
+    "progress.creating-project" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creating project…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Creazione del progetto…"
+          }
+        }
+      }
+    },
+    "progress.executing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Executing plan…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esecuzione del piano…"
+          }
+        }
+      }
+    },
+    "progress.exporting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exporting…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esportazione…"
+          }
+        }
+      }
+    },
+    "progress.importing" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importing…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importazione…"
+          }
+        }
+      }
+    },
+    "progress.investigating" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Saving investigation…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Salvataggio indagine…"
+          }
+        }
+      }
+    },
+    "progress.opening-project" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opening project…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apertura del progetto…"
+          }
+        }
+      }
+    },
+    "progress.planning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparing plan…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Preparazione del piano…"
+          }
+        }
+      }
+    },
+    "progress.querying" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Running query…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esecuzione della query…"
+          }
+        }
+      }
+    },
+    "project.artifacts" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifacts"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact"
+          }
+        }
+      }
+    },
+    "project.empty.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Create or open a .glifi package to begin."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Crea o apri un package .glifi per iniziare."
+          }
+        }
+      }
+    },
+    "project.empty.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No project"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nessun progetto"
+          }
+        }
+      }
+    },
+    "project.generation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generazione"
+          }
+        }
+      }
+    },
+    "project.identity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identity"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Identità"
+          }
+        }
+      }
+    },
+    "project.investigation-events" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Investigation events"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Eventi indagine"
+          }
+        }
+      }
+    },
+    "project.name" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Project name"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nome progetto"
+          }
+        }
+      }
+    },
+    "project.path" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Package"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Package"
+          }
+        }
+      }
+    },
+    "project.sources" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sources"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonti"
+          }
+        }
+      }
+    },
+    "query.editor" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Query"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Query"
+          }
+        }
+      }
+    },
+    "query.match.accessibility" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "KWIC match"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrispondenza KWIC"
+          }
+        }
+      }
+    },
+    "query.matches" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Matches"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corrispondenze"
+          }
+        }
+      }
+    },
+    "query.placeholder" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "form, phrase, or expression"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "forma, frase o espressione"
+          }
+        }
+      }
+    },
+    "query.results" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Results"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Risultati"
+          }
+        }
+      }
+    },
+    "query.truncated" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Result truncated by the declared bound."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Risultato troncato dal limite dichiarato."
+          }
+        }
+      }
+    },
+    "sidebar.export" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Export"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esporta"
+          }
+        }
+      }
+    },
+    "sidebar.findings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Findings"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Findings"
+          }
+        }
+      }
+    },
+    "sidebar.investigation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Investigation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Indagine"
+          }
+        }
+      }
+    },
+    "sidebar.project" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Project"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Progetto"
+          }
+        }
+      }
+    },
+    "sidebar.query" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Search"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ricerca"
+          }
+        }
+      }
+    },
+    "sources.needs-project.description" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open a project before importing sources."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri un progetto prima di importare le fonti."
+          }
+        }
+      }
+    },
+    "sources.needs-project.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A project is required"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Serve un progetto"
+          }
+        }
+      }
+    },
+    "sources.revisions" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source revisions"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisioni fonte"
+          }
+        }
       }
     }
   },

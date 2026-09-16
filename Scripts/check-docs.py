@@ -76,6 +76,7 @@ UX_REQUIRED_MARKERS = {
     "12": ("NavigationSplitView", "Parità semantica", "stato per-scena"),
     "13": ("VoiceOver", "ISO 9241-210", "Comprensione"),
     "14": ("messageKey", "Confidenza", "chiavi"),
+    "15": ("VoiceOver", "Dynamic Type", "G4"),
 }
 UX_INTEGRATION_MARKERS = {
     "docs/README.md": ("GS-UX-001",),

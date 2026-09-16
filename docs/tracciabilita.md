@@ -4,9 +4,9 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.35.0 |
+| Versione | 0.36.0 |
 | Stato | Bozza controllata |
-| Responsabile | Da assegnare |
+| Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
 | Approvazione | Non ancora approvato |
 
@@ -25,14 +25,14 @@ La matrice collega le fonti iniziali alle necessità degli stakeholder, ai requi
 | NS-005 Confrontare sottoinsiemi tramite metadati | RF-012, RF-013, RF-018–RF-021, RF-031, RF-040 | VA-02, VA-03, VA-06 | TV-007, TV-008, TV-027, TV-031 | Keyness fra revisioni esplicite verificata; selezione metadata-first incompleta |
 | NS-006 Usare capacità headless e automatizzabili | RF-023, RF-080, RF-083, RQ-058, RQ-060, CV-003 | VA-01, VA-02, GS-QRY-001, GS-ANA-001, GS-API-001, ADR-0002, ADR-0016, ADR-0019, ADR-0022–ADR-0023 | TV-011, TV-053, TV-056, TV-071, TV-073 | Progetto/import, query, planner, esecuzione, Investigation ed export PDF/Markdown/CSV/JSON verificati in GlifiKit/CLI |
 | NS-007 Ottenere risultati corretti e riproducibili | RF-022, RF-041, RF-045, RF-076, RF-081–RF-083, RQ-003, RQ-007–RQ-018, RQ-023–RQ-029, RQ-043–RQ-062, CV-014, CV-016 | VA-03–VA-06, GS-DAT-001, GS-ANA-001, GS-VAL-001, GS-SEC-001, GS-API-001, GS-APL-014–GS-APL-015, ADR-0006, ADR-0008, ADR-0013, ADR-0016–ADR-0019 | TV-004, TV-008, TV-009, TV-012, TV-016, TV-018–TV-020, TV-026–TV-033, TV-051, TV-054–TV-075 | Descriptor/DAG e prime analisi hanno prove riproducibili; validazione completa, hardware e studi restano incompleti |
-| NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RF-083, RF-086, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, RQ-047, RQ-049–RQ-056, CV-001–CV-020 | VA-01, VA-02, VA-04, VA-05, VA-07, GS-UI-001, GS-PROD-001, GS-APL-014–GS-APL-015, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014–ADR-0018 | TV-013, TV-015–TV-025, TV-044, TV-048–TV-049, TV-058, TV-061–TV-069 | Primo flusso condiviso compila; audit UI, hardware e percorso Must restano incompleti |
+| NS-008 Lavorare in app native macOS e iPadOS | RF-024, RF-072–RF-073, RF-083, RF-086, RQ-012, RQ-019–RQ-022, RQ-032, RQ-034, RQ-037–RQ-039, RQ-047, RQ-049–RQ-056, CV-001–CV-020 | VA-01, VA-02, VA-04, VA-05, VA-07, GS-UI-001, GS-PROD-001, GS-APL-014–GS-APL-015, ADR-0001, ADR-0003, ADR-0005, ADR-0006, ADR-0008, ADR-0011, ADR-0014–ADR-0018 | TV-013, TV-015–TV-025, TV-044, TV-048–TV-049, TV-058, TV-061–TV-069 | Percorso Must UI condiviso su Kit (GS-VER-035); audit dispositivo e App Store aperti |
 | NS-009 Comprendere metodi e limiti | RF-026–RF-038, RF-042, RF-044–RF-046, RQ-023, RQ-025–RQ-028 | VA-06, ADR-0013, GS-MET-001 | TV-026–TV-032, TV-034–TV-036 | Profilo corpus e keyness bounded verificati; restanti metodi e review scientifica esterna aperti |
 | NS-010 Analizzare metadati e tempo | RF-029, RF-031, RF-032, RF-035, RF-040 | VA-03, VA-06, GS-MET-001-17 | TV-027, TV-029–TV-031 | Contratto definito; implementazione mancante |
 | NS-011 Esplorare strutture multivariate e reti | RF-029, RF-033, RF-036–RF-039, RF-046 | VA-06, GS-MET-001-06, GS-MET-001-10, GS-MET-001-13–16, GS-MET-001-22 | TV-030, TV-032, TV-035 | Contratto definito; implementazione mancante |
 | NS-012 Eseguire content analysis manuale | RF-043, RF-044, RQ-023, RQ-028 | VA-03, VA-06, GS-MET-001-20 | TV-027, TV-034 | Perimetro confermato; flusso MVP da decidere |
-| NS-013 Valutare la qualità linguistica | RF-010, RF-041, RQ-027, RQ-029 | VA-02, VA-05, VA-06, ADR-0004, GS-MET-001-18 | TV-014, TV-026, TV-033 | Tokenizer sostituibile verificato sul seed; corpus gold e soglie aperti |
+| NS-013 Valutare la qualità linguistica | RF-010, RF-041, RQ-027, RQ-029 | VA-02, VA-05, VA-06, ADR-0004, GS-MET-001-18 | TV-014, TV-026, TV-033 | Gold token V0 con split (GS-VER-036); lemma/POS/NER aperti |
 | NS-014 Sintesi e topic classici riproducibili | RF-038, RF-042, RQ-025, RQ-028, CV-014 | VA-06, ADR-0008, ADR-0013, GS-MET-001-15, GS-MET-001-19, GS-PROD-001 | TV-028, TV-032, TV-036 | Specificati come evoluzione post-MVP |
-| NS-015 Iniziare da domanda e intenzione | RF-049–RF-050, RF-063, RF-066, RF-074 | VA-07, ADR-0014, GS-UX-001-01, GS-UX-001-07 | TV-038, TV-039, TV-042, TV-045 | Primo ingresso domanda/fonti implementato; intenzioni e validazione aperte |
+| NS-015 Iniziare da domanda e intenzione | RF-049–RF-050, RF-063, RF-066, RF-074 | VA-07, ADR-0014, GS-UX-001-01, GS-UX-001-07 | TV-038, TV-039, TV-042, TV-045 | Domanda/intenzione/piano in UI Must; studi UX aperti |
 | NS-016 Sviluppare indagini persistenti | RF-047–RF-048, RF-070–RF-071, RF-075–RF-076, RF-085, RQ-033, RQ-040, RQ-043 | VA-03, VA-07, GS-DOM-001, GS-DAT-001, ADR-0014, ADR-0016, ADR-0021–ADR-0023 | TV-037, TV-047, TV-050–TV-051, TV-059 | Storia append-only, selezione e proiezione Report PDF/Markdown/CSV/JSON verificate; altri eventi, autosave e UI aperti |
 | NS-017 Ottenere analisi applicabili e spiegabili | RF-051, RF-053–RF-056, RF-068, RF-081–RF-083, RQ-035 | VA-04, VA-07, GS-ANA-001, GS-PROD-001, ADR-0014, ADR-0016 | TV-040–TV-042, TV-045, TV-054–TV-055 | Planner/esecutore e interpretazione descrittiva/keyness verificati; CollectionProfile qualitativo e spiegazione UI completa aperti |
 | NS-018 Comprendere e verificare i risultati | RF-057–RF-065, RF-071, RF-073–RF-074, RF-082, RF-085, RQ-030–RQ-031, RQ-036, RQ-040 | VA-06, VA-07, GS-ANA-001, GS-VIZ-001, GS-PROD-001, ADR-0014, ADR-0016, ADR-0022–ADR-0023 | TV-043, TV-045, TV-047, TV-055, TV-058–TV-059 | Evidence/Finding/Caveat e Report selettivo nei quattro formati verificati; UI, studi e visualizzazioni aperti |
