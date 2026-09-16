@@ -34,5 +34,5 @@ dispositivo, UI test automatici o studi UX (CMP-019 / DA-026).
 
 ## Limiti
 
+- Conflict handling multiwindow e provider di file restano da validare su dispositivo (G4).
 - `make verify` / xcodebuild non eseguibili in questo ambiente cloud Linux.
-- DocumentGroup nativo e UTType esportato restano miglioramenti G4.
