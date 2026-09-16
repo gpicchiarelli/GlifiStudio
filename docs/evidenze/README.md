@@ -83,3 +83,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-067 — Metadati scientifici corpus e keyness in UI](GS-VER-067-metadati-scientifici-corpus-keyness-ui.md) — Superato localmente
 - [GS-VER-068 — Richiesta export e progresso query Must in UI](GS-VER-068-export-request-progresso-query-ui.md) — Superato localmente
 - [GS-VER-069 — Matrice sparsa e diversità corpus in UI](GS-VER-069-matrice-sparsa-diversita-corpus-ui.md) — Superato localmente
+- [GS-VER-070 — Popolazioni e frequenze relative keyness in UI](GS-VER-070-keyness-popolazioni-frequenze-relative-ui.md) — Superato localmente

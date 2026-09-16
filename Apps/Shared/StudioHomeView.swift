@@ -1153,9 +1153,20 @@ struct StudioHomeView: View {
                         Text(progress.estimateQuality)
                             .font(.caption.monospaced())
                     }
+                    LabeledContent("execution.progress.revision") {
+                        Text(progress.revision, format: .number)
+                            .monospacedDigit()
+                    }
                     if let step = progress.planStepIdentifier {
                         LabeledContent("execution.progress.plan-step") {
                             Text(step)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                    }
+                    if let node = progress.analysisNodeID {
+                        LabeledContent("execution.progress.analysis-node") {
+                            Text(shortID(node))
                                 .font(.caption2.monospaced())
                                 .textSelection(.enabled)
                         }
@@ -1364,6 +1375,16 @@ struct StudioHomeView: View {
                     LabeledContent("investigation.selected-findings") {
                         Text(investigation.selectedFindingIDs.count, format: .number)
                             .monospacedDigit()
+                    }
+                    ForEach(
+                        investigation.selectedFindingIDs.prefix(8),
+                        id: \.self
+                    ) { findingID in
+                        LabeledContent("investigation.selected-finding") {
+                            Text(shortID(findingID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
                     }
                     LabeledContent("investigation.available-findings") {
                         Text(investigation.availableFindingIDs.count, format: .number)
@@ -2007,6 +2028,17 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                     }
                     .foregroundStyle(.tertiary)
+                    if !failure.arguments.isEmpty {
+                        ForEach(
+                            failure.arguments.keys.sorted().prefix(6),
+                            id: \.self
+                        ) { key in
+                            Text("\(key)=\(failure.arguments[key] ?? "")")
+                                .font(.caption2.monospaced())
+                                .foregroundStyle(.tertiary)
+                                .accessibilityLabel("failure.arguments")
+                        }
+                    }
                 }
             }
             Spacer()
