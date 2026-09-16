@@ -8,6 +8,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Popolazioni keyness, diagnostica e frequenze relative in UI (GS-VER-070).
 - Matrice sparsa Kit, unità di carattere e identificatori MSTTR/MATTR in UI
   (GS-VER-069).
 - Richiesta export scientifica e progresso Query nel percorso Must

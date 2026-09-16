@@ -712,6 +712,23 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    revisionIDList(
+                        titleKey: "keyness.target-revisions",
+                        ids: keyness.targetSourceRevisionIDs
+                    )
+                    revisionIDList(
+                        titleKey: "keyness.reference-revisions",
+                        ids: keyness.referenceSourceRevisionIDs
+                    )
+                    LabeledContent("keyness.project-id") {
+                        Text(shortID(keyness.projectID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.source-generation") {
+                        Text(keyness.sourceGeneration, format: .number)
+                            .monospacedDigit()
+                    }
                 }
                 Section("keyness.contracts") {
                     LabeledContent("keyness.test-id") {
@@ -739,6 +756,11 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    LabeledContent("keyness.diagnostic-id") {
+                        Text(keyness.diagnosticIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("keyness.ordering-id") {
                         Text(keyness.orderingIdentifier)
                             .font(.caption2.monospaced())
@@ -748,6 +770,13 @@ struct StudioHomeView: View {
                         Text(
                             keyness.lowExpectedCountThreshold,
                             format: .number.precision(.fractionLength(2))
+                        )
+                        .monospacedDigit()
+                    }
+                    LabeledContent("keyness.tolerance") {
+                        Text(
+                            keyness.referenceAbsoluteTolerance,
+                            format: .number.precision(.fractionLength(6))
                         )
                         .monospacedDigit()
                     }
@@ -777,6 +806,20 @@ struct StudioHomeView: View {
                             LabeledContent("keyness.reference-frequency") {
                                 Text(term.referenceFrequency, format: .number)
                                     .monospacedDigit()
+                            }
+                            LabeledContent("keyness.target-relative") {
+                                Text(
+                                    term.targetRelativeFrequency,
+                                    format: .number.precision(.fractionLength(6))
+                                )
+                                .monospacedDigit()
+                            }
+                            LabeledContent("keyness.reference-relative") {
+                                Text(
+                                    term.referenceRelativeFrequency,
+                                    format: .number.precision(.fractionLength(6))
+                                )
+                                .monospacedDigit()
                             }
                             LabeledContent("keyness.g-statistic") {
                                 Text(term.gStatistic, format: .number.precision(.fractionLength(2)))
