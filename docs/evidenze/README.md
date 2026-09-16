@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.55.0 |
+| Versione | 0.56.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -71,3 +71,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-055 — InsufficientEvidence dettagliato e metodi Evidence](GS-VER-055-insufficient-evidence-metodi.md) — Superato localmente
 - [GS-VER-056 — Lineage Evidence, uncertainty ed effect size in UI](GS-VER-056-evidence-lineage-uncertainty-ui.md) — Superato localmente
 - [GS-VER-057 — Checklist candidatura G3 funzionale](GS-VER-057-checklist-candidatura-g3.md) — Superato localmente; G3 formale aperto
+- [GS-VER-058 — Ruolo e regione SourceReference in UI](GS-VER-058-source-reference-role-region-ui.md) — Superato localmente

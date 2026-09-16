@@ -8,6 +8,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Ruolo/regione/range delle SourceReference Evidence in UI (GS-VER-058).
 - Checklist candidatura G3 funzionale e limiti ambiente (GS-VER-057).
 - Lineage Evidence, uncertainty/effect size e Caveat tipizzati in UI
   (GS-VER-056).

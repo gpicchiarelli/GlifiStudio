@@ -2126,6 +2126,40 @@
         }
       }
     },
+    "finding.evidence.source-region" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source region"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Regione fonte"
+          }
+        }
+      }
+    },
+    "finding.evidence.source-role" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source role"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ruolo fonte"
+          }
+        }
+      }
+    },
     "finding.evidence.source-revision" : {
       "extractionState" : "manual",
       "localizations" : {

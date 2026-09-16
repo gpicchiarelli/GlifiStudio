@@ -206,11 +206,11 @@ struct StudioHomeView: View {
                     .disabled(model.isBusy)
 
                     Button("action.open-project", systemImage: "folder") {
-                    isProjectImporterPresented = true
-                }
-                .buttonStyle(.bordered)
-                .controlSize(.large)
-                .disabled(model.isBusy)
+                        isProjectImporterPresented = true
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.large)
+                    .disabled(model.isBusy)
 
                     Button("action.reopen-project", systemImage: "arrow.uturn.backward") {
                         selection = .project
@@ -981,11 +981,33 @@ struct StudioHomeView: View {
                                 Array(evidence.sourceReferences.prefix(3).enumerated()),
                                 id: \.offset
                             ) { _, reference in
-                                LabeledContent("finding.evidence.source-revision") {
-                                    Text(shortID(reference.sourceRevisionID))
-                                        .font(.caption2.monospaced())
-                                        .textSelection(.enabled)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    LabeledContent("finding.evidence.source-revision") {
+                                        Text(shortID(reference.sourceRevisionID))
+                                            .font(.caption2.monospaced())
+                                            .textSelection(.enabled)
+                                    }
+                                    LabeledContent("finding.evidence.source-role") {
+                                        Text(reference.roleIdentifier)
+                                            .font(.caption2.monospaced())
+                                    }
+                                    LabeledContent("finding.evidence.source-region") {
+                                        Text(reference.regionIdentifier)
+                                            .font(.caption2.monospaced())
+                                    }
+                                    if !reference.ranges.isEmpty {
+                                        LabeledContent("source.bytes") {
+                                            Text(
+                                                reference.ranges
+                                                    .prefix(2)
+                                                    .map { "\($0.start)–\($0.end)" }
+                                                    .joined(separator: ", ")
+                                            )
+                                            .font(.caption2.monospaced())
+                                        }
+                                    }
                                 }
+                                .accessibilityElement(children: .combine)
                             }
                             if !evidence.sourceReferences.isEmpty {
                                 Button("action.open-evidence-source") {
