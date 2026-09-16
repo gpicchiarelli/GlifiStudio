@@ -669,22 +669,102 @@ struct StudioHomeView: View {
                         value: Double(progress.completed),
                         total: Double(progress.total ?? max(progress.completed, 1))
                     )
-                    Text(progress.phase)
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
-                        .accessibilityLabel("execution.progress")
+                    LabeledContent("execution.progress.phase") {
+                        Text(progress.phase)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("execution.progress.completed") {
+                        Text(progress.completed, format: .number)
+                            .monospacedDigit()
+                    }
+                    if let total = progress.total {
+                        LabeledContent("execution.progress.total") {
+                            Text(total, format: .number)
+                                .monospacedDigit()
+                        }
+                    }
+                    LabeledContent("execution.progress.unit") {
+                        Text(progress.unit)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("execution.progress.estimate-quality") {
+                        Text(progress.estimateQuality)
+                            .font(.caption.monospaced())
+                    }
+                    if let step = progress.planStepIdentifier {
+                        LabeledContent("execution.progress.plan-step") {
+                            Text(step)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                    }
+                    LabeledContent("execution.operation-id") {
+                        Text(shortID(progress.operationID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                 }
+                .accessibilityElement(children: .contain)
+                .accessibilityLabel("execution.progress")
             }
 
             if let execution = model.executionResult {
+                Section("execution.terminal") {
+                    LabeledContent("execution.terminal-state") {
+                        Text(execution.terminalState)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("execution.plan-status") {
+                        Text(LocalizedStringKey("plan.status.\(execution.planStatus)"))
+                    }
+                    LabeledContent("execution.operating-profile") {
+                        Text(execution.operatingProfile)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("execution.maximum-parallelism") {
+                        Text(execution.maximumParallelism, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("execution.estimated-work-units") {
+                        Text(execution.estimatedWorkUnits, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("execution.completed-work-units") {
+                        Text(execution.completedWorkUnits, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("execution.generation") {
+                        Text(execution.generation, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("execution.source-generation") {
+                        Text(execution.sourceGeneration, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("execution.operation-id") {
+                        Text(shortID(execution.operationID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                }
                 Section("execution.artifacts") {
                     LabeledContent("execution.plan-artifact") {
                         Text(shortID(execution.planArtifactID))
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    LabeledContent("execution.plan-analysis-node") {
+                        Text(shortID(execution.planAnalysisNodeID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("execution.interpretation-artifact") {
                         Text(shortID(execution.interpretationArtifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("execution.interpretation-analysis-node") {
+                        Text(shortID(execution.interpretationAnalysisNodeID))
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
@@ -695,6 +775,21 @@ struct StudioHomeView: View {
                             LabeledContent("execution.artifact.role") {
                                 Text(artifact.role)
                                     .font(.caption2.monospaced())
+                            }
+                            LabeledContent("execution.artifact.plan-step") {
+                                Text(artifact.planStepIdentifier)
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                            LabeledContent("execution.artifact.schema") {
+                                Text(artifact.outputSchemaIdentifier)
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                            LabeledContent("execution.artifact.analysis-node") {
+                                Text(shortID(artifact.analysisNodeID))
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
                             }
                             Text(shortID(artifact.artifactID))
                                 .font(.caption2.monospaced())

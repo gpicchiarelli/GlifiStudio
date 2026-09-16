@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Stato terminale, progresso dettagliato e nodi di analisi dell'esecuzione in UI
+  (GS-VER-063).
 - Digest QueryAST, generazione e fonti corrispondenti in UI query
   (GS-VER-062).
 - CollectionPlanningProfile, step/decisioni del piano e Artifact piano in

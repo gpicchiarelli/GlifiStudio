@@ -75,3 +75,5 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-059 — Proposizione Finding tipizzata e formati export in UI](GS-VER-059-proposizione-finding-formati-export.md) — Superato localmente
 - [GS-VER-060 — Caveat strutturati e Artifact piano in UI](GS-VER-060-caveat-strutturati-piano-artifact.md) — Superato localmente
 - [GS-VER-061 — CollectionPlanningProfile e decisioni piano in UI](GS-VER-061-collection-profile-piano-ui.md) — Superato localmente
+- [GS-VER-062 — Digest e generazione query in UI](GS-VER-062-query-digest-generazione-ui.md) — Superato localmente
+- [GS-VER-063 — Stato terminale e progresso esecuzione in UI](GS-VER-063-esecuzione-terminale-progresso-ui.md) — Superato localmente
