@@ -52,7 +52,7 @@ indice inverted streaming e UI nativa.
 
 Obiettivo: offrire un percorso utente completo nelle applicazioni native macOS e iPadOS.
 
-Stato 2026-09-16: **candidato funzionale G3** (GS-VER-035…048). Restano aperti
+Stato 2026-09-16: **candidato funzionale G3** (GS-VER-035…049). Restano aperti
 audit dispositivo, studi UX e gate G4/G5.
 
 - creazione e apertura di un progetto `.glifi`;
@@ -61,11 +61,11 @@ audit dispositivo, studi UX e gate G4/G5.
 - esecuzione del piano con stati applicabili/`insufficientEvidence`;
 - analisi corpus e confronto keyness anche come azioni dirette in UI;
 - ricerca QueryAST/KWIC e salto a coordinate di fonte;
-- catena Finding → Evidence → Caveat / ranking / supporto;
+- catena Finding → Evidence → Caveat / ranking / supporto con salto alla fonte;
 - storia Investigation append-only, selezione editoriale e Report;
 - export PDF/Markdown/CSV/JSON con manifest di provenance;
-- ValidationManifest V0–V4 per profilo corpus, keyness, query, export, planner e
-  interpretazione;
+- ValidationManifest V0–V4 per profilo corpus, keyness, query, export, planner,
+  interpretazione e storia Investigation;
 - parity dello stesso piano via GlifiKit/GlifiCLI;
 - rispetto continuo di GS-SEC/GS-API sui confini Kit e CLI.
 

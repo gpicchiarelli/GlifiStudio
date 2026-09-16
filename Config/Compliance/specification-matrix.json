@@ -252,7 +252,8 @@
         "docs/evidenze/GS-VER-044-keyness-ui-diretto.md",
         "docs/evidenze/GS-VER-045-ranking-diversity-ui.md",
         "docs/evidenze/GS-VER-046-must-progress-ngrams-a11y.md",
-        "docs/evidenze/GS-VER-047-evidence-measures-artifact-ui.md"
+        "docs/evidenze/GS-VER-047-evidence-measures-artifact-ui.md",
+        "docs/evidenze/GS-VER-049-evidence-fonte-e-investigation-manifest.md"
       ],
       "gate": "G2",
       "status": "implemented",

@@ -58,6 +58,9 @@ final class StudioHomeModel {
     private(set) var queryResult: GlifiStudioProjectQueryResult?
     private(set) var selectedQueryMatchID: String?
     private(set) var sourceText: GlifiStudioSourceText?
+    private(set) var evidenceSourceText: GlifiStudioSourceText?
+    private(set) var evidenceSourceRanges: [GlifiStudioUTF8Range] = []
+    private(set) var focusedEvidenceID: String?
     private(set) var exportReceipt: GlifiStudioExportReceipt?
     private(set) var exportPreviewMarkdown: String?
     private(set) var selectedFindingID: String?
@@ -107,6 +110,10 @@ final class StudioHomeModel {
         }
         let ids = Set(finding.evidenceReferences.map(\.evidenceID))
         return (executionResult?.interpretation.evidence ?? []).filter { ids.contains($0.id) }
+    }
+
+    func evidenceDisposition(for evidenceID: String) -> String? {
+        selectedFinding?.evidenceReferences.first { $0.evidenceID == evidenceID }?.disposition
     }
 
     var selectedQueryMatch: GlifiStudioQueryMatch? {
@@ -372,6 +379,26 @@ final class StudioHomeModel {
         }
     }
 
+    func openEvidenceSource(_ evidence: GlifiStudioEvidence) async {
+        await run(messageKey: "progress.loading-source") {
+            let active = try requireSession()
+            guard let reference = evidence.sourceReferences.first else {
+                throw presentationFailure(messageKey: "failure.evidence.missing-source")
+            }
+            evidenceSourceText = try await active.sourceText(
+                sourceRevisionID: reference.sourceRevisionID
+            )
+            evidenceSourceRanges = reference.ranges
+            focusedEvidenceID = evidence.id
+        }
+    }
+
+    func clearEvidenceSource() {
+        evidenceSourceText = nil
+        evidenceSourceRanges = []
+        focusedEvidenceID = nil
+    }
+
     func analyzeCorpusNow() async {
         await run(messageKey: "progress.analyzing-corpus") {
             let active = try requireSession()
@@ -441,6 +468,7 @@ final class StudioHomeModel {
 
     func selectFinding(id: String) {
         selectedFindingID = id
+        clearEvidenceSource()
     }
 
     func toggleEditorialSelection(id: String) {
@@ -517,6 +545,9 @@ final class StudioHomeModel {
         queryResult = nil
         selectedQueryMatchID = nil
         sourceText = nil
+        evidenceSourceText = nil
+        evidenceSourceRanges = []
+        focusedEvidenceID = nil
         exportReceipt = nil
         exportPreviewMarkdown = nil
         lastCorpusAnalysis = nil

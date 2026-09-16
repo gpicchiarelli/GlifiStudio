@@ -582,6 +582,20 @@ struct StudioHomeView: View {
                         Text(shortID(investigation.headEventID))
                             .font(.caption.monospaced())
                     }
+                    LabeledContent("investigation.intent") {
+                        Text(investigation.intent)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("investigation.plan-artifact") {
+                        Text(shortID(investigation.planArtifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("investigation.interpretation-artifact") {
+                        Text(shortID(investigation.interpretationArtifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     Text(investigation.question)
                 }
                 Section("investigation.history") {
@@ -782,6 +796,12 @@ struct StudioHomeView: View {
                                 .font(.caption2.monospaced())
                                 .foregroundStyle(.secondary)
                                 .textSelection(.enabled)
+                            if let disposition = model.evidenceDisposition(for: evidence.id) {
+                                LabeledContent("finding.evidence.disposition") {
+                                    Text(LocalizedStringKey("evidence.disposition.\(disposition)"))
+                                        .font(.caption)
+                                }
+                            }
                             LabeledContent("finding.evidence.validity") {
                                 Text(evidence.validity)
                                     .font(.caption.monospaced())
@@ -792,6 +812,23 @@ struct StudioHomeView: View {
                                         .font(.caption.monospacedDigit())
                                 }
                             }
+                            ForEach(
+                                Array(evidence.sourceReferences.prefix(3).enumerated()),
+                                id: \.offset
+                            ) { _, reference in
+                                LabeledContent("finding.evidence.source-revision") {
+                                    Text(shortID(reference.sourceRevisionID))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
+                            if !evidence.sourceReferences.isEmpty {
+                                Button("action.open-evidence-source") {
+                                    Task { await model.openEvidenceSource(evidence) }
+                                }
+                                .disabled(model.isBusy)
+                                .accessibilityLabel("action.open-evidence-source")
+                            }
                             if evidence.hasLowExpectedCountCaveat {
                                 Text("caveat.keyness.low-expected-count")
                                     .font(.footnote)
@@ -799,7 +836,27 @@ struct StudioHomeView: View {
                             }
                         }
                         .accessibilityElement(children: .combine)
+                        .accessibilityAddTraits(
+                            model.focusedEvidenceID == evidence.id
+                                ? AccessibilityTraits.isSelected
+                                : AccessibilityTraits()
+                        )
                     }
+                }
+            }
+            if let sourceText = model.evidenceSourceText {
+                Section("finding.evidence.source") {
+                    Text(shortID(sourceText.sourceRevisionID))
+                        .font(.caption.monospaced())
+                        .foregroundStyle(.secondary)
+                    highlightedSource(sourceText.text, ranges: model.evidenceSourceRanges)
+                        .font(.body.monospaced())
+                        .textSelection(.enabled)
+                        .accessibilityLabel("finding.evidence.source")
+                    Button("action.clear-evidence-source", role: .cancel) {
+                        model.clearEvidenceSource()
+                    }
+                    .accessibilityLabel("action.clear-evidence-source")
                 }
             }
             Section("finding.ranking") {

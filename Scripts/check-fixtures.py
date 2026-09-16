@@ -554,9 +554,9 @@ def validate_validation_catalog(manifest: dict[str, Any], errors: list[str]) -> 
     if manifest.get("license") != "BSD-3-Clause":
         errors.append("catalogo ValidationManifest: licenza mancante")
     entries = manifest.get("manifests", [])
-    if not isinstance(entries, list) or len(entries) < 6:
+    if not isinstance(entries, list) or len(entries) < 7:
         errors.append(
-            "catalogo ValidationManifest: servono corpus-profile, keyness, query, export, planner e interpretation"
+            "catalogo ValidationManifest: servono corpus-profile, keyness, query, export, planner, interpretation e investigation"
         )
         return 0
     required_ids = {
@@ -566,6 +566,7 @@ def validate_validation_catalog(manifest: dict[str, Any], errors: list[str]) -> 
         "validation-scientific-export-v1",
         "validation-planner-mvp-v1",
         "validation-interpretation-mvp-v1",
+        "validation-investigation-history-v1",
     }
     seen: set[str] = set()
     for entry in entries:

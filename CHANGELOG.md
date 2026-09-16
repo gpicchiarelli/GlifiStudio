@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Salto Evidence→fonte in UI Must e ValidationManifest
+  `investigation-history-v1` (GS-VER-049).
 - ValidationManifest `interpretation-mvp-v1` e catalogo a sei manifest Must
   (GS-VER-048).
 - Misure Evidence tipizzate, Artifact keyness e aggiornamento CMP-012 alle

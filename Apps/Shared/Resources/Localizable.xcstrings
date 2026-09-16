@@ -987,6 +987,23 @@
         }
       }
     },
+    "action.clear-evidence-source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hide source"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Nascondi fonte"
+          }
+        }
+      }
+    },
     "action.compare-keyness" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1051,6 +1068,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nuovo progetto"
+          }
+        }
+      }
+    },
+    "action.open-evidence-source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Open evidence source"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apri fonte dell’evidenza"
           }
         }
       }
@@ -1191,6 +1225,57 @@
         }
       }
     },
+    "evidence.disposition.contrary" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contrary"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Contraria"
+          }
+        }
+      }
+    },
+    "evidence.disposition.excluded" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Excluded"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Esclusa"
+          }
+        }
+      }
+    },
+    "evidence.disposition.supporting" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Supporting"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "A supporto"
+          }
+        }
+      }
+    },
     "export.description" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1306,6 +1391,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ricevuta"
+          }
+        }
+      }
+    },
+    "failure.evidence.missing-source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "This evidence has no source reference."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Questa evidenza non ha un riferimento alla fonte."
           }
         }
       }
@@ -1697,6 +1799,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Evidenze"
+          }
+        }
+      }
+    },
+    "finding.evidence.disposition" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposition"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Disposizione"
+          }
+        }
+      }
+    },
+    "finding.evidence.source" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Evidence source"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Fonte dell’evidenza"
+          }
+        }
+      }
+    },
+    "finding.evidence.source-revision" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Source revision"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Revisione fonte"
           }
         }
       }
@@ -2224,6 +2377,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Intenzione"
+          }
+        }
+      }
+    },
+    "investigation.interpretation-artifact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Interpretation artifact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact di interpretazione"
+          }
+        }
+      }
+    },
+    "investigation.plan-artifact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Plan artifact"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Artifact del piano"
           }
         }
       }

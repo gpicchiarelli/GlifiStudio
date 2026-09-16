@@ -33,6 +33,11 @@
       "id": "validation-interpretation-mvp-v1",
       "path": "Fixtures/Validation/v1/interpretation-mvp-v1.json",
       "status": "candidate"
+    },
+    {
+      "id": "validation-investigation-history-v1",
+      "path": "Fixtures/Validation/v1/investigation-history-v1.json",
+      "status": "candidate"
     }
   ]
 }
