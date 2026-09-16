@@ -244,6 +244,22 @@ public struct GlifiStudioProjectQueryResult: Equatable, Sendable {
     }
 }
 
+/// Presentation-safe UTF-8 source text loaded from an immutable revision.
+public struct GlifiStudioSourceText: Equatable, Sendable {
+    /// Opaque source revision identity.
+    public let sourceRevisionID: String
+    /// Exact decoded UTF-8 text of the incorporated original bytes.
+    public let text: String
+    /// Exact original byte count.
+    public let byteCount: Int
+
+    init(sourceRevisionID: String, text: String, byteCount: Int) {
+        self.sourceRevisionID = sourceRevisionID
+        self.text = text
+        self.byteCount = byteCount
+    }
+}
+
 /// Actor-isolated lifecycle for one verified `.glifi` project.
 public actor GlifiStudioProjectSession {
     private static let maximumActiveAnalysisExecutionCount = 1
@@ -284,6 +300,32 @@ public actor GlifiStudioProjectSession {
         try ensureOpen()
         do {
             return try await GlifiStudioProjectQueryResult(engine.query(text, in: project))
+        } catch {
+            throw Self.map(error, operation: .query)
+        }
+    }
+
+    /// Loads the exact UTF-8 text of one immutable source revision for source jump.
+    public func sourceText(sourceRevisionID: String) async throws -> GlifiStudioSourceText {
+        try ensureOpen()
+        do {
+            let revision = try SourceRevisionID(canonicalValue: sourceRevisionID)
+            let data = try await project.sourceData(for: revision)
+            guard let text = String(data: data, encoding: .utf8) else {
+                throw GlifiFailure(
+                    code: "project.source-not-utf8",
+                    category: .corruption,
+                    operation: .query,
+                    retryDisposition: .never,
+                    retainedState: .lastCommittedGeneration,
+                    messageKey: "failure.project.source-not-utf8"
+                )
+            }
+            return GlifiStudioSourceText(
+                sourceRevisionID: sourceRevisionID,
+                text: text,
+                byteCount: data.count
+            )
         } catch {
             throw Self.map(error, operation: .query)
         }

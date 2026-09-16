@@ -37,5 +37,6 @@ GS-VAL-001.
 8. [Preparazione di App Review](08-app-review.md)
 9. [Rilascio e monitoraggio](09-rilascio-e-monitoraggio.md)
 10. [Gate di submission](10-gate-di-submission.md)
+11. [Runbook unlisted G5](runbook-unlisted-g5.md)
 
 I dati operativi versionati sono in [`Distribution/AppStore`](../../Distribution/AppStore/README.md).

@@ -522,6 +522,32 @@ func enginePersistsVerifiedProjectAnalysis() async throws {
     }
 }
 
+@Test("La rimozione del manifest dopo un commit lascia il package non riapribile")
+func projectPackageRejectsMissingManifestAfterCommit() async throws {
+    try await withTemporaryProject { packageURL in
+        let project = try GlifiProjectPackage.create(at: packageURL)
+        let imported = try GlifiTextImporter().importText(
+            from: Data("Testo italiano di recovery.".utf8),
+            format: .plainText
+        )
+        _ = try await project.importText(imported)
+        #expect(await project.snapshot().generation == 1)
+
+        try FileManager.default.removeItem(at: packageURL.appending(path: "manifest.json"))
+
+        do {
+            _ = try GlifiProjectPackage.open(at: packageURL)
+            Issue.record("Il package senza manifest non è stato rifiutato")
+        } catch let failure as GlifiFailure {
+            #expect(
+                failure.category == .corruption
+                    || failure.category == .transientIO
+                    || failure.category == .invalidInput
+            )
+        }
+    }
+}
+
 private func withTemporaryProject(
     _ body: (URL) async throws -> Void
 ) async throws {

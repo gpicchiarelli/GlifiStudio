@@ -7,7 +7,7 @@
 | Versione | 1.11.0 |
 | Stato | Attivo |
 | Responsabile | Amministratore del repository, provvisorio |
-| Ultima modifica | 2026-09-15 |
+| Ultima modifica | 2026-09-16 |
 | Approvazione | Registro operativo; baseline normativa ancora proposta |
 | Documento padre | [GS-STD-001](../standard-di-progetto.md) |
 
@@ -16,11 +16,11 @@
 | Standard interno | Completo, proposto | Assegnare responsabili e approvare la baseline |
 | Documentazione controllata | Strutturata e verificata automaticamente | Approvare gli information item sostanziali |
 | Requisiti | Baseline candidata | Assegnare priorità, metriche e validazione stakeholder |
-| Architettura | Baseline candidata con ADR | Chiudere decisioni critiche e accettare ADR-0002 |
-| Fondazione scientifica | GS-MET-001 e ADR-0013 definiti; nessun metodo di dominio ancora implementato | Revisionare formule, scegliere subset MVP, corpus gold e tolleranze |
-| Esperienza utente | GS-UX-001 e ADR-0014 definiti; scaffold UI non implementa ancora il paradigma | Prototipare, definire soglie e validare con utenti e tecnologie assistive |
-| Design implementativo | Dieci specifiche GS-DOM–GS-PROD e ADR-0016 definite; baseline 0.1 delimitata | Approvare G1 e costruire i vertical prototype nell'ordine DOM/DAT/ANA/UI/RUN |
-| Tracciabilità | Matrice machine-readable attiva su 21 clausole ad alto rischio | Estenderla tramite Definition of Ready a ogni vertical slice |
+| Architettura | Separazione prodotto/motore accettata (ADR-0002) | Mantenere il gate `check-architecture` e la superficie Kit |
+| Fondazione scientifica | GS-MET-001 e ADR-0013 definiti; nucleo Must con ValidationManifest V0–V4 | Mantenere oracoli; review scientifica esterna e dataset ranking aperti |
+| Esperienza utente | GS-UX-001 e UI Must su GlifiKit (G3 candidato, GS-VER-035…054) | VoiceOver dispositivo, studi UX e soglie G4 |
+| Design implementativo | Dieci specifiche GS-DOM–GS-PROD; G1 leggero chiuso; G2 headless chiuso | Chiudere G4/G5 su dispositivi e distribuzione |
+| Tracciabilità | Matrice machine-readable; DoR operativa (GS-DOR-001, CMP-014) | Aggiungere scheda DoR a ogni nuova vertical slice |
 | Controllo versione | Primo commit pubblicato su `main` nel remote privato canonico | Applicare protezioni server-side quando disponibili |
 | Codice e test | Baseline eseguibile macOS/iPadOS, package condiviso, facciata diagnostica e policy runtime coperte da test | Evolvere per vertical slice guidate dai requisiti |
 | Toolchain Swift | Apple Swift 6.4, Swift 6 language mode, SwiftPM tools 6.4 e strict concurrency verificati | Rivalutare solo con una toolchain Xcode 27 compatibile o nuova ADR |

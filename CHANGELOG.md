@@ -8,6 +8,68 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Richiesta export scientifica e progresso Query nel percorso Must
+  (GS-VER-068).
+- Metadati scientifici corpus e keyness (digest, contratti, frequenze) in UI
+  (GS-VER-067).
+- Coordinate query, lineage Evidence e metadati indagine in UI (GS-VER-066).
+- Provenienza fonti (digest/byte/ID) e fallimenti strutturati in UI
+  (GS-VER-065).
+- Catalogo capability, scope, dipendenze e backend del piano in UI
+  (GS-VER-064).
+- Stato terminale, progresso dettagliato e nodi di analisi dell'esecuzione in UI
+  (GS-VER-063).
+- Digest QueryAST, generazione e fonti corrispondenti in UI query
+  (GS-VER-062).
+- CollectionPlanningProfile, step/decisioni del piano e Artifact piano in
+  esecuzione (GS-VER-061).
+- Caveat strutturati (causa/conseguenza/azione) e Artifact piano in UI
+  (GS-VER-060).
+- Proposizione Finding tipizzata e formati export Must in UI (GS-VER-059).
+- Ruolo/regione/range delle SourceReference Evidence in UI (GS-VER-058).
+- Checklist candidatura G3 funzionale e limiti ambiente (GS-VER-057).
+- Lineage Evidence, uncertainty/effect size e Caveat tipizzati in UI
+  (GS-VER-056).
+- Dettaglio `insufficientEvidence` e methodIdentifiers Evidence in UI
+  (GS-VER-055).
+- Navigazione Overview→sezioni Must e severità Caveat in UI (GS-VER-054).
+- Definition of Ready operativa (scheda, template PR, check-docs) e CMP-014
+  `implemented` (GS-VER-053).
+- Confini App→Kit→Core e CMP-001 `implemented` (GS-VER-052).
+- ValidationManifest `analysis-execution-v1`, catalogo a otto manifest Must e
+  CMP-010 `implemented` (GS-VER-051).
+- Artifact di esecuzione, metadati interpretazione e dimensioni assessment in UI
+  (GS-VER-050).
+- Salto Evidence→fonte in UI Must e ValidationManifest
+  `investigation-history-v1` (GS-VER-049).
+- ValidationManifest `interpretation-mvp-v1` e catalogo a sei manifest Must
+  (GS-VER-048).
+- Misure Evidence tipizzate, Artifact keyness e aggiornamento CMP-012 alle
+  superfici UI Must (GS-VER-047).
+- Progresso percorso Must in Overview, n-grammi/Artifact corpus, revisione
+  report in export e a11y strutturale delle nuove azioni (GS-VER-046).
+- Trasparenza UI di ranking Findings, policy di supporto e diversità lessicale
+  del corpus (GS-VER-045).
+- Confronto keyness diretto in UI Must per `compare.objects` (GS-VER-044).
+- Analisi corpus diretta in UI Must, ValidationManifest `planner-mvp-v1` e
+  catalogo a cinque manifest Must (GS-VER-043).
+- ValidationManifest export, storia eventi indagine in UI, stati piano
+  localizzati e CMP-012 `implemented` (GS-VER-042); G3 candidato funzionale.
+- ValidationManifest `glifi-query-v1`, progresso import multiplo e anteprima
+  Markdown dell'export (GS-VER-041).
+- DocumentGroup SwiftUI per `.glifi` con UTType `studio.glifi.project`, Info.plist
+  document types e bookmark app-scope (GS-VER-040).
+- Salto KWIC→fonte via `sourceText` Kit, teste di indagine multiple, cancellazione
+  esecuzione e import multiplo nella UI Must (GS-VER-039).
+- Selezione editoriale dei findings e riapertura dell'ultimo progetto `.glifi` nella
+  UI Must condivisa; deroga GS-WVR-004 / evidenza GS-VER-038 per CI bloccata dal
+  budget Actions sulla PR #7.
+- Percorso produttivo 0.1: G1 leggero (ADR-0002 accettato, roadmap attiva),
+  vertical slice UI Must su GlifiKit (progetto, import, indagine, piano/esecuzione,
+  KWIC, findings, export), corpus gold token V0, ValidationManifest V0–V4 per
+  profilo corpus e keyness, checklist G4 a11y e runbook App Store unlisted.
+- Evidenze GS-VER-034…037 e aggiornamento CMP-016/CMP-017 a `implemented`.
+
 - Loop di qualità locale `make format` / `make lint` / `make quality-static` /
   `make quality` con controllo dialettale `check-swift-dialect`, job CI
   `static-quality` (Ubuntu), `format-check` e `verify` (Xcode 27), più cache SPM

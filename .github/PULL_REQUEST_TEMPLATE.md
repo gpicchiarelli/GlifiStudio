@@ -4,15 +4,23 @@
 
 Descrivere il comportamento ottenuto e il motivo della modifica.
 
+## Definition of Ready
+
+- Stato DoR: `Ready` / `Ready con rischio accettato` / `Non ready`
+- Scheda: percorso relativo sotto `docs/pianificazione/` (o motivazione N/A)
+- Rischi accettati con owner/termine/rollback, se presenti
+
 ## Tracciabilità
 
 - Issue:
 - Requisiti o criteri di accettazione:
 - ADR o decisioni aperte:
+- Clausole CMP aggiornate:
 
 ## Verifica
 
 - [ ] `make verify` supera tutti i controlli.
+- [ ] `make quality-static` supera i controlli statici se `make verify` non è eseguibile.
 - [ ] `make verify-app-store` supera il preflight se la modifica interessa app, packaging, privacy, metadati o distribuzione.
 - [ ] `make app-store-submission-check` è stato riesaminato senza falsificare i gate esterni, se pertinente.
 - [ ] Ho aggiunto o aggiornato i test pertinenti.

@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
-  "productMinimumFunctionality": false,
-  "allMustFlowsImplemented": false,
+  "productMinimumFunctionality": true,
+  "allMustFlowsImplemented": true,
   "unitAndIntegrationTestsPassing": false,
   "uiTestsPassing": false,
   "manualDeviceQACompleted": false,

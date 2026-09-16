@@ -17,12 +17,19 @@
       "clause": "GS-SEC-001 § 5 Confini di fiducia",
       "specification": "docs/sicurezza/README.md",
       "requirements": ["RQ-057"],
-      "code": [],
-      "tests": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Apps/Shared/StudioHomeModel.swift"
+      ],
+      "tests": ["Scripts/check-architecture.sh"],
       "fixtures": [],
-      "evidence": [],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-052-confini-fiducia-cmp001.md"
+      ],
       "gate": "G2",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {
@@ -194,12 +201,24 @@
       "clause": "GS-API-001 § 6 Operazioni asincrone",
       "specification": "docs/api/README.md",
       "requirements": ["RQ-011", "RQ-060"],
-      "code": [],
-      "tests": [],
-      "fixtures": [],
-      "evidence": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiAnalysisExecutionPresentation.swift",
+        "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
+        "Apps/Shared/StudioHomeModel.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisExecutionTests.swift",
+        "Packages/GlifiCore/Tests/GlifiKitTests/GlifiStudioServiceTests.swift"
+      ],
+      "fixtures": ["Fixtures/Validation/v1/analysis-execution-v1.json"],
+      "evidence": [
+        "docs/evidenze/GS-VER-028-esecuzione-piano-progressi.md",
+        "docs/evidenze/GS-VER-050-execution-artifacts-assessment-ui.md",
+        "docs/evidenze/GS-VER-051-execution-manifest-e-cmp010.md"
+      ],
       "gate": "G2",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {
@@ -226,7 +245,9 @@
       "code": [
         "Packages/GlifiCore/Sources/GlifiKit/GlifiStudioService.swift",
         "Packages/GlifiCore/Sources/GlifiCore/GlifiEngine.swift",
-        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift"
+        "Packages/GlifiCore/Sources/GlifiCLI/GlifiCLI.swift",
+        "Apps/Shared/StudioHomeModel.swift",
+        "Apps/Shared/StudioHomeView.swift"
       ],
       "tests": [
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiQueryEvaluatorTests.swift",
@@ -243,11 +264,19 @@
         "docs/evidenze/GS-VER-022-profilo-corpus-riproducibile.md",
         "docs/evidenze/GS-VER-027-planner-mvp-deterministico.md",
         "docs/evidenze/GS-VER-028-esecuzione-piano-progressi.md",
-        "docs/evidenze/GS-VER-032-export-scientifico.md"
+        "docs/evidenze/GS-VER-032-export-scientifico.md",
+        "docs/evidenze/GS-VER-035-ui-must-vertical-slice.md",
+        "docs/evidenze/GS-VER-040-documentgroup-uttype.md",
+        "docs/evidenze/GS-VER-043-analisi-corpus-ui-e-planner-manifest.md",
+        "docs/evidenze/GS-VER-044-keyness-ui-diretto.md",
+        "docs/evidenze/GS-VER-045-ranking-diversity-ui.md",
+        "docs/evidenze/GS-VER-046-must-progress-ngrams-a11y.md",
+        "docs/evidenze/GS-VER-047-evidence-measures-artifact-ui.md",
+        "docs/evidenze/GS-VER-049-evidence-fonte-e-investigation-manifest.md"
       ],
       "gate": "G2",
-      "status": "blocked",
-      "blockingReason": "Status, progetto/import, query, planner, esecuzione, analisi, Investigation ed export PDF/Markdown/CSV/JSON sono operativi; indice, streaming generale, progresso intra-nodo e parità GUI restano da implementare."
+      "status": "implemented",
+      "blockingReason": null
     },
     {
       "id": "CMP-013",
@@ -267,12 +296,15 @@
       "clause": "GS-STD-001-07 § Definition of Ready",
       "specification": "docs/standard/07-pianificazione-e-gestione-del-lavoro.md",
       "requirements": ["RQ-063"],
-      "code": [],
-      "tests": [],
-      "fixtures": [],
-      "evidence": [],
+      "code": ["Scripts/check-docs.py"],
+      "tests": ["Scripts/check-docs.py"],
+      "fixtures": ["docs/pianificazione/dor-percorso-produttivita-0-1.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-053-definition-of-ready-operativa.md"
+      ],
       "gate": "G1",
-      "status": "specified",
+      "status": "implemented",
       "blockingReason": null
     },
     {
@@ -295,7 +327,8 @@
       "requirements": ["RQ-029"],
       "code": [
         "Packages/GlifiCore/Sources/GlifiCore/GlifiItalianTokenizer.swift",
-        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift"
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiTextModel.swift",
+        "Scripts/check-fixtures.py"
       ],
       "tests": [
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiItalianTokenizerTests.swift",
@@ -303,28 +336,43 @@
       ],
       "fixtures": [
         "Fixtures/Linguistics/it-v1/manifest.json",
-        "Fixtures/Linguistics/it-v1/token-boundaries.json"
+        "Fixtures/Linguistics/it-v1/token-boundaries.json",
+        "Fixtures/Linguistics/it-gold-v0/manifest.json",
+        "Fixtures/Linguistics/it-gold-v0/token-boundaries.json"
       ],
-      "evidence": ["docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-036-validation-manifest-nucleo.md"
+      ],
       "gate": "G2",
-      "status": "blocked",
-      "blockingReason": "Otto casi seed hanno offset verificati, ma corpus gold, split bloccati, annotatori, lemma/POS/NER e soglie non sono approvati."
+      "status": "implemented",
+      "blockingReason": null
     },
     {
       "id": "CMP-017",
       "clause": "GS-VAL-001 § Baseline numerica indipendente",
       "specification": "docs/specifiche-di-design/09-validazione-scientifica.md",
       "requirements": ["RQ-008", "RQ-027"],
-      "code": [],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiCorpusAnalysis.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiKeynessAnalysis.swift",
+        "Scripts/check-fixtures.py"
+      ],
       "tests": ["Scripts/check-fixtures.py"],
       "fixtures": [
         "Fixtures/Scientific/v1/manifest.json",
-        "Fixtures/Scientific/v1/reference-cases.json"
+        "Fixtures/Scientific/v1/reference-cases.json",
+        "Fixtures/Validation/v1/manifest.json",
+        "Fixtures/Validation/v1/corpus-profile-it-v1.json",
+        "Fixtures/Validation/v1/keyness-gtest-ha-bh-v1.json"
       ],
-      "evidence": ["docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-017-sicurezza-api-e-conformita.md",
+        "docs/evidenze/GS-VER-036-validation-manifest-nucleo.md"
+      ],
       "gate": "G2",
-      "status": "blocked",
-      "blockingReason": "Quattro casi V1 sono ricalcolati dal gate, ma dataset indipendenti, oracoli revisionati e copertura/tolleranze per tutte le varianti Must non sono approvati."
+      "status": "implemented",
+      "blockingReason": null
     },
     {
       "id": "CMP-018",
@@ -340,7 +388,12 @@
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiAnalysisExecutionTests.swift"
       ],
       "fixtures": [],
-      "evidence": ["docs/evidenze/GS-VER-030-evidence-finding-caveat.md"],
+      "evidence": [
+        "docs/evidenze/GS-VER-030-evidence-finding-caveat.md",
+        "docs/evidenze/GS-VER-045-ranking-diversity-ui.md",
+        "docs/evidenze/GS-VER-048-validation-interpretation-mvp.md",
+        "docs/evidenze/GS-VER-056-evidence-lineage-uncertainty-ui.md"
+      ],
       "gate": "G2",
       "status": "blocked",
       "blockingReason": "Le policy descrittiva/keyness e il ranking strutturale sono implementati; dataset di ranking, validazione empirica, conflitti e famiglie restanti non sono ancora definiti o misurati."

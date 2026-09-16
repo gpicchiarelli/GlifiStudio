@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.34.0 |
+| Versione | 0.60.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -47,3 +47,38 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-031 — InvestigationHistory append-only e selezione editoriale](GS-VER-031-investigation-history.md) — Superato localmente per persistenza, diramazione, invalidazione e migrazione 2→3
 - [GS-VER-032 — Export scientifico JSON/Markdown verificabile](GS-VER-032-export-scientifico.md) — Superato localmente per report selettivo, manifest, digest, staging e Core/Kit/CLI
 - [GS-VER-033 — Export PDF/A-2u e CSV verificabile](GS-VER-033-export-pdf-csv.md) — Superato localmente per rendering taggato, dati lossless, manifest e Core/Kit/CLI
+- [GS-VER-034 — Gate G1 leggero e allineamento roadmap](GS-VER-034-gate-g1-leggero.md) — Superato localmente per chiusura documentale G1 e focus Fase 2
+- [GS-VER-035 — Vertical slice UI Must sul Kit](GS-VER-035-ui-must-vertical-slice.md) — Superato localmente per wiring Must; runtime Xcode e audit dispositivo aperti
+- [GS-VER-036 — ValidationManifest del nucleo analitico Must](GS-VER-036-validation-manifest-nucleo.md) — Superato localmente per gold token V0 e manifest V0–V4 candidate
+- [GS-VER-037 — Hardening recovery, a11y strutturale e candidatura G4](GS-VER-037-hardening-g4-parziale.md) — Superato parzialmente; VoiceOver/dispositivi/TestFlight aperti
+- [GS-VER-038 — Compensazione locale PR #7 con budget Actions esaurito](GS-VER-038-pr7-budget-actions.md) — Superato localmente; CI remota bloccata da GS-WVR-004
+- [GS-VER-039 — Salto KWIC→fonte e teste di indagine in UI](GS-VER-039-kwic-fonte-teste-indagine.md) — Superato localmente per Kit/UI; verify Xcode aperto
+- [GS-VER-040 — DocumentGroup e UTType studio.glifi.project](GS-VER-040-documentgroup-uttype.md) — Superato localmente per wiring document-based; conflict/provider aperti
+- [GS-VER-041 — ValidationManifest query, progress import e preview export](GS-VER-041-query-manifest-e-preview-export.md) — Superato localmente
+- [GS-VER-042 — Export ValidationManifest, storia indagine e piano localizzato](GS-VER-042-export-manifest-storia-piano.md) — Superato localmente; G3 candidato funzionale
+- [GS-VER-043 — Analisi corpus in UI e ValidationManifest planner](GS-VER-043-analisi-corpus-ui-e-planner-manifest.md) — Superato localmente
+- [GS-VER-044 — Confronto keyness diretto in UI Must](GS-VER-044-keyness-ui-diretto.md) — Superato localmente
+- [GS-VER-045 — Trasparenza ranking Findings e diversità corpus in UI](GS-VER-045-ranking-diversity-ui.md) — Superato localmente
+- [GS-VER-046 — Progresso percorso Must, n-grammi e lineage export in UI](GS-VER-046-must-progress-ngrams-a11y.md) — Superato localmente
+- [GS-VER-047 — Misure Evidence e lineage Artifact in UI Must](GS-VER-047-evidence-measures-artifact-ui.md) — Superato localmente
+- [GS-VER-048 — ValidationManifest interpretazione MVP](GS-VER-048-validation-interpretation-mvp.md) — Superato localmente
+- [GS-VER-049 — Salto Evidence→fonte e ValidationManifest Investigation](GS-VER-049-evidence-fonte-e-investigation-manifest.md) — Superato localmente
+- [GS-VER-050 — Artifact di esecuzione e dimensioni assessment in UI](GS-VER-050-execution-artifacts-assessment-ui.md) — Superato localmente
+- [GS-VER-051 — ValidationManifest esecuzione e CMP-010](GS-VER-051-execution-manifest-e-cmp010.md) — Superato localmente
+- [GS-VER-052 — Confini di fiducia e CMP-001](GS-VER-052-confini-fiducia-cmp001.md) — Superato localmente
+- [GS-VER-053 — Definition of Ready operativa](GS-VER-053-definition-of-ready-operativa.md) — Superato localmente
+- [GS-VER-054 — Navigazione percorso Must e severità Caveat](GS-VER-054-must-nav-caveat-severity.md) — Superato localmente
+- [GS-VER-055 — InsufficientEvidence dettagliato e metodi Evidence](GS-VER-055-insufficient-evidence-metodi.md) — Superato localmente
+- [GS-VER-056 — Lineage Evidence, uncertainty ed effect size in UI](GS-VER-056-evidence-lineage-uncertainty-ui.md) — Superato localmente
+- [GS-VER-057 — Checklist candidatura G3 funzionale](GS-VER-057-checklist-candidatura-g3.md) — Superato localmente; G3 formale aperto
+- [GS-VER-058 — Ruolo e regione SourceReference in UI](GS-VER-058-source-reference-role-region-ui.md) — Superato localmente
+- [GS-VER-059 — Proposizione Finding tipizzata e formati export in UI](GS-VER-059-proposizione-finding-formati-export.md) — Superato localmente
+- [GS-VER-060 — Caveat strutturati e Artifact piano in UI](GS-VER-060-caveat-strutturati-piano-artifact.md) — Superato localmente
+- [GS-VER-061 — CollectionPlanningProfile e decisioni piano in UI](GS-VER-061-collection-profile-piano-ui.md) — Superato localmente
+- [GS-VER-062 — Digest e generazione query in UI](GS-VER-062-query-digest-generazione-ui.md) — Superato localmente
+- [GS-VER-063 — Stato terminale e progresso esecuzione in UI](GS-VER-063-esecuzione-terminale-progresso-ui.md) — Superato localmente
+- [GS-VER-064 — Catalogo, scope e dipendenze del piano in UI](GS-VER-064-catalogo-scope-dipendenze-piano-ui.md) — Superato localmente
+- [GS-VER-065 — Provenienza fonti e fallimenti strutturati in UI](GS-VER-065-provenienza-fonti-fallimenti-ui.md) — Superato localmente
+- [GS-VER-066 — Coordinate query, lineage Evidence e indagine in UI](GS-VER-066-coordinate-query-evidence-indagine-ui.md) — Superato localmente
+- [GS-VER-067 — Metadati scientifici corpus e keyness in UI](GS-VER-067-metadati-scientifici-corpus-keyness-ui.md) — Superato localmente
+- [GS-VER-068 — Richiesta export e progresso query Must in UI](GS-VER-068-export-request-progresso-query-ui.md) — Superato localmente

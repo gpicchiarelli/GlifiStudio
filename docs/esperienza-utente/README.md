@@ -47,10 +47,9 @@ comprensibile **NON DEVE** eliminare precisione, lineage o possibilità di verif
 
 ## Relazione con l'implementazione corrente
 
-Le app correnti espongono ancora soltanto il primo percorso SwiftUI di importazione.
-Il livello headless implementa progetto, planner, Evidence/Finding/Caveat e la prima
-slice persistente di Investigation con selezione editoriale ramificabile. Restano
-aperte navigazione adattiva, storia cognitiva completa e rapporto. I nomi
+Le app condividono il percorso Must SwiftUI (progetto `.glifi`, import, indagine,
+piano/esecuzione, KWIC, findings ed export) come client di GlifiKit. Restano aperte
+navigazione adattiva avanzata, audit VoiceOver su dispositivo e studi UX. I nomi
 concettuali della specifica non costituiscono automaticamente API pubbliche.
 
 ## Information item
@@ -71,6 +70,7 @@ concettuali della specifica non costituiscono automaticamente API pubbliche.
 | GS-UX-001-12 | Comportamento di piattaforma | [Esperienza adattiva macOS e iPadOS](12-esperienza-adattiva-macos-ipados.md) |
 | GS-UX-001-13 | Inclusione e prova | [Accessibilità e validazione UX](13-accessibilita-e-validazione-ux.md) |
 | GS-UX-001-14 | Linguaggio dell'interfaccia | [Vocabolario e localizzazione semantica](14-vocabolario-e-localizzazione-semantica.md) |
+| GS-UX-001-15 | Checklist G4 accessibilità | [Checklist G4 accessibilità e dispositivi](15-checklist-g4-accessibilita.md) |
 
 ## Evoluzione
 

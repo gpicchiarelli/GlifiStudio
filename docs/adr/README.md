@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-ADR-IDX-001 |
 | Tipo | Registro delle decisioni architetturali |
-| Versione | 0.24.0 |
+| Versione | 0.25.0 |
 | Stato | Attivo |
 | Responsabile | Da assegnare |
 | Ultima modifica | 2026-09-16 |
@@ -22,7 +22,7 @@ Gli ADR documentano le scelte architetturali importanti, il contesto in cui sono
 ## Indice
 
 - [ADR-0001 — Piattaforme native iniziali: macOS e iPadOS](0001-piattaforme-native-macos-ipados.md) — Accettato
-- [ADR-0002 — Separazione tra prodotto e motore](0002-separazione-prodotto-motore.md) — Proposto
+- [ADR-0002 — Separazione tra prodotto e motore](0002-separazione-prodotto-motore.md) — Accettato
 - [ADR-0003 — Toolchain e baseline di sviluppo](0003-toolchain-e-baseline-di-sviluppo.md) — Accettato
 - [ADR-0004 — Italiano come lingua iniziale](0004-italiano-lingua-iniziale.md) — Accettato
 - [ADR-0005 — Interfaccia internazionalizzabile](0005-interfaccia-internazionalizzabile.md) — Accettato

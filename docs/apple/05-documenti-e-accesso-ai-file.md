@@ -4,11 +4,11 @@
 | --- | --- |
 | Identificatore | GS-APL-005 |
 | Tipo | Standard applicativo Apple |
-| Versione | 0.3.0 |
-| Stato | Proposto |
-| Responsabile | Da assegnare |
-| Ultima modifica | 2026-09-15 |
-| Approvazione | Non ancora approvato |
+| Versione | 0.4.0 |
+| Stato | Attivo |
+| Responsabile | Iniziatore del progetto |
+| Ultima modifica | 2026-09-16 |
+| Approvazione | Ciclo DocumentGroup `.glifi` introdotto; conflict/file provider da validare su dispositivo |
 
 ## Regole
 
