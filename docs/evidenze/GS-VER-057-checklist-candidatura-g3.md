@@ -9,9 +9,9 @@
 | Versione | 1.0.0 |
 | Stato | Superato localmente |
 | Responsabile | Iniziatore del progetto |
-| Ultima modifica | 2026-09-16 |
+| Ultima modifica | 2026-09-17 |
 | Approvazione | Evidenza operativa dell'iniziatore del progetto |
-| Riferimenti | GS-PROD-001 G3; GS-DOR-001; GS-VER-035…071 |
+| Riferimenti | GS-PROD-001 G3; GS-DOR-001; GS-VER-035…072 |
 
 ## Ambito
 
@@ -26,11 +26,11 @@ cosa è chiuso in codice/documentazione e cosa resta bloccato da ambiente.
 - [x] Salto KWIC→fonte e Evidence→fonte
 - [x] Trasparenza ranking, SupportPolicy, lineage Evidence e proposizione tipizzata
 - [x] Trasparenza piano/esecuzione/query/fonti/export e metadati scientifici
-      corpus/keyness (GS-VER-060…071)
+      corpus/keyness (GS-VER-060…072)
 - [x] ValidationManifest V0–V4 × 8 capability Must
 - [x] DoR operativa (GS-DOR-001) e CMP-001/010/012/014 implemented
 - [x] `make quality-static` verde sul tip
-- [x] Checklist candidatura aggiornata a GS-VER-071
+- [x] Checklist candidatura aggiornata a GS-VER-072
 
 ## Aperto (non G3 funzionale)
 

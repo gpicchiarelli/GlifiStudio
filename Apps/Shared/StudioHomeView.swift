@@ -362,6 +362,11 @@ struct StudioHomeView: View {
                         metricRow("metric.sentences", value: corpus.sentenceCount)
                         metricRow("metric.tokens", value: corpus.lexicalTokenCount)
                         metricRow("metric.types", value: corpus.typeCount)
+                        LabeledContent("corpus.analysis.project-id") {
+                            Text(shortID(corpus.projectID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
                         LabeledContent("corpus.analysis.generation") {
                             Text(corpus.generation, format: .number)
                                 .monospacedDigit()
@@ -915,6 +920,11 @@ struct StudioHomeView: View {
                     LabeledContent("plan.status") {
                         Text(LocalizedStringKey("plan.status.\(plan.plan.status)"))
                     }
+                    LabeledContent("plan.project-id") {
+                        Text(shortID(plan.projectID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("plan.artifact") {
                         Text(shortID(plan.artifactID))
                             .font(.caption2.monospaced())
@@ -1186,6 +1196,11 @@ struct StudioHomeView: View {
                     LabeledContent("execution.terminal-state") {
                         Text(execution.terminalState)
                             .font(.caption.monospaced())
+                    }
+                    LabeledContent("execution.project-id") {
+                        Text(shortID(execution.projectID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
                     }
                     LabeledContent("execution.plan-status") {
                         Text(LocalizedStringKey("plan.status.\(execution.planStatus)"))
