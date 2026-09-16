@@ -376,6 +376,59 @@ struct StudioHomeView: View {
                             .tint(model.selectedReferenceRevisionIDs.contains(source.sourceRevisionID) ? .accentColor : .secondary)
                         }
                     }
+                    Button("action.compare-keyness") {
+                        Task { await model.compareKeynessNow() }
+                    }
+                    .disabled(
+                        model.isBusy
+                            || model.selectedTargetRevisionIDs.isEmpty
+                            || model.selectedReferenceRevisionIDs.isEmpty
+                    )
+                }
+            }
+
+            if let keyness = model.lastKeyness {
+                Section("keyness.title") {
+                    LabeledContent("keyness.target-tokens") {
+                        Text(keyness.targetTokenCount, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("keyness.reference-tokens") {
+                        Text(keyness.referenceTokenCount, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("keyness.term-count") {
+                        Text(keyness.terms.count, format: .number)
+                            .monospacedDigit()
+                    }
+                }
+                Section("keyness.top-terms") {
+                    ForEach(keyness.terms.prefix(20)) { term in
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(term.term)
+                                .font(.body.weight(.medium))
+                            LabeledContent("keyness.direction") {
+                                Text(term.direction)
+                                    .font(.caption.monospaced())
+                            }
+                            LabeledContent("keyness.g-statistic") {
+                                Text(term.gStatistic, format: .number.precision(.fractionLength(2)))
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("keyness.q-value") {
+                                Text(term.qValue, format: .number.precision(.fractionLength(4)))
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("keyness.log2-ratio") {
+                                Text(
+                                    term.log2RatioHaldaneAnscombe,
+                                    format: .number.precision(.fractionLength(2))
+                                )
+                                .monospacedDigit()
+                            }
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
                 }
             }
 

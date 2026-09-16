@@ -511,6 +511,159 @@
         }
       }
     },
+    "keyness.direction" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direction"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Direzione"
+          }
+        }
+      }
+    },
+    "keyness.g-statistic" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "G statistic"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Statistica G"
+          }
+        }
+      }
+    },
+    "keyness.log2-ratio" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "log₂ ratio"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Rapporto log₂"
+          }
+        }
+      }
+    },
+    "keyness.q-value" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "q-value"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "q-value"
+          }
+        }
+      }
+    },
+    "keyness.reference-tokens" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reference tokens"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token di riferimento"
+          }
+        }
+      }
+    },
+    "keyness.target-tokens" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target tokens"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Token obiettivo"
+          }
+        }
+      }
+    },
+    "keyness.term-count" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compared terms"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termini confrontati"
+          }
+        }
+      }
+    },
+    "keyness.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Keyness comparison"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confronto keyness"
+          }
+        }
+      }
+    },
+    "keyness.top-terms" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Strongest terms"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Termini più distintivi"
+          }
+        }
+      }
+    },
     "metric.documents" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -694,6 +847,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nessuna fonte"
+          }
+        }
+      }
+    },
+    "action.compare-keyness" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Compare keyness"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confronta keyness"
           }
         }
       }
@@ -1000,6 +1170,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Esegui un piano prima di salvare l’indagine."
+          }
+        }
+      }
+    },
+    "failure.keyness.missing-groups" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Select both a target and a reference group."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleziona sia un gruppo obiettivo sia un gruppo di riferimento."
+          }
+        }
+      }
+    },
+    "failure.keyness.overlapping-groups" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Target and reference groups must be disjoint."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "I gruppi obiettivo e di riferimento devono essere disgiunti."
           }
         }
       }
@@ -1612,6 +1816,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piano analitico"
+          }
+        }
+      }
+    },
+    "progress.comparing-keyness" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comparing keyness…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confronto keyness…"
           }
         }
       }

@@ -46,6 +46,7 @@ final class StudioHomeModel {
     private(set) var snapshot: GlifiStudioProjectSnapshot?
     private(set) var lastProfile: GlifiStudioTextProfile?
     private(set) var lastCorpusAnalysis: GlifiStudioCorpusAnalysisResult?
+    private(set) var lastKeyness: GlifiStudioKeynessResult?
     private(set) var lastImportedFileName: String?
     private(set) var importProgressCompleted: Int = 0
     private(set) var importProgressTotal: Int = 0
@@ -374,6 +375,27 @@ final class StudioHomeModel {
         }
     }
 
+    func compareKeynessNow() async {
+        await run(messageKey: "progress.comparing-keyness") {
+            let active = try requireSession()
+            let target = Array(selectedTargetRevisionIDs).sorted()
+            let reference = Array(selectedReferenceRevisionIDs).sorted()
+            guard !target.isEmpty, !reference.isEmpty else {
+                throw presentationFailure(messageKey: "failure.keyness.missing-groups")
+            }
+            let overlap = Set(target).intersection(reference)
+            guard overlap.isEmpty else {
+                throw presentationFailure(messageKey: "failure.keyness.overlapping-groups")
+            }
+            let result = try await active.compareKeyness(
+                targetSourceRevisionIDs: target,
+                referenceSourceRevisionIDs: reference
+            )
+            snapshot = try await active.snapshot()
+            lastKeyness = result
+        }
+    }
+
     func exportInvestigation(to destinationDirectory: URL) async {
         await run(messageKey: "progress.exporting") {
             let active = try requireSession()
@@ -491,6 +513,7 @@ final class StudioHomeModel {
         exportReceipt = nil
         exportPreviewMarkdown = nil
         lastCorpusAnalysis = nil
+        lastKeyness = nil
         selectedFindingID = nil
         selectedTargetRevisionIDs = []
         selectedReferenceRevisionIDs = []
