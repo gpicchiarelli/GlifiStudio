@@ -23,6 +23,11 @@
       "id": "validation-scientific-export-v1",
       "path": "Fixtures/Validation/v1/scientific-export-v1.json",
       "status": "candidate"
+    },
+    {
+      "id": "validation-planner-mvp-v1",
+      "path": "Fixtures/Validation/v1/planner-mvp-v1.json",
+      "status": "candidate"
     }
   ]
 }

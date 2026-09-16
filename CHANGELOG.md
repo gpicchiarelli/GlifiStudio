@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Analisi corpus diretta in UI Must, ValidationManifest `planner-mvp-v1` e
+  catalogo a cinque manifest Must (GS-VER-043).
 - ValidationManifest export, storia eventi indagine in UI, stati piano
   localizzati e CMP-012 `implemented` (GS-VER-042); G3 candidato funzionale.
 - ValidationManifest `glifi-query-v1`, progresso import multiplo e anteprima

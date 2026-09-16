@@ -1,6 +1,23 @@
 {
   "sourceLanguage" : "it",
   "strings" : {
+    "action.analyze-corpus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyze corpus"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analizza corpus"
+          }
+        }
+      }
+    },
     "action.import" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -201,6 +218,57 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il termine {term} caratterizza maggiormente il gruppo obiettivo."
+          }
+        }
+      }
+    },
+    "corpus.analysis.generation" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generation"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generazione"
+          }
+        }
+      }
+    },
+    "corpus.analysis.title" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corpus analysis"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analisi del corpus"
+          }
+        }
+      }
+    },
+    "corpus.analysis.top-terms" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Corpus top forms"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Forme più frequenti del corpus"
           }
         }
       }
@@ -439,6 +507,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Il file non contiene testo UTF-8 valido."
+          }
+        }
+      }
+    },
+    "metric.documents" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documents"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Documenti"
           }
         }
       }
@@ -1527,6 +1612,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Piano analitico"
+          }
+        }
+      }
+    },
+    "progress.analyzing-corpus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analyzing corpus…"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Analisi del corpus…"
           }
         }
       }

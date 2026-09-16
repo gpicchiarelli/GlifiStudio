@@ -45,6 +45,7 @@ final class StudioHomeModel {
     private(set) var projectURL: URL?
     private(set) var snapshot: GlifiStudioProjectSnapshot?
     private(set) var lastProfile: GlifiStudioTextProfile?
+    private(set) var lastCorpusAnalysis: GlifiStudioCorpusAnalysisResult?
     private(set) var lastImportedFileName: String?
     private(set) var importProgressCompleted: Int = 0
     private(set) var importProgressTotal: Int = 0
@@ -363,6 +364,16 @@ final class StudioHomeModel {
         }
     }
 
+    func analyzeCorpusNow() async {
+        await run(messageKey: "progress.analyzing-corpus") {
+            let active = try requireSession()
+            let result = try await active.analyzeCorpus()
+            snapshot = try await active.snapshot()
+            lastCorpusAnalysis = result
+            lastProfile = nil
+        }
+    }
+
     func exportInvestigation(to destinationDirectory: URL) async {
         await run(messageKey: "progress.exporting") {
             let active = try requireSession()
@@ -479,6 +490,7 @@ final class StudioHomeModel {
         sourceText = nil
         exportReceipt = nil
         exportPreviewMarkdown = nil
+        lastCorpusAnalysis = nil
         selectedFindingID = nil
         selectedTargetRevisionIDs = []
         selectedReferenceRevisionIDs = []

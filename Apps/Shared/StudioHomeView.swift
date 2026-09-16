@@ -271,6 +271,10 @@ struct StudioHomeView: View {
                         isSourceImporterPresented = true
                     }
                     .disabled(model.isBusy)
+                    Button("action.analyze-corpus") {
+                        Task { await model.analyzeCorpusNow() }
+                    }
+                    .disabled(model.isBusy || (model.snapshot?.sources.isEmpty ?? true))
                     Text("import.allowed-formats")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
@@ -289,6 +293,28 @@ struct StudioHomeView: View {
                         ForEach(lastProfile.topTerms.prefix(20)) { frequency in
                             LabeledContent(frequency.term) {
                                 Text(frequency.count, format: .number)
+                                    .monospacedDigit()
+                            }
+                            .accessibilityElement(children: .combine)
+                        }
+                    }
+                }
+                if let corpus = model.lastCorpusAnalysis {
+                    Section("corpus.analysis.title") {
+                        metricRow("metric.documents", value: corpus.documentCount)
+                        metricRow("metric.characters", value: corpus.characterCount)
+                        metricRow("metric.sentences", value: corpus.sentenceCount)
+                        metricRow("metric.tokens", value: corpus.lexicalTokenCount)
+                        metricRow("metric.types", value: corpus.typeCount)
+                        LabeledContent("corpus.analysis.generation") {
+                            Text(corpus.generation, format: .number)
+                                .monospacedDigit()
+                        }
+                    }
+                    Section("corpus.analysis.top-terms") {
+                        ForEach(corpus.terms.prefix(20)) { term in
+                            LabeledContent(term.term) {
+                                Text(term.frequency, format: .number)
                                     .monospacedDigit()
                             }
                             .accessibilityElement(children: .combine)
