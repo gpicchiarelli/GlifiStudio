@@ -361,10 +361,79 @@ struct StudioHomeView: View {
                             Text(corpus.generation, format: .number)
                                 .monospacedDigit()
                         }
+                        LabeledContent("corpus.analysis.source-generation") {
+                            Text(corpus.sourceGeneration, format: .number)
+                                .monospacedDigit()
+                        }
                         LabeledContent("corpus.analysis.artifact") {
                             Text(shortID(corpus.artifactID))
                                 .font(.caption.monospaced())
                                 .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.analysis-node") {
+                            Text(shortID(corpus.analysisNodeID))
+                                .font(.caption.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.identifier") {
+                            Text(corpus.analysisIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.digest") {
+                            Text(shortID(corpus.corpusDigest))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                    }
+                    Section("corpus.analysis.contracts") {
+                        LabeledContent("corpus.analysis.count-determinism") {
+                            Text(corpus.countDeterminismClass)
+                                .font(.caption2.monospaced())
+                        }
+                        LabeledContent("corpus.analysis.fp-determinism") {
+                            Text(corpus.floatingPointDeterminismClass)
+                                .font(.caption2.monospaced())
+                        }
+                        LabeledContent("corpus.analysis.numeric-policy") {
+                            Text(corpus.numericPolicyIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.tolerance") {
+                            Text(
+                                corpus.referenceAbsoluteTolerance,
+                                format: .number.precision(.fractionLength(6))
+                            )
+                            .monospacedDigit()
+                        }
+                        LabeledContent("corpus.analysis.tokenization") {
+                            Text(corpus.tokenizationContractIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.normalization") {
+                            Text(corpus.normalizationIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.ngram-id") {
+                            Text(corpus.ngramIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.dispersion-id") {
+                            Text(corpus.dispersionIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-unit") {
+                            Text(corpus.matrix.unitKind)
+                                .font(.caption2.monospaced())
+                        }
+                        LabeledContent("corpus.analysis.matrix-cells") {
+                            Text(corpus.matrix.cells.count, format: .number)
+                                .monospacedDigit()
                         }
                     }
                     Section("corpus.diversity.title") {
@@ -375,12 +444,45 @@ struct StudioHomeView: View {
                             Text(corpus.diversity.windowSize, format: .number)
                                 .monospacedDigit()
                         }
+                        LabeledContent("corpus.diversity.sequence-policy") {
+                            Text(corpus.diversity.sequencePolicy)
+                                .font(.caption2.monospaced())
+                        }
+                        LabeledContent("corpus.diversity.ttr-id") {
+                            Text(corpus.diversity.ttrIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
                     }
                     Section("corpus.analysis.top-terms") {
                         ForEach(corpus.terms.prefix(20)) { term in
-                            LabeledContent(term.term) {
-                                Text(term.frequency, format: .number)
+                            VStack(alignment: .leading, spacing: 2) {
+                                LabeledContent(term.term) {
+                                    Text(term.frequency, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("corpus.term.relative") {
+                                    Text(
+                                        term.relativeFrequency,
+                                        format: .number.precision(.fractionLength(6))
+                                    )
                                     .monospacedDigit()
+                                }
+                                LabeledContent("corpus.term.document-frequency") {
+                                    Text(term.documentFrequency, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("corpus.term.range") {
+                                    Text(term.range, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("corpus.term.gries-dp") {
+                                    Text(
+                                        term.griesDP,
+                                        format: .number.precision(.fractionLength(4))
+                                    )
+                                    .monospacedDigit()
+                                }
                             }
                             .accessibilityElement(children: .combine)
                         }
@@ -497,6 +599,83 @@ struct StudioHomeView: View {
                             .font(.caption.monospaced())
                             .textSelection(.enabled)
                     }
+                    LabeledContent("keyness.analysis-node") {
+                        Text(shortID(keyness.analysisNodeID))
+                            .font(.caption.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.generation") {
+                        Text(keyness.generation, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("keyness.comparison-id") {
+                        Text(keyness.comparisonIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.comparison-digest") {
+                        Text(shortID(keyness.comparisonDigest))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.target-digest") {
+                        Text(shortID(keyness.targetCorpusDigest))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.reference-digest") {
+                        Text(shortID(keyness.referenceCorpusDigest))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                }
+                Section("keyness.contracts") {
+                    LabeledContent("keyness.test-id") {
+                        Text(keyness.testIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.pvalue-id") {
+                        Text(keyness.pValueIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.correction-id") {
+                        Text(keyness.correctionIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.odds-ratio-id") {
+                        Text(keyness.oddsRatioIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.log-ratio-id") {
+                        Text(keyness.logRatioIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.ordering-id") {
+                        Text(keyness.orderingIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.low-expected-threshold") {
+                        Text(
+                            keyness.lowExpectedCountThreshold,
+                            format: .number.precision(.fractionLength(2))
+                        )
+                        .monospacedDigit()
+                    }
+                    LabeledContent("keyness.fp-determinism") {
+                        Text(keyness.floatingPointDeterminismClass)
+                            .font(.caption2.monospaced())
+                    }
+                    LabeledContent("keyness.numeric-policy") {
+                        Text(keyness.numericPolicyIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                 }
                 Section("keyness.top-terms") {
                     ForEach(keyness.terms.prefix(20)) { term in
@@ -507,13 +686,36 @@ struct StudioHomeView: View {
                                 Text(term.direction)
                                     .font(.caption.monospaced())
                             }
+                            LabeledContent("keyness.target-frequency") {
+                                Text(term.targetFrequency, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("keyness.reference-frequency") {
+                                Text(term.referenceFrequency, format: .number)
+                                    .monospacedDigit()
+                            }
                             LabeledContent("keyness.g-statistic") {
                                 Text(term.gStatistic, format: .number.precision(.fractionLength(2)))
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("keyness.df") {
+                                Text(term.degreesOfFreedom, format: .number)
+                                    .monospacedDigit()
+                            }
+                            LabeledContent("keyness.p-value") {
+                                Text(term.pValue, format: .number.precision(.fractionLength(4)))
                                     .monospacedDigit()
                             }
                             LabeledContent("keyness.q-value") {
                                 Text(term.qValue, format: .number.precision(.fractionLength(4)))
                                     .monospacedDigit()
+                            }
+                            LabeledContent("keyness.odds-ratio") {
+                                Text(
+                                    term.oddsRatioHaldaneAnscombe,
+                                    format: .number.precision(.fractionLength(3))
+                                )
+                                .monospacedDigit()
                             }
                             LabeledContent("keyness.log2-ratio") {
                                 Text(
@@ -521,6 +723,16 @@ struct StudioHomeView: View {
                                     format: .number.precision(.fractionLength(2))
                                 )
                                 .monospacedDigit()
+                            }
+                            LabeledContent("keyness.min-expected") {
+                                Text(
+                                    term.minimumExpectedCount,
+                                    format: .number.precision(.fractionLength(2))
+                                )
+                                .monospacedDigit()
+                            }
+                            LabeledContent("keyness.low-expected") {
+                                Text(term.hasLowExpectedCount ? "common.yes" : "common.no")
                             }
                         }
                         .accessibilityElement(children: .combine)
