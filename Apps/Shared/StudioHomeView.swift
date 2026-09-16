@@ -798,18 +798,7 @@ struct StudioHomeView: View {
                                 Array(insufficient.caveats.enumerated()),
                                 id: \.offset
                             ) { _, caveat in
-                                VStack(alignment: .leading, spacing: 2) {
-                                    Text(LocalizedStringKey(caveat.identifier))
-                                    LabeledContent("finding.caveat.severity") {
-                                        Text(
-                                            LocalizedStringKey(
-                                                "caveat.severity.\(caveat.severity)"
-                                            )
-                                        )
-                                        .font(.caption)
-                                    }
-                                }
-                                .accessibilityElement(children: .combine)
+                                caveatRow(caveat)
                             }
                         }
                     }
@@ -905,14 +894,7 @@ struct StudioHomeView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(Array(finding.caveats.enumerated()), id: \.offset) { _, caveat in
-                        VStack(alignment: .leading, spacing: 2) {
-                            Text(LocalizedStringKey(caveat.identifier))
-                            LabeledContent("finding.caveat.severity") {
-                                Text(LocalizedStringKey("caveat.severity.\(caveat.severity)"))
-                                    .font(.caption)
-                            }
-                        }
-                        .accessibilityElement(children: .combine)
+                        caveatRow(caveat)
                     }
                 }
             }
@@ -939,6 +921,22 @@ struct StudioHomeView: View {
                                 Text(evidence.validity)
                                     .font(.caption.monospaced())
                             }
+                            LabeledContent("finding.evidence.epistemic") {
+                                Text(evidence.epistemicCategory)
+                                    .font(.caption.monospaced())
+                            }
+                            LabeledContent("finding.evidence.analysis-node") {
+                                Text(shortID(evidence.analysisNodeID))
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                            ForEach(evidence.artifactIDs.prefix(4), id: \.self) { artifactID in
+                                LabeledContent("finding.evidence.artifact") {
+                                    Text(shortID(artifactID))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
                             if !evidence.methodIdentifiers.isEmpty {
                                 ForEach(evidence.methodIdentifiers.prefix(6), id: \.self) { method in
                                     LabeledContent("finding.evidence.method") {
@@ -946,6 +944,26 @@ struct StudioHomeView: View {
                                             .font(.caption2.monospaced())
                                             .textSelection(.enabled)
                                     }
+                                }
+                            }
+                            ForEach(
+                                evidence.uncertaintyIdentifiers.prefix(4),
+                                id: \.self
+                            ) { identifier in
+                                LabeledContent("finding.evidence.uncertainty") {
+                                    Text(identifier)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
+                            ForEach(
+                                evidence.effectSizeIdentifiers.prefix(4),
+                                id: \.self
+                            ) { identifier in
+                                LabeledContent("finding.evidence.effect-size") {
+                                    Text(identifier)
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
                                 }
                             }
                             ForEach(evidence.measures.prefix(8), id: \.identifier) { measure in
@@ -971,10 +989,11 @@ struct StudioHomeView: View {
                                 .disabled(model.isBusy)
                                 .accessibilityLabel("action.open-evidence-source")
                             }
-                            if evidence.hasLowExpectedCountCaveat {
-                                Text("caveat.keyness.low-expected-count")
-                                    .font(.footnote)
-                                    .foregroundStyle(.orange)
+                            ForEach(
+                                Array(evidence.caveats.enumerated()),
+                                id: \.offset
+                            ) { _, caveat in
+                                caveatRow(caveat)
                             }
                         }
                         .accessibilityElement(children: .combine)
@@ -1221,6 +1240,17 @@ struct StudioHomeView: View {
         return String(value.prefix(12)) + "…" + String(value.suffix(8))
     }
 
+    private func caveatRow(_ caveat: GlifiStudioCaveat) -> some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(LocalizedStringKey(caveat.identifier))
+            LabeledContent("finding.caveat.severity") {
+                Text(LocalizedStringKey("caveat.severity.\(caveat.severity)"))
+                    .font(.caption)
+            }
+        }
+        .accessibilityElement(children: .combine)
+    }
+
     private func evidenceMeasureText(_ measure: GlifiStudioEvidenceMeasure) -> String {
         let rendered = evidenceValueText(measure.value)
         if let unit = measure.unitIdentifier, !unit.isEmpty {
@@ -1248,13 +1278,6 @@ struct StudioHomeView: View {
 private extension GlifiStudioFinding {
     var supportClassLabel: String {
         assessment.supportClass
-    }
-}
-
-private extension GlifiStudioEvidence {
-    var hasLowExpectedCountCaveat: Bool {
-        caveats.contains { $0.identifier == "caveat.keyness.low-expected-count" }
-            || caveats.contains { $0.identifier.contains("low-expected") }
     }
 }
 

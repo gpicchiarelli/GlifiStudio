@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Lineage Evidence, uncertainty/effect size e Caveat tipizzati in UI
+  (GS-VER-056).
 - Dettaglio `insufficientEvidence` e methodIdentifiers Evidence in UI
   (GS-VER-055).
 - Navigazione Overview→sezioni Must e severità Caveat in UI (GS-VER-054).
