@@ -432,13 +432,82 @@ struct StudioHomeView: View {
                                 .font(.caption2.monospaced())
                                 .textSelection(.enabled)
                         }
+                        LabeledContent("corpus.analysis.character-unit") {
+                            Text(corpus.characterUnitIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        revisionIDList(
+                            titleKey: "corpus.analysis.source-revisions",
+                            ids: corpus.sourceRevisionIDs
+                        )
+                    }
+                    Section("corpus.analysis.matrix") {
                         LabeledContent("corpus.analysis.matrix-unit") {
                             Text(corpus.matrix.unitKind)
                                 .font(.caption2.monospaced())
                         }
+                        LabeledContent("corpus.analysis.matrix-count-id") {
+                            Text(corpus.matrix.countIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-tf-id") {
+                            Text(corpus.matrix.tfIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-idf-id") {
+                            Text(corpus.matrix.idfIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-tfidf-id") {
+                            Text(corpus.matrix.tfidfIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.analysis.matrix-terms") {
+                            Text(corpus.matrix.terms.count, format: .number)
+                                .monospacedDigit()
+                        }
                         LabeledContent("corpus.analysis.matrix-cells") {
                             Text(corpus.matrix.cells.count, format: .number)
                                 .monospacedDigit()
+                        }
+                        revisionIDList(
+                            titleKey: "corpus.analysis.matrix-rows",
+                            ids: corpus.matrix.rowSourceRevisionIDs
+                        )
+                        ForEach(
+                            Array(corpus.matrix.cells.prefix(8).enumerated()),
+                            id: \.offset
+                        ) { _, cell in
+                            VStack(alignment: .leading, spacing: 2) {
+                                LabeledContent("corpus.analysis.matrix-cell") {
+                                    Text("\(cell.rowIndex),\(cell.columnIndex)")
+                                        .font(.caption2.monospaced())
+                                }
+                                LabeledContent("corpus.analysis.matrix-cell-count") {
+                                    Text(cell.count, format: .number)
+                                        .monospacedDigit()
+                                }
+                                LabeledContent("corpus.analysis.matrix-cell-tf") {
+                                    Text(
+                                        cell.tfRaw,
+                                        format: .number.precision(.fractionLength(4))
+                                    )
+                                    .monospacedDigit()
+                                }
+                                LabeledContent("corpus.analysis.matrix-cell-tfidf") {
+                                    Text(
+                                        cell.tfidfSmooth,
+                                        format: .number.precision(.fractionLength(4))
+                                    )
+                                    .monospacedDigit()
+                                }
+                            }
+                            .accessibilityElement(children: .combine)
                         }
                     }
                     Section("corpus.diversity.title") {
@@ -455,6 +524,16 @@ struct StudioHomeView: View {
                         }
                         LabeledContent("corpus.diversity.ttr-id") {
                             Text(corpus.diversity.ttrIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.diversity.msttr-id") {
+                            Text(corpus.diversity.msttrIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("corpus.diversity.mattr-id") {
+                            Text(corpus.diversity.mattrIdentifier)
                                 .font(.caption2.monospaced())
                                 .textSelection(.enabled)
                         }
@@ -633,6 +712,23 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    revisionIDList(
+                        titleKey: "keyness.target-revisions",
+                        ids: keyness.targetSourceRevisionIDs
+                    )
+                    revisionIDList(
+                        titleKey: "keyness.reference-revisions",
+                        ids: keyness.referenceSourceRevisionIDs
+                    )
+                    LabeledContent("keyness.project-id") {
+                        Text(shortID(keyness.projectID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("keyness.source-generation") {
+                        Text(keyness.sourceGeneration, format: .number)
+                            .monospacedDigit()
+                    }
                 }
                 Section("keyness.contracts") {
                     LabeledContent("keyness.test-id") {
@@ -660,6 +756,11 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
+                    LabeledContent("keyness.diagnostic-id") {
+                        Text(keyness.diagnosticIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("keyness.ordering-id") {
                         Text(keyness.orderingIdentifier)
                             .font(.caption2.monospaced())
@@ -669,6 +770,13 @@ struct StudioHomeView: View {
                         Text(
                             keyness.lowExpectedCountThreshold,
                             format: .number.precision(.fractionLength(2))
+                        )
+                        .monospacedDigit()
+                    }
+                    LabeledContent("keyness.tolerance") {
+                        Text(
+                            keyness.referenceAbsoluteTolerance,
+                            format: .number.precision(.fractionLength(6))
                         )
                         .monospacedDigit()
                     }
@@ -698,6 +806,20 @@ struct StudioHomeView: View {
                             LabeledContent("keyness.reference-frequency") {
                                 Text(term.referenceFrequency, format: .number)
                                     .monospacedDigit()
+                            }
+                            LabeledContent("keyness.target-relative") {
+                                Text(
+                                    term.targetRelativeFrequency,
+                                    format: .number.precision(.fractionLength(6))
+                                )
+                                .monospacedDigit()
+                            }
+                            LabeledContent("keyness.reference-relative") {
+                                Text(
+                                    term.referenceRelativeFrequency,
+                                    format: .number.precision(.fractionLength(6))
+                                )
+                                .monospacedDigit()
                             }
                             LabeledContent("keyness.g-statistic") {
                                 Text(term.gStatistic, format: .number.precision(.fractionLength(2)))
@@ -1031,9 +1153,20 @@ struct StudioHomeView: View {
                         Text(progress.estimateQuality)
                             .font(.caption.monospaced())
                     }
+                    LabeledContent("execution.progress.revision") {
+                        Text(progress.revision, format: .number)
+                            .monospacedDigit()
+                    }
                     if let step = progress.planStepIdentifier {
                         LabeledContent("execution.progress.plan-step") {
                             Text(step)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                    }
+                    if let node = progress.analysisNodeID {
+                        LabeledContent("execution.progress.analysis-node") {
+                            Text(shortID(node))
                                 .font(.caption2.monospaced())
                                 .textSelection(.enabled)
                         }
@@ -1242,6 +1375,16 @@ struct StudioHomeView: View {
                     LabeledContent("investigation.selected-findings") {
                         Text(investigation.selectedFindingIDs.count, format: .number)
                             .monospacedDigit()
+                    }
+                    ForEach(
+                        investigation.selectedFindingIDs.prefix(8),
+                        id: \.self
+                    ) { findingID in
+                        LabeledContent("investigation.selected-finding") {
+                            Text(shortID(findingID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
                     }
                     LabeledContent("investigation.available-findings") {
                         Text(investigation.availableFindingIDs.count, format: .number)
@@ -1885,6 +2028,17 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                     }
                     .foregroundStyle(.tertiary)
+                    if !failure.arguments.isEmpty {
+                        ForEach(
+                            failure.arguments.keys.sorted().prefix(6),
+                            id: \.self
+                        ) { key in
+                            Text("\(key)=\(failure.arguments[key] ?? "")")
+                                .font(.caption2.monospaced())
+                                .foregroundStyle(.tertiary)
+                                .accessibilityLabel("failure.arguments")
+                        }
+                    }
                 }
             }
             Spacer()

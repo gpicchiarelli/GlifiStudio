@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 0.60.0 |
+| Versione | 0.63.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-16 |
@@ -82,3 +82,6 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-066 — Coordinate query, lineage Evidence e indagine in UI](GS-VER-066-coordinate-query-evidence-indagine-ui.md) — Superato localmente
 - [GS-VER-067 — Metadati scientifici corpus e keyness in UI](GS-VER-067-metadati-scientifici-corpus-keyness-ui.md) — Superato localmente
 - [GS-VER-068 — Richiesta export e progresso query Must in UI](GS-VER-068-export-request-progresso-query-ui.md) — Superato localmente
+- [GS-VER-069 — Matrice sparsa e diversità corpus in UI](GS-VER-069-matrice-sparsa-diversita-corpus-ui.md) — Superato localmente
+- [GS-VER-070 — Popolazioni e frequenze relative keyness in UI](GS-VER-070-keyness-popolazioni-frequenze-relative-ui.md) — Superato localmente
+- [GS-VER-071 — Progresso esecuzione, argomenti failure e selezione indagine](GS-VER-071-progresso-failure-selezione-indagine-ui.md) — Superato localmente
