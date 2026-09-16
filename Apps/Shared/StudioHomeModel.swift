@@ -57,6 +57,11 @@ final class StudioHomeModel {
     private(set) var executionProgress: GlifiStudioOperationProgress?
     private(set) var investigation: GlifiStudioInvestigation?
     private(set) var investigationHeads: [GlifiStudioInvestigation] = []
+    private(set) var lastInvestigationProjectID: String?
+    private(set) var lastInvestigationGeneration: Int?
+    private(set) var lastInvestigationCreationRequest: GlifiStudioInvestigationCreationRequest?
+    private(set) var lastInvestigationSelectionRequest: GlifiStudioInvestigationSelectionRequest?
+    private(set) var lastPlanRequest: GlifiStudioAnalysisPlanRequest?
     private(set) var queryResult: GlifiStudioProjectQueryResult?
     private(set) var selectedQueryMatchID: String?
     private(set) var sourceText: GlifiStudioSourceText?
@@ -261,11 +266,16 @@ final class StudioHomeModel {
         await run(messageKey: "progress.planning") {
             let active = try requireSession()
             let request = makePlanRequest()
+            lastPlanRequest = request
             let planned = try await active.planAnalysis(request)
             planResult = planned
             executionResult = nil
             executionProgress = nil
             investigation = nil
+            lastInvestigationProjectID = nil
+            lastInvestigationGeneration = nil
+            lastInvestigationCreationRequest = nil
+            lastInvestigationSelectionRequest = nil
             exportReceipt = nil
             lastExportRequest = nil
             selectedFindingID = nil
@@ -276,6 +286,7 @@ final class StudioHomeModel {
         await run(messageKey: "progress.executing") {
             let active = try requireSession()
             let request = makePlanRequest()
+            lastPlanRequest = request
             let execution = try active.executeAnalysisPlan(request)
             activeExecution = execution
             defer { activeExecution = nil }
@@ -318,6 +329,10 @@ final class StudioHomeModel {
                 selectedFindingIDs: selected
             )
             let result = try await active.createInvestigation(request)
+            lastInvestigationCreationRequest = request
+            lastInvestigationSelectionRequest = nil
+            lastInvestigationProjectID = result.projectID
+            lastInvestigationGeneration = result.generation
             investigation = result.investigation
             editorialSelectedFindingIDs = Set(result.investigation.selectedFindingIDs)
             investigationHeads = try await active.investigationHeads()
@@ -360,6 +375,9 @@ final class StudioHomeModel {
                 reasonIdentifier: "editorial.focus"
             )
             let result = try await active.reviseInvestigationSelection(request)
+            lastInvestigationSelectionRequest = request
+            lastInvestigationProjectID = result.projectID
+            lastInvestigationGeneration = result.generation
             self.investigation = result.investigation
             editorialSelectedFindingIDs = Set(result.investigation.selectedFindingIDs)
             investigationHeads = try await active.investigationHeads()
@@ -564,6 +582,11 @@ final class StudioHomeModel {
         executionProgress = nil
         investigation = nil
         investigationHeads = []
+        lastInvestigationProjectID = nil
+        lastInvestigationGeneration = nil
+        lastInvestigationCreationRequest = nil
+        lastInvestigationSelectionRequest = nil
+        lastPlanRequest = nil
         queryResult = nil
         selectedQueryMatchID = nil
         sourceText = nil

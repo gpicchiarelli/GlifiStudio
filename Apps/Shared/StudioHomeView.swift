@@ -1012,6 +1012,43 @@ struct StudioHomeView: View {
                 }
             }
 
+            if let request = model.lastPlanRequest {
+                Section("plan.request") {
+                    LabeledContent("plan.request.intent") {
+                        Text(request.intent)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("plan.request.work-budget") {
+                        Text(request.maximumEstimatedWorkUnits, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("plan.request.scope-count") {
+                        Text(request.scopeSourceRevisionIDs.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    revisionIDList(
+                        titleKey: "plan.request.scope",
+                        ids: request.scopeSourceRevisionIDs
+                    )
+                    LabeledContent("plan.request.target-count") {
+                        Text(request.targetSourceRevisionIDs.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    revisionIDList(
+                        titleKey: "plan.request.target",
+                        ids: request.targetSourceRevisionIDs
+                    )
+                    LabeledContent("plan.request.reference-count") {
+                        Text(request.referenceSourceRevisionIDs.count, format: .number)
+                            .monospacedDigit()
+                    }
+                    revisionIDList(
+                        titleKey: "plan.request.reference",
+                        ids: request.referenceSourceRevisionIDs
+                    )
+                }
+            }
+
             if let plan = model.planResult {
                 Section("plan.title") {
                     LabeledContent("plan.status") {
@@ -1455,6 +1492,19 @@ struct StudioHomeView: View {
                         Text(shortID(investigation.headEventID))
                             .font(.caption.monospaced())
                     }
+                    if let projectID = model.lastInvestigationProjectID {
+                        LabeledContent("investigation.project-id") {
+                            Text(shortID(projectID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                    }
+                    if let generation = model.lastInvestigationGeneration {
+                        LabeledContent("investigation.generation") {
+                            Text(generation, format: .number)
+                                .monospacedDigit()
+                        }
+                    }
                     LabeledContent("investigation.intent") {
                         Text(investigation.intent)
                             .font(.caption.monospaced())
@@ -1474,6 +1524,87 @@ struct StudioHomeView: View {
                             .textSelection(.enabled)
                     }
                     Text(investigation.question)
+                }
+                if let request = model.lastInvestigationCreationRequest {
+                    Section("investigation.creation-request") {
+                        LabeledContent("investigation.creation-request.schema") {
+                            Text(request.schemaIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("investigation.creation-request.schema-version") {
+                            Text(request.schemaVersion, format: .number)
+                                .monospacedDigit()
+                        }
+                        LabeledContent("investigation.creation-request.language") {
+                            Text(request.languageCode)
+                                .font(.caption.monospaced())
+                        }
+                        LabeledContent("investigation.creation-request.interpretation-artifact") {
+                            Text(shortID(request.interpretationArtifactID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        if let selected = request.selectedFindingIDs {
+                            LabeledContent("investigation.creation-request.selected-count") {
+                                Text(selected.count, format: .number)
+                                    .monospacedDigit()
+                            }
+                            ForEach(selected.prefix(8), id: \.self) { findingID in
+                                LabeledContent("investigation.creation-request.selected-finding") {
+                                    Text(shortID(findingID))
+                                        .font(.caption2.monospaced())
+                                        .textSelection(.enabled)
+                                }
+                            }
+                        } else {
+                            Text("investigation.creation-request.all-findings")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Text(request.question)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                if let request = model.lastInvestigationSelectionRequest {
+                    Section("investigation.selection-request") {
+                        LabeledContent("investigation.selection-request.schema") {
+                            Text(request.schemaIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("investigation.selection-request.schema-version") {
+                            Text(request.schemaVersion, format: .number)
+                                .monospacedDigit()
+                        }
+                        LabeledContent("investigation.selection-request.investigation-id") {
+                            Text(shortID(request.investigationID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("investigation.selection-request.predecessor") {
+                            Text(shortID(request.predecessorEventID))
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("investigation.selection-request.reason") {
+                            Text(request.reasonIdentifier)
+                                .font(.caption2.monospaced())
+                                .textSelection(.enabled)
+                        }
+                        LabeledContent("investigation.selection-request.selected-count") {
+                            Text(request.selectedFindingIDs.count, format: .number)
+                                .monospacedDigit()
+                        }
+                        ForEach(request.selectedFindingIDs.prefix(8), id: \.self) { findingID in
+                            LabeledContent("investigation.selection-request.selected-finding") {
+                                Text(shortID(findingID))
+                                    .font(.caption2.monospaced())
+                                    .textSelection(.enabled)
+                            }
+                        }
+                    }
                 }
                 Section("investigation.history") {
                     ForEach(Array(investigation.eventIDs.enumerated()), id: \.offset) { index, eventID in
