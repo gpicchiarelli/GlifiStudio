@@ -8,6 +8,7 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Navigazione Overview→sezioni Must e severità Caveat in UI (GS-VER-054).
 - Definition of Ready operativa (scheda, template PR, check-docs) e CMP-014
   `implemented` (GS-VER-053).
 - Confini App→Kit→Core e CMP-001 `implemented` (GS-VER-052).

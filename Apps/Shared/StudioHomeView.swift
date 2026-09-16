@@ -162,15 +162,36 @@ struct StudioHomeView: View {
                     Text("home.must-progress.title")
                         .font(.headline)
                         .accessibilityAddTraits(.isHeader)
-                    mustProgressRow("home.must-progress.project", done: model.mustPathHasProject)
-                    mustProgressRow("home.must-progress.sources", done: model.mustPathHasSources)
-                    mustProgressRow("home.must-progress.analysis", done: model.mustPathHasPlanOrCorpus)
-                    mustProgressRow("home.must-progress.findings", done: model.mustPathHasFindings)
+                    mustProgressRow(
+                        "home.must-progress.project",
+                        done: model.mustPathHasProject,
+                        section: .project
+                    )
+                    mustProgressRow(
+                        "home.must-progress.sources",
+                        done: model.mustPathHasSources,
+                        section: .sources
+                    )
+                    mustProgressRow(
+                        "home.must-progress.analysis",
+                        done: model.mustPathHasPlanOrCorpus,
+                        section: .investigation
+                    )
+                    mustProgressRow(
+                        "home.must-progress.findings",
+                        done: model.mustPathHasFindings,
+                        section: .findings
+                    )
                     mustProgressRow(
                         "home.must-progress.investigation",
-                        done: model.mustPathHasInvestigation
+                        done: model.mustPathHasInvestigation,
+                        section: .investigation
                     )
-                    mustProgressRow("home.must-progress.export", done: model.mustPathHasExport)
+                    mustProgressRow(
+                        "home.must-progress.export",
+                        done: model.mustPathHasExport,
+                        section: .export
+                    )
                 }
                 .accessibilityElement(children: .contain)
                 .accessibilityLabel("home.must-progress.title")
@@ -849,7 +870,14 @@ struct StudioHomeView: View {
                         .foregroundStyle(.secondary)
                 } else {
                     ForEach(Array(finding.caveats.enumerated()), id: \.offset) { _, caveat in
-                        Text(LocalizedStringKey(caveat.identifier))
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(LocalizedStringKey(caveat.identifier))
+                            LabeledContent("finding.caveat.severity") {
+                                Text(LocalizedStringKey("caveat.severity.\(caveat.severity)"))
+                                    .font(.caption)
+                            }
+                        }
+                        .accessibilityElement(children: .combine)
                     }
                 }
             }
@@ -1072,15 +1100,26 @@ struct StudioHomeView: View {
         .accessibilityElement(children: .combine)
     }
 
-    private func mustProgressRow(_ title: LocalizedStringKey, done: Bool) -> some View {
-        Label {
-            Text(title)
-        } icon: {
-            Image(systemName: done ? "checkmark.circle.fill" : "circle")
-                .foregroundStyle(done ? Color.accentColor : .secondary)
+    private func mustProgressRow(
+        _ title: LocalizedStringKey,
+        done: Bool,
+        section: StudioSection
+    ) -> some View {
+        Button {
+            selection = section
+        } label: {
+            Label {
+                Text(title)
+            } icon: {
+                Image(systemName: done ? "checkmark.circle.fill" : "circle")
+                    .foregroundStyle(done ? Color.accentColor : .secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .buttonStyle(.plain)
         .accessibilityLabel(title)
         .accessibilityValue(Text(done ? "common.yes" : "common.no"))
+        .accessibilityHint(Text("home.must-progress.hint"))
     }
 
     @ViewBuilder

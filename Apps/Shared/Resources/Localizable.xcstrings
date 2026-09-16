@@ -86,6 +86,57 @@
         }
       }
     },
+    "caveat.severity.blocking" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Blocking"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bloccante"
+          }
+        }
+      }
+    },
+    "caveat.severity.information" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Information"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Informazione"
+          }
+        }
+      }
+    },
+    "caveat.severity.warning" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Warning"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Avviso"
+          }
+        }
+      }
+    },
     "caveat.insufficient-evidence" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -1871,6 +1922,23 @@
         }
       }
     },
+    "finding.caveat.severity" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Severity"
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Severità"
+          }
+        }
+      }
+    },
     "finding.caveats" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2292,6 +2360,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Indagine salvata"
+          }
+        }
+      }
+    },
+    "home.must-progress.hint" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opens the related Must path section."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apre la sezione correlata del percorso Must."
           }
         }
       }
