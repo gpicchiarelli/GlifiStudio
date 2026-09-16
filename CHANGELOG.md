@@ -8,6 +8,9 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Selezione editoriale dei findings e riapertura dell'ultimo progetto `.glifi` nella
+  UI Must condivisa; deroga GS-WVR-004 / evidenza GS-VER-038 per CI bloccata dal
+  budget Actions sulla PR #7.
 - Percorso produttivo 0.1: G1 leggero (ADR-0002 accettato, roadmap attiva),
   vertical slice UI Must su GlifiKit (progetto, import, indagine, piano/esecuzione,
   KWIC, findings, export), corpus gold token V0, ValidationManifest V0–V4 per

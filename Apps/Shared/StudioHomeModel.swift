@@ -53,6 +53,8 @@ final class StudioHomeModel {
     private(set) var queryResult: GlifiStudioProjectQueryResult?
     private(set) var exportReceipt: GlifiStudioExportReceipt?
     private(set) var selectedFindingID: String?
+    private(set) var editorialSelectedFindingIDs: Set<String> = []
+    private(set) var lastProjectBookmark: Data?
 
     var projectNameDraft = "Indagine"
     var questionDraft = "Che cosa contiene questa raccolta?"
@@ -123,6 +125,7 @@ final class StudioHomeModel {
             let created = try await service.createProject(at: url)
             session = created
             projectURL = url
+            rememberProject(url)
             snapshot = try await created.snapshot()
             clearAnalysisState()
         }
@@ -140,10 +143,33 @@ final class StudioHomeModel {
             let opened = try await service.openProject(at: url)
             session = opened
             projectURL = url
+            rememberProject(url)
             snapshot = try await opened.snapshot()
             clearAnalysisState()
             let heads = try await opened.investigationHeads()
             investigation = heads.first
+            if let investigation {
+                editorialSelectedFindingIDs = Set(investigation.selectedFindingIDs)
+            }
+        }
+    }
+
+    func reopenLastProject() async {
+        guard let lastProjectBookmark else {
+            failureMessageKey = "failure.project.none-open"
+            return
+        }
+        var isStale = false
+        do {
+            let url = try URL(
+                resolvingBookmarkData: lastProjectBookmark,
+                options: [.withoutUI, .withSecurityScope],
+                relativeTo: nil,
+                bookmarkDataIsStale: &isStale
+            )
+            await openProject(at: url)
+        } catch {
+            failureMessageKey = "failure.project.invalid-package"
         }
     }
 
@@ -196,6 +222,7 @@ final class StudioHomeModel {
                     executionProgress = nil
                     snapshot = try await active.snapshot()
                     selectedFindingID = result.interpretation.findings.first?.id
+                    editorialSelectedFindingIDs = Set(result.interpretation.findings.map(\.id))
                 }
             }
         }
@@ -207,14 +234,38 @@ final class StudioHomeModel {
             guard let executionResult else {
                 throw presentationFailure(messageKey: "failure.investigation.missing-execution")
             }
+            let selected =
+                editorialSelectedFindingIDs.isEmpty
+                ? nil
+                : Array(editorialSelectedFindingIDs).sorted()
             let request = GlifiStudioInvestigationCreationRequest(
                 question: questionDraft,
                 languageCode: "it",
                 interpretationArtifactID: executionResult.interpretationArtifactID,
-                selectedFindingIDs: nil
+                selectedFindingIDs: selected
             )
             let result = try await active.createInvestigation(request)
             investigation = result.investigation
+            editorialSelectedFindingIDs = Set(result.investigation.selectedFindingIDs)
+            snapshot = try await active.snapshot()
+        }
+    }
+
+    func reviseEditorialSelection() async {
+        await run(messageKey: "progress.revising-selection") {
+            let active = try requireSession()
+            guard let investigation else {
+                throw presentationFailure(messageKey: "failure.export.missing-investigation")
+            }
+            let request = GlifiStudioInvestigationSelectionRequest(
+                investigationID: investigation.id,
+                predecessorEventID: investigation.headEventID,
+                selectedFindingIDs: Array(editorialSelectedFindingIDs).sorted(),
+                reasonIdentifier: "editorial.focus"
+            )
+            let result = try await active.reviseInvestigationSelection(request)
+            self.investigation = result.investigation
+            editorialSelectedFindingIDs = Set(result.investigation.selectedFindingIDs)
             snapshot = try await active.snapshot()
         }
     }
@@ -260,6 +311,14 @@ final class StudioHomeModel {
 
     func selectFinding(id: String) {
         selectedFindingID = id
+    }
+
+    func toggleEditorialSelection(id: String) {
+        if editorialSelectedFindingIDs.contains(id) {
+            editorialSelectedFindingIDs.remove(id)
+        } else {
+            editorialSelectedFindingIDs.insert(id)
+        }
     }
 
     func toggleTarget(_ revisionID: String) {
@@ -308,7 +367,16 @@ final class StudioHomeModel {
         selectedFindingID = nil
         selectedTargetRevisionIDs = []
         selectedReferenceRevisionIDs = []
+        editorialSelectedFindingIDs = []
         failureMessageKey = nil
+    }
+
+    private func rememberProject(_ url: URL) {
+        lastProjectBookmark = try? url.bookmarkData(
+            options: [.withSecurityScope, .minimalBookmark],
+            includingResourceValuesForKeys: nil,
+            relativeTo: nil
+        )
     }
 
     private func closeSession() async {

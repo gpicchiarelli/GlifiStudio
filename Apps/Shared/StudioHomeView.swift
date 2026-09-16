@@ -156,11 +156,19 @@ struct StudioHomeView: View {
                     .disabled(model.isBusy)
 
                     Button("action.open-project", systemImage: "folder") {
-                        isProjectImporterPresented = true
+                    isProjectImporterPresented = true
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.large)
+                .disabled(model.isBusy)
+
+                    Button("action.reopen-project", systemImage: "arrow.uturn.backward") {
+                        selection = .project
+                        Task { await model.reopenLastProject() }
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.large)
-                    .disabled(model.isBusy)
+                    .disabled(model.isBusy || model.lastProjectBookmark == nil)
                 }
 
                 engineStatus
@@ -220,6 +228,10 @@ struct StudioHomeView: View {
                     isProjectImporterPresented = true
                 }
                 .disabled(model.isBusy)
+                Button("action.reopen-project") {
+                    Task { await model.reopenLastProject() }
+                }
+                .disabled(model.isBusy || model.lastProjectBookmark == nil)
             }
         }
         .formStyle(.grouped)
@@ -538,6 +550,20 @@ struct StudioHomeView: View {
                 LabeledContent("finding.has-lineage") {
                     Text(finding.rankFactors.hasCompleteLineage ? "common.yes" : "common.no")
                 }
+            }
+            Section("finding.editorial") {
+                Toggle(
+                    "finding.editorial.include",
+                    isOn: Binding(
+                        get: { model.editorialSelectedFindingIDs.contains(finding.id) },
+                        set: { _ in model.toggleEditorialSelection(id: finding.id) }
+                    )
+                )
+                .accessibilityLabel("finding.editorial.include")
+                Button("action.revise-selection") {
+                    Task { await model.reviseEditorialSelection() }
+                }
+                .disabled(model.isBusy || model.investigation == nil)
             }
         }
         .formStyle(.grouped)
