@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Digest QueryAST, generazione e fonti corrispondenti in UI query
+  (GS-VER-062).
 - CollectionPlanningProfile, step/decisioni del piano e Artifact piano in
   esecuzione (GS-VER-061).
 - Caveat strutturati (causa/conseguenza/azione) e Artifact piano in UI

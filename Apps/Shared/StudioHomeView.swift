@@ -803,6 +803,19 @@ struct StudioHomeView: View {
                         Text(queryResult.matches.count, format: .number)
                             .monospacedDigit()
                     }
+                    LabeledContent("query.matched-sources") {
+                        Text(queryResult.matchedSourceCount, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("query.generation") {
+                        Text(queryResult.generation, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("query.digest") {
+                        Text(shortID(queryResult.queryDigest))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     if queryResult.isTruncated {
                         Text("query.truncated")
                             .foregroundStyle(.secondary)
