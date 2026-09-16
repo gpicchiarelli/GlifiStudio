@@ -8,6 +8,8 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- CollectionPlanningProfile, step/decisioni del piano e Artifact piano in
+  esecuzione (GS-VER-061).
 - Caveat strutturati (causa/conseguenza/azione) e Artifact piano in UI
   (GS-VER-060).
 - Proposizione Finding tipizzata e formati export Must in UI (GS-VER-059).

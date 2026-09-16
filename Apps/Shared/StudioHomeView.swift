@@ -555,27 +555,105 @@ struct StudioHomeView: View {
                             .font(.caption2.monospaced())
                             .textSelection(.enabled)
                     }
-                    LabeledContent("plan.sources") {
-                        Text(plan.plan.collectionProfile.sourceCount, format: .number)
-                            .monospacedDigit()
+                    LabeledContent("plan.planner") {
+                        Text(plan.plan.plannerIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("plan.intent") {
+                        Text(plan.plan.intent)
+                            .font(.caption.monospaced())
                     }
                     LabeledContent("plan.work-units") {
                         Text(plan.plan.totalEstimatedWorkUnits, format: .number)
                             .monospacedDigit()
                     }
+                    LabeledContent("plan.work-budget") {
+                        Text(plan.plan.maximumEstimatedWorkUnits, format: .number)
+                            .monospacedDigit()
+                    }
+                }
+                Section("plan.collection-profile") {
+                    let profile = plan.plan.collectionProfile
+                    LabeledContent("plan.sources") {
+                        Text(profile.sourceCount, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("plan.source-bytes") {
+                        Text(profile.totalSourceByteCount, format: .number)
+                            .monospacedDigit()
+                    }
+                    LabeledContent("plan.language") {
+                        Text(profile.configuredLanguageCode)
+                            .font(.caption.monospaced())
+                    }
+                    LabeledContent("plan.profile-id") {
+                        Text(profile.profileIdentifier)
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    LabeledContent("plan.source-root-digest") {
+                        Text(shortID(profile.sourceRootDigest))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
+                    ForEach(profile.formatCounts, id: \.formatIdentifier) { formatCount in
+                        LabeledContent(formatCount.formatIdentifier) {
+                            Text(formatCount.sourceCount, format: .number)
+                                .monospacedDigit()
+                        }
+                    }
+                }
+                Section("plan.steps") {
                     ForEach(Array(plan.plan.steps.enumerated()), id: \.element.identifier) { _, step in
-                        LabeledContent(step.capabilityIdentifier) {
-                            Text(step.operation)
-                                .font(.caption.monospaced())
+                        VStack(alignment: .leading, spacing: 4) {
+                            LabeledContent("\(step.order + 1). \(step.capabilityIdentifier)") {
+                                Text(step.operation)
+                                    .font(.caption.monospaced())
+                            }
+                            LabeledContent("plan.step.role") {
+                                Text(step.role)
+                                    .font(.caption2.monospaced())
+                            }
+                            LabeledContent("plan.step.work-units") {
+                                Text(step.estimatedWorkUnits, format: .number)
+                                    .monospacedDigit()
+                            }
+                            Text(step.outputSchemaIdentifier)
+                                .font(.caption2.monospaced())
+                                .foregroundStyle(.secondary)
+                                .textSelection(.enabled)
                         }
+                        .accessibilityElement(children: .combine)
                     }
+                }
+                Section("plan.decisions") {
                     ForEach(Array(plan.plan.decisions.enumerated()), id: \.offset) { _, decision in
-                        LabeledContent(decision.capabilityIdentifier) {
-                            Text(LocalizedStringKey("plan.applicability.\(decision.applicability)"))
-                                .font(.caption)
+                        VStack(alignment: .leading, spacing: 4) {
+                            LabeledContent(decision.capabilityIdentifier) {
+                                Text(LocalizedStringKey("plan.applicability.\(decision.applicability)"))
+                                    .font(.caption)
+                            }
+                            LabeledContent("plan.decision.included") {
+                                Text(decision.isIncluded ? "common.yes" : "common.no")
+                            }
+                            if let work = decision.estimatedWorkUnits {
+                                LabeledContent("plan.step.work-units") {
+                                    Text(work, format: .number)
+                                        .monospacedDigit()
+                                }
+                            }
+                            ForEach(decision.reasonIdentifiers.prefix(4), id: \.self) { reason in
+                                Text(reason)
+                                    .font(.caption2.monospaced())
+                                    .foregroundStyle(.secondary)
+                            }
                         }
+                        .accessibilityElement(children: .combine)
                     }
-                    if !plan.plan.unresolvedReasonIdentifiers.isEmpty {
+                }
+                if !plan.plan.unresolvedReasonIdentifiers.isEmpty {
+                    Section("plan.unresolved") {
                         ForEach(plan.plan.unresolvedReasonIdentifiers, id: \.self) { reason in
                             Text(reason)
                                 .font(.caption2.monospaced())
@@ -600,6 +678,11 @@ struct StudioHomeView: View {
 
             if let execution = model.executionResult {
                 Section("execution.artifacts") {
+                    LabeledContent("execution.plan-artifact") {
+                        Text(shortID(execution.planArtifactID))
+                            .font(.caption2.monospaced())
+                            .textSelection(.enabled)
+                    }
                     LabeledContent("execution.interpretation-artifact") {
                         Text(shortID(execution.interpretationArtifactID))
                             .font(.caption2.monospaced())
