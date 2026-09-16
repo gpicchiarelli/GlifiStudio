@@ -6,7 +6,7 @@ Documento di progetto e specifica architetturale
 
 GlyphaStudio è un ambiente professionale nativo per macOS dedicato all’acquisizione, organizzazione, esplorazione e analisi quantitativa e qualitativa di grandi collezioni testuali.
 
-Il progetto nasce dall’esigenza di disporre di uno strumento paragonabile, per profondità analitica, a sistemi quali KH Coder, ma progettato ex novo secondo i principi dell’ingegneria del software contemporanea e sfruttando direttamente le tecnologie offerte dalla piattaforma Apple.
+Il progetto nasce dall’esigenza di disporre di uno strumento di analisi testuale a profondità analitica professionale, progettato ex novo secondo i principi dell’ingegneria del software contemporanea e sfruttando direttamente le tecnologie offerte dalla piattaforma Apple.
 
 GlyphaStudio non deve essere concepito come una semplice applicazione per contare parole o visualizzare grafici. Deve costituire un vero ambiente di studio del testo, capace di accompagnare l’utente dall’acquisizione dei documenti fino all’analisi statistica, linguistica e semantica avanzata.
 

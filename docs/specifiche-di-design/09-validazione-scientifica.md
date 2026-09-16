@@ -40,7 +40,7 @@ backend; V6 è criterio per dichiarazioni forti o metodi ad alto impatto.
 
 ## Oracoli indipendenti
 
-R, Python/SciPy/scikit-learn e strumenti di corpus come KH Coder possono essere
+R e Python/SciPy/scikit-learn possono essere
 usati solo come strumenti di validazione, non dipendenze runtime né singola fonte
 di verità. Ogni oracolo registra:
 
