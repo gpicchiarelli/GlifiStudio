@@ -1,0 +1,68 @@
+{
+  "schema": "studio.glifi.validation-catalog",
+  "schemaVersion": 1,
+  "license": "BSD-3-Clause",
+  "updatedAt": "2026-09-16",
+  "manifests": [
+    {
+      "id": "validation-corpus-profile-it-v1",
+      "path": "Fixtures/Validation/v1/corpus-profile-it-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-term-weighting-bm25-v1",
+      "path": "Fixtures/Validation/v1/term-weighting-bm25-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-lexical-diversity-mtld-v1",
+      "path": "Fixtures/Validation/v1/lexical-diversity-mtld-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-ngram-frequencies-v1",
+      "path": "Fixtures/Validation/v1/ngram-frequencies-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-keyness-gtest-fisher-ha-ci-bh-v2",
+      "path": "Fixtures/Validation/v1/keyness-gtest-fisher-ha-ci-bh-v2.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-keyness-gtest-ha-bh-v1",
+      "path": "Fixtures/Validation/v1/keyness-gtest-ha-bh-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-glifi-query-v1",
+      "path": "Fixtures/Validation/v1/glifi-query-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-scientific-export-v1",
+      "path": "Fixtures/Validation/v1/scientific-export-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-planner-mvp-v1",
+      "path": "Fixtures/Validation/v1/planner-mvp-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-interpretation-mvp-v1",
+      "path": "Fixtures/Validation/v1/interpretation-mvp-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-investigation-history-v1",
+      "path": "Fixtures/Validation/v1/investigation-history-v1.json",
+      "status": "candidate"
+    },
+    {
+      "id": "validation-analysis-execution-v1",
+      "path": "Fixtures/Validation/v1/analysis-execution-v1.json",
+      "status": "candidate"
+    }
+  ]
+}
