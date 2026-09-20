@@ -5,14 +5,14 @@
 | Campo | Valore |
 | --- | --- |
 | Identificatore | GS-ADR-0030 |
-| Versione | 0.1.0 |
-| Stato | Proposto |
+| Versione | 1.0.0 |
+| Stato | Accettato |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-20 |
 | Decisore | Iniziatore del progetto |
 | Data proposta | 2026-09-20 |
-| Data decisione | — |
-| Approvazione | Direzione scelta (DA-008); resta da scegliere il corpus e autorizzarne l'acquisizione |
+| Data decisione | 2026-09-20 |
+| Approvazione | Opzione 2 e fonte Wikisource autorizzate esplicitamente dall'iniziatore (DA-008) |
 | Integra | GS-MET-001-18, GS-LNG-001, GS-VAL-001, ADR-0004 |
 | Sostituisce | Nessuno |
 
@@ -59,7 +59,7 @@ Un corpus è ammissibile se soddisfa tutti questi criteri:
    riuso dichiarata): redistribuibile, ma registro formale e poco rappresentativo della lingua
    comune; utile come secondo dominio, non come gold unico.
 
-## Decisione proposta
+## Decisione
 
 Opzione 2 come gold redistribuibile del progetto, con l'opzione 1 eventualmente aggiunta come
 riferimento esterno non redistribuito se e solo se la verifica di licenza alla fonte lo consente.
@@ -74,7 +74,20 @@ Il gate acquisisce una misura vera della tokenizzazione italiana e `it-gold-v0` 
 non cancellato: resta come regressione di casi limite. Serve un'acquisizione di materiale esterno,
 che richiede un'autorizzazione esplicita dell'iniziatore per la fonte scelta.
 
+## Fonte adottata
+
+Carlo Collodi (1826-1890), «Le avventure di Pinocchio», capitolo 1, trascrizione di
+it.wikisource.org (`Pagina:Le avventure di Pinocchio.djvu/9-13`), recuperata il 2026-09-20 con
+l'autorizzazione esplicita dell'iniziatore. L'autore è morto nel 1890: l'opera è in pubblico
+dominio senza ambiguità, e la trascrizione fedele di un'opera di pubblico dominio non fonda un
+diritto nuovo; la fonte è comunque attribuita nel manifest. `Scripts/build-italian-gold.py`
+documenta e riproduce la derivazione dal testo alla fixture.
+
+Il corpus copre prosa narrativa; le righe di dialogo aperte da lineetta sono **escluse** dalla v1
+perché il contratto non specifica ancora dove finisca una frase in un turno di dialogo. È una
+lacuna del contratto, non una scelta di comodo, e va colmata prima di estendere il gold.
+
 ## Stato
 
-In attesa della scelta del corpus e dell'autorizzazione all'acquisizione: nessun download prima
-dell'accettazione.
+Accettato il 2026-09-20. `it-gold-v0` resta come regressione sui casi limite sintetici; la
+copertura di lemma, POS e NER e le soglie assolute restano fuori perimetro.

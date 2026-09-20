@@ -558,13 +558,15 @@ def validate_markdown(manifest: dict[str, Any], errors: list[str]) -> int:
     return len(matches)
 
 
-def validate_gold_linguistic(manifest: dict[str, Any], errors: list[str]) -> int:
-    """Validate the Italian gold-v0 token corpus (subset with reviewed splits)."""
+def validate_gold_linguistic(
+    manifest: dict[str, Any], errors: list[str], review_status: str = "gold-v0-token"
+) -> int:
+    """Validate one Italian gold corpus with reviewed splits and its recorded baseline."""
     if manifest.get("schema") != "studio.glifi.linguistic-fixture-manifest":
         errors.append("manifest gold linguistico: schema non valido")
         return 0
-    if manifest.get("reviewStatus") != "gold-v0-token":
-        errors.append("manifest gold linguistico: reviewStatus atteso gold-v0-token")
+    if manifest.get("reviewStatus") != review_status:
+        errors.append(f"manifest gold linguistico: reviewStatus atteso {review_status}")
     if manifest.get("tokenContract") != "it-token-v1":
         errors.append("manifest gold linguistico: tokenContract non valido")
     if manifest.get("license") != "BSD-3-Clause" or not manifest.get("provenance"):
@@ -634,7 +636,13 @@ def validate_tokenization_baseline(
         return
     expected_sizes = {
         "caseCount": len(cases),
-        "goldTokenCount": sum(len(case.get("tokens", [])) for case in cases),
+        # La misura riguarda le forme lessicali: la punteggiatura è un gap (GS-LNG-001).
+        "goldTokenCount": sum(
+            1
+            for case in cases
+            for token in case.get("tokens", [])
+            if token.get("kind") != "punctuation"
+        ),
         "goldSentenceCount": sum(len(case.get("sentences", [])) for case in cases),
     }
     for field, value in expected_sizes.items():
@@ -833,6 +841,9 @@ def main() -> int:
     }
     linguistic_count = validate_linguistic(manifests.get("it-token-v1-seed", {}), errors)
     gold_count = validate_gold_linguistic(manifests.get("it-token-gold-v0", {}), errors)
+    gold_count += validate_gold_linguistic(
+        manifests.get("it-token-gold-v1", {}), errors, review_status="gold-v1-token-sentence"
+    )
     scientific_count = validate_scientific(manifests.get("scientific-v1-seed", {}), errors)
     validation_count = validate_validation_catalog(manifests.get("validation-v1", {}), errors)
     adversarial_count = validate_adversarial(
@@ -849,7 +860,7 @@ def main() -> int:
         return 1
     print(
         "Fixtures: "
-        f"Italian={linguistic_count}, gold-v0={gold_count}, numerical={scientific_count}, "
+        f"Italian={linguistic_count}, gold={gold_count}, numerical={scientific_count}, "
         f"validation-manifests={validation_count}, "
         f"adversarial-descriptors={adversarial_count}, query={query_count}; "
         f"markdown-spans={markdown_count}; persistence-scenarios={persistence_count}; "

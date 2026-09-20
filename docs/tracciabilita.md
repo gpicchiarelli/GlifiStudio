@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.77.0 |
+| Versione | 0.78.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-20 |
@@ -170,6 +170,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-135](evidenze/GS-VER-135-messaggi-delle-failure.md) | Slice TV-071; GS-API-001 § 8, GS-UX-001-14 | Superato localmente: ripiego per categoria, chiavi di GlifiKit tradotte e controllo nel gate contro la chiave grezza | Codici interni senza messaggio proprio; nessuna validazione con utenti |
 | [GS-VER-136](evidenze/GS-VER-136-approvazione-numerica-e-tolleranze.md) | Slice TV-028; RQ-025, GS-VAL-001, ADR-0031 | Superato localmente: tolleranze dichiarate nei dodici manifest, sette capacità supported con oracolo indipendente e review registrata | Review esterna richiesta prima della 1.0; cinque capacità restano candidate |
 | [GS-VER-137](evidenze/GS-VER-137-linea-di-base-tokenizzazione.md) | Slice TV-013; GS-MET-001-18, ADR-0030 | Superato localmente: P/R/F1 sui confini con linea di base legata al digest del corpus, regressione bloccata nel gate | Gold ancora sintetico (19 token): la misura non dice nulla sulla lingua reale |
+| [GS-VER-138](evidenze/GS-VER-138-gold-italiano-su-prosa-reale.md) | Slice TV-013; GS-LNG-001, GS-MET-001-18, ADR-0030 | Superato localmente: gold su 434 token di prosa italiana di pubblico dominio, annotazione indipendente in accordo pieno con il prodotto | Un solo autore ottocentesco; dialogo, lemma, POS e NER esclusi |
 
 ## Catalogo delle verifiche pianificate
 

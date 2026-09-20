@@ -121,8 +121,15 @@ usa la stessa versione della vista interrogata.
 
 `Fixtures/Linguistics/it-v1` contiene un primo seed BSD-3-Clause di otto casi con
 offset UTF-8 verificati automaticamente. È un avvio V1, non un corpus gold
-approvato: split, review annotatori, lemma/POS/NER, soglie e deriva restano da
-acquisire. La collezione completa deve contenere esclusivamente testo sintetico,
+approvato: lemma/POS/NER, soglie assolute e deriva restano da acquisire.
+
+`Fixtures/Linguistics/it-gold-v1` è il corpus gold dei confini di token e di frase su **prosa
+italiana reale** di pubblico dominio (ADR-0030), con split di validazione e test dichiarati.
+L'annotazione nasce da un'implementazione del contratto indipendente dal tokenizzatore del
+prodotto e le divergenze sono decise in `adjudications.json`, così l'oracolo non è una copia
+dell'implementazione che deve verificare. `Fixtures/Linguistics/it-gold-v0` resta come regressione
+sui casi limite sintetici. Le righe di dialogo aperte da lineetta sono fuori dalla v1: il
+contratto non specifica ancora dove finisca una frase dentro un turno di dialogo. La collezione completa deve contenere esclusivamente testo sintetico,
 pubblico dominio o redistribuibile, con manifest di licenza, e coprire almeno:
 
 - apostrofi ASCII/tipografici, elisioni e citazioni;

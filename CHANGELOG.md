@@ -8,6 +8,9 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Aggiunto
 
+- Corpus gold italiano su prosa reale di pubblico dominio (Collodi, «Le avventure di Pinocchio»,
+  capitolo 1): 434 token lessicali e 19 frasi annotati da un'implementazione del contratto
+  indipendente dal tokenizzatore, in accordo pieno con il prodotto (ADR-0030, GS-VER-138).
 - Misura della qualità della tokenizzazione italiana (P/R/F1 sui confini di token e frase) con
   linea di base registrata e legata al digest del corpus: il gate fallisce se il punteggio scende
   e segnala quando sale (ADR-0030, GS-VER-137).

@@ -37,7 +37,14 @@ func italianTokenizerMeetsRecordedBaseline() throws {
         .deletingLastPathComponent()
         .deletingLastPathComponent()
         .deletingLastPathComponent()
-    let baselineURL = root.appending(path: "Fixtures/Linguistics/it-gold-v0/baseline.json")
+    for corpus in ["it-gold-v0", "it-gold-v1"] {
+        try verifyBaseline(of: corpus, under: root)
+    }
+}
+
+/// Measures one gold corpus against its recorded baseline.
+private func verifyBaseline(of corpus: String, under root: URL) throws {
+    let baselineURL = root.appending(path: "Fixtures/Linguistics/\(corpus)/baseline.json")
     let baseline = try JSONDecoder().decode(
         TokenizationBaseline.self, from: try Data(contentsOf: baselineURL))
     let corpusData = try Data(contentsOf: root.appending(path: baseline.corpus))
@@ -46,18 +53,22 @@ func italianTokenizerMeetsRecordedBaseline() throws {
     let digest = SHA256.hash(data: corpusData).map { String(format: "%02x", $0) }.joined()
     #expect("sha256:\(digest)" == baseline.corpusDigest)
 
-    let corpus = try JSONDecoder().decode(GoldCorpus.self, from: corpusData)
-    #expect(corpus.cases.count == baseline.observed.caseCount)
+    let goldCorpus = try JSONDecoder().decode(GoldCorpus.self, from: corpusData)
+    #expect(goldCorpus.cases.count == baseline.observed.caseCount)
 
     let tokenizer = GlifiItalianTokenizer()
     var tokenPredicted: [ClosedRange<Int>] = []
     var tokenGold: [ClosedRange<Int>] = []
     var sentencePredicted: [ClosedRange<Int>] = []
     var sentenceGold: [ClosedRange<Int>] = []
-    for goldCase in corpus.cases {
+    for goldCase in goldCorpus.cases {
         let result = try tokenizer.tokenize(goldCase.text)
-        tokenPredicted += result.tokens.map { $0.range.start...$0.range.end }
-        tokenGold += goldCase.tokens.map { $0.start...$0.end }
+        // La punteggiatura è un gap indirizzabile, non un token lessicale (GS-LNG-001): la
+        // misura confronta le forme lessicali, come fa il conteggio del profilo di corpus.
+        tokenPredicted += result.tokens.filter { $0.kind != .punctuation }.map {
+            $0.range.start...$0.range.end
+        }
+        tokenGold += goldCase.tokens.filter { $0.kind != "punctuation" }.map { $0.start...$0.end }
         sentencePredicted += result.sentences.map { $0.range.start...$0.range.end }
         sentenceGold += goldCase.sentences.map { $0.start...$0.end }
     }
@@ -98,6 +109,8 @@ private struct GoldCorpus: Decodable {
     struct Span: Decodable {
         let start: Int
         let end: Int
+        /// Assente nei corpora che annotano soltanto forme lessicali.
+        let kind: String?
     }
 
     struct Case: Decodable {

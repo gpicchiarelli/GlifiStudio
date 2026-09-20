@@ -22,7 +22,7 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 | DA-005 | GlifiStore | Quali requisiti copre il progetto esistente e con quali costi di integrazione? | Valutazione tecnica e prestazionale | Da assegnare | Aperta |
 | DA-006 | Offset | Qual è il contratto canonico per collegare byte, testo estratto e posizioni UI? | Prototipi Unicode, PDF e OCR | Iniziatore del progetto | Chiusa come contratto: intervalli UTF-8, representation digest e SpanMap; GS-DAT-001, ADR-0016. PDF/OCR da validare |
 | DA-007 | Versionamento | Quali identificatori, digest e formati concreti realizzano versioni, descriptor e Analysis DAG? | Prototipo di serializzazione, invalidazione e migrazione | Iniziatore del progetto | Chiusa come contratto: serializzazione canonica, SHA-256, domain separation e formati versionati; GS-DAT-001, GS-ANA-001, ADR-0016 |
-| DA-008 | Linguistica | Quali annotazioni italiane e quali lingue successive devono raggiungere quali soglie qualitative? | Corpus gold, split, metriche GS-MET-001-18 e valutazione dei backend | Iniziatore del progetto | Direzione scelta: gold di provenienza esterna ([ADR-0030](adr/0030-corpus-gold-italiano-esterno.md)); restano da scegliere il corpus e autorizzarne l'acquisizione |
+| DA-008 | Linguistica | Quali annotazioni italiane e quali lingue successive devono raggiungere quali soglie qualitative? | Corpus gold, split, metriche GS-MET-001-18 e valutazione dei backend | Iniziatore del progetto | Chiusa per la tokenizzazione: gold su prosa italiana di pubblico dominio con linea di base che blocca le regressioni ([ADR-0030](adr/0030-corpus-gold-italiano-esterno.md)); lemma, POS, NER e soglie assolute restano aperti |
 | DA-009 | PDF/OCR | Quale qualità e quali informazioni spaziali devono essere preservate? | Corpus PDF rappresentativo e metriche OCR | Da assegnare | Aperta; presenti solo descrittori avversari, nessun corpus PDF/OCR |
 | DA-010 | Query | Qual è la sintassi pubblica per query testuali, linguistiche e sui metadati? | Prototipi API e UX | Iniziatore del progetto | Chiusa come contratto: QueryAST e `glifi-query-v1`; GS-QRY-001, ADR-0016. Usability test richiesti |
 | DA-011 | Benchmark | Quali dataset, soglie, dispositivi e margini promuovono Swift, Accelerate, Core ML o Metal a backend predefinito? | Scenari reali, energia, termica e riproducibilità | Da assegnare | Parzialmente definita: criteri e policy runtime approvati da ADR-0008/ADR-0018; baseline hardware aperta |
@@ -52,8 +52,9 @@ Questo registro contiene le scelte che incidono sul prodotto o sull'architettura
 
 ## Prossime decisioni consigliate
 
-Per il percorso produttivo 0.1 (UI Must + validazione), la decisione ancora
-bloccante è **DA-008** (DA-025 chiusa da ADR-0031, DA-029 da ADR-0026). DA-001, DA-011,
+Per il percorso produttivo 0.1 (UI Must + validazione) non restano decisioni bloccanti:
+**DA-008** è chiusa per la tokenizzazione da ADR-0030, **DA-025** da ADR-0031 e DA-029 da
+ADR-0026. Di DA-008 restano aperti lemma, POS, NER e le soglie assolute, che non bloccano la 0.1. DA-001, DA-011,
 DA-015, DA-023 e DA-026 restano **parcheggiati** finché non bloccano G3: non
 interrompono la vertical slice UI sul Kit.
 

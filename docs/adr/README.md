@@ -50,7 +50,7 @@ Gli ADR documentano le scelte architetturali importanti, il contesto in cui sono
 - [ADR-0027 — Codebook e codifiche persistite (RF-043)](0027-codebook-e-codifiche-persistite.md) — Accettato
 - [ADR-0028 — Invalidazione selettiva degli Artifact all'importazione di fonti](0028-invalidazione-selettiva-alla-reimportazione.md) — Accettato
 - [ADR-0029 — Codifica qualitativa nelle app (estensione post-0.1)](0029-codifica-qualitativa-nelle-app.md) — Accettato
-- [ADR-0030 — Corpus gold italiano di provenienza esterna](0030-corpus-gold-italiano-esterno.md) — Proposto
+- [ADR-0030 — Corpus gold italiano di provenienza esterna](0030-corpus-gold-italiano-esterno.md) — Accettato
 - [ADR-0031 — Approvazione numerica con oracoli eseguibili e tolleranze dichiarate](0031-approvazione-numerica-con-oracoli-eseguibili.md) — Accettato
 
 ## Modello per i nuovi ADR

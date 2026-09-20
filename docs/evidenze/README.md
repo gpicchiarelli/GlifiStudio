@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 1.4.0 |
+| Versione | 1.5.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-20 |
@@ -151,3 +151,4 @@ Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un e
 - [GS-VER-135 — Messaggi leggibili per ogni failure mostrata](GS-VER-135-messaggi-delle-failure.md) — Superato localmente
 - [GS-VER-136 — Tolleranze dichiarate e promozione dei ValidationManifest](GS-VER-136-approvazione-numerica-e-tolleranze.md) — Superato localmente
 - [GS-VER-137 — Linea di base della tokenizzazione italiana](GS-VER-137-linea-di-base-tokenizzazione.md) — Superato localmente
+- [GS-VER-138 — Corpus gold italiano su prosa reale](GS-VER-138-gold-italiano-su-prosa-reale.md) — Superato localmente

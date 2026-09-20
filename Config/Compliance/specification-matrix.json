@@ -2065,7 +2065,7 @@
       "id": "CMP-093",
       "clause": "GS-MET-001-18 § Gate e deriva (ADR-0030)",
       "specification": "docs/metodi-analitici/18-valutazione-servizi-linguistici.md",
-      "requirements": ["RQ-025"],
+      "requirements": ["RQ-025", "RF-009"],
       "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiItalianTokenizer.swift"],
       "tests": [
         "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiTokenizerQualityTests.swift",
@@ -2073,6 +2073,25 @@
       ],
       "fixtures": ["Fixtures/Linguistics/it-gold-v0/baseline.json"],
       "evidence": ["docs/evidenze/GS-VER-137-linea-di-base-tokenizzazione.md"],
+      "gate": "G3",
+      "status": "verified",
+      "blockingReason": null
+    },
+    {
+      "id": "CMP-094",
+      "clause": "GS-LNG-001 § Corpus gold italiano (ADR-0030)",
+      "specification": "docs/specifiche-di-design/03-contratto-linguistico-italiano.md",
+      "requirements": ["RF-009", "RF-025"],
+      "code": ["Packages/GlifiCore/Sources/GlifiCore/GlifiItalianTokenizer.swift"],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiTokenizerQualityTests.swift",
+        "Scripts/check-fixtures.py"
+      ],
+      "fixtures": [
+        "Fixtures/Linguistics/it-gold-v1/manifest.json",
+        "Fixtures/Linguistics/it-gold-v1/token-boundaries.json"
+      ],
+      "evidence": ["docs/evidenze/GS-VER-138-gold-italiano-su-prosa-reale.md"],
       "gate": "G3",
       "status": "verified",
       "blockingReason": null
