@@ -40,8 +40,9 @@ on device», lasciando il sistema senza spazio e senza indicazioni. Lo stesso di
 - **Politica in un punto solo**: `Scripts/build-cache.sh`, usata dai quattro script, invece di
   quattro copie che divergono.
 - **Bonifica dei residui**: un processo ucciso non esegue il `trap`, quindi la sua directory
-  temporanea resterebbe per sempre. All'avvio gli script rimuovono i residui con i nomi che
-  generano loro stessi e più vecchi di un'ora, senza toccare un'esecuzione in corso.
+  temporanea resterebbe per sempre. All'avvio gli script rimuovono le directory del namespace
+  `Glifi` più vecchie di un'ora nella cartella temporanea dell'utente, senza toccare
+  un'esecuzione in corso. Vale anche per i test: ne erano rimaste 48 di esecuzioni precedenti.
 - `make cache-size` e `make clean-cache` rendono la cache ispezionabile e rimovibile.
 
 ## Procedura e risultato
@@ -56,8 +57,9 @@ Misure sulla stessa macchina, con campionamento ogni 5 secondi:
 | Esito | — | verde | verde |
 
 Con il comportamento predefinito, dopo un'esecuzione verde da 539 s non resta nulla: né cache né
-directory temporanee. Un residuo vuoto di una corsa interrotta, trovato durante la verifica, è
-stato rimosso e la bonifica automatica ne impedisce l'accumulo.
+directory temporanee. Durante la verifica sono stati trovati 48 residui di esecuzioni
+precedenti dei test, per 1,4 MiB: sono stati rimossi e la bonifica automatica ne impedisce
+l'accumulo.
 
 La seconda esecuzione dura meno della metà della prima quando la cache viene conservata: il riuso
 funziona. Con il comportamento predefinito la cache viene rimossa al termine e il disco torna

@@ -56,15 +56,14 @@ glifi_release_build_cache() {
     rm -rf "$cache"
 }
 
-# Bonifica i residui di esecuzioni interrotte: se il processo viene ucciso, il trap non gira e la
-# directory temporanea resta sul disco per sempre. Si toccano soltanto i nomi generati da questi
-# script e più vecchi di un'ora, per non disturbare un'esecuzione in corso.
+# Bonifica i residui di esecuzioni interrotte: se un processo viene ucciso, il trap non gira e la
+# directory temporanea resta sul disco per sempre. Vale per gli script di qualità e anche per i
+# test, che creano directory `Glifi...` e non possono ripulirle quando vengono uccisi.
+#
+# Si toccano soltanto directory del namespace `Glifi` nella cartella temporanea dell'utente e più
+# vecchie di un'ora, per non disturbare un'esecuzione in corso.
 glifi_sweep_stale_temporaries() {
     local root="${1%/}"
-    local prefix
-    for prefix in GlifiStudioVerify GlifiStudioTests GlifiStudioAppStore GlifiRecoveryCases \
-        GlifiRecoveryBuild; do
-        find "$root" -maxdepth 1 -type d -name "$prefix.*" -mmin +60 -print0 2>/dev/null |
-            xargs -0 rm -rf 2>/dev/null || true
-    done
+    find "$root" -maxdepth 1 -type d -name "Glifi*" -mmin +60 -print0 2>/dev/null |
+        xargs -0 rm -rf 2>/dev/null || true
 }
