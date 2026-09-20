@@ -1,6 +1,6 @@
 # SPDX-License-Identifier: BSD-3-Clause
 
-.PHONY: bootstrap check-app-store app-store-submission-check check-apple check-architecture check-compliance check-docs check-failure-messages check-failure-taxonomy check-fixtures check-github check-localization check-naming check-oracles check-pdfa check-recovery check-repository check-secrets check-swift-dialect check-toolchain format format-check github-plan github-apply github-audit github-codeowners lint quality quality-static test build-macos build-ipados verify verify-app-store
+.PHONY: bootstrap check-app-store app-store-submission-check check-apple check-architecture check-compliance check-docs cache-size check-failure-messages check-failure-taxonomy check-fixtures check-github check-localization check-naming check-oracles check-pdfa check-recovery check-repository check-secrets check-swift-dialect check-toolchain format format-check github-plan github-apply github-audit github-codeowners lint quality quality-static clean-cache test build-macos build-ipados verify verify-app-store
 
 check-app-store:
 	./Scripts/check-app-store-baseline.py
@@ -94,6 +94,13 @@ build-macos:
 
 build-ipados:
 	xcodebuild build -workspace GlifiStudio.xcworkspace -scheme GlifiStudio-iPadOS -configuration Debug -destination 'generic/platform=iOS Simulator' CODE_SIGNING_ALLOWED=NO
+
+clean-cache:
+	rm -rf "$${GLIFI_VERIFY_CACHE:-$$HOME/Library/Caches/GlifiStudio/verify}"
+	@echo "Cache di build rimossa."
+
+cache-size:
+	@du -sh "$${GLIFI_VERIFY_CACHE:-$$HOME/Library/Caches/GlifiStudio/verify}" 2>/dev/null || echo "Nessuna cache presente."
 
 verify:
 	./Scripts/verify.sh

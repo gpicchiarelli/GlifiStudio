@@ -414,6 +414,13 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Corretto
 
+- Gli script di qualità creavano una cache di compilazione nuova a ogni esecuzione: nulla veniva
+  riusato e ogni giro riscriveva circa 37 GiB, fino a riempire il disco e far morire il gate con
+  «No space left on device». Le cache vivono ora in `~/Library/Caches/GlifiStudio/verify`, riusate
+  con un tetto dichiarato e **rimosse al termine**, anche in caso di errore: il picco scende a
+  1,8 GiB e sul disco non resta nulla. Il gate si ferma prima di iniziare se lo spazio libero non
+  basta. Con `GLIFI_VERIFY_KEEP_CACHE=1` la cache si conserva e la seconda esecuzione passa da
+  773 s a 303 s (GS-VER-139). Nuovi comandi `make cache-size` e `make clean-cache`.
 - Le failure senza messaggio nel catalogo mostravano all'utente la chiave grezza, per esempio
   `failure.project.io-failed`: ogni categoria ha ora un messaggio di ripiego in italiano e
   inglese, le chiavi emesse da GlifiKit sono tradotte e `check-failure-messages.py` impedisce di

@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.78.0 |
+| Versione | 0.79.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-09-20 |
@@ -171,6 +171,7 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-136](evidenze/GS-VER-136-approvazione-numerica-e-tolleranze.md) | Slice TV-028; RQ-025, GS-VAL-001, ADR-0031 | Superato localmente: tolleranze dichiarate nei dodici manifest, sette capacità supported con oracolo indipendente e review registrata | Review esterna richiesta prima della 1.0; cinque capacità restano candidate |
 | [GS-VER-137](evidenze/GS-VER-137-linea-di-base-tokenizzazione.md) | Slice TV-013; GS-MET-001-18, ADR-0030 | Superato localmente: P/R/F1 sui confini con linea di base legata al digest del corpus, regressione bloccata nel gate | Gold ancora sintetico (19 token): la misura non dice nulla sulla lingua reale |
 | [GS-VER-138](evidenze/GS-VER-138-gold-italiano-su-prosa-reale.md) | Slice TV-013; GS-LNG-001, GS-MET-001-18, ADR-0030 | Superato localmente: gold su 434 token di prosa italiana di pubblico dominio, annotazione indipendente in accordo pieno con il prodotto | Un solo autore ottocentesco; dialogo, lemma, POS e NER esclusi |
+| [GS-VER-139](evidenze/GS-VER-139-cache-di-build-limitata.md) | Slice TV-063; GS-DEV-002 § Cache di build | Superato localmente: picco su disco da ~37 GiB a 1,8 GiB, seconda esecuzione a 303 s contro 773 s, arresto anticipato se lo spazio non basta | Tetto prudenziale non ottimizzato; misure su una sola macchina |
 
 ## Catalogo delle verifiche pianificate
 

@@ -6,29 +6,38 @@ set -euo pipefail
 script_directory="${0:A:h}"
 project_directory="${script_directory:h}"
 temporary_directory="$(mktemp -d "${TMPDIR%/}/GlifiStudioAppStore.XXXXXX")"
+source "$script_directory/build-cache.sh"
+build_cache_directory="$(glifi_build_cache_directory)"
 
 cleanup() {
     rm -rf "$temporary_directory"
+    glifi_release_build_cache "$build_cache_directory"
 }
 trap cleanup EXIT
 
 cd "$project_directory"
+
+glifi_sweep_stale_temporaries "${TMPDIR:-/tmp}"
+glifi_require_free_space "${TMPDIR:-/tmp}"
+glifi_prepare_build_cache "$build_cache_directory"
 
 xcodebuild analyze -quiet \
     -workspace GlifiStudio.xcworkspace \
     -scheme GlifiStudio-macOS \
     -configuration Release \
     -destination "generic/platform=macOS" \
-    -derivedDataPath "$temporary_directory/Analyze-macOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/Analyze-macOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 xcodebuild analyze -quiet \
     -workspace GlifiStudio.xcworkspace \
     -scheme GlifiStudio-iPadOS \
     -configuration Release \
     -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$temporary_directory/Analyze-iPadOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/Analyze-iPadOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 xcodebuild archive -quiet \
     -workspace GlifiStudio.xcworkspace \
@@ -36,8 +45,9 @@ xcodebuild archive -quiet \
     -configuration Release \
     -destination "generic/platform=macOS" \
     -archivePath "$temporary_directory/GlifiStudio-macOS.xcarchive" \
-    -derivedDataPath "$temporary_directory/Archive-macOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/Archive-macOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 xcodebuild archive -quiet \
     -workspace GlifiStudio.xcworkspace \
@@ -45,8 +55,9 @@ xcodebuild archive -quiet \
     -configuration Release \
     -destination "generic/platform=iOS" \
     -archivePath "$temporary_directory/GlifiStudio-iPadOS.xcarchive" \
-    -derivedDataPath "$temporary_directory/Archive-iPadOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/Archive-iPadOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 typeset -a info_plists
 info_plists=(

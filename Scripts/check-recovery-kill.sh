@@ -6,26 +6,32 @@ set -euo pipefail
 script_directory="${0:A:h}"
 project_directory="${script_directory:h}"
 temporary_root="${TMPDIR:-/tmp}"
-owns_scratch_directory=false
 
 if (( $# > 1 )); then
     print -u2 "Uso: Scripts/check-recovery-kill.sh [swiftpm-scratch-path]"
     exit 64
 fi
 
+source "$script_directory/build-cache.sh"
+owns_build_cache=false
+
 if (( $# == 1 )); then
     scratch_directory="$1"
 else
-    scratch_directory="$(mktemp -d "${temporary_root%/}/GlifiRecoveryBuild.XXXXXX")"
-    owns_scratch_directory=true
+    # Senza argomento si riusa la cache condivisa: una nuova a ogni esecuzione ricompilerebbe
+    # tutto e riscriverebbe gigabyte inutilmente.
+    glifi_require_free_space "$temporary_root"
+    glifi_prepare_build_cache "$(glifi_build_cache_directory)"
+    scratch_directory="$(glifi_build_cache_directory)/SwiftPM"
+    owns_build_cache=true
 fi
 
 case_directory="$(mktemp -d "${temporary_root%/}/GlifiRecoveryCases.XXXXXX")"
 
 cleanup() {
     rm -rf "$case_directory"
-    if [[ "$owns_scratch_directory" == true ]]; then
-        rm -rf "$scratch_directory"
+    if [[ "$owns_build_cache" == true ]]; then
+        glifi_release_build_cache "$(glifi_build_cache_directory)"
     fi
 }
 

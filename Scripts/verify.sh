@@ -6,15 +6,26 @@ set -euo pipefail
 script_directory="${0:A:h}"
 project_directory="${script_directory:h}"
 temporary_root="${TMPDIR:-/tmp}"
+
+# Gli artefatti della singola esecuzione (progetti .glifi, export, richieste JSON) sono usa e
+# getta e vengono rimossi all'uscita. Le cache di compilazione no: se ogni esecuzione ne creasse
+# una nuova, ricompilerebbe tutto da zero e riscriverebbe decine di gigabyte a ogni giro.
 temporary_build_directory="$(mktemp -d "${temporary_root%/}/GlifiStudioVerify.XXXXXX")"
+source "$script_directory/build-cache.sh"
+build_cache_directory="$(glifi_build_cache_directory)"
 
 cleanup() {
     rm -rf "$temporary_build_directory"
+    glifi_release_build_cache "$build_cache_directory"
 }
 
 trap cleanup EXIT
 
 cd "$project_directory"
+
+glifi_sweep_stale_temporaries "$temporary_root"
+glifi_require_free_space "$temporary_root"
+glifi_prepare_build_cache "$build_cache_directory"
 
 Scripts/check-repository.py
 Scripts/check-secrets.py
@@ -37,14 +48,14 @@ pdfa_output_directory="$temporary_build_directory/PDFA"
 mkdir -p "$pdfa_output_directory"
 GLIFI_ORACLE_PDF_DIRECTORY="$pdfa_output_directory" swift test \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM"
+    --scratch-path "$build_cache_directory/SwiftPM"
 Scripts/check-pdfa.py --directory "$pdfa_output_directory"
 
-Scripts/check-recovery-kill.sh "$temporary_build_directory/SwiftPM"
+Scripts/check-recovery-kill.sh "$build_cache_directory/SwiftPM"
 
 cli_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI)"
 
@@ -55,7 +66,7 @@ fi
 
 cli_json_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json status)"
 
@@ -68,39 +79,39 @@ fi
 cli_project_path="$temporary_build_directory/CLI-Smoke.glifi"
 cli_create_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json project create "$cli_project_path")"
 cli_import_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json import "$cli_project_path" \
     Fixtures/Persistence/v1/basic/source.txt)"
 cli_markdown_import_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json import "$cli_project_path" \
     Fixtures/Markdown/v1/source.md)"
 cli_validate_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json project validate "$cli_project_path")"
 cli_query_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json query "$cli_project_path" --text "normalized:due")"
 cli_markdown_query_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json query "$cli_project_path" --text "normalized:fonte")"
 cli_analysis_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json analyze "$cli_project_path")"
 target_source_revision_id="$(python3 -c \
@@ -111,7 +122,7 @@ reference_source_revision_id="$(python3 -c \
     "$cli_markdown_import_output" "$target_source_revision_id")"
 cli_keyness_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json keyness "$cli_project_path" \
     --target "$target_source_revision_id" \
@@ -121,30 +132,30 @@ print -r -- "{\"intent\":\"compare.objects\",\"targetSourceRevisionIDs\":[\"$tar
     > "$cli_plan_request_path"
 cli_plan_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json plan "$cli_project_path" --request "$cli_plan_request_path")"
 cli_plan_reused_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json plan "$cli_project_path" --request "$cli_plan_request_path")"
 cli_execution_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json --no-progress execute "$cli_project_path" \
     --request "$cli_plan_request_path")"
 cli_execution_reused_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --no-progress --format json execute "$cli_project_path" \
     --request "$cli_plan_request_path")"
 cli_execution_progress_path="$temporary_build_directory/execution-progress.txt"
 cli_execution_text_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI execute "$cli_project_path" \
     --request "$cli_plan_request_path" 2>"$cli_execution_progress_path")"
@@ -166,7 +177,7 @@ print -r -- "{\"schemaIdentifier\":\"studio.glifi.api.investigation-create-reque
     > "$cli_investigation_create_request_path"
 cli_investigation_create_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json investigation create "$cli_project_path" \
     --request "$cli_investigation_create_request_path")"
@@ -181,7 +192,7 @@ print -r -- "{\"schemaIdentifier\":\"studio.glifi.api.investigation-selection-re
     > "$cli_investigation_select_a_request_path"
 cli_investigation_select_a_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json investigation select "$cli_project_path" \
     --request "$cli_investigation_select_a_request_path")"
@@ -190,7 +201,7 @@ print -r -- "{\"schemaIdentifier\":\"studio.glifi.api.investigation-selection-re
     > "$cli_investigation_select_b_request_path"
 cli_investigation_select_b_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json investigation select "$cli_project_path" \
     --request "$cli_investigation_select_b_request_path")"
@@ -203,20 +214,20 @@ print -r -- "{\"schemaIdentifier\":\"studio.glifi.api.scientific-export-request\
 cli_export_path="$temporary_build_directory/CLI-Export.glifiexport"
 cli_export_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json export "$cli_project_path" \
     --request "$cli_export_request_path" --output "$cli_export_path")"
 cli_investigation_list_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json investigation list "$cli_project_path")"
 cli_oversized_plan_request_path="$temporary_build_directory/oversized-plan-request.json"
 dd if=/dev/zero of="$cli_oversized_plan_request_path" bs=1048577 count=1 2>/dev/null
 if cli_oversized_plan_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json plan "$cli_project_path" \
     --request "$cli_oversized_plan_request_path" 2>&1)"; then
@@ -231,65 +242,65 @@ if [[ "$cli_oversized_plan_status" -ne 7 ]]; then
 fi
 cli_similarity_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json similarity "$cli_project_path" \
     --target "$target_source_revision_id" \
     --reference "$reference_source_revision_id")"
 cli_similarity_reused_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json similarity "$cli_project_path" \
     --target "$target_source_revision_id" \
     --reference "$reference_source_revision_id")"
 cli_association_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json association "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id")"
 cli_association_reused_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json association "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id")"
 cli_dispersion_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json dispersion "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id")"
 cli_collocations_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json collocations "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id")"
 cli_network_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json network "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id")"
 cli_window_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json window-collocations "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" \
     --left 2 --right 2 --min-joint 1)"
 cli_window_reused_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json window-collocations "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" \
     --left 2 --right 2 --min-joint 1)"
 if cli_correlate_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json correlate "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" \
@@ -305,7 +316,7 @@ if [[ "$cli_correlate_status" -ne 5 ]]; then
 fi
 if cli_posthoc_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json posthoc "$cli_project_path" \
     --group "$target_source_revision_id" --group "$reference_source_revision_id" 2>&1)"; then
@@ -320,34 +331,34 @@ if [[ "$cli_posthoc_status" -ne 5 ]]; then
 fi
 cli_paired_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json paired "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" \
     --x length --y length)"
 cli_window_network_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json window-network "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" \
     --left 2 --right 2 --min-joint 1 --weighting inverse-distance --weighted-edges true)"
 cli_multivariate_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json multivariate "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" --method ca)"
 cli_hac_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json multivariate "$cli_project_path" \
     --sources "$target_source_revision_id,$reference_source_revision_id" \
     --method hac --linkage average --clusters 2)"
 cli_group_metric_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json group-metric "$cli_project_path" \
     --group "$target_source_revision_id" --group "$reference_source_revision_id" \
@@ -357,19 +368,19 @@ print -r -- '{"coderIdentifiers":["c1","c2"],"units":[{"unitIdentifier":"u1","la
     > "$cli_agreement_request_path"
 cli_agreement_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json agreement "$cli_project_path" \
     --request "$cli_agreement_request_path")"
 cli_agreement_reused_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json agreement "$cli_project_path" \
     --request "$cli_agreement_request_path")"
 cli_final_info_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json project info "$cli_project_path")"
 
@@ -378,12 +389,12 @@ cli_query_parity_project="$temporary_build_directory/CLI-Query.glifi"
 cli_query_parity_source="$temporary_build_directory/query-source.txt"
 python3 -c 'import json,sys; open(sys.argv[2],"w").write(json.load(open(sys.argv[1]))["source"])' \
     Fixtures/Query/v1/cases.json "$cli_query_parity_source"
-swift run --package-path Packages/GlifiCore --scratch-path "$temporary_build_directory/SwiftPM" \
+swift run --package-path Packages/GlifiCore --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build GlifiCLI --format json project create "$cli_query_parity_project" >/dev/null
-swift run --package-path Packages/GlifiCore --scratch-path "$temporary_build_directory/SwiftPM" \
+swift run --package-path Packages/GlifiCore --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build GlifiCLI --format json import "$cli_query_parity_project" \
     "$cli_query_parity_source" >/dev/null
-python3 - "$temporary_build_directory/SwiftPM" "$cli_query_parity_project" <<'PY'
+python3 - "$build_cache_directory/SwiftPM" "$cli_query_parity_project" <<'PY'
 import json
 import subprocess
 import sys
@@ -421,39 +432,39 @@ PY
 
 # Contratto di `visualize` su un progetto separato, per non alterare i conteggi del progetto smoke.
 cli_visual_project_path="$temporary_build_directory/CLI-Visual.glifi"
-swift run --package-path Packages/GlifiCore --scratch-path "$temporary_build_directory/SwiftPM" \
+swift run --package-path Packages/GlifiCore --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build GlifiCLI --format json project create "$cli_visual_project_path" >/dev/null
 cli_visual_import_output="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build GlifiCLI --format json import "$cli_visual_project_path" \
     Fixtures/Persistence/v1/basic/source.txt Fixtures/Markdown/v1/source.md)"
 cli_visual_sources="$(python3 -c \
     'import json,sys; print(",".join(s["sourceRevisionID"] for s in json.loads(sys.argv[1])["result"]["project"]["sources"]))' \
     "$cli_visual_import_output")"
 cli_weighting_output="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json weighting "$cli_visual_project_path" --sources "$cli_visual_sources" \
     --tf TF-sublinear-v1 --idf IDF-smooth-v1 --norm RowNorm-L2-v1)"
 cli_bm25_output="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json bm25 "$cli_visual_project_path" --sources "$cli_visual_sources" \
     --query "due fonte ignoto")"
 cli_diversity_output="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json diversity "$cli_visual_project_path" --sources "$cli_visual_sources")"
 # ADR-0027: storia qualitativa dalla CLI.
 cli_codebook_request="$temporary_build_directory/codebook.json"
 print -r -- '{"codebookRevised":{"codebookID":"temi","revision":1,"categories":[{"categoryID":"fonte","label":"Fonte","definition":"Riferimenti alla fonte."}]}}' \
     > "$cli_codebook_request"
-swift run --package-path Packages/GlifiCore --scratch-path "$temporary_build_directory/SwiftPM" \
+swift run --package-path Packages/GlifiCore --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build GlifiCLI --format json qualitative append "$cli_visual_project_path" \
     --request "$cli_codebook_request" >/dev/null
 cli_qualitative_state="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json qualitative state "$cli_visual_project_path")"
 set +e
 cli_qualitative_repeat="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json qualitative append "$cli_visual_project_path" \
     --request "$cli_codebook_request" 2>&1 >/dev/null)"
 set -e
@@ -473,23 +484,23 @@ PY
 # GS-UX-001-16: selezione strutturata del passaggio dalla CLI.
 cli_coding_source="${cli_visual_sources%%,*}"
 cli_segments_output="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json qualitative segments "$cli_visual_project_path" \
     --source "$cli_coding_source")"
 cli_first_segment_bytes="$(python3 -c \
     'import json,sys; s=json.loads(sys.argv[1])["result"][0]; print("%d-%d" % (s["startUTF8"], s["endUTF8"]))' \
     "$cli_segments_output")"
 cli_sentence_passage="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json qualitative passage "$cli_visual_project_path" \
     --source "$cli_coding_source" --sentences 0-0)"
 cli_bytes_passage="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json qualitative passage "$cli_visual_project_path" \
     --source "$cli_coding_source" --bytes "$cli_first_segment_bytes")"
 set +e
 cli_passage_failure="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json qualitative passage "$cli_visual_project_path" \
     --source "$cli_coding_source" --characters 5-5 2>&1 >/dev/null)"
 set -e
@@ -517,25 +528,25 @@ PY
 # ADR-0028: invalidazione selettiva replicata dalla CLI sulla fixture di persistenza v2.
 cli_selective_case="Fixtures/Persistence/v2/selective-invalidation"
 cli_selective_project="$temporary_build_directory/CLI-Selective.glifi"
-swift run --package-path Packages/GlifiCore --scratch-path "$temporary_build_directory/SwiftPM" \
+swift run --package-path Packages/GlifiCore --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build GlifiCLI --format json project create "$cli_selective_project" >/dev/null
 cli_selective_import="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json import "$cli_selective_project" \
     "$cli_selective_case/alfa.txt" "$cli_selective_case/beta.txt")"
 cli_selective_sources="$(python3 -c \
     'import json,sys; print(",".join(s["sourceRevisionID"] for s in json.loads(sys.argv[1])["result"]["project"]["sources"]))' \
     "$cli_selective_import")"
 cli_selective_first="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json association "$cli_selective_project" \
     --sources "$cli_selective_sources")"
 cli_selective_unrelated="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json import "$cli_selective_project" \
     "$cli_selective_case/estranea.txt")"
 cli_selective_reused="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json association "$cli_selective_project" \
     --sources "$cli_selective_sources")"
 python3 - "$cli_selective_import" "$cli_selective_first" "$cli_selective_unrelated" \
@@ -562,7 +573,7 @@ assert reused["generation"] == unrelated["generation"], (reused, unrelated)
 PY
 
 cli_ngrams_output="$(swift run --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" --skip-build \
+    --scratch-path "$build_cache_directory/SwiftPM" --skip-build \
     GlifiCLI --format json ngrams "$cli_visual_project_path" --sources "$cli_visual_sources" \
     --unit word --n 2 --stopwords UNO)"
 python3 - "$cli_ngrams_output" <<'PY'
@@ -618,7 +629,7 @@ cli_visual_request_path="$temporary_build_directory/visual-request.json"
 print -r -- '{"intent":"explore.relationships"}' > "$cli_visual_request_path"
 cli_visualize_output="$(swift run \
     --package-path Packages/GlifiCore \
-    --scratch-path "$temporary_build_directory/SwiftPM" \
+    --scratch-path "$build_cache_directory/SwiftPM" \
     --skip-build \
     GlifiCLI --format json visualize "$cli_visual_project_path" \
     --request "$cli_visual_request_path")"
@@ -1058,8 +1069,9 @@ xcodebuild build \
     -scheme GlifiStudio-macOS \
     -configuration Debug \
     -destination "generic/platform=macOS" \
-    -derivedDataPath "$temporary_build_directory/macOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/macOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 xcodebuild build \
     -quiet \
@@ -1067,8 +1079,9 @@ xcodebuild build \
     -scheme GlifiStudio-macOS \
     -configuration Release \
     -destination "generic/platform=macOS" \
-    -derivedDataPath "$temporary_build_directory/macOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/macOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 xcodebuild build \
     -quiet \
@@ -1076,8 +1089,9 @@ xcodebuild build \
     -scheme GlifiStudio-iPadOS \
     -configuration Debug \
     -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$temporary_build_directory/iPadOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/iPadOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
 
 xcodebuild build \
     -quiet \
@@ -1085,5 +1099,6 @@ xcodebuild build \
     -scheme GlifiStudio-iPadOS \
     -configuration Release \
     -destination "generic/platform=iOS Simulator" \
-    -derivedDataPath "$temporary_build_directory/iPadOS" \
-    CODE_SIGNING_ALLOWED=NO
+    -derivedDataPath "$build_cache_directory/iPadOS" \
+    CODE_SIGNING_ALLOWED=NO \
+    COMPILATION_CACHE_ENABLE_CACHING=NO
