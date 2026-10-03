@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.80.0 |
+| Versione | 0.81.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-10-03 |
@@ -172,8 +172,14 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-137](evidenze/GS-VER-137-linea-di-base-tokenizzazione.md) | Slice TV-013; GS-MET-001-18, ADR-0030 | Superato localmente: P/R/F1 sui confini con linea di base legata al digest del corpus, regressione bloccata nel gate | Gold ancora sintetico (19 token): la misura non dice nulla sulla lingua reale |
 | [GS-VER-138](evidenze/GS-VER-138-gold-italiano-su-prosa-reale.md) | Slice TV-013; GS-LNG-001, GS-MET-001-18, ADR-0030 | Superato localmente: gold su 434 token di prosa italiana di pubblico dominio, annotazione indipendente in accordo pieno con il prodotto | Un solo autore ottocentesco; dialogo, lemma, POS e NER esclusi |
 | [GS-VER-139](evidenze/GS-VER-139-cache-di-build-limitata.md) | Slice TV-063; GS-DEV-002 § Cache di build | Superato localmente: picco su disco da ~37 GiB a 1,8 GiB, seconda esecuzione a 303 s contro 773 s, arresto anticipato se lo spazio non basta | Tetto prudenziale non ottimizzato; misure su una sola macchina |
+| [GS-VER-141](evidenze/GS-VER-141-prima-ci-remota-verde.md) | TV-011, TV-013, TV-049; GS-STD-001-20, GS-REP-005, GS-WVR-001…004 | Superato su runner remoto: `verify` verde su `xcode-27` con 257 test, 22 checkpoint di recovery e build macOS/iPadOS; deroghe budget in rientro | Rscript e veraPDF assenti sul runner; dispositivi, firma e TestFlight non coperti; non conformità 2026-09-22→2026-10-03 registrata |
 
 ## Catalogo delle verifiche pianificate
+
+Incremento [GS-VER-141](evidenze/GS-VER-141-prima-ci-remota-verde.md): prima CI remota
+verde su runner Xcode 27, GS-WVR-001…004 in rientro tardivo (chiusura dopo App Store preflight verde). I test aggiunti da
+GS-VER-140 sono stati eseguiti dal runner; CMP-095 resta `blocked` finché la review
+non li promuove.
 
 Incremento [GS-VER-140](evidenze/GS-VER-140-accessi-file-package.md): TV-060, RF-043,
 RQ-044 e RQ-057, CMP-095. Controlli statici superati; test degli accessi ai file e dei
@@ -273,6 +279,8 @@ nessuna promozione a requisito verificato.
   e tecnologie assistive; la revisione GS-UX valida soltanto contratti e coerenza.
 - TV-050–TV-061 richiedono implementazione, fixture, prototipi, benchmark,
   dispositivi e approvazioni; GS-VER-015 valida soltanto struttura e integrazione.
+- Il runner `xcode-27` non dispone di Rscript né veraPDF: oracoli numerici e PDF/A
+  sono verificati solo dal gate locale (GS-VER-141).
 - TV-063, TV-066–TV-069 richiedono flussi reali, corpus canary, build di rilascio e
   hardware; la baseline corrente copre soltanto policy, audit statico e test unitari.
 - TV-070–TV-074 e TV-076 restano verifiche parziali: le evidenze correnti provano
