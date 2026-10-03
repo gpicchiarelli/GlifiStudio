@@ -14,7 +14,8 @@ func projectPackageRejectsHardLinkedManifest() async throws {
         let snapshot = await project.snapshot()
         let manifestURL = packageURL.appending(path: "manifest.json")
         let original = try Data(contentsOf: manifestURL)
-        let externalURL = packageURL.deletingLastPathComponent().appending(path: "manifest-copy.json")
+        let externalURL = packageURL.deletingLastPathComponent().appending(
+            path: "manifest-copy.json")
         try FileManager.default.linkItem(at: manifestURL, to: externalURL)
         #expect(throws: GlifiFailure.self) { _ = try GlifiProjectPackage.open(at: packageURL) }
         #expect(throws: GlifiFailure.self) {
