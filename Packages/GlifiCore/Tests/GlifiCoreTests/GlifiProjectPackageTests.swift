@@ -1,10 +1,121 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+import Darwin
 import Foundation
 import SQLite3
 import Testing
 
 @testable import GlifiCore
+
+@Test("Il manifest non accetta hard link anche se i byte sono validi")
+func projectPackageRejectsHardLinkedManifest() async throws {
+    try await withTemporaryProject { packageURL in
+        let project = try GlifiProjectPackage.create(at: packageURL)
+        let snapshot = await project.snapshot()
+        let manifestURL = packageURL.appending(path: "manifest.json")
+        let original = try Data(contentsOf: manifestURL)
+        let externalURL = packageURL.deletingLastPathComponent().appending(path: "manifest-copy.json")
+        try FileManager.default.linkItem(at: manifestURL, to: externalURL)
+        #expect(throws: GlifiFailure.self) { _ = try GlifiProjectPackage.open(at: packageURL) }
+        #expect(throws: GlifiFailure.self) {
+            _ = try GlifiProjectPackage.openReadOnlyRecovery(at: packageURL)
+        }
+        #expect(try Data(contentsOf: externalURL) == original)
+        try FileManager.default.removeItem(at: externalURL)
+        #expect(try await GlifiProjectPackage.open(at: packageURL).snapshot() == snapshot)
+    }
+}
+
+@Test(
+    "Il writer rifiuta lock non regolari senza modificare la generazione",
+    arguments: ["symbolicLink", "danglingLink", "hardLink", "fifo", "directory"]
+)
+func projectWriterRejectsUnsafeLockFiles(kind: String) async throws {
+    try await withTemporaryProject { packageURL in
+        let project = try GlifiProjectPackage.create(at: packageURL)
+        let snapshot = await project.snapshot()
+        let lockURL = packageURL.appending(path: "transactions/.writer.lock")
+        let externalURL = packageURL.deletingLastPathComponent().appending(path: "external-lock")
+        let original = Data("synthetic lock target".utf8)
+        if kind != "danglingLink" {
+            try original.write(to: externalURL)
+        }
+        switch kind {
+        case "symbolicLink", "danglingLink":
+            try FileManager.default.createSymbolicLink(at: lockURL, withDestinationURL: externalURL)
+        case "hardLink":
+            try FileManager.default.linkItem(at: externalURL, to: lockURL)
+        case "fifo":
+            try #require(mkfifo(lockURL.path, 0o600) == 0)
+        case "directory":
+            try FileManager.default.createDirectory(at: lockURL, withIntermediateDirectories: false)
+        default:
+            Issue.record("Caso di test sconosciuto")
+        }
+        let imported = try GlifiTextImporter().importText(
+            from: Data("Una fonte sintetica.".utf8), format: .plainText)
+        do {
+            _ = try await project.importText(imported)
+            Issue.record("Era atteso il rifiuto del lock non sicuro")
+        } catch let failure as GlifiFailure {
+            #expect(failure.category == .corruption)
+            #expect(failure.code == "project.invalid-writer-lock")
+        }
+        #expect(await project.snapshot() == snapshot)
+        #expect(try await GlifiProjectPackage.open(at: packageURL).snapshot() == snapshot)
+        if kind == "danglingLink" {
+            #expect(!FileManager.default.fileExists(atPath: externalURL.path))
+        } else {
+            #expect(try Data(contentsOf: externalURL) == original)
+        }
+        try FileManager.default.removeItem(at: lockURL)
+        let committed = try await project.importText(imported)
+        #expect(committed.generation == snapshot.generation + 1)
+    }
+}
+
+@Test("Nuovi package e file autorevoli hanno permessi privati")
+func projectPackageCreatesPrivateFiles() async throws {
+    try await withTemporaryProject { packageURL in
+        let project = try GlifiProjectPackage.create(at: packageURL)
+        let imported = try GlifiTextImporter().importText(
+            from: Data("Contenuto sintetico privato.".utf8), format: .plainText)
+        let snapshot = try await project.importText(imported)
+        let source = try #require(snapshot.sources.first)
+        for (url, expected) in [
+            (packageURL, 0o700),
+            (packageURL.appending(path: "manifest.json"), 0o600),
+            (packageURL.appending(path: source.objectPath), 0o600),
+            (packageURL.appending(path: "transactions/.writer.lock"), 0o600),
+        ] {
+            let attributes = try FileManager.default.attributesOfItem(atPath: url.path)
+            let permissions = try #require(attributes[.posixPermissions] as? NSNumber)
+            #expect(permissions.intValue & 0o777 == expected)
+        }
+        #expect(try await GlifiProjectPackage.open(at: packageURL).snapshot() == snapshot)
+    }
+}
+
+@Test("Il writer non segue link nella directory delle transazioni")
+func projectWriterRejectsLinkedTransactionDirectory() async throws {
+    try await withTemporaryProject { packageURL in
+        let project = try GlifiProjectPackage.create(at: packageURL)
+        let snapshot = await project.snapshot()
+        let transactionsURL = packageURL.appending(path: "transactions")
+        let externalURL = packageURL.deletingLastPathComponent().appending(path: "external")
+        try FileManager.default.moveItem(at: transactionsURL, to: externalURL)
+        try FileManager.default.createSymbolicLink(
+            at: transactionsURL, withDestinationURL: externalURL)
+        let imported = try GlifiTextImporter().importText(
+            from: Data("Fonte sintetica.".utf8), format: .plainText)
+        await #expect(throws: GlifiFailure.self) { _ = try await project.importText(imported) }
+        #expect(await project.snapshot() == snapshot)
+        #expect(try FileManager.default.contentsOfDirectory(atPath: externalURL.path).isEmpty)
+        try FileManager.default.removeItem(at: transactionsURL)
+        try FileManager.default.moveItem(at: externalURL, to: transactionsURL)
+        #expect(try await project.importText(imported).generation == snapshot.generation + 1)
+    }
+}
 
 @Test("Il package .glifi conserva una fonte e riapre la stessa generazione")
 func projectPackageRoundTrip() async throws {

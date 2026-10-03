@@ -1,7 +1,7 @@
 {
   "schema": "studio.glifi.specification-compliance-matrix",
   "schemaVersion": 1,
-  "updatedAt": "2026-09-20",
+  "updatedAt": "2026-10-03",
   "requiredRequirementCoverage": [
     "RQ-057",
     "RQ-058",
@@ -12,6 +12,26 @@
     "RQ-063"
   ],
   "entries": [
+    {
+      "id": "CMP-095",
+      "clause": "GS-SEC-001 § 8 Path, package e file temporanei",
+      "specification": "docs/sicurezza/README.md",
+      "requirements": ["RQ-044", "RQ-057", "RF-043"],
+      "code": [
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiProjectPackage.swift",
+        "Packages/GlifiCore/Sources/GlifiCore/GlifiScientificExport.swift"
+      ],
+      "tests": [
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiProjectPackageTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiQualitativePersistenceTests.swift",
+        "Packages/GlifiCore/Tests/GlifiCoreTests/GlifiScientificExportTests.swift"
+      ],
+      "fixtures": [],
+      "evidence": ["docs/evidenze/GS-VER-140-accessi-file-package.md"],
+      "gate": "G2",
+      "status": "blocked",
+      "blockingReason": "Controlli e regressioni aggiunti; esecuzione dei test richiesta su macOS 27. Restano verifica dei path intermedi sotto concorrenza e file provider."
+    },
     {
       "id": "CMP-001",
       "clause": "GS-SEC-001 § 5 Confini di fiducia",
