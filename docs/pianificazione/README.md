@@ -6,10 +6,10 @@
 | --- | --- |
 | Identificatore | GS-DOR-IDX-001 |
 | Tipo | Registro delle schede Definition of Ready |
-| Versione | 1.4.0 |
+| Versione | 1.5.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
-| Ultima modifica | 2026-09-20 |
+| Ultima modifica | 2026-10-03 |
 | Approvazione | Non applicabile; registro operativo |
 
 Le schede DoR sono gate di ingresso al coding (GS-STD-001-07). Ogni unità di
@@ -28,3 +28,4 @@ accettato` prima del primo cambiamento implementativo.
 - [GS-DOR-008 — Codifica qualitativa nelle app](dor-codifica-nelle-app.md) — Ready con rischio accettato
 - [GS-DOR-009 — Selezione libera del passaggio](dor-selezione-libera-del-passaggio.md) — Ready con rischio accettato
 - [GS-DOR-010 — Invalidazione selettiva alla reimportazione (ADR-0028)](dor-invalidazione-selettiva.md) — Ready con rischio accettato
+- [GS-DOR-011 — Accessi ai file persistiti del package](dor-accessi-file-package.md) — Ready

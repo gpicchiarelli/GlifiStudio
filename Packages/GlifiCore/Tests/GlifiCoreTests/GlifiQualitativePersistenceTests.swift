@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: BSD-3-Clause
 
+import Darwin
 import Foundation
 import SQLite3
 import Testing
@@ -137,5 +138,60 @@ func schemaThreeStoreMigratesToQualitativeHistory() async throws {
             after: migrated,
             .codebookRevised(codebookID: "temi", revision: 1, categories: categories)))
     let reopened = try GlifiProjectPackage.open(at: url)
+    #expect(try await reopened.qualitativeEvents().count == 1)
+}
+
+@Test(
+    "Gli oggetti qualitativi non accettano link, file speciali o dimensioni incoerenti",
+    arguments: ["symbolicLink", "hardLink", "fifo", "directory", "oversized", "truncated"]
+)
+func qualitativeHistoryRejectsUnsafeObjectFiles(kind: String) async throws {
+    let (root, url) = try temporaryProject("GlifiQualitativeUnsafeFile")
+    defer { try? FileManager.default.removeItem(at: root) }
+    let project = try GlifiProjectPackage.create(at: url)
+    let snapshot = try await project.appendQualitativeEvent(
+        try await event(
+            after: project,
+            .codebookRevised(codebookID: "temi", revision: 1, categories: categories)))
+    let record = try #require(snapshot.qualitativeEvents.first)
+    let objectURL = url.appending(path: record.objectPath)
+    let original = try Data(contentsOf: objectURL)
+    let externalURL = root.appending(path: "external.json")
+    try original.write(to: externalURL)
+    try FileManager.default.removeItem(at: objectURL)
+
+    switch kind {
+    case "symbolicLink":
+        try FileManager.default.createSymbolicLink(at: objectURL, withDestinationURL: externalURL)
+    case "hardLink":
+        try FileManager.default.linkItem(at: externalURL, to: objectURL)
+    case "fifo":
+        try #require(mkfifo(objectURL.path, 0o600) == 0)
+    case "directory":
+        try FileManager.default.createDirectory(at: objectURL, withIntermediateDirectories: false)
+    case "oversized":
+        try (original + Data([0])).write(to: objectURL)
+    case "truncated":
+        try Data(original.dropLast()).write(to: objectURL)
+    default:
+        Issue.record("Caso di test sconosciuto")
+    }
+
+    do {
+        _ = try GlifiProjectPackage.open(at: url)
+        Issue.record("Era atteso il rifiuto dell'oggetto qualitativo non sicuro")
+    } catch let failure as GlifiFailure {
+        #expect(failure.category == .corruption)
+    }
+    await #expect(throws: GlifiFailure.self) {
+        _ = try await project.qualitativeEvents()
+    }
+    #expect(await project.snapshot() == snapshot)
+    #expect(try Data(contentsOf: externalURL) == original)
+
+    try FileManager.default.removeItem(at: objectURL)
+    try original.write(to: objectURL)
+    let reopened = try GlifiProjectPackage.open(at: url)
+    #expect(await reopened.snapshot() == snapshot)
     #expect(try await reopened.qualitativeEvents().count == 1)
 }

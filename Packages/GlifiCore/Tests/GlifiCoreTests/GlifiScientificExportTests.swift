@@ -30,6 +30,9 @@ func scientificExportIsCanonicalAndTamperEvident() async throws {
         createdAt: Date(timeIntervalSince1970: 1_700_000_000)
     )
     let manifest = try GlifiScientificExporter.verifyExport(at: destination)
+    let attributes = try FileManager.default.attributesOfItem(atPath: destination.path)
+    let permissions = try #require(attributes[.posixPermissions] as? NSNumber)
+    #expect(permissions.intValue & 0o777 == 0o700)
     #expect(manifest.exportID == "90000000-0000-0000-0000-000000000001")
     #expect(
         manifest.files.map(\.path)

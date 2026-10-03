@@ -4,15 +4,17 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 1.6.0 |
+| Versione | 1.7.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
-| Ultima modifica | 2026-09-20 |
+| Ultima modifica | 2026-10-03 |
 | Approvazione | Non applicabile; registro operativo |
 
 Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un esito positivo prova soltanto l'ambito dichiarato e non sostituisce l'approvazione dei requisiti o della baseline.
 
 ## Indice
+
+- [GS-VER-140 — Accessi ai file persistiti del package](GS-VER-140-accessi-file-package.md) — Parziale; verifica dinamica bloccata dal runtime
 
 - [GS-VER-001 — Bootstrap dell'ambiente Xcode](GS-VER-001-bootstrap-ambiente.md) — Superato; baseline sostituita
 - [GS-VER-002 — Baseline linguistica italiana](GS-VER-002-baseline-linguistica-italiana.md) — Superato; baseline UI sostituita

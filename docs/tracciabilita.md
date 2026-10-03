@@ -4,10 +4,10 @@
 | --- | --- |
 | Identificatore | GS-TRC-001 |
 | Tipo | Requirements traceability matrix |
-| Versione | 0.79.0 |
+| Versione | 0.80.0 |
 | Stato | Bozza controllata |
 | Responsabile | Iniziatore del progetto |
-| Ultima modifica | 2026-09-20 |
+| Ultima modifica | 2026-10-03 |
 | Approvazione | Non ancora approvato |
 
 ## Scopo
@@ -174,6 +174,11 @@ Ready; l'assenza di una riga per codice nuovo è una non conformità.
 | [GS-VER-139](evidenze/GS-VER-139-cache-di-build-limitata.md) | Slice TV-063; GS-DEV-002 § Cache di build | Superato localmente: picco su disco da ~37 GiB a 1,8 GiB, seconda esecuzione a 303 s contro 773 s, arresto anticipato se lo spazio non basta | Tetto prudenziale non ottimizzato; misure su una sola macchina |
 
 ## Catalogo delle verifiche pianificate
+
+Incremento [GS-VER-140](evidenze/GS-VER-140-accessi-file-package.md): TV-060, RF-043,
+RQ-044 e RQ-057, CMP-095. Controlli statici superati; test degli accessi ai file e dei
+permessi aggiunti ma non ancora eseguiti. Verifica nativa bloccata dal runtime macOS 26.5.2;
+nessuna promozione a requisito verificato.
 
 | ID | Metodo | Evidenza attesa |
 | --- | --- | --- |

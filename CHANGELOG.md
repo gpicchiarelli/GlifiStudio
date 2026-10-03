@@ -442,6 +442,9 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Sicurezza
 
+- Letture, creazione e permessi dei file persistiti rafforzati, con regressioni sintetiche
+  per package ed export; verifica dinamica su macOS 27 ancora necessaria
+  ([GS-VER-140](docs/evidenze/GS-VER-140-accessi-file-package.md)).
 - Controllo locale di credenziali, materiale di firma e riferimenti immutabili delle azioni CI.
 
 ## Politica di compilazione

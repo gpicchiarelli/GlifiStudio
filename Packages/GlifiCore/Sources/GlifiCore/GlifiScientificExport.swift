@@ -795,7 +795,11 @@ struct GlifiScientificExporter: Sendable {
             directoryHint: .isDirectory
         )
         do {
-            try fileManager.createDirectory(at: staging, withIntermediateDirectories: false)
+            try fileManager.createDirectory(
+                at: staging,
+                withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700]
+            )
             var payloads: [GlifiScientificExportPayload] = []
             for format in request.formats {
                 switch format {

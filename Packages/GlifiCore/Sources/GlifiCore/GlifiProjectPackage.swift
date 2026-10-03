@@ -369,7 +369,11 @@ public actor GlifiProjectPackage {
         )
 
         do {
-            try fileManager.createDirectory(at: stagingURL, withIntermediateDirectories: false)
+            try fileManager.createDirectory(
+                at: stagingURL,
+                withIntermediateDirectories: false,
+                attributes: [.posixPermissions: 0o700]
+            )
             try GlifiProjectPackageIO.createDirectories(in: stagingURL)
             let databaseURL = GlifiProjectPackageIO.databaseURL(in: stagingURL)
             let database = try GlifiSQLiteProjectStore.create(
@@ -946,7 +950,14 @@ private enum GlifiProjectPackageIO {
             else {
                 throw corruption("project.invalid-manifest-file")
             }
-            let data = try Data(contentsOf: manifestURL, options: [.mappedIfSafe, .uncached])
+            let observation = try readFile(
+                manifestURL,
+                maximumByteCount: GlifiProjectPackage.maximumManifestByteCount,
+                retainBytes: true
+            )
+            guard let data = observation.data else {
+                throw corruption("project.invalid-manifest-file")
+            }
             let manifest = try JSONDecoder().decode(GlifiProjectManifest.self, from: data)
             try validate(manifest)
 
@@ -1104,7 +1115,14 @@ private enum GlifiProjectPackageIO {
             else {
                 throw corruption("project.invalid-manifest-file")
             }
-            let data = try Data(contentsOf: manifestURL, options: [.mappedIfSafe, .uncached])
+            let observation = try readFile(
+                manifestURL,
+                maximumByteCount: GlifiProjectPackage.maximumManifestByteCount,
+                retainBytes: true
+            )
+            guard let data = observation.data else {
+                throw corruption("project.invalid-manifest-file")
+            }
             let manifest = try JSONDecoder().decode(GlifiProjectManifest.self, from: data)
             try validate(manifest)
 
@@ -1296,9 +1314,15 @@ private enum GlifiProjectPackageIO {
         else {
             throw corruption("project.illegal-qualitative-event-reference")
         }
-        let url = packageURL.appending(path: record.objectPath)
-        let data = try Data(contentsOf: url, options: [.mappedIfSafe, .uncached])
-        guard data.count == record.byteCount, digest(data) == record.contentDigest,
+        let url = try containedObjectURL(relativePath: record.objectPath, in: packageURL)
+        let observation = try readFile(
+            url,
+            maximumByteCount: record.byteCount,
+            retainBytes: true
+        )
+        guard observation.byteCount == record.byteCount,
+            observation.digest == record.contentDigest,
+            let data = observation.data,
             let event = try? JSONDecoder().decode(GlifiQualitativeEvent.self, from: data),
             (try? event.eventID()) == record.eventID,
             event.predecessorEventID == record.predecessorEventID
@@ -2458,17 +2482,20 @@ private enum GlifiProjectPackageIO {
     }
 
     private static func durableWrite(_ data: Data, to url: URL) throws {
-        guard !fileManager.fileExists(atPath: url.path) else {
-            throw GlifiFailure(
-                code: "project.unexpected-existing-file",
-                category: .corruption,
-                operation: .persistProject,
-                retryDisposition: .never,
-                retainedState: .lastCommittedGeneration,
-                messageKey: "failure.project.unexpected-existing-file"
-            )
-        }
-        guard fileManager.createFile(atPath: url.path, contents: nil) else {
+        let descriptor = Darwin.open(
+            url.path, O_WRONLY | O_CREAT | O_EXCL | O_CLOEXEC | O_NOFOLLOW, 0o600
+        )
+        guard descriptor >= 0 else {
+            if errno == EEXIST {
+                throw GlifiFailure(
+                    code: "project.unexpected-existing-file",
+                    category: .corruption,
+                    operation: .persistProject,
+                    retryDisposition: .never,
+                    retainedState: .lastCommittedGeneration,
+                    messageKey: "failure.project.unexpected-existing-file"
+                )
+            }
             throw GlifiFailure(
                 code: "project.file-create-failed",
                 category: .transientIO,
@@ -2478,7 +2505,7 @@ private enum GlifiProjectPackageIO {
                 messageKey: "failure.project.file-create-failed"
             )
         }
-        let handle = try FileHandle(forWritingTo: url)
+        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
         defer { try? handle.close() }
         try handle.write(contentsOf: data)
         try handle.synchronize()
@@ -2502,8 +2529,14 @@ private enum GlifiProjectPackageIO {
         maximumByteCount: Int,
         retainBytes: Bool
     ) throws -> (digest: String, byteCount: Int, data: Data?) {
+        let descriptor = Darwin.open(url.path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK)
+        guard descriptor >= 0 else {
+            throw corruption("project.object-open-failed")
+        }
+        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
+        defer { try? handle.close() }
         var status = stat()
-        guard lstat(url.path, &status) == 0,
+        guard fstat(descriptor, &status) == 0,
             (status.st_mode & S_IFMT) == S_IFREG,
             status.st_nlink == 1,
             status.st_size >= 0,
@@ -2511,12 +2544,6 @@ private enum GlifiProjectPackageIO {
         else {
             throw corruption("project.invalid-object-file")
         }
-        let descriptor = Darwin.open(url.path, O_RDONLY | O_CLOEXEC | O_NOFOLLOW)
-        guard descriptor >= 0 else {
-            throw corruption("project.object-open-failed")
-        }
-        let handle = FileHandle(fileDescriptor: descriptor, closeOnDealloc: true)
-        defer { try? handle.close() }
         var hasher = SHA256()
         var byteCount = 0
         var retainedData = retainBytes ? Data(capacity: Int(status.st_size)) : nil
@@ -2625,10 +2652,31 @@ private final class GlifiProjectWriterLease {
     }
 
     static func acquire(in packageURL: URL) throws -> GlifiProjectWriterLease {
-        let lockURL = packageURL.appending(path: "transactions/.writer.lock")
-        let descriptor = Darwin.open(lockURL.path, O_RDWR | O_CREAT | O_CLOEXEC, 0o600)
+        let packageDescriptor = Darwin.open(
+            packageURL.path, O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW
+        )
+        guard packageDescriptor >= 0 else { throw invalidLock() }
+        defer { Darwin.close(packageDescriptor) }
+        let directoryDescriptor = openat(
+            packageDescriptor, "transactions", O_RDONLY | O_DIRECTORY | O_CLOEXEC | O_NOFOLLOW
+        )
+        guard directoryDescriptor >= 0 else { throw invalidLock() }
+        defer { Darwin.close(directoryDescriptor) }
+        let descriptor = openat(
+            directoryDescriptor, ".writer.lock",
+            O_RDWR | O_CREAT | O_CLOEXEC | O_NOFOLLOW | O_NONBLOCK, 0o600
+        )
         guard descriptor >= 0 else {
+            if errno == ELOOP || errno == EISDIR { throw invalidLock() }
             throw failure()
+        }
+        var status = stat()
+        guard fstat(descriptor, &status) == 0,
+            (status.st_mode & S_IFMT) == S_IFREG,
+            status.st_nlink == 1
+        else {
+            Darwin.close(descriptor)
+            throw invalidLock()
         }
         guard flock(descriptor, LOCK_EX | LOCK_NB) == 0 else {
             Darwin.close(descriptor)
@@ -2646,6 +2694,17 @@ private final class GlifiProjectWriterLease {
 
     deinit {
         release()
+    }
+
+    private static func invalidLock() -> GlifiFailure {
+        GlifiFailure(
+            code: "project.invalid-writer-lock",
+            category: .corruption,
+            operation: .persistProject,
+            retryDisposition: .never,
+            retainedState: .readOnlyRecovery,
+            messageKey: "failure.project.corruption"
+        )
     }
 
     private static func failure() -> GlifiFailure {
