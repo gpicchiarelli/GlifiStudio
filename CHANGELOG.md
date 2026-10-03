@@ -384,6 +384,10 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Modificato
 
+- Prima esecuzione remota dei workflow sul runner `xcode-27` dopo il ripristino del budget
+  Actions: deroghe GS-WVR-001…004 in rientro tardivo con non conformità registrata,
+  badge del repository riportato a privato, stato CI allineato (GS-VER-141).
+
 - I ValidationManifest dichiarano la tolleranza numerica, l'oracolo e la review: sette capacità
   passano a `supported`, cinque restano `candidate` perché il loro oracolo è un test del prodotto.
   Il gate impedisce di dichiarare `supported` senza averne i requisiti (ADR-0031, GS-VER-136).
