@@ -446,6 +446,11 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Sicurezza
 
+- Letture di manifest e oggetti del package relative a directory aperte: rifiuto dei link
+  intermedi e dei percorsi anomali, mantenimento dei controlli bounded sul file finale e
+  regressioni di sostituzione controllata delle directory (GS-VER-142). La garanzia non si
+  estende alle scritture o a SQLite; CMP-095 resta bloccata.
+
 - Letture, creazione e permessi dei file persistiti rafforzati, con regressioni sintetiche
   per package ed export; verifica dinamica su macOS 27 ancora necessaria
   ([GS-VER-140](docs/evidenze/GS-VER-140-accessi-file-package.md)).
