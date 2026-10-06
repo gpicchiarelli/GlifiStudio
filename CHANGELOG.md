@@ -446,6 +446,12 @@ Le modifiche rilevanti per utenti, formati, compatibilità, sicurezza e operazio
 
 ### Sicurezza
 
+- Pubblicazione di fonti, Artifact, descriptor ed eventi tramite directory aperte: creazione
+  privata `mkdirat`, attraversamento nofollow e rinomina esclusiva `renameatx_np` senza
+  sovrascrivere oggetti esistenti. Convalida bounded sul descriptor di destinazione e
+  regressioni su collisioni e directory sostituite (GS-VER-143). Nessun cambio al formato;
+  staging iniziale, manifest replacement, cleanup e SQLite restano fuori dall'incremento.
+
 - Letture di manifest e oggetti del package relative a directory aperte: rifiuto dei link
   intermedi e dei percorsi anomali, mantenimento dei controlli bounded sul file finale e
   regressioni di sostituzione controllata delle directory (GS-VER-142). La garanzia non si

@@ -50,6 +50,43 @@ final class GlifiPackageDirectory {
         return FileHandle(fileDescriptor: file, closeOnDealloc: true)
     }
 
+    func createDirectory(relativePath: String) throws -> GlifiPackageDirectory {
+        let components = try Self.components(of: relativePath)
+        var directory = self
+        for component in components {
+            let (result, error) = withExtendedLifetime(directory) {
+                (mkdirat(directory.descriptor, component, 0o700), errno)
+            }
+            guard result == 0 || error == EEXIST else {
+                throw Self.writeFailure()
+            }
+            directory = try directory.openDirectory(named: component)
+        }
+        return directory
+    }
+
+    func moveFile(
+        named name: String,
+        to directory: GlifiPackageDirectory,
+        named destinationName: String
+    ) throws -> Bool {
+        guard try Self.components(of: name).count == 1,
+            try Self.components(of: destinationName).count == 1
+        else {
+            throw Self.corruption()
+        }
+        let (result, error) = withExtendedLifetime((self, directory)) {
+            (
+                renameatx_np(
+                    descriptor, name, directory.descriptor, destinationName, UInt32(RENAME_EXCL)),
+                errno
+            )
+        }
+        if result == 0 { return true }
+        if error == EEXIST { return false }
+        throw Self.writeFailure()
+    }
+
     private static func components(of path: String) throws -> [String] {
         guard !path.isEmpty, path.utf8.count <= 256,
             !path.contains("\0"), !path.contains("\\")
@@ -71,6 +108,17 @@ final class GlifiPackageDirectory {
             retryDisposition: .never,
             retainedState: .readOnlyRecovery,
             messageKey: "failure.project.corruption"
+        )
+    }
+
+    private static func writeFailure() -> GlifiFailure {
+        GlifiFailure(
+            code: "project.object-promotion-io-failed",
+            category: .transientIO,
+            operation: .persistProject,
+            retryDisposition: .transientBackoff,
+            retainedState: .lastCommittedGeneration,
+            messageKey: "failure.project.file-create-failed"
         )
     }
 }

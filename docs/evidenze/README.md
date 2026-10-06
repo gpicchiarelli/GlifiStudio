@@ -4,7 +4,7 @@
 | --- | --- |
 | Identificatore | GS-VER-IDX-001 |
 | Tipo | Registro delle evidenze di verifica |
-| Versione | 1.9.0 |
+| Versione | 1.10.0 |
 | Stato | Attivo |
 | Responsabile | Iniziatore del progetto |
 | Ultima modifica | 2026-10-04 |
@@ -13,6 +13,8 @@
 Le evidenze registrano risultati osservati e limiti dei controlli eseguiti. Un esito positivo prova soltanto l'ambito dichiarato e non sostituisce l'approvazione dei requisiti o della baseline.
 
 ## Indice
+
+- [GS-VER-143 — Pubblicazione degli oggetti del package](GS-VER-143-pubblicazione-oggetti-package.md) — Parziale; compilazione Apple superata, verifica dinamica pendente
 
 - [GS-VER-142 — Letture relative a directory aperte del package](GS-VER-142-letture-directory-package.md) — Parziale; compilazione Apple superata, verifica dinamica pendente
 
